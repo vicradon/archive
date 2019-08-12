@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Daily UI 002</title>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Payment details</h2>
+    <p class="header_info">please add your credit card details to confirm payment</p>
+    <div class="credCard">
+      <img src="" alt="card type" id="card_type">
+      <img src="" alt="card style" id="card_style">
+      <div class="main_card_num">
+        <p id="main_card_number">CARD NUMBER</p>
+        <p id="main_card_number_input">**** **** **** ****</p>
+      </div>
+      <div class="grid_guys">
+        <div id="main_card_name">CARD HOLDER NAME <p class="grid_guys_input">**** ****</p></div>
+        <div id="main_card_exp_date">EXP DATE<p class="grid_guys_input"></p>MM/YY</div>
+        <div id="main_card_cvc">CVC<p class="grid_guys_input">***</p></div>
+      </div>
+    </div>
+    <form>
+      <label>
+        <p class="card_number">Credit Card Number</p><input type="number" id="card_number_input"
+          placeholder="**** **** **** ****"><img src='' id='card_type'>
+      </label>
+      <label>
+        <p class="holder_name">Card Holder name</p> <input type="text" id="holder_name_input"
+          placeholder="e.g. Jane Doe">
+      </label>
+
+      <div class="endgrid">
+        <div id="exp_date">
+          <p class="exp_date">Expiry Date</p>
+          <div><input type="number" placeholder="MM" id="MM">/<input type="number" id="YY" placeholder="YY"></div>
+        </div>
+        <div id="cvc">
+          <p class="cvc">CVC</p><input type="number" id="cvc" placeholder="***">
+        </div>
+      </div>
+      <input type="button" value="Confirm Payment" class="pay">
+    </form>
+    <p id="footer_text">A confirmation message with order number will be sent to your email</p>
+  </div>
+  <div class="endscreen"></div>
+</body>
+
+</html>
