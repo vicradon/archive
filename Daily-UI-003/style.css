@@ -31,6 +31,9 @@
   border: 0; outline: 0;
   border-left: 1px solid #999;
 }
+.side_nav {
+  visibility: hidden;
+}
 .cover {
   width: 100%;
   height: 70vh;
@@ -90,6 +93,10 @@
   .info {
     width: 25vw;
   }
+  #header {
+    height: 4vh;
+    font-size: 0.6em;
+  }
 }
 @media (max-width:570px){
   .info_header {
@@ -107,6 +114,19 @@
   .info_text {
     margin-top: 15%;
     font-size: 0.9em;
+  }
+  .other_side {
+    visibility: hidden;
+  }
+  .side_nav {
+    visibility:visible;
+    position: absolute;
+    left: 88%;
+    font-size: 2em;
+    color: #00a79c;
+  }
+  #header {
+    height: 3vh;
   }
 }
 /* .container2 {
@@ -172,4 +192,15 @@
   text-align: center;
   font-size: 0.8em;
   margin: 1vh 0;
+}
+
+.endscreen {
+  background:rgb(143, 96, 96);
+  height:50vh;
+  -webkit-animation: expand 5s;
+}
+
+@-webkit-keyframes expand{
+    0%{height:0px}
+    100%{height:50vh}
 }
