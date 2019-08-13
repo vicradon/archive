@@ -3,10 +3,9 @@
   padding: 10px;
   display: flex;
 }
-.container {
+/* .container {
   display: flex;
-  width: 100%;
-}
+} */
 .first_side {
   display: flex;
   justify-content: flex-start;
@@ -14,4 +13,163 @@
 .other_side {
   display: flex;
   justify-content: flex-end;
+  width:100%;
+}
+.other_side span {
+  padding:0 20px;
+}
+/* blue - #00a79c red - #f37a78 */
+.work button {
+  background-color: #00a79c; 
+  border: 0;
+  border-radius: 2px;
+  color: white;
+  margin: 0 5px;
+  padding: 1px 2px;
+}
+#search {
+  border: 0; outline: 0;
+  border-left: 1px solid #999;
+}
+.cover {
+  width: 100%;
+  height: 70vh;
+}
+.info {
+  background-color: #00a79c;
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  height: 50vh;
+  color: white;
+  width: 20vw;
+  padding: 20px;
+}
+.info_button {
+  background-color: #fb4a47; 
+  border: 0;
+  width: 8vw;
+  height: 5vh;
+  border-radius: 4px;
+  color: white;
+  margin: 5vh 0;
+  padding: 1px 2px;
+}
+.info_header {
+  font-size: 2.45em;
+}
+.info_text {
+  margin-top: 15%;
+}
+@media (max-width:1125px){
+  .info_header {
+    font-size: 2.2em;
+  }
+  .info_text {
+    margin-top: 15%;
+  }
+  .info {
+    width: 22vw;
+  }
+}
+@media (max-width:900px){
+  .info_header {
+    font-size: 2em;
+  }
+  .info_text {
+    margin-top: 15%;
+  }
+}
+@media (max-width:700px){
+  .info_header {
+    font-size: 1.9em;
+  }
+  .info_text {
+    margin-top: 15%;
+  }
+  .info {
+    width: 25vw;
+  }
+}
+@media (max-width:570px){
+  .info_header {
+    font-size: 1.4em;
+  }
+  .info_button {
+    width: 15vw;
+    height: 6vh;
+  }
+  .info {
+    left:5%;
+    height: 45vh;
+    width: 30vw;
+  }
+  .info_text {
+    margin-top: 15%;
+    font-size: 0.9em;
+  }
+}
+/* .container2 {
+  text-align: center;
+}  */
+.ending_header {
+  text-align: center;
+}
+.ending_components {
+  display: flex;
+  justify-content: center;
+}
+.radios {
+  display: flex;
+  flex-flow: column wrap;
+  margin: 0 2vw;
+}
+.radios p {
+  padding: 1vh 0;
+}
+.other_inputs {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: space-between;
+}
+.other_inputs input {
+  margin: 2vh 0;
+  padding: 1vh;
+}
+.other_inputs select {
+  padding: 1vh;
+}
+.big_button {
+  display: flex;
+  flex-flow: column wrap;
+}
+.big_button button {
+  background-color: #00a79c;
+  border: 0;
+  width: 9vw;
+  height: 8vh;
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.5em;
+  padding: 0 2vh;
+  margin-top: 4vh;
+  margin-left: 2vw;
+}
+.big_button button p {
+  font-size: 0.3em;
+}
+.how_hosting_works {
+  text-transform: uppercase;
+  color: #999;
+  text-align: center;
+  margin: 10vh 0;
+}
+.footer_header {
+  margin-left: 32%;
+  font-size: 1.5em;
+}
+.footer_text {
+  text-align: center;
+  font-size: 0.8em;
+  margin: 1vh 0;
 }
