@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css" rel="stylesheet">
   <title>AirBnB Landing page</title>
 </head>
 
@@ -17,14 +18,16 @@
         <img src="AirBnB logo.jpeg" alt="" class="logo" width="50" height="30">
         <input type="search" name="" id="search" placeholder="search">
       </div>
+
       <div class="other_side">
+        <span class="side_nav"><i class="fas fa-bars"></i></span>
         <span class="work">For work<button>New</button></span>
         <span class="help">Help</span>
         <span class="sign_up">Sign Up</span>
         <span class="log_in">Log In</span>
       </div>
     </header>
-    
+
 
     <!-- CONTAINER 2 -->
     <div class="container2">
@@ -46,12 +49,12 @@
             <p><input type="radio" value="Entire place" id="place">
               <label for="place">Entire place</label></p>
             <p>
-                <input type="radio" value="private room" id="private">
-                <label for="private">Private room</label>
+              <input type="radio" value="private room" id="private">
+              <label for="private">Private room</label>
             </p>
             <p>
-                <input type="radio" value="Shared room" id="shared">
-                <label for="shared">Shared room</label>
+              <input type="radio" value="Shared room" id="shared">
+              <label for="shared">Shared room</label>
             </p>
           </div>
           <div class="other_inputs">
@@ -76,6 +79,13 @@
       </div>
     </div>
   </div>
+  <script>
+    let side_nav = document.querySelector('.side_nav');
+    side_nav.addEventListener('click', () => {
+      const a = Array.from(side_nav.classList);
+      (a.includes("endscreen"))?side_nav.classList.remove("endscreen") :side_nav.classList.add("endscreen")
+    })
+  </script>
 </body>
 
 </html>
