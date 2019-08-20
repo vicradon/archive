@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+.container {
+  display: flex;
+  flex-flow: column wrap;
+}
+header {
+  background-color: #546e7a;
+  color: white;
+}
+.top-part {
+  display: flex;
+  justify-content: flex-end;
+  margin: 2vh 4vw;
+}
+#back-btn{
+  position: absolute;
+  left: 2%;
+}
+.userimg {
+  border-radius: 50%;
+  background-color: #333;
+  width: 18vh;
+  height: 18vh;
+  
+}
+.userimg-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.other-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.other-items * {
+  margin: 0;
+}
+.menu {
+  display: flex;
+  flex-direction: row;
+  padding: 1vh 0;
+  justify-content: space-between;
+}
+.menu * {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.progress-bar{
+  background-color: gray;
+}
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #8bc34a;
+  width: 25%;
+  font-size: 0.9em;
+}
+#space {
+  margin: 0 10vw;
+}
+.menu * {
+  font-size: 0.9em;
+}
+.individual-code {
+  display: flex;
+  flex-direction: row;
+}
+.text-items {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2em;
+  font-size: 0.8em;
+  line-height: 1.5em;
+  width: 100%;
+}
+#code-options {
+  position: absolute;
+  right: 5%;
+}
+
+#add {
+  color: #7cb342;
+  font-size: 3.5em;
+  font-weight: 300;
+  position: fixed;
+  right: 5%;
+  top:88%;
+  z-index: 1;
+}
+.code-name {
+  display: flex;
+  justify-content: space-between;
+}
+.code-info span:nth-child(1) {
+  background-color: #78909c;
+  padding: 3px;
+  border-radius: 1px;
+  color: #fff;
+}
+#followers {
+  background-color: #8bc34a;
+  padding: 2px;
+  border-radius: 2px;
+  color: #fff;
+}
+.individual-code {
+  height: 13vh;
+  padding: 5px;
+  background-color: #ddd;
+}
