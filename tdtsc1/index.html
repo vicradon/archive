@@ -1,0 +1,138 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./js/jquery-3.4.0.min.js"></script>
+  <script src="./js/materialize.min.js"></script>
+  <link rel="stylesheet" href="/css/materialize.min.css">
+  <link rel="stylesheet" href="/css/mdi.css">
+  <title>Vicradon Portfolio Website</title>
+  <style>
+    .vicradon {
+      padding-left: 3vw !important;
+    }
+
+    body {
+      background-color: #ddd;
+    }
+
+    .blue-guy {
+      color: blue;
+    }
+
+    /* .project-card {
+      padding: 0.3em 2em;
+    } */
+  </style>
+</head>
+
+<body>
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-wrapper blue darken-2">
+      <a href="#!" class="brand-logo vicradon">Vicradon</a>
+      <a href="#" data-target="side-menu" class="sidenav-trigger">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down ">
+        <li><a href="#">HOME</a></li>
+        <li><a href="./pages/about.html">ABOUT</a></li>
+        <li><a href="./pages/hire.html">HIRE</a></li>
+        <li><a href="./pages/add.html">ADD</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="side-menu">
+    <li><a href="#">HOME</a></li>
+    <li><a href="./pages/about.html">ABOUT</a></li>
+    <li><a href="./pages/hire.html">HIRE</a></li>
+    <li><a href="./pages/add.html">ADD</a></li>
+  </ul>
+
+
+  <section class="container section">
+    <div class="title-sort row">
+      <div class="col m6 l4 s12 flow-text">
+        <h4>PROJECTS</h4>
+      </div>
+      <div class="input-field right col m6 l4 s12 blue-text">
+        <select id="form" name="sort" id="sort">
+          <option value="" disabled selected>Sort By</option>
+          <option value="1">Name</option>
+          <option value="2">Category</option>
+          <option value="3">Challenge Class</option>
+        </select>
+      </div>
+    </div>
+    <div class=" projects-container row">
+      <div class="col l6 s12">
+        <div class="project-card card">
+          <div class="card-content">
+            <p class="card-title">Daily UI Challnege 1 - A form</p>
+            <p class="project-description">I built the form using normal web technologies. The experience was fulfilling
+            </p>
+            <a href="" class="btn btn-floating darken-2 blue right">
+              <i class="material-icons tooltipped" data-tooltip="Upvote Project">favorite</i>
+            </a>
+          </div>
+
+          <div class="card-action">
+            <a class='text-darken-2 blue-text' href="#">DUI 001 Website</a>
+            <a class='text-darken-2 blue-text' href="#">Github Repo</a>
+          </div>
+        </div>
+      </div>
+      <div class="col l6 s12">
+        <div class="project-card card">
+          <div class="card-content">
+            <p class="card-title">Daily UI Challnege 1 - A form</p>
+            <p class="project-description">I built the form using normal web technologies. The experience was fulfilling
+            </p>
+            <a href="" class="btn btn-floating darken-2 blue right">
+              <i class="material-icons tooltipped" data-tooltip="Upvote Project">favorite</i>
+            </a>
+          </div>
+
+          <div class="card-action">
+            <a class='text-darken-2 blue-text' href="#">DUI 001 Website</a>
+            <a class='text-darken-2 blue-text' href="#">Github Repo</a>
+          </div>
+        </div>
+      </div>
+      <div class="col l6 s12">
+        <div class="project-card card">
+          <div class="card-content">
+            <p class="card-title">Daily UI Challnege 1 - A form</p>
+            <p class="project-description">I built the form using normal web technologies. The experience was fulfilling
+            </p>
+            <a href="" class="btn btn-floating darken-2 blue right">
+              <i class="material-icons tooltipped" data-tooltip="Upvote Project">favorite</i>
+            </a>
+          </div>
+
+          <div class="card-action text-blue">
+            <a class='text-darken-2 blue-text' href="#">DUI 001 Website</a>
+            <a class='text-darken-2 blue-text' href="#">Github Repo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="home-footer" class="blue center flow-text page-footer darken-2">
+    &copy; 2019 Vicradon
+  </footer>
+
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav();
+      $('.tooltipped').tooltip();
+
+    });
+
+  </script>
+</body>
+
+</html>

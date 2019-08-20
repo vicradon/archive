@@ -1,0 +1,105 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="../js/jquery-3.4.0.min.js"></script>
+  <script src="../js/materialize.min.js"></script>
+  <link rel="stylesheet" href="/css/materialize.min.css">
+  <link rel="stylesheet" href="/css/mdi.css">
+  <title>Vicradon Portfolio Website | Add New Project</title>
+  <style>
+    .vicradon {
+      padding-left: 3vw !important;
+    }
+
+    body {
+      background-color: #ddd;
+    }
+
+    #form-submit-button {
+      margin: 2em;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-wrapper blue darken-2">
+      <a href="#!" class="brand-logo vicradon">Vicradon</a>
+      <a href="#" data-target="side-menu" class="sidenav-trigger">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down ">
+        <li><a href="/">HOME</a></li>
+        <li><a href="./about.html">ABOUT</a></li>
+        <li><a href="./hire.html">HIRE</a></li>
+        <li><a href="#!">ADD</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="side-menu">
+    <li><a href="/">HOME</a></li>
+    <li><a href="./about.html">ABOUT</a></li>
+    <li><a href="./hire.html">HIRE</a></li>
+    <li><a href="#!">ADD</a></li>
+  </ul>
+
+
+  <section class="container section">
+    <form action="" class="card">
+      <div class="card-content">
+        <div class="card-title">
+          <div class="input-field">
+            <input type="text" id="project-name">
+            <label for="project-name">Enter Project Name</label>
+          </div>
+        </div>
+        <div class="input-field project-description">
+          <textarea id="description" class="materialize-textarea"></textarea>
+          <label for="description">Project's description</label>
+        </div>
+      </div>
+      <div class="card-action row">
+        <a class='text-darken-2 blue-text col l2' href="#"><input type="text" id="github-repo">
+          <label for="github-repo">Github Repo Link</label></a>
+        <a class='text-darken-2 blue-text col l2' href="#"><input type="text" id="github-page">
+          <label for="github-page">Github Page Link</label></a>
+      </div>
+
+      <a href="" id="form-submit-button" class="btn col l2">Submit</a>
+    </form>
+  </section>
+
+  <footer style='position: absolute; width: 100%; padding: 20px; top:90%;'
+    class="blue center flow-text page-footer darken-4">
+    &copy; 2019 Vicradon
+  </footer>
+
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav();
+      const id = node => document.querySelector(node);
+      const project_name = id('#project-name');
+      const description = id('#description');
+      const github_repo = id('#github-repo');
+      const github_page = id('#github-page');
+      const submit = id('#form-submit-button');
+
+      submit.onclick = e => {
+        e.preventDefault();
+        const data = {};
+        data.project_name = project_name.value;
+        data.description = description.value;
+        data.github_repo = github_repo.value;
+        data.github_page = github_page.value;
+        console.log(data);
+        
+      }
+    });
+  </script>
+</body>
+
+</html>

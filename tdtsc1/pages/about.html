@@ -1,0 +1,110 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="../js/jquery-3.4.0.min.js"></script>
+  <script src="../js/materialize.min.js"></script>
+  <link rel="stylesheet" href="/css/materialize.min.css">
+  <link rel="stylesheet" href="/css/mdi.css">
+  <title>Vicradon Portfolio Website | About</title>
+  <style>
+    .vicradon {
+      padding-left: 3vw !important;
+    }
+
+    body {
+      background-color: #ddd;
+    }
+
+    @media (max-width: 400px) {
+      .separate-connections a {
+        margin: 0.2em 0 0.2em 15vw !important;
+      }
+
+      #footer {
+        position: absolute;
+        width: 100%;
+        padding: 20px;
+        top: 120vh;
+      }
+    }
+
+    .separate-connections a {
+      margin-bottom: 0.8em !important;
+    }
+
+    #card_action {
+      margin-bottom: 25vh;
+    }
+
+    #footer {
+      position: absolute;
+      width: 100%;
+      padding: 20px;
+      top: 90%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-wrapper blue darken-2">
+      <a href="#!" class="brand-logo vicradon">Vicradon</a>
+      <a href="#" data-target="side-menu" class="sidenav-trigger">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down ">
+        <li><a href="/">HOME</a></li>
+        <li><a href="#!">ABOUT</a></li>
+        <li><a href="./hire.html">HIRE</a></li>
+        <li><a href="./add.html">ADD</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="side-menu">
+    <li><a href="/">HOME</a></li>
+    <li><a href="#!">ABOUT</a></li>
+    <li><a href="./hire.html">HIRE</a></li>
+    <li><a href="./add.html">ADD</a></li>
+  </ul>
+
+
+  <section class="container section">
+    <div class="row">
+      <div id="card_id" class="col s12 card">
+        <div class="card-content">
+          <p class="card-title flow-text">About Me</p>
+          <p class="flow-text">
+            I am a proffesional goal oriented person who loves coding and writing.
+          </p>
+        </div>
+        <div id="card_action" class="card-action separate-connections">
+          <h4>Connect</h4>
+          <a style="margin: 0 1.5vw" href="https://www.linkedin.com/in/victor-chukwujama-294087179"
+            class="btn blue darken-2 col l2 m3 s6">LinkendIn</a>
+          <a style="margin: 0 1.5vw" href="https://mobile.twitter.com/ChukwujamaV"
+            class="btn blue darken-2 col l2 m3 s6">Twitter</a>
+          <a style="margin: 0 1.5vw" href="vicraph7@gmail.com" class="btn blue darken-2 col l2 m3 s6">Email</a>
+          <a style="margin: 0 1.5vw" href="dev.to/vicradon" class="btn blue darken-2 col l2 m3 s6">Dev.to</a>
+          <a style="margin: 0 1.5vw" href="medium.com/vicradon" class="btn blue darken-2 col l2 m3 s6">Medium</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer id='footer' class="blue center flow-text page-footer darken-4">
+    &copy; 2019 Vicradon
+  </footer>
+
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav();
+    });
+  </script>
+</body>
+
+</html>
