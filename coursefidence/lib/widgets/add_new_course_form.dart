@@ -15,7 +15,7 @@ class CourseForm extends StatefulWidget {
 class CourseFormState extends State<CourseForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final courseData = new CourseDS();
+  final courseData = CourseDS();
 
   final focusCourseUnits = FocusNode();
 
@@ -27,9 +27,8 @@ class CourseFormState extends State<CourseForm> {
     return Form(
       key: _formKey,
       child: Container(
-        // height: 400,
-        // clipBehavior: Clip.round,
         padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+        height: MediaQuery.of(context).size.height * 0.65,
         child: ListView(
           children: <Widget>[
             Text(
@@ -37,7 +36,7 @@ class CourseFormState extends State<CourseForm> {
               style: TextStyle(fontSize: 25),
             ),
             TextFormField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 icon: Icon(Icons.book),
                 hintText: 'Course Name',
                 labelText: 'Name *',
@@ -58,7 +57,7 @@ class CourseFormState extends State<CourseForm> {
             TextFormField(
               keyboardType: TextInputType.number,
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 icon: Icon(Icons.confirmation_number),
                 hintText: 'Course Units',
                 labelText: 'Units *',
@@ -74,6 +73,7 @@ class CourseFormState extends State<CourseForm> {
               },
               focusNode: focusCourseUnits,
             ),
+            SizedBox(height: 30),
             ConfidenceSlide(course: courseData),
             SizedBox(height: 30),
             Builder(
