@@ -1,40 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ft_quiz/widgets/Categories/QuizPage.dart';
+import 'package:provider/provider.dart';
+import 'package:ft_quiz/model/question-model.dart';
 
-// class QuizCircle extends StatelessWidget {
-//   final Map position;
-//   QuizCircle({this.position});
-
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: EdgeInsets.all(30),
-//       child: Positioned(
-//         top: position["top"],
-//         left: position["left"],
-//         child: ClipOval(
-//           child: Material(
-//             color: Colors.lightBlue, // button color
-//             child: InkWell(
-//               splashColor: Colors.grey,
-//               child: Text("hvnj"),
-//               // child: SizedBox(
-//               //   width: 80,
-//               //   height: 80,
-//               //   child: Center(
-//               //     child: Text(
-//               //       "Math",
-//               //       style: TextStyle(color: Colors.white),
-//               //     ),
-//               //   ),
-//               // ),
-//               onTap: () {},
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 class QuizCircle extends StatelessWidget {
   final String name;
   final Color backgroundColor;
@@ -42,6 +10,7 @@ class QuizCircle extends StatelessWidget {
   QuizCircle({this.name, this.backgroundColor, this.textColor});
 
   Widget build(BuildContext context) {
+    final model = Provider.of<QuestionModel>(context);
     return Container(
       margin: EdgeInsets.all(10),
       child: ClipOval(
@@ -60,9 +29,15 @@ class QuizCircle extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                return QuizPage(name);
-              }));
+              Future(() {
+                model.getQuestions(name);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QuizPage(name),
+                  ),
+                );
+              });
             },
           ),
         ),
