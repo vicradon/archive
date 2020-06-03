@@ -1,6 +1,5 @@
 const router = require("express").Router();
-const mdtohtmlController = require("../controllers/mdtohtml");
-router.post("/", mdtohtmlController.convert);
-router.post("/upload", mdtohtmlController.uploadAndConvert);
+const messagingController = require("../controllers/messaging");
+router.post("/:number", messagingController.send);
 
 module.exports = router;
