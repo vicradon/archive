@@ -5,8 +5,7 @@
 }
 .showcase {
   background-color: white;
-  overflow: hidden; 
-  color: black;
+font-size: 15px;
  }
  .link a {
    color: red;
@@ -18,6 +17,12 @@
  }
  .logout ul li a{
    text-align: right;
+ }
+ .align{
+   text-align: center;
+ }
+ .align a {
+   color: darkmagenta;
  }
  .abouttext{
    font-style: italic;
@@ -107,10 +112,10 @@ transition: .4s;
 
 a {
   text-decoration: none;
-  color: rgb(0, 0, 0);
+  color: white;
 }
 a:hover{
-  color:rgb(255, 91, 255);
+  color:darkmagenta;
   
 }
 .menu ul {
@@ -127,6 +132,7 @@ a:hover{
 .menubar{
   background:darkmagenta;
   text-align: center;
+  height: 70px;
 }
  .menubar ul{
    display: inline-flex;
@@ -163,7 +169,7 @@ a:hover{
     margin: 10px;
   }
   .menubar ul li:hover .submenu ul li {
-    width: 150px;
+    width: 120px;
     padding: 10px;
     border-bottom: 1px dotted white;
     background: transparent;
@@ -175,8 +181,16 @@ a:hover{
   }
 .form22{
   display: inline flex;
-  background-color: darkmagenta;
+  text-align: center;
   overflow: hidden;
+  font-size: 18px;
+ }
+ .showcase2{
+  overflow: hidden; 
+  color: white;
+  background-color: darkmagenta;
+  height: 60px;
+  text-align: center;
  }
  .formsss{
    text-align: center;
