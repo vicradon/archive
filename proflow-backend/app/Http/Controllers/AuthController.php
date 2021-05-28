@@ -17,8 +17,11 @@ class AuthController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'required|in:student,coordinator'
+            'role' => 'required|in:student,coordinator',
+            'department' => 'required|string|max:255',
+            'avatar' => 'mimes:jpg,jpeg,png|max:2048'
         ]);
+
 
 
         $user = User::create([
@@ -26,6 +29,12 @@ class AuthController extends Controller
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);
+
+        if (isset($validatedData['avatar'])) {
+            $avatar_path = $request->file('avatar')->storeAs('storage/avatars', $request->file('avatar')->getClientOriginalName());
+            $user->avatar_url = $avatar_path;
+        }
+
         $role = Role::where('name', $validatedData['role'])->first();
         $role->user()->save($user);
 
