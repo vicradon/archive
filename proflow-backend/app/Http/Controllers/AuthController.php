@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -40,6 +42,8 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        $user->avatar_url = $_SERVER['HTTP_HOST'] . "/" . $user->avatar_url;
+        event(new Registered($user));
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -65,9 +69,11 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        $user->avatar_url = $_SERVER['HTTP_HOST'] . "/" . $user->avatar_url;
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'user' => $user,
             'success' => true
         ]);
     }
@@ -78,5 +84,11 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'logged out successfully',
         ]);
+    }
+    public function loginView(Request $request)
+    {
+        Log::debug('Reached this point');
+
+        return view('login');
     }
 }
