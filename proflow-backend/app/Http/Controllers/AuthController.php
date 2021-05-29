@@ -85,10 +85,4 @@ class AuthController extends Controller
             'message' => 'logged out successfully',
         ]);
     }
-    public function loginView(Request $request)
-    {
-        Log::debug('Reached this point');
-
-        return view('login');
-    }
 }
