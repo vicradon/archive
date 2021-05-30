@@ -4,6 +4,8 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
 
 class UserPolicy
 {
@@ -114,5 +116,10 @@ class UserPolicy
         if ($user->id === $model->id) {
             return true;
         }
+    }
+
+    public function unboardSupervisor(User $user)
+    {
+        return $user->profile_type === 'App\Models\Coordinator' ? Response::allow() : Response::deny("Only coordinators can unboard supervisors");
     }
 }

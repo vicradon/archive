@@ -46,8 +46,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function polls()
+    // public function role()
+    // {
+    //     return $this->belongsTo(Role::class);
+    // }
+
+    public function profile()
     {
-        return $this->hasMany(Poll::class);
+        return $this->morphTo();
     }
 }
