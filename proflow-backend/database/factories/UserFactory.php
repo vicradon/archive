@@ -2,8 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Coordinator;
+use App\Models\Student;
+use App\Models\Supervisor;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -31,28 +35,21 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
-    public function isStudent()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'role_id' => 1,
-            ];
-        });
-    }
-    public function isSupervisor()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'role_id' => 2,
-            ];
-        });
-    }
-    public function isCoordinator()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'role_id' => 3,
-            ];
-        });
-    }
+    // public function isStudent()
+    // {
+
+    //     $student = Student::create(['reg_number' => $this->faker->regexify('20[1-9][1-9][0-9]{6}[1-9]')]);
+
+    //     $student->user()->save($this->model);
+    // }
+    // public function isSupervisor()
+    // {
+    //     $supervisor = Supervisor::create();
+    //     $supervisor->user()->save($this->model);
+    // }
+    // public function isCoordinator()
+    // {
+    //     $coordinator = Coordinator::create();
+    //     $coordinator->user()->save($this->model);
+    // }
 }

@@ -24,4 +24,14 @@ class Student extends Model
     {
         return $this->morphOne(User::class, 'profile');
     }
+
+    public function supervisor()
+    {
+        return $this->belongsTo(Supervisor::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

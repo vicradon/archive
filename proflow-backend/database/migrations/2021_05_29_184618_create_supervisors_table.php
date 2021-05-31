@@ -17,6 +17,8 @@ class CreateSupervisorsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('coordinator_id')->nullable();
             $table->foreign('coordinator_id')->references('id')->on('coordinators')->onDelete('CASCADE');
+            $table->unsignedBigInteger('project_category_id')->nullable();
+            $table->foreign('project_category_id')->references('id')->on('project_categories')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

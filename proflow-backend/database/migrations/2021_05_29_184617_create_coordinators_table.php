@@ -15,8 +15,6 @@ class CreateCoordinatorsTable extends Migration
     {
         Schema::create('coordinators', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('parent_id')->nullable();
-            // $table->foreign('parent_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

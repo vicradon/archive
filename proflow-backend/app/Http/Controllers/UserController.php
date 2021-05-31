@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use App\Mail\RegisteredSupervisor;
+use App\Models\ProjectCategory;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Gate;
@@ -26,15 +29,68 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::all();
 
-        // return $request->user()->can('viewAny', $users);
+        $request->validate([
+            'role' => 'string|in:student,supervisor',
+            'name' => 'string|max:255',
+            'email' => 'string|email|max:255',
+            'supervisor_category' => 'string|in:iot,transportation,communication',
+            'student_under_supervisor' => 'numeric'
+        ]);
 
-        // if ($request->user()->cannot('view', $users)) {
-        //     return response(['success' => false, 'message' => "You cannot view other user's data"], 403);
-        // }
+        $users = User::where('email', '!=', NULL);
 
-        return ['success' => true, 'data' => $users];
+        /* supervisors
+            - by category
+            - by name
+            - by email
+        */
+
+        /* students of a supervisor
+            - By accepted/rejected projects
+            - By name
+        */
+
+        if ($request->has('role')) {
+            if ($request->role === 'supervisor') {
+                $users->where('profile_type', 'App\Models\Supervisor');
+            } else if ($request->role === 'student') {
+                $users->where('profile_type', 'App\Models\Student');
+            }
+        }
+        if ($request->has('name')) {
+            $users->where('name', 'like', "%{$request->name}%");
+        }
+        if ($request->has('email')) {
+            $users->where('email', $request->email);
+        }
+
+        $users = $users->get();
+
+        # supervisors with same project category
+        if ($request->has('supervisor_category')) {
+            global $project_category_id;
+            $project_category_id = ProjectCategory::firstWhere('name', $request->supervisor_category)->id;
+
+            $users = $users->filter(function ($user) {
+                $profile = $user->profile()->first();
+                global $project_category_id;
+                return $profile->project_category_id === $project_category_id;
+            });
+        }
+
+        if ($request->has('students_under_supervisor')) {
+            global $supervisor_id;
+            $supervisor_id = (int)($request->students_under_supervisor);
+
+            $users = $users->filter(function ($user) {
+                $profile = $user->profile()->first();
+                global $supervisor_id;
+                return $profile->supervisor_id === $supervisor_id;
+            });
+        }
+
+        return UserResource::collection($users);
     }
 
     /**
@@ -122,41 +178,27 @@ class UserController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'supervisor_category' => 'required|string',
+            'project_category' => 'required|string',
             'department' => 'required|string'
         ]);
 
         $password = Str::uuid();
 
-        $user = User::create([
+        $supervisor = User::create([
             'name' => $validatedData['first_name'] . " " . $validatedData['last_name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($password),
             'department' => $validatedData['department']
         ]);
 
-        Mail::to($user)->send(new RegisteredSupervisor($user, $request->user(), $password));
+        $projectCategory = ProjectCategory::findWhere('name', $validatedData['project_category']);
+        $supervisor->projectCategory()->associate($projectCategory)->save();
+
+
+        Mail::to($supervisor)->send(new RegisteredSupervisor($supervisor, $request->user(), $password));
         return response()->json([
             'success' => true,
             'message' => "An email with further instructions has been sent to the supervisor's email"
         ], 201);
-    }
-    public function supervisorPairing($projectCategoryId)
-    {
-        // $supervisor_with_min_assigned_students = DB::table('users')->select(DB::raw('select * from users where count()'))
-        // $lowest_number_of_assigned_students = 0;
-        // $available_supervisor = null;
-
-        /*
-        user_id => number of students with this id as their supervisor id
-        3 => 4
-        7 => 2
-        14 => 1
-
-        */
-
-        // foreach ($target_supervisors as $target_supervisor){
-        //     if $target_supervisor->
-        // }
     }
 }

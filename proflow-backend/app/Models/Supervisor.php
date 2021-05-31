@@ -13,4 +13,19 @@ class Supervisor extends Model
     {
         return $this->morphOne(User::class, 'profile');
     }
+
+    public function coordinator()
+    {
+        return $this->belongsTo(Coordinator::class);
+    }
+
+    public function student()
+    {
+        return $this->hasMany(Student::class, 'supervisor_id');
+    }
+
+    public function projectCategory()
+    {
+        return $this->belongsTo(ProjectCategory::class);
+    }
 }

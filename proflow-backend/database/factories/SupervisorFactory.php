@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Choice;
+use App\Models\Supervisor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ChoiceFactory extends Factory
+class SupervisorFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Choice::class;
+    protected $model = Supervisor::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class ChoiceFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->words(4, true),
+            //
         ];
     }
 }

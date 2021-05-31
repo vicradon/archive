@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Choice;
-use App\Models\Poll;
-use App\Models\Question;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use App\Models\Coordinator;
+use App\Models\ProjectCategory;
+use App\Models\Student;
+use App\Models\Supervisor;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -19,25 +17,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->isAdmin()->create();
 
-        User::factory()->count(3)->state(
-            new Sequence([
-                'email' => 'user1@proflow.com',
-                'email' => 'user2@proflow.com',
-                'email' => 'user3@proflow.com'
-            ])
-        )->has(
-            Poll::factory()->count(5)->has(
-                Question::factory()->count(10)->has(
-                    Choice::factory()->count(4)->state(new Sequence(
-                        ['is_correct_choice' => false],
-                        ['is_correct_choice' => true],
-                        ['is_correct_choice' => false],
-                        ['is_correct_choice' => false],
-                    ))
-                )
-            )
-        )->create();
+        $project_categories = ProjectCategory::all();
+        Student::factory()->count(20)->hasUser()->create();
+        Supervisor::factory()->count(5)->for($project_categories[rand(0, 2)])->hasUser()->create();
+        Coordinator::factory()->count(2)->hasUser()->create();
     }
 }
