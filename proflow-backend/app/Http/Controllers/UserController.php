@@ -34,7 +34,7 @@ class UserController extends Controller
             'role' => 'string|in:student,supervisor',
             'name' => 'string|max:255',
             'email' => 'string|email|max:255',
-            'supervisor_category' => 'string|in:iot,transportation,communication',
+            'supervisor_category' => 'in:iot,transportation,communication',
             'student_under_supervisor' => 'numeric'
         ]);
 
@@ -202,3 +202,6 @@ class UserController extends Controller
         ], 201);
     }
 }
+
+// Student::has('supervisor')->with('user')->get();
+// User::has('profile')->with('profile')->get();

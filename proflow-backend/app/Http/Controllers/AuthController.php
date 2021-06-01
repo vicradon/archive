@@ -21,10 +21,10 @@ class AuthController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'reg_number' => 'exclude_if:role,coordinator|required|numeric',
             'role' => 'required|in:student,coordinator',
-            'reg_number' => 'numeric',
             'department' => 'required|string|max:255',
-            'avatar' => 'mimes:jpg,jpeg,png|max:2048'
+            'avatar' => 'mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $user = User::create([
