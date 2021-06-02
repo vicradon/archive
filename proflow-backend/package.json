@@ -9,7 +9,7 @@
         "prod": "npm run production",
         "production": "mix --production",
         "prepare": "husky install",
-        "generate-docs": "api generate:oas --yaml; cp .optic/generated/openapi.yaml public/openapi.yaml"
+        "generate-docs": "api generate:oas --json; cp .optic/generated/openapi.json public/openapi.json"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.2.1",
