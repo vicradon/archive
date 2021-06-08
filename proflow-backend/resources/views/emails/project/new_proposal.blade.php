@@ -3,7 +3,7 @@
 
 Dear supervisor {{$supervisor->name}},
 
-{{$student->name}}, recently {{$action->new_proposal ? "proposed": "reproposed"}} a project on the topic, {{ $project->name }}.
+{{$student->name}}, recently {{$action['new_proposal'] ? "proposed": "reproposed"}} a project on the topic, {{ $project->name }}.
 
 Review this proposal [here]() or click the button below.
 

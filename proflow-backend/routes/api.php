@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/supervisor/register', [UserController::class, 'unboardSupervisor']);
     Route::post('/users/avatar', [UserController::class, 'avatarUpload']);
+    Route::get('/projects/status', [ProjectController::class, 'getProjectStatus']);
 });
 
 Route::fallback(function () {

@@ -17,6 +17,8 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
+            $table->unsignedBigInteger('student_id')->nullable();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('CASCADE');
             $table->unsignedBigInteger('project_category_id')->nullable();
             $table->foreign('project_category_id')->references('id')->on('project_categories')->onDelete('CASCADE');
             $table->timestamps();

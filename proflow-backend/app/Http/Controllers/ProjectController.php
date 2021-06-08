@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Models\Supervisor;
 use App\Models\User;
 use App\Notifications\ProjectProposed;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -42,20 +43,36 @@ class ProjectController extends Controller
 
         $project = Project::create(['name' => $validatedData['name'], 'description' => $validatedData['description']]);
         $project_category->project()->save($project);
-        $request->user()->profile()->project()->save($project);
-
         $student = $request->user()->profile()->first();
+        $student->project()->save($project);
         $supervisor = $this->supervisorPairing($student, $project);
+
+        if (!$supervisor) {
+            return response()->json([
+                'success' => true,
+                'message' => 'No supervisor has been assigned to your project category',
+                'supervisor_id' => null
+            ], 201);
+        }
+
         $supervisor_user_profile = $supervisor->user()->first();
 
-        $supervisor_user_profile->notify(
-            new ProjectProposed(
-                $supervisor_user_profile,
-                $request->user(),
-                $project,
-                ['new_proposal' => true]
-            )
-        );
+        try {
+            $supervisor_user_profile->notify(
+                new ProjectProposed(
+                    $supervisor_user_profile,
+                    $request->user(),
+                    $project,
+                    ['new_proposal' => true]
+                )
+            );
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => true,
+                'message' => 'email not valid so was not sent',
+                'supervisor_id' => $supervisor_user_profile->id
+            ], 201);
+        }
 
         return response()->json([
             'success' => true,
@@ -83,6 +100,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        # If category changed, delete the supervisor id from the requesting student and find a new supervisor
+        # Else, return the same supervisor
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
@@ -121,43 +141,43 @@ class ProjectController extends Controller
         //
     }
 
-    public function supervisorPairing($student, $project, $category_changed = false)
+    public function supervisorPairing($student, $project)
     {
-        # If category changed, delete the supervisor id from the requesting student and find a new supervisor
-        # Else, return the same supervisor
-
-
-        # return the student's supervisor if they already have one
-        if ($student->supervisor_id) {
-            return Supervisor::firstWhere('id', $student->supervisor_id);
-        }
+        # Look for the supervisor under the project_category_id with the least number of students
 
         # Select the first available supervisor with no assigned students
         $available_supervisor_query = DB::table('supervisors')
-            ->select('supervisors.id')
+            ->select('supervisors.id', 'supervisors.project_category_id')
             ->leftJoin('students', 'supervisors.id', '=', 'students.supervisor_id')
             ->where('students.id', NULL)
             ->where('supervisors.project_category_id', $project->project_category_id)
             ->first();
 
-        if ($available_supervisor_query) {
-            $available_supervisor = Supervisor::firstWhere('id', $available_supervisor_query->id);
-            $available_supervisor->student()->save($student);
-            return $available_supervisor;
+        if (!$available_supervisor_query) {
+            return $available_supervisor_query;
         }
 
+        $available_supervisor = Supervisor::firstWhere('id', $available_supervisor_query->id);
+        $available_supervisor->student()->save($student);
+        return $available_supervisor;
+
         # select first supervisor with least number of students
-        $target_supervisor_id = DB::table('students')
-            ->select(DB::raw('count(supervisor_id) as supervisor_id_count, supervisor_id'))
-            ->where('supervisor_id', '!=', NULL)
-            ->where('supervisors.project_category_id', $project->project_category_id)
-            ->groupBy('supervisor_id')
-            ->orderBy('supervisor_id_count')
-            ->first()->supervisor_id;
+        // $target_supervisor_id = DB::table('students')
+        //     ->select(DB::raw('count(supervisor_id) as supervisor_id_count, supervisor_id'))
+        //     ->where('supervisor_id', '!=', NULL)
+        //     ->where('supervisors.project_category_id', $project->project_category_id)
+        //     ->groupBy('supervisor_id')
+        //     ->orderBy('supervisor_id_count')
+        //     ->first()->supervisor_id;
 
 
-        $target_supervisor = Supervisor::firstWhere('id', $target_supervisor_id);
-        $target_supervisor->student()->save($student);
-        return $target_supervisor;
+        // $target_supervisor = Supervisor::firstWhere('id', $target_supervisor_id);
+        // $target_supervisor->student()->save($student);
+        // return $target_supervisor;
+    }
+
+    public function getProjectStatus(Request $request)
+    {
+        $project_id = $request->project_id;
     }
 }

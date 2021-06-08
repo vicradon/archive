@@ -20,7 +20,10 @@ class UserSeeder extends Seeder
 
         $project_categories = ProjectCategory::all();
         Student::factory()->count(20)->hasUser()->create();
-        Supervisor::factory()->count(5)->for($project_categories[rand(0, 2)])->hasUser()->create();
+        for ($i = 0; $i < 5; $i++) {
+            $project_category_index = rand(0, 2);
+            Supervisor::factory()->for($project_categories[$project_category_index])->hasUser()->create();
+        }
         Coordinator::factory()->count(2)->hasUser()->create();
     }
 }
