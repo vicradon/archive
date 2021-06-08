@@ -16,15 +16,15 @@ function CoordinatorDashboard() {
             </div>
             <input
               type="text"
-              class="form-control ml-3"
+              className="form-control ml-3"
               placeholder="Search for Supervisors"
             />
 
-            <label class="ml-4" for="exampleFormControlSelect1">
+            <label className="ml-4" for="exampleFormControlSelect1">
               Filter:
             </label>
             <select
-              class="form-control ml-4"
+              className="form-control ml-4"
               placeholder="All Categories"
               id="exampleFormControlSelect1"
             >
