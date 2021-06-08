@@ -70,7 +70,7 @@ class AuthController extends Controller
         if (!Auth::attempt(['email' => $validatedData['email'], 'password' => $validatedData['password']])) {
             return response()->json([
                 'message' => 'Invalid login details'
-            ], 401);
+            ], 400);
         }
 
         $user = User::where('email', $request['email'])->firstOrFail();

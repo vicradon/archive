@@ -162,6 +162,17 @@ class UserController extends Controller
         User::destroy($id);
     }
 
+    public function avatarUpload(Request $request)
+    {
+        $user = $request->user();
+        $avatar_path = $request->file('avatar')->store('avatars');
+        $user->avatar_url = $avatar_path;
+        $user->save();
+
+        $avatar_url = $_SERVER['HTTP_HOST'] . "/" . $avatar_path;
+        return response()->json(["avatar_url" => $avatar_url]);
+    }
+
 
     public function unboardSupervisor(Request $request)
     {

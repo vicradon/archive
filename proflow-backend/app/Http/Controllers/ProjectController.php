@@ -59,8 +59,7 @@ class ProjectController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'You have been paired with ' . $supervisor_user_profile->name,
-            'data' => $project
+            'supervisor_id' => $supervisor_user_profile->id
         ], 201);
     }
 
@@ -122,8 +121,12 @@ class ProjectController extends Controller
         //
     }
 
-    public function supervisorPairing($student, $project)
+    public function supervisorPairing($student, $project, $category_changed = false)
     {
+        # If category changed, delete the supervisor id from the requesting student and find a new supervisor
+        # Else, return the same supervisor
+
+
         # return the student's supervisor if they already have one
         if ($student->supervisor_id) {
             return Supervisor::firstWhere('id', $student->supervisor_id);
