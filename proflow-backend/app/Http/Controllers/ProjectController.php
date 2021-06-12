@@ -33,6 +33,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $student = $request->user()->profile()->first();
+        $project_exists = Project::firstWhere('student_id', $student->id);
+
+        if ($project_exists) {
+            return response()->json([
+                'success' => false,
+                'message' => "You already have an active project"
+            ], 403);
+        }
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
@@ -178,6 +188,13 @@ class ProjectController extends Controller
 
     public function getProjectStatus(Request $request)
     {
-        $project_id = $request->project_id;
+        $student_id = $request->user()->profile()->first()->id;
+        Log::info($student_id);
+        $status = Project::firstWhere('student_id', $student_id)->status;
+
+        return response()->json([
+            'success' => true,
+            'status' => $status,
+        ]);
     }
 }
