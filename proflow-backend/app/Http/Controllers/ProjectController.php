@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -49,22 +50,24 @@ class ProjectController extends Controller
             'description' => 'required|string|max:1024'
         ]);
 
-        $project_category = ProjectCategory::where('name', $validatedData['category'])->first();
-
         $project = Project::create(['name' => $validatedData['name'], 'description' => $validatedData['description']]);
-        $project_category->project()->save($project);
+        $project_category = ProjectCategory::where('name', $validatedData['category'])->first();
         $student = $request->user()->profile()->first();
-        $student->project()->save($project);
+
+        $project->projectCategory()->associate($project_category)->save();
+        $project->student()->associate($student)->save();
+
         $supervisor = $this->supervisorPairing($student, $project);
 
         if (!$supervisor) {
             return response()->json([
                 'success' => true,
                 'message' => 'No supervisor has been assigned to your project category',
-                'supervisor_id' => null
+                'supervisor_name' => null
             ], 201);
         }
 
+        $project->supervisor()->associate($supervisor)->save();
         $supervisor_user_profile = $supervisor->user()->first();
 
         try {
@@ -79,14 +82,14 @@ class ProjectController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'success' => true,
-                'message' => 'email not valid so was not sent',
-                'supervisor_id' => $supervisor_user_profile->id
+                'message' => 'supervisor email is not valid so no email was sent',
+                'supervisor_name' => $supervisor_user_profile->name
             ], 201);
         }
 
         return response()->json([
             'success' => true,
-            'supervisor_id' => $supervisor_user_profile->id
+            'supervisor_name' => $supervisor_user_profile->name
         ], 201);
     }
 
@@ -115,29 +118,20 @@ class ProjectController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
             'description' => 'required|string|max:1024'
         ]);
+
         # Update the name and description from the validated data
         $project = Project::find($id);
+
         $project->name = $validatedData['name'];
         $project->description = $validatedData['description'];
+        $project->status = "pending";
 
-        $student = $request->user()->profile()->project()->first();
-        $student->save($project);
-
-        # update the project category on the project if category was changed
-        $project_category = ProjectCategory::where('name', $validatedData['category'])->first();
-        $project_category->project()->save($project);
-
-
-        $supervisor = $request->user()->profile()->supervisor()->first();
-
-
-        if ($project_category->id !== $project->category_id) {
-            # unlink the old supervisor from the student
-            $student->supervisor()->dissociate()->save();
-        }
+        $request->user()->profile()->first()->project()->save($project);
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**
@@ -188,13 +182,67 @@ class ProjectController extends Controller
 
     public function getProjectStatus(Request $request)
     {
-        $student_id = $request->user()->profile()->first()->id;
-        Log::info($student_id);
-        $status = Project::firstWhere('student_id', $student_id)->status;
+        $student = $request->user()->profile()->first();
+        $supervisor = User::find($student->supervisor_id);
+
+
+        $status = Project::firstWhere('student_id', $student->id)->status;
 
         return response()->json([
             'success' => true,
             'status' => $status,
+            'supervisor_name' => $supervisor->name,
+        ]);
+    }
+
+    public function uploadProject(Request $request)
+    {
+        $project = $request->user()->profile()->first()->project()->first();
+        $pdf_path = $request->file('project_pdf')->store('public/project_pdfs');
+        $old_file = $project->pdf_path;
+
+        if ($old_file) {
+            Storage::delete($old_file);
+        }
+        $project->pdf_path = $pdf_path;
+        $project->save();
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function getProject(Request $request)
+    {
+        $project = $request->user()->profile()->first()->project()->with('projectCategory')->first();
+
+        return response()->json([
+            'success' => true,
+            'project' => $project
+        ]);
+    }
+
+    public function recentProposals(Request $request)
+    {
+
+        $supervisor_profile = $request->user()->profile()->first();
+        # Return the project, the student that has the project along with their user data
+        $proposals = Project::where('status', 'pending')->where('supervisor_id', $supervisor_profile->id)->with('student', 'student.user')->paginate(10);
+
+        return $proposals;
+    }
+
+    public function recentProposal(Request $request, $proposal_id)
+    {
+
+        $supervisor_profile = $request->user()->profile()->first();
+        # Return the project, the student that has the project along with their user data
+        $proposals = Project::where('id', $proposal_id)->where('supervisor_id', $supervisor_profile->id)->with('student', 'student.user')->with('projectCategory')->first();
+
+
+        return response()->json([
+            'success' => true,
+            'proposals' => $proposals
         ]);
     }
 }

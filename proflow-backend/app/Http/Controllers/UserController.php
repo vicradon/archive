@@ -6,6 +6,7 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Mail\RegisteredSupervisor;
 use App\Models\ProjectCategory;
+use App\Models\Supervisor;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Gate;
@@ -165,7 +166,7 @@ class UserController extends Controller
     public function avatarUpload(Request $request)
     {
         $user = $request->user();
-        $avatar_path = $request->file('avatar')->store('avatars');
+        $avatar_path = $request->file('avatar')->store('public/avatars');
         $user->avatar_url = $avatar_path;
         $user->save();
 
@@ -201,6 +202,10 @@ class UserController extends Controller
             'password' => Hash::make($password),
             'department' => $validatedData['department']
         ]);
+
+        $supervisor_profile = Supervisor::create();
+        $supervisor->supervisor_profile()->save($supervisor_profile);
+        $supervisor_profile->supervisor()->save($supervisor);
 
         $projectCategory = ProjectCategory::findWhere('name', $validatedData['project_category']);
         $supervisor->projectCategory()->associate($projectCategory)->save();

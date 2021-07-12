@@ -1,0 +1,66 @@
+GET http://localhost:8000/api/users 
+X-Requested-With: XMLHttpRequest
+
+###
+
+GET https://proflow.osinachi.me/api/users 
+X-Requested-With: XMLHttpRequest
+Authorization: Bearer 3|T8x2NO5cQV8aFODZA8g9n8wKbYtb77s8BJD7u6M3
+
+###
+
+POST http://localhost:8000/api/login 
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+
+{
+    "email": "johnnydoe@gmail.com",
+    "password": "password"
+}
+
+###
+
+POST http://localhost:8000/api/register
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+
+{
+    "email": "jon.doe4@gmail.com",
+    "password": "password",
+    "reg_number": "20173899286",
+    "first_name": "Jon",
+    "last_name": "Doe",
+    "role": "student",
+    "department": "Food Science"
+}
+
+###
+
+
+POST http://localhost:8000/api/login 
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+
+{
+    "email": "hwaters@example.org",
+    "password": "password"
+}
+
+# hwaters@example.org
+# raynor.margarett@example.net
+
+###
+
+
+GET http://localhost:8000/api/recent-proposals
+X-Requested-With: XMLHttpRequest
+Authorization: Bearer 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD
+
+# Supervisor 45|Uo6ar1apAEhFNZU2PGYUktf88htxM6jisJGWbeEZ
+# Student 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD
+###
+
+GET http://localhost:8000/api/recent-proposals/8
+X-Requested-With: XMLHttpRequest
+Authorization: Bearer 45|Uo6ar1apAEhFNZU2PGYUktf88htxM6jisJGWbeEZ
+

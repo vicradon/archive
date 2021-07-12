@@ -29,8 +29,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::resource('/users', UserController::class);
-    Route::resource('/projects', ProjectController::class);
+    Route::apiResource('/users', UserController::class);
+    Route::apiResource('/projects', ProjectController::class);
+    Route::get('/project', [ProjectController::class, 'getProject']);
+    Route::get('/recent-proposals', [ProjectController::class, 'recentProposals']);
+    Route::get('/recent-proposals/{proposal_id}', [ProjectController::class, 'recentProposal']);
+    Route::post('/projects/upload', [ProjectController::class, 'uploadProject']);
 
     Route::post('/supervisor/register', [UserController::class, 'unboardSupervisor']);
     Route::post('/users/avatar', [UserController::class, 'avatarUpload']);

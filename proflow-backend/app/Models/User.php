@@ -47,4 +47,19 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphTo();
     }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    public function supervisor()
+    {
+        return $this->hasOne(Supervisor::class);
+    }
+
+    public function coordinator()
+    {
+        return $this->hasOne(Coordinator::class);
+    }
 }

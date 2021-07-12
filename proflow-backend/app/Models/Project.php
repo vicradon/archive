@@ -15,8 +15,18 @@ class Project extends Model
         'description',
     ];
 
-    public function category()
+    public function projectCategory()
     {
         return $this->belongsTo(ProjectCategory::class);
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function supervisor()
+    {
+        return $this->belongsTo(Supervisor::class);
     }
 }

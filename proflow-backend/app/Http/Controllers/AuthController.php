@@ -35,22 +35,23 @@ class AuthController extends Controller
         ]);
 
         if (isset($validatedData['avatar'])) {
-            $avatar_path = $request->file('avatar')->storeAs('storage/avatars', $request->file('avatar')->getClientOriginalName());
+            $avatar_path = $request->file('avatar')->store('public/avatars');
             $user->avatar_url = $avatar_path;
         }
 
         if ($validatedData['role'] === 'student') {
             $student = Student::create(['reg_number' => $validatedData['reg_number']]);
+            $user->student()->save($student);
             $student->user()->save($user);
         } else if ($validatedData['role'] === 'coordinator') {
             $coordinator = Coordinator::create();
             $coordinator->user()->save($user);
+            $user->coordinator()->save($coordinator);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
         $user->avatar_url = $_SERVER['HTTP_HOST'] . "/" . $user->avatar_url;
-        event(new Registered($user));
 
         return response()->json([
             'access_token' => $token,
