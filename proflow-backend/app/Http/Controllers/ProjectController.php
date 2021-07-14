@@ -157,41 +157,28 @@ class ProjectController extends Controller
             ->where('supervisors.project_category_id', $project->project_category_id)
             ->first();
 
+
         if (!$available_supervisor_query) {
-            return $available_supervisor_query;
+            return null;
         }
 
         $available_supervisor = Supervisor::firstWhere('id', $available_supervisor_query->id);
         $available_supervisor->student()->save($student);
         return $available_supervisor;
-
-        # select first supervisor with least number of students
-        // $target_supervisor_id = DB::table('students')
-        //     ->select(DB::raw('count(supervisor_id) as supervisor_id_count, supervisor_id'))
-        //     ->where('supervisor_id', '!=', NULL)
-        //     ->where('supervisors.project_category_id', $project->project_category_id)
-        //     ->groupBy('supervisor_id')
-        //     ->orderBy('supervisor_id_count')
-        //     ->first()->supervisor_id;
-
-
-        // $target_supervisor = Supervisor::firstWhere('id', $target_supervisor_id);
-        // $target_supervisor->student()->save($student);
-        // return $target_supervisor;
     }
 
     public function getProjectStatus(Request $request)
     {
         $student = $request->user()->profile()->first();
-        $supervisor = User::find($student->supervisor_id);
+        $supervisor = $student->supervisor_id ? User::where('profile_id', $student->supervisor_id)->where('profile_type', "App\Models\Supervisor")->first() : null;
 
 
-        $status = Project::firstWhere('student_id', $student->id)->status;
+        $project = Project::firstWhere('student_id', $student->id);
 
         return response()->json([
             'success' => true,
-            'status' => $status,
-            'supervisor_name' => $supervisor->name,
+            'status' => $project ? $project->status : null,
+            'supervisor_name' => $supervisor ? $supervisor->name : null
         ]);
     }
 
@@ -234,15 +221,49 @@ class ProjectController extends Controller
 
     public function recentProposal(Request $request, $proposal_id)
     {
+        $proposal = Project::Where('id', $proposal_id)->with('student', 'student.user')->with('projectCategory')->first();
 
-        $supervisor_profile = $request->user()->profile()->first();
-        # Return the project, the student that has the project along with their user data
-        $proposals = Project::where('id', $proposal_id)->where('supervisor_id', $supervisor_profile->id)->with('student', 'student.user')->with('projectCategory')->first();
-
+        if (!$proposal) {
+            return response()->json([
+                'success' => false,
+                'message' => "The proposal with this ID does not exist or has already been approved"
+            ], 404);
+        }
 
         return response()->json([
             'success' => true,
-            'proposals' => $proposals
+            'proposal' => $proposal
+        ]);
+    }
+
+    public function updateProposal(Request $request, $proposal_id)
+    {
+        $validatedData = $request->validate([
+            'action' => 'required|string|in:approve,reject'
+        ]);
+
+        $proposal = Project::firstWhere('id', $proposal_id);
+
+        if (!$proposal) {
+            return response()->json([
+                'success' => false,
+                'message' => "The proposal with this ID does not exist or has already been approved"
+            ], 404);
+        }
+
+        if ($validatedData['action'] === 'approve') {
+            $proposal->status = "approved";
+        } else if ($validatedData['action'] === 'reject') {
+            $proposal->status = "rejected";
+        }
+
+        $proposal->save();
+
+        return response()->json([
+            'success' => true,
+            'proposal' => $proposal
         ]);
     }
 }
+
+# Se

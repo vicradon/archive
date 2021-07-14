@@ -8,6 +8,7 @@ use App\Mail\RegisteredSupervisor;
 use App\Models\ProjectCategory;
 use App\Models\Supervisor;
 use App\Models\User;
+use App\Models\Student;
 use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -167,10 +168,10 @@ class UserController extends Controller
     {
         $user = $request->user();
         $avatar_path = $request->file('avatar')->store('public/avatars');
-        $user->avatar_url = $avatar_path;
-        $user->save();
+        $avatar_url = $_SERVER['HTTP_HOST'] . "/storage" . substr($avatar_path, 6);
 
-        $avatar_url = $_SERVER['HTTP_HOST'] . "/" . $avatar_path;
+        $user->avatar_url = $avatar_url;
+        $user->save();
         return response()->json(["avatar_url" => $avatar_url]);
     }
 
@@ -216,6 +217,17 @@ class UserController extends Controller
             'success' => true,
             'message' => "An email with further instructions has been sent to the supervisor's email"
         ], 201);
+    }
+
+    public function studentsUnderSupervisor(Request $request)
+    {
+        $supervisor = $request->user()->profile()->first();
+        $students = Student::with('user')->where('supervisor_id', $supervisor->id)->get();
+
+        return response()->json([
+            'success' => true,
+            'students' => $students
+        ]);
     }
 }
 

@@ -42,13 +42,13 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "hwaters@example.org",
+    "email": "johnnydoe2021@gmail.com",
     "password": "password"
 }
 
 # hwaters@example.org
 # raynor.margarett@example.net
-
+# Server: kessler.vernice@example.org
 ###
 
 
@@ -58,9 +58,16 @@ Authorization: Bearer 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD
 
 # Supervisor 45|Uo6ar1apAEhFNZU2PGYUktf88htxM6jisJGWbeEZ
 # Student 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD
+# Server-student: 6|kKK1At9iEeFlunHNKQ76Pd7vjO8tHsAgU7iROWPe
 ###
 
-GET http://localhost:8000/api/recent-proposals/8
+GET  http://localhost:8000/api/project-status
+X-Requested-With: XMLHttpRequest
+Authorization: Bearer 54|sc6HafUVxhB3xqGsxPhijIs25fd5u3qOWLCxOkrS
+
+
+###
+PATCH  http://localhost:8000/api/recent-proposals/8?action=approve
 X-Requested-With: XMLHttpRequest
 Authorization: Bearer 45|Uo6ar1apAEhFNZU2PGYUktf88htxM6jisJGWbeEZ
 
