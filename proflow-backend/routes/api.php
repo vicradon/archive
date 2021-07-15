@@ -41,6 +41,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/supervisor/students', [UserController::class, 'studentsUnderSupervisor']);
     Route::post('/users/avatar', [UserController::class, 'avatarUpload']);
     Route::get('/project-status', [ProjectController::class, 'getProjectStatus']);
+
+    Route::get('/students/{student_id}/chapters', [ProjectController::class, 'getStudentChapters']);
+    Route::get('/students/{student_id}/chapters/{chapter_id}', [ProjectController::class, 'getStudentChapter']);
+    Route::get('/chapters', [ProjectController::class, 'getChapters']);
+    Route::get('/chapters/{chapter_id}', [ProjectController::class, 'getChapter']);
 });
 
 Route::fallback(function () {

@@ -34,4 +34,9 @@ class Student extends Model
     {
         return $this->hasOne(Project::class);
     }
+
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class);
+    }
 }

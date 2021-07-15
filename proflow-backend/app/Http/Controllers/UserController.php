@@ -164,11 +164,17 @@ class UserController extends Controller
         User::destroy($id);
     }
 
+    function isLocalhost($whitelist = ['127.0.0.1', '::1'])
+    {
+        return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
+    }
+
     public function avatarUpload(Request $request)
     {
         $user = $request->user();
         $avatar_path = $request->file('avatar')->store('public/avatars');
-        $avatar_url = $_SERVER['HTTP_HOST'] . "/storage" . substr($avatar_path, 6);
+        $protocol = $this->isLocalhost() ? "http://" : "https://";
+        $avatar_url = $protocol . $_SERVER['HTTP_HOST'] . "/storage" . substr($avatar_path, 6);
 
         $user->avatar_url = $avatar_url;
         $user->save();
@@ -222,7 +228,7 @@ class UserController extends Controller
     public function studentsUnderSupervisor(Request $request)
     {
         $supervisor = $request->user()->profile()->first();
-        $students = Student::with('user')->where('supervisor_id', $supervisor->id)->get();
+        $students = Student::with('user')->with('project', 'project.projectCategory')->where('supervisor_id', $supervisor->id)->get();
 
         return response()->json([
             'success' => true,

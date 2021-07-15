@@ -25,9 +25,9 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "jon.doe4@gmail.com",
+    "email": "jon.doe42@gmail.com",
     "password": "password",
-    "reg_number": "20173899286",
+    "reg_number": "21183899286",
     "first_name": "Jon",
     "last_name": "Doe",
     "role": "student",
@@ -42,7 +42,7 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "johnnydoe2021@gmail.com",
+    "email": "raynor.margarett@example.net",
     "password": "password"
 }
 
@@ -56,14 +56,14 @@ GET http://localhost:8000/api/recent-proposals
 X-Requested-With: XMLHttpRequest
 Authorization: Bearer 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD
 
-# Supervisor 45|Uo6ar1apAEhFNZU2PGYUktf88htxM6jisJGWbeEZ
-# Student 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD
+# Supervisor 45|Uo6ar1apAEhFNZU2PGYUktf88htxM6jisJGWbeEZ, 74|b5f2tYEA2z99GkepJq8ZeLAc8JA54zNdTGh5psiD
+# Student 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD, 73|TWWc5n7zYNGtoeUscrh3iHnaPXiEPrTwaQmU4Z0N
 # Server-student: 6|kKK1At9iEeFlunHNKQ76Pd7vjO8tHsAgU7iROWPe
 ###
 
-GET  http://localhost:8000/api/project-status
+GET  http://localhost:8000/api/students/45/chapters
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 54|sc6HafUVxhB3xqGsxPhijIs25fd5u3qOWLCxOkrS
+Authorization: Bearer 74|b5f2tYEA2z99GkepJq8ZeLAc8JA54zNdTGh5psiD
 
 
 ###

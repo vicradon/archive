@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
+use App\Models\Chapter;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\Student;
@@ -57,9 +58,9 @@ class ProjectController extends Controller
         $project->projectCategory()->associate($project_category)->save();
         $project->student()->associate($student)->save();
 
-        $supervisor = $this->supervisorPairing($student, $project);
+        $supervisor_to_be_paired = $this->supervisorPairing($student, $project);
 
-        if (!$supervisor) {
+        if (!$supervisor_to_be_paired) {
             return response()->json([
                 'success' => true,
                 'message' => 'No supervisor has been assigned to your project category',
@@ -67,6 +68,8 @@ class ProjectController extends Controller
             ], 201);
         }
 
+        $supervisor = Supervisor::find($supervisor_to_be_paired->supervisor_id);
+        $supervisor->student()->save($student);
         $project->supervisor()->associate($supervisor)->save();
         $supervisor_user_profile = $supervisor->user()->first();
 
@@ -150,20 +153,19 @@ class ProjectController extends Controller
         # Look for the supervisor under the project_category_id with the least number of students
 
         # Select the first available supervisor with no assigned students
-        $available_supervisor_query = DB::table('supervisors')
-            ->select('supervisors.id', 'supervisors.project_category_id')
-            ->leftJoin('students', 'supervisors.id', '=', 'students.supervisor_id')
-            ->where('students.id', NULL)
-            ->where('supervisors.project_category_id', $project->project_category_id)
-            ->first();
+        // $available_supervisor_query = DB::table('supervisors')
+        //     ->select('supervisors.id', 'supervisors.project_category_id')
+        //     ->leftJoin('students', 'supervisors.id', '=', 'students.supervisor_id')
+        //     // ->where('students.id', NULL)
+        //     ->where('supervisors.project_category_id', $project->project_category_id)
+        //     ->first();
 
+        $available_supervisor = Supervisor::where('project_category_id', $project->project_category_id)->leftJoin('students', 'supervisors.id', '=', 'students.supervisor_id')->first();
 
-        if (!$available_supervisor_query) {
+        if (!$available_supervisor) {
             return null;
         }
 
-        $available_supervisor = Supervisor::firstWhere('id', $available_supervisor_query->id);
-        $available_supervisor->student()->save($student);
         return $available_supervisor;
     }
 
@@ -182,15 +184,44 @@ class ProjectController extends Controller
         ]);
     }
 
+    function isLocalhost($whitelist = ['127.0.0.1', '::1'])
+    {
+        return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
+    }
+
     public function uploadProject(Request $request)
     {
+        $page_ranges = json_decode($request->page_ranges, true);
         $project = $request->user()->profile()->first()->project()->first();
-        $pdf_path = $request->file('project_pdf')->store('public/project_pdfs');
-        $old_file = $project->pdf_path;
+        $file_path = $request->file('project_pdf')->store('public/project_pdfs');
+        $protocol = $this->isLocalhost() ? "http://" : "https://";
+        $pdf_path = $protocol . $_SERVER['HTTP_HOST'] . "/storage" . substr($file_path, 6);
 
-        if ($old_file) {
-            Storage::delete($old_file);
+        $old_path = $project->pdf_path;
+
+        if ($old_path) {
+            $path_without_storage = explode("/storage", $old_path)[1];
+            Storage::delete("/public" . $path_without_storage);
         }
+
+        $student = $request->user()->profile()->first();
+        $chapters_in_db = Chapter::where('student_id', $student->id)->get();
+
+
+        if (!$chapters_in_db->count()) {
+            for ($i = 1; $i <= $request->available_chapters; $i++) {
+                $start_page = $page_ranges[$i][0];
+                $end_page = $page_ranges[$i][1];
+
+                $chapter = Chapter::create(['serial_number' => $i, 'start_page' => $start_page, 'end_page' => $end_page]);
+                $student->chapters()->save($chapter);
+            }
+        }
+
+        # Get the available chapters and compare them with the ones that were uploaded
+        # If new ones are available, add them, else, update the old ones
+
+
         $project->pdf_path = $pdf_path;
         $project->save();
 
@@ -264,6 +295,52 @@ class ProjectController extends Controller
             'proposal' => $proposal
         ]);
     }
-}
 
-# Se
+    public function getChapters(Request $request)
+    {
+        $student = $request->user()->profile()->first();
+        $chapters = Chapter::where('student_id', $student->id)->get();
+
+        return response()->json([
+            'success' => true,
+            'chapters' => $chapters
+        ]);
+    }
+
+    public function getChapter(Request $request, $chapter_id)
+    {
+        $student = $request->user()->profile()->first();
+        $chapter = Chapter::find($chapter_id);
+        $project = Project::where('student_id', $student->id);
+
+
+        return response()->json([
+            'success' => true,
+            'chapter' => $chapter,
+            'pdf_path'  => $project->pdf_path
+        ]);
+    }
+
+    public function getStudentChapters(Request $request, $student_id)
+    {
+        $chapters = Chapter::where('student_id', $student_id)->get();
+
+        return response()->json([
+            'success' => true,
+            'chapters' => $chapters
+        ]);
+    }
+
+    public function getStudentChapter(Request $request, $student_id, $chapter_id)
+    {
+        $chapter = Chapter::find($chapter_id);
+        $project = Project::where('student_id', $student_id)->first();
+
+        return response()->json([
+            'success' => true,
+            'chapter' => $chapter,
+            'pdf_path'  => $project->pdf_path
+
+        ]);
+    }
+}

@@ -31,7 +31,7 @@ class AuthController extends Controller
             'name' => $validatedData['first_name']  . " " . $validatedData['last_name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
-            'department' => $validatedData['department'],
+            'department' => $validatedData['department']
         ]);
 
         if (isset($validatedData['avatar'])) {
