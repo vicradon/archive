@@ -36,7 +36,10 @@ class AuthController extends Controller
 
         if (isset($validatedData['avatar'])) {
             $avatar_path = $request->file('avatar')->store('public/avatars');
-            $user->avatar_url = $avatar_path;
+            $protocol = $this->isLocalhost() ? "http://" : "https://";
+            $avatar_url = $protocol . $_SERVER['HTTP_HOST'] . "/storage" . substr($avatar_path, 6);
+
+            $user->avatar_url = $avatar_url;
         }
 
         if ($validatedData['role'] === 'student') {
@@ -50,8 +53,6 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
-
-        $user->avatar_url = $_SERVER['HTTP_HOST'] . "/" . $user->avatar_url;
 
         return response()->json([
             'access_token' => $token,
@@ -78,7 +79,6 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        $user->avatar_url = $_SERVER['HTTP_HOST'] . "/" . $user->avatar_url;
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -93,5 +93,9 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'logged out successfully',
         ]);
+    }
+    function isLocalhost($whitelist = ['127.0.0.1', '::1'])
+    {
+        return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
     }
 }

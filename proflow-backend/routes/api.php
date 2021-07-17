@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/recent-proposals/{proposal_id}', [ProjectController::class, 'updateProposal']);
     Route::post('/projects/upload', [ProjectController::class, 'uploadProject']);
 
+    Route::get('/supervisors', [UserController::class, 'getSupervisors']);
     Route::post('/supervisor/register', [UserController::class, 'unboardSupervisor']);
     Route::get('/supervisor/students', [UserController::class, 'studentsUnderSupervisor']);
     Route::post('/users/avatar', [UserController::class, 'avatarUpload']);

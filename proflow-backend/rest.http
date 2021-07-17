@@ -42,7 +42,7 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "raynor.margarett@example.net",
+    "email": "john.von.neuman2@gmail.com",
     "password": "password"
 }
 
@@ -61,13 +61,20 @@ Authorization: Bearer 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD
 # Server-student: 6|kKK1At9iEeFlunHNKQ76Pd7vjO8tHsAgU7iROWPe
 ###
 
-GET  http://localhost:8000/api/students/45/chapters
+GET  http://localhost:8000/api/supervisors
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 74|b5f2tYEA2z99GkepJq8ZeLAc8JA54zNdTGh5psiD
+Authorization: Bearer 92|k6n4be1HRxaAnIJOgOguneZ2lcLW8tE0QMx85xYH
 
 
 ###
-PATCH  http://localhost:8000/api/recent-proposals/8?action=approve
+POST  http://localhost:8000/api/supervisor/register
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 45|Uo6ar1apAEhFNZU2PGYUktf88htxM6jisJGWbeEZ
+Authorization: Bearer 90|5TmYh4fqktc87Xw3z93BvYOK9RWl1VA1g5pirkYa
+content-type: application/json
 
+{
+    "name": "Guy Mann",
+    "email": "vicradon6@example.com",
+    "department": "Electrical Physics",
+    "project_category": "iot"
+}

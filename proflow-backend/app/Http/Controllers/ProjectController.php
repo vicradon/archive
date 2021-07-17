@@ -38,12 +38,12 @@ class ProjectController extends Controller
         $student = $request->user()->profile()->first();
         $project_exists = Project::firstWhere('student_id', $student->id);
 
-        if ($project_exists) {
-            return response()->json([
-                'success' => false,
-                'message' => "You already have an active project"
-            ], 403);
-        }
+        // if ($project_exists) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => "You already have an active project"
+        //     ], 403);
+        // }
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -58,7 +58,7 @@ class ProjectController extends Controller
         $project->projectCategory()->associate($project_category)->save();
         $project->student()->associate($student)->save();
 
-        $supervisor_to_be_paired = $this->supervisorPairing($student, $project);
+        $supervisor_to_be_paired = $this->supervisorPairing($project);
 
         if (!$supervisor_to_be_paired) {
             return response()->json([
@@ -68,7 +68,7 @@ class ProjectController extends Controller
             ], 201);
         }
 
-        $supervisor = Supervisor::find($supervisor_to_be_paired->supervisor_id);
+        $supervisor = Supervisor::find($supervisor_to_be_paired->id);
         $supervisor->student()->save($student);
         $project->supervisor()->associate($supervisor)->save();
         $supervisor_user_profile = $supervisor->user()->first();
@@ -148,7 +148,7 @@ class ProjectController extends Controller
         //
     }
 
-    public function supervisorPairing($student, $project)
+    public function supervisorPairing($project)
     {
         # Look for the supervisor under the project_category_id with the least number of students
 
@@ -160,8 +160,11 @@ class ProjectController extends Controller
         //     ->where('supervisors.project_category_id', $project->project_category_id)
         //     ->first();
 
-        $available_supervisor = Supervisor::where('project_category_id', $project->project_category_id)->leftJoin('students', 'supervisors.id', '=', 'students.supervisor_id')->first();
-
+        $available_supervisor = Supervisor::where('project_category_id', $project->project_category_id)
+            ->leftJoin('students', 'supervisors.id', '=', 'students.supervisor_id')
+            ->withCount('student')
+            ->orderBy('student_count', 'asc')
+            ->first();
         if (!$available_supervisor) {
             return null;
         }

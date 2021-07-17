@@ -194,45 +194,82 @@ class UserController extends Controller
         }
 
         $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'project_category' => 'required|string',
+            'project_category' => 'required|string|in:iot,transportation,communication',
             'department' => 'required|string'
         ]);
 
         $password = Str::uuid();
+        $coordinator_profile = $request->user()->profile()->first();
 
-        $supervisor = User::create([
-            'name' => $validatedData['first_name'] . " " . $validatedData['last_name'],
+        $user = User::create([
+            'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($password),
             'department' => $validatedData['department']
         ]);
 
-        $supervisor_profile = Supervisor::create();
-        $supervisor->supervisor_profile()->save($supervisor_profile);
-        $supervisor_profile->supervisor()->save($supervisor);
 
-        $projectCategory = ProjectCategory::findWhere('name', $validatedData['project_category']);
+        $supervisor = Supervisor::create();
+        $supervisor->user()->save($user);
+        $user->supervisor()->save($supervisor);
+        $supervisor->coordinator()->associate($coordinator_profile)->save();
+
+        $projectCategory = ProjectCategory::firstWhere('name', $validatedData['project_category']);
         $supervisor->projectCategory()->associate($projectCategory)->save();
 
+        $returned_supervisor = Supervisor::where('id', $supervisor->id)
+            ->where('coordinator_id', $coordinator_profile->id)
+            ->withCount('student')
+            ->with('projectCategory')
+            ->with('user')
+            ->first();
 
-        Mail::to($supervisor)->send(new RegisteredSupervisor($supervisor, $request->user(), $password));
+        try {
+            Mail::to($user)->send(new RegisteredSupervisor($user, $request->user(), $password));
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => true,
+                'supervisor' => $returned_supervisor,
+                'message' => 'supervisor email is not valid so no email was sent',
+            ], 201);
+        }
+
         return response()->json([
             'success' => true,
+            'supervisor' => $returned_supervisor,
             'message' => "An email with further instructions has been sent to the supervisor's email"
         ], 201);
     }
 
     public function studentsUnderSupervisor(Request $request)
     {
+        if ($request->has('supervisor_id')) {
+            $supervisor = Supervisor::find($request->supervisor_id);
+            $students = Student::with('user')->with('project', 'project.projectCategory')->where('supervisor_id', $supervisor->id)->get();
+
+            return response()->json([
+                'success' => true,
+                'students' => $students
+            ]);
+        }
         $supervisor = $request->user()->profile()->first();
         $students = Student::with('user')->with('project', 'project.projectCategory')->where('supervisor_id', $supervisor->id)->get();
 
         return response()->json([
             'success' => true,
             'students' => $students
+        ]);
+    }
+    public function getSupervisors(Request $request)
+    {
+        $coordinator_profile = $request->user()->profile()->first();
+        $supervisors = Supervisor::where('coordinator_id', $coordinator_profile->id)->withCount('student')->with('projectCategory')->with('user')->get();
+
+        return response()->json([
+            'success' => true,
+            'supervisors' => $supervisors
         ]);
     }
 }
