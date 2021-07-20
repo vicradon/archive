@@ -27,7 +27,7 @@ class AddUserIdToSupervisorsTable extends Migration
     public function down()
     {
         Schema::table('supervisors', function (Blueprint $table) {
-            $table->dropcForeign('user_id');
+            $table->dropForeign('user_id');
             $table->dropColumn('user_id');
         });
     }

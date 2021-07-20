@@ -3,11 +3,11 @@
 
 Dear supervisor {{$supervisor->name}},
 
-{{$student->name}}, recently {{$action['new_proposal'] ? "proposed": "reproposed"}} a project on the topic, {{ $project->name }}.
+{{$student->name}}, recently proposed a project on the topic, {{ $proposal->name }}.
 
-Review this proposal [here]() or click the button below.
+Review this proposal [here]({{$url}}) or click the button below.
 
-@component('mail::button', ['url' => ''])
+@component('mail::button', ['url' => {{$url}}])
 Review proposal
 @endcomponent
 

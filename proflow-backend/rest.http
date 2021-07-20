@@ -14,7 +14,7 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "johnnydoe@gmail.com",
+    "email": "juston.hoeger@example.com",
     "password": "password"
 }
 
@@ -42,7 +42,7 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "john.von.neuman2@gmail.com",
+    "email": "ypowlowski@example.com",
     "password": "password"
 }
 
@@ -61,20 +61,28 @@ Authorization: Bearer 46|70XLIrWXNAk1D12b8RoFMhdsdJSVvgC0icni3jzD
 # Server-student: 6|kKK1At9iEeFlunHNKQ76Pd7vjO8tHsAgU7iROWPe
 ###
 
-GET  http://localhost:8000/api/supervisors
+GET  http://localhost:8000/api/comments-count
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 92|k6n4be1HRxaAnIJOgOguneZ2lcLW8tE0QMx85xYH
+Authorization: Bearer 101|4MxkFS6XsYNAcE3Q1e1iokFkLWBbMNJVyoVvAHFh
 
 
 ###
-POST  http://localhost:8000/api/supervisor/register
+POST  http://localhost:8000/api/comments?chapter_id=6&student_id=1
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 90|5TmYh4fqktc87Xw3z93BvYOK9RWl1VA1g5pirkYa
+Authorization: Bearer 7|YIo0gnoRuwCRYsES2LSg6d71M3aFdMX1MucodWfG
 content-type: application/json
 
 {
-    "name": "Guy Mann",
-    "email": "vicradon6@example.com",
-    "department": "Electrical Physics",
-    "project_category": "iot"
+    "comment_text": "This is not nice",
+    "page_number": 4
 }
+
+###
+
+DELETE http://localhost:8000/api/comments
+X-Requested-With: XMLHttpRequest
+
+###
+GET  http://localhost:8000/api/chapters
+X-Requested-With: XMLHttpRequest
+Authorization: Bearer 4|4q5iMAvYsPCCcRMrYcMrKnjVkIRLKzJSvUUd5wRH

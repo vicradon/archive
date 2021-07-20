@@ -15,4 +15,9 @@ class Chapter extends Model
         'serial_number',
         'department'
     ];
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

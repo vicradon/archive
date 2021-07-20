@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
 use App\Models\Chapter;
+use App\Models\Comment;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\Student;
 use App\Models\Supervisor;
 use App\Models\User;
+use App\Notifications\NewProjectUpload;
+use App\Notifications\ProposalApproved;
+use App\Notifications\ProposalRejected;
 use App\Notifications\ProjectProposed;
 use Exception;
 use Illuminate\Http\Request;
@@ -78,8 +82,7 @@ class ProjectController extends Controller
                 new ProjectProposed(
                     $supervisor_user_profile,
                     $request->user(),
-                    $project,
-                    ['new_proposal' => true]
+                    $project
                 )
             );
         } catch (Exception $e) {
@@ -174,16 +177,17 @@ class ProjectController extends Controller
 
     public function getProjectStatus(Request $request)
     {
-        $student = $request->user()->profile()->first();
+        $user_data  = $request->user();
+        $student = $user_data->profile()->first();
         $supervisor = $student->supervisor_id ? User::where('profile_id', $student->supervisor_id)->where('profile_type', "App\Models\Supervisor")->first() : null;
-
 
         $project = Project::firstWhere('student_id', $student->id);
 
         return response()->json([
             'success' => true,
             'status' => $project ? $project->status : null,
-            'supervisor_name' => $supervisor ? $supervisor->name : null
+            'supervisor_name' => $supervisor ? $supervisor->name : null,
+            'avatar_url' => $request->has('with_avatar_url') ? $user_data->avatar_url : null
         ]);
     }
 
@@ -195,10 +199,14 @@ class ProjectController extends Controller
     public function uploadProject(Request $request)
     {
         $page_ranges = json_decode($request->page_ranges, true);
-        $project = $request->user()->profile()->first()->project()->first();
+        $student = $request->user()->profile()->first();
+        $supervisor_user = $student->supervisor()->first()->user()->first();
+        $project = $student->project()->first();
         $file_path = $request->file('project_pdf')->store('public/project_pdfs');
-        $protocol = $this->isLocalhost() ? "http://" : "https://";
-        $pdf_path = $protocol . $_SERVER['HTTP_HOST'] . "/storage" . substr($file_path, 6);
+
+        $pdf_path = config('app.url') . "/storage" . substr($file_path, 6);
+
+        $supervisor_user->notify(new NewProjectUpload($request->user()));
 
         $old_path = $project->pdf_path;
 
@@ -207,23 +215,16 @@ class ProjectController extends Controller
             Storage::delete("/public" . $path_without_storage);
         }
 
-        $student = $request->user()->profile()->first();
-        $chapters_in_db = Chapter::where('student_id', $student->id)->get();
+        # Delete old chapters and create new chapters
+        Chapter::where('student_id', $student->id)->delete();
 
+        for ($i = 1; $i <= $request->available_chapters; $i++) {
+            $start_page = $page_ranges[$i][0];
+            $end_page = $page_ranges[$i][1];
 
-        if (!$chapters_in_db->count()) {
-            for ($i = 1; $i <= $request->available_chapters; $i++) {
-                $start_page = $page_ranges[$i][0];
-                $end_page = $page_ranges[$i][1];
-
-                $chapter = Chapter::create(['serial_number' => $i, 'start_page' => $start_page, 'end_page' => $end_page]);
-                $student->chapters()->save($chapter);
-            }
+            $chapter = Chapter::create(['serial_number' => $i, 'start_page' => $start_page, 'end_page' => $end_page]);
+            $student->chapters()->save($chapter);
         }
-
-        # Get the available chapters and compare them with the ones that were uploaded
-        # If new ones are available, add them, else, update the old ones
-
 
         $project->pdf_path = $pdf_path;
         $project->save();
@@ -277,6 +278,7 @@ class ProjectController extends Controller
         ]);
 
         $proposal = Project::firstWhere('id', $proposal_id);
+        $student_user = Student::where('supervisor_id', $proposal->supervisor_id)->first()->user()->first();
 
         if (!$proposal) {
             return response()->json([
@@ -287,63 +289,18 @@ class ProjectController extends Controller
 
         if ($validatedData['action'] === 'approve') {
             $proposal->status = "approved";
+            $student_user->notify(new ProposalApproved($proposal));
         } else if ($validatedData['action'] === 'reject') {
             $proposal->status = "rejected";
+            $student_user->notify(new ProposalRejected($proposal));
         }
 
         $proposal->save();
 
+
         return response()->json([
             'success' => true,
             'proposal' => $proposal
-        ]);
-    }
-
-    public function getChapters(Request $request)
-    {
-        $student = $request->user()->profile()->first();
-        $chapters = Chapter::where('student_id', $student->id)->get();
-
-        return response()->json([
-            'success' => true,
-            'chapters' => $chapters
-        ]);
-    }
-
-    public function getChapter(Request $request, $chapter_id)
-    {
-        $student = $request->user()->profile()->first();
-        $chapter = Chapter::find($chapter_id);
-        $project = Project::where('student_id', $student->id);
-
-
-        return response()->json([
-            'success' => true,
-            'chapter' => $chapter,
-            'pdf_path'  => $project->pdf_path
-        ]);
-    }
-
-    public function getStudentChapters(Request $request, $student_id)
-    {
-        $chapters = Chapter::where('student_id', $student_id)->get();
-
-        return response()->json([
-            'success' => true,
-            'chapters' => $chapters
-        ]);
-    }
-
-    public function getStudentChapter(Request $request, $student_id, $chapter_id)
-    {
-        $chapter = Chapter::find($chapter_id);
-        $project = Project::where('student_id', $student_id)->first();
-
-        return response()->json([
-            'success' => true,
-            'chapter' => $chapter,
-            'pdf_path'  => $project->pdf_path
-
         ]);
     }
 }

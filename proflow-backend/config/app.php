@@ -230,4 +230,6 @@ return [
 
     ],
 
+    'frontend_local_root_url' => env('FRONTEND_LOCAL_ROOT_URL'),
+    'frontend_remote_root_url' => env('FRONTEND_REMOTE_ROOT_URL'),
 ];

@@ -27,7 +27,7 @@ class AddUserIdToStudentsTable extends Migration
     public function down()
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->dropcForeign('user_id');
+            $table->dropForeign('user_id');
             $table->dropColumn('user_id');
         });
     }

@@ -27,7 +27,7 @@ class AddSupervisorIdToProjectsTable extends Migration
     public function down()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->dropcForeign('supervisor_id');
+            $table->dropForeign('supervisor_id');
             $table->dropColumn('supervisor_id');
         });
     }
