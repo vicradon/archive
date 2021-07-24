@@ -292,6 +292,16 @@ class UserController extends Controller
             'success' => true
         ]);
     }
+
+    public function getSupervisorCount(Request $request)
+    {
+        $supervisor_count = Supervisor::count();
+
+        return response()->json([
+            'supervisor_count' => $supervisor_count,
+            'success' => true
+        ]);
+    }
 }
 
 // Student::has('supervisor')->with('user')->get();

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AggregateController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CommentController;
@@ -38,6 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/chapters', ChapterController::class);
     Route::apiResource('/project-categories', ProjectCategoryController::class);
 
+    Route::get('/summary', [AggregateController::class, 'getSummary']);
     Route::get('/project', [ProjectController::class, 'getProject']);
     Route::get('/recent-proposals', [ProjectController::class, 'recentProposals']);
     Route::get('/recent-proposals/{proposal_id}', [ProjectController::class, 'recentProposal']);
@@ -45,6 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/projects/upload', [ProjectController::class, 'uploadProject']);
 
     Route::get('/supervisors', [UserController::class, 'getSupervisors']);
+    Route::get('/supervisors/count', [UserController::class, 'getSupervisorCount']);
     Route::patch('/supervisor/password', [UserController::class, 'updateSupervisorPassword']);
     Route::post('/supervisor/register', [UserController::class, 'unboardSupervisor']);
     Route::get('/supervisor/students', [UserController::class, 'studentsUnderSupervisor']);

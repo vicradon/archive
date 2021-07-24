@@ -12,9 +12,13 @@ class ProjectCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $project_categories = ProjectCategory::all();
+
+        $project_categories = $request->has('with_supervisors')
+            ? ProjectCategory::leftJoin('supervisors', 'project_categories.id', '=', 'supervisors.project_category_id')->where('supervisors.id', '!=', null)->get()
+            : ProjectCategory::all();
+
         return response()->json([
             'success' => true,
             'project_categories' => $project_categories
