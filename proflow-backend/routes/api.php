@@ -61,11 +61,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/students/{student_id}/chapters/{chapter_id}', [ProjectController::class, 'getStudentChapter']);
 });
 
-Route::get('/stuff', function () {
-    $frontend_root = config('app.env') === 'local' ?
-        config('app.frontend_local_root_url') :
-        config('app.frontend_remote_root_url');
-    return $frontend_root;
+Route::get('/stuff', function (Request $request) {
+    // Mail::to("osinachi.chukwujama@gmail.com")->send(new TestMail());
+    return "It worked!";
 });
 
 Route::fallback(function () {

@@ -16,10 +16,10 @@ class ProjectProposed extends Notification
      *
      * @return void
      */
-    public function __construct($supervisor, $student, $proposal)
+    public function __construct($supervisor_user, $student_user, $proposal)
     {
-        $this->supervisor = $supervisor;
-        $this->student = $student;
+        $this->supervisor_user = $supervisor_user;
+        $this->student_user = $student_user;
         $this->proposal = $proposal;
     }
 
@@ -46,12 +46,13 @@ class ProjectProposed extends Notification
         $frontend_root = config('app.env') === 'local' ?
             config('app.frontend_local_root_url') :
             config('app.frontend_remote_root_url');
+
         $url = "{$frontend_root}/supervisor/recent-proposals/{$proposal_id}";
 
         return (new MailMessage)->subject('New project proposal')
             ->markdown('emails.project.new_proposal', [
-                'supervisor' => $this->supervisor,
-                'student' => $this->student,
+                'supervisor' => $this->supervisor_user,
+                'student' => $this->student_user,
                 'proposal' => $this->proposal,
                 'url' => $url
             ]);

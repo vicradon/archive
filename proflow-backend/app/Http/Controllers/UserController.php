@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Mail\RegisteredSupervisor;
+use App\Mail\TestMail;
 use App\Models\ProjectCategory;
 use App\Models\Supervisor;
 use App\Models\User;
