@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewProjectUpload extends Notification implements ShouldQueue
+class NewProjectUpload extends Notification
 {
     use Queueable;
 

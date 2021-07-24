@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProjectCategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/projects', ProjectController::class);
     Route::apiResource('/comments', CommentController::class);
     Route::apiResource('/chapters', ChapterController::class);
+    Route::apiResource('/project-categories', ProjectCategoryController::class);
 
     Route::get('/project', [ProjectController::class, 'getProject']);
     Route::get('/recent-proposals', [ProjectController::class, 'recentProposals']);
@@ -43,6 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/projects/upload', [ProjectController::class, 'uploadProject']);
 
     Route::get('/supervisors', [UserController::class, 'getSupervisors']);
+    Route::patch('/supervisor/password', [UserController::class, 'updateSupervisorPassword']);
     Route::post('/supervisor/register', [UserController::class, 'unboardSupervisor']);
     Route::get('/supervisor/students', [UserController::class, 'studentsUnderSupervisor']);
     Route::post('/users/avatar', [UserController::class, 'avatarUpload']);

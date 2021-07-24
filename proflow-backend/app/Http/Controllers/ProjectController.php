@@ -42,21 +42,21 @@ class ProjectController extends Controller
         $student = $request->user()->profile()->first();
         $project_exists = Project::firstWhere('student_id', $student->id);
 
-        // if ($project_exists) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => "You already have an active project"
-        //     ], 403);
-        // }
+        if ($project_exists) {
+            return response()->json([
+                'success' => false,
+                'message' => "You already have an active project"
+            ], 403);
+        }
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
+            'project_category' => 'required|string|max:255',
             'description' => 'required|string|max:1024'
         ]);
 
         $project = Project::create(['name' => $validatedData['name'], 'description' => $validatedData['description']]);
-        $project_category = ProjectCategory::where('name', $validatedData['category'])->first();
+        $project_category = ProjectCategory::where('name', $validatedData['project_category'])->first();
         $student = $request->user()->profile()->first();
 
         $project->projectCategory()->associate($project_category)->save();
@@ -67,7 +67,7 @@ class ProjectController extends Controller
         if (!$supervisor_to_be_paired) {
             return response()->json([
                 'success' => true,
-                'message' => 'No supervisor has been assigned to your project category',
+                'message' => 'No supervisor has been assigned to your chosen project category',
                 'supervisor_name' => null
             ], 201);
         }

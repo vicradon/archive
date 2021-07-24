@@ -6,7 +6,8 @@ use App\Models\Chapter;
 use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Student;
-use App\Notifications\NewComment;
+use App\Notifications\SupervisorComment;
+use App\Notifications\WorkFGS;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\New_;
 
@@ -48,8 +49,9 @@ class CommentController extends Controller
         $comment->student()->associate($student)->save();
         $comment->supervisor()->associate($supervisor)->save();
 
-        return [$chapter, $validatedData['page_number'], $comment];
-        $student_user->notify(new NewComment($chapter, $validatedData['page_number'], $comment));
+
+        // In case the app is deployed to a VPS that supports such notification
+        // $student_user->notify(new SupervisorComment($comment));
 
         return response()->json([
             'success' => true,

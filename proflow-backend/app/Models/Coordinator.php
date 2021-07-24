@@ -13,4 +13,9 @@ class Coordinator extends Model
     {
         return $this->morphOne(User::class, 'profile');
     }
+
+    public function supervisors()
+    {
+        return $this->hasMany(Supervisor::class);
+    }
 }

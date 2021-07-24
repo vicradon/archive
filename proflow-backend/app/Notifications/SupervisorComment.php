@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewComment extends Notification implements ShouldQueue
+class SupervisorComment extends Notification
 {
     use Queueable;
 
@@ -16,10 +16,8 @@ class NewComment extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($chapter, $page_number, $comment)
+    public function __construct($comment)
     {
-        $this->chapter = $chapter;
-        $this->page_number = $page_number;
         $this->comment = $comment;
     }
 
@@ -57,9 +55,9 @@ class NewComment extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'chapter' => $this->chapter->serial_number,
-            'page_number' => $this->page_number,
-            'comment_text' => $this->comment->comment_text
+            'chapter' => $this->comment->chapter->serial_number,
+            'page_number' =>  $this->comment->page_number,
+            'comment_text' =>  $this->comment->comment_text
         ];
     }
 }

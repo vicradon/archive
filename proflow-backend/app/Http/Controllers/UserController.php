@@ -31,12 +31,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
+        $project_categories = implode(',', ProjectCategory::all()->pluck('name')->toArray());
         $request->validate([
             'role' => 'string|in:student,supervisor',
             'name' => 'string|max:255',
             'email' => 'string|email|max:255',
-            'supervisor_category' => 'in:iot,transportation,communication',
+            'supervisor_category' => "in:{$project_categories}",
             'student_under_supervisor' => 'numeric'
         ]);
 
@@ -178,7 +178,11 @@ class UserController extends Controller
 
         $user->avatar_url = $avatar_url;
         $user->save();
-        return response()->json(["avatar_url" => $avatar_url]);
+
+        return response()->json([
+            'success' => false,
+            'user' => $user
+        ]);
     }
 
 
@@ -192,11 +196,12 @@ class UserController extends Controller
                 'message' => $authzResponse->message()
             ], 403);
         }
+        $project_categories = implode(',', ProjectCategory::all()->pluck('name')->toArray());
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'project_category' => 'required|string|in:iot,transportation,communication',
+            'project_category' => "required|string|in:{$project_categories}",
             'department' => 'required|string'
         ]);
 
@@ -270,6 +275,21 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'supervisors' => $supervisors
+        ]);
+    }
+    public function updateSupervisorPassword(Request $request)
+    {
+        $validatedData = $request->validate([
+            'password' => 'string|max:255',
+        ]);
+
+        $supervisor_user = $request->user();
+        $supervisor_user->password = $validatedData['password'];
+        $supervisor_user->save();
+
+
+        return response()->json([
+            'success' => true
         ]);
     }
 }

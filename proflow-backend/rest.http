@@ -42,7 +42,7 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "ypowlowski@example.com",
+    "email": "dbruen@example.com",
     "password": "password"
 }
 
@@ -83,6 +83,6 @@ DELETE http://localhost:8000/api/comments
 X-Requested-With: XMLHttpRequest
 
 ###
-GET  http://localhost:8000/api/chapters
+GET  http://localhost:8000/api/project-categories
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 4|4q5iMAvYsPCCcRMrYcMrKnjVkIRLKzJSvUUd5wRH
+Authorization: Bearer 2|iTAzHSjnwOWvGqTJVy6FQ579tEZ0oUFf7GMVdsns
