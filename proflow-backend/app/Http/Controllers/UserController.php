@@ -285,7 +285,7 @@ class UserController extends Controller
         ]);
 
         $supervisor_user = $request->user();
-        $supervisor_user->password = $validatedData['password'];
+        $supervisor_user->password = Hash::make($validatedData['password']);
         $supervisor_user->save();
 
 
