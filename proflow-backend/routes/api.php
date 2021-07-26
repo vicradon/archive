@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/chapters', ChapterController::class);
     Route::apiResource('/project-categories', ProjectCategoryController::class);
 
+    Route::post("/pdf", [ProjectController::class, 'getPdf']);
     Route::get('/summary', [AggregateController::class, 'getSummary']);
     Route::get('/project', [ProjectController::class, 'getProject']);
     Route::get('/recent-proposals', [ProjectController::class, 'recentProposals']);

@@ -123,20 +123,28 @@ class ProjectController extends Controller
         # Else, return the same supervisor
 
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:1024'
+            'name' => 'string|max:255',
+            'description' => 'string|max:1024',
+            'status' => 'string|in:pending,approved'
         ]);
 
         # Update the name and description from the validated data
         $project = Project::find($id);
 
-        $project->name = $validatedData['name'];
-        $project->description = $validatedData['description'];
-        $project->status = "pending";
+        if ($request->has('name')) {
+            $project->name = $validatedData['name'];
+        }
+        if ($request->has('description')) {
+            $project->description = $validatedData['description'];
+        }
+        if ($request->has('status')) {
+            $project->status = $validatedData['status'];
+        }
 
-        $request->user()->profile()->first()->project()->save($project);
+        $project->save();
         return response()->json([
-            'success' => true
+            'success' => true,
+            'project' => $project
         ]);
     }
 
@@ -302,5 +310,12 @@ class ProjectController extends Controller
             'success' => true,
             'proposal' => $proposal
         ]);
+    }
+
+    public function getPdf(Request $request)
+    {
+        $file = array_reverse(explode("/", $request->url))[0];
+        $file_content = Storage::get("/public/project_pdfs/{$file}");
+        return $file_content;
     }
 }

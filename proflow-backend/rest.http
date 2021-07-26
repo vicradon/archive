@@ -22,7 +22,7 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "john.elliot@proflow.net",
+    "email": "pearline73@example.net",
     "password": "password"
 }
 
@@ -66,6 +66,11 @@ DELETE http://localhost:8000/api/comments
 X-Requested-With: XMLHttpRequest
 
 ###
-POST  http://localhost:8000/api/stuff
+POST   http://localhost:8000/api/pdf
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 5|t0FoAwqVg1PKf9z4jwvAy7w1vk2KqvgDvynLzIxx
+Authorization: Bearer 4|3FtzU7C63FCFYKmz6TEW6lq6eSUu8Zd3cZmgOveP
+content-type: application/json
+
+{
+    "url": "http://localhost:8000/storage/project_pdfs/ypvo9971XJssN3aqkzP5azZHgjjIO25wRfipucEX.pdf"
+}

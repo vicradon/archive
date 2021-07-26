@@ -75,7 +75,18 @@ class ChapterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'status' => 'required|string|in:pending,approve'
+        ]);
+
+        $chapter = Chapter::find($id);
+        $chapter->status = "approved";
+
+        $chapter->save();
+        return response()->json([
+            'success' => true,
+            'chapter' => $chapter
+        ]);
     }
 
     /**
