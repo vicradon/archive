@@ -206,7 +206,7 @@ class UserController extends Controller
             'department' => 'required|string'
         ]);
 
-        $password = Str::uuid();
+        $password = "password";
         $coordinator_profile = $request->user()->profile()->first();
 
         $user = User::create([

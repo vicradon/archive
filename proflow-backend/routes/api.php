@@ -7,8 +7,10 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProjectCategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
+use App\Mail\TestMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,7 +65,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::get('/stuff', function (Request $request) {
-    // Mail::to("osinachi.chukwujama@gmail.com")->send(new TestMail());
+    Mail::to("osinachi.chukwujama@gmail.com")->send(new TestMail());
     return "It worked!";
 });
 
