@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton.jsx";
+import errorHandler from "../../../../utils/errorHandler.js";
 import maxios from "../../../../utils/maxios";
 
 function AddSupervisorModalForm({
@@ -44,7 +45,7 @@ function AddSupervisorModalForm({
       });
       closeModal();
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setFormSubmitted(false);
     }
   };
