@@ -34,13 +34,15 @@ class RegisteredSupervisor extends Mailable
             config('app.frontend_local_root_url') :
             config('app.frontend_remote_root_url');
 
+        $app_name = config('app.name');
         $url = "{$frontend_root}/supervisor/login?email={$this->user->email}&password={$this->password}&return_url={$frontend_root}/supervisor/password-update";
 
         return $this->markdown('emails.auth.register_supervisor', [
             'user' =>  $this->user,
             'coordinator' => $this->coordinator,
             'password' => $this->password,
-            'profile_completion_url' =>  $url
+            'profile_completion_url' =>  $url,
+            'app_name' => $app_name
         ]);
     }
 }

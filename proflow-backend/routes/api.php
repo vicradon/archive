@@ -51,7 +51,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/supervisors', [UserController::class, 'getSupervisors']);
     Route::get('/supervisors/count', [UserController::class, 'getSupervisorCount']);
-    Route::patch('/supervisor/password', [UserController::class, 'updateSupervisorPassword']);
     Route::post('/supervisor/register', [UserController::class, 'unboardSupervisor']);
     Route::get('/supervisor/students', [UserController::class, 'studentsUnderSupervisor']);
     Route::post('/users/avatar', [UserController::class, 'avatarUpload']);
@@ -62,6 +61,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/students/{student_id}/chapters', [ProjectController::class, 'getStudentChapters']);
     // remove this during refactoring: use /chapters/{chapter_id} endpoint
     Route::get('/students/{student_id}/chapters/{chapter_id}', [ProjectController::class, 'getStudentChapter']);
+    Route::patch('/password', [UserController::class, 'updatePassword']);
 });
 
 Route::get('/stuff', function (Request $request) {

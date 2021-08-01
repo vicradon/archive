@@ -278,16 +278,15 @@ class UserController extends Controller
             'supervisors' => $supervisors
         ]);
     }
-    public function updateSupervisorPassword(Request $request)
+    public function updatePassword(Request $request)
     {
         $validatedData = $request->validate([
             'password' => 'string|max:255',
         ]);
 
-        $supervisor_user = $request->user();
-        $supervisor_user->password = Hash::make($validatedData['password']);
-        $supervisor_user->save();
-
+        $user = $request->user();
+        $user->password = Hash::make($validatedData['password']);
+        $user->save();
 
         return response()->json([
             'success' => true

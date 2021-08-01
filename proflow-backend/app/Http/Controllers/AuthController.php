@@ -8,6 +8,7 @@ use App\Models\Student;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Notifications\NewlyCreatedStudent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Log;
@@ -17,8 +18,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'reg_number' => 'exclude_if:role,coordinator|required|numeric|unique:students',
@@ -28,7 +28,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $validatedData['first_name']  . " " . $validatedData['last_name'],
+            'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'department' => $validatedData['department']
@@ -46,6 +46,7 @@ class AuthController extends Controller
             $student = Student::create(['reg_number' => $validatedData['reg_number']]);
             $user->student()->save($student);
             $student->user()->save($user);
+            $user->notify(new NewlyCreatedStudent($user, $validatedData['password']));
         } else if ($validatedData['role'] === 'coordinator') {
             $coordinator = Coordinator::create();
             $coordinator->user()->save($user);

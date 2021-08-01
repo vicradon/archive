@@ -42,6 +42,7 @@ class NewProjectUpload extends Notification
     {
         $student_user_name = $this->student_user->name;
         $student_user_id = $this->student_user->id;
+        $app_name = config('app.name');
 
         $frontend_root = config('app.env') === 'local' ?
             config('app.frontend_local_root_url') :
@@ -52,8 +53,8 @@ class NewProjectUpload extends Notification
             ->subject('New Project Uploaded')
             ->line("A new project PDF has been uploaded by ${student_user_name}.")
             ->line("Please review this PDF by leaving appropriate feedback where necessary.")
-            ->action('Notification Action', url($url))
-            ->line('Thank you for using Proflow.');
+            ->action('Review Proposal', url($url))
+            ->line("Thank you for using {$app_name}.");
     }
 
     /**

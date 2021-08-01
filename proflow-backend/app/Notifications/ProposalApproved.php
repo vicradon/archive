@@ -46,13 +46,14 @@ class ProposalApproved extends Notification
             config('app.frontend_remote_root_url');
 
         $url = "{$frontend_root}/student/project/upload";
+        $app_name = config('app.name');
 
         return (new MailMessage)
             ->subject('Proposal Approved')
             ->line("Your proposal with title: ${proposal_name} has been approved.")
             ->line("You can start uploading your project's chapters")
-            ->action('Notification Action', url($url))
-            ->line('Thank you for using Proflow!');
+            ->action('Upload project', url($url))
+            ->line("Thank you for using {$app_name}!");
     }
 
     /**

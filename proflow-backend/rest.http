@@ -22,7 +22,7 @@ X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "pearline73@example.net",
+    "email": "trystan87@example.net",
     "password": "password"
 }
 
@@ -38,15 +38,15 @@ content-type: application/json
 {
     "project_category": "Communication",
     "name": "Dr Meriko Salman",
-    "email": "meriko.salman6@proflow.net",
+    "email": "meriko.salman6@email.net",
     "department": "Mechnig"
 }
 
 ###
 
-GET  http://localhost:8000/api/comments-count
+GET  http://localhost:8000/api/users?role=student
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 101|4MxkFS6XsYNAcE3Q1e1iokFkLWBbMNJVyoVvAHFh
+Authorization: Bearer 10|Kcdaoj2lbMIae74qM2hUPcENKugg6H69DQH1gwpJ
 
 
 ###

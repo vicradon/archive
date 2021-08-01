@@ -3,7 +3,7 @@
 
 Hi {{$user->name}},
 
-{{$coordinator->name}} recently registered you as a supervisor on Proflow, the number 1 project management tool for final year projects.
+{{$coordinator->name}} recently registered you as a supervisor on {{$app_name}}, the number 1 project management tool for final year projects.
 
 You are required to complete your profile and change your password.
 

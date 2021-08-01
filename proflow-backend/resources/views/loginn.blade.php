@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proflow</title>
+    <title>Undergraduate Project Supervision</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" media="all">
 </head>
@@ -13,7 +13,7 @@
     <section class="relative w-full px-8 text-gray-700 bg-white body-font">
         <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
             <a href="#_" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">
-                <img src="/text-logo.png" alt="proflow logo">
+                <img src="/text-logo.png" alt="app logo">
             </a>
         </div>
     </section>
@@ -47,7 +47,7 @@
     <!-- Section 3 -->
     <section class="bg-white">
         <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
-            <p class="mt-8 text-base leading-6 text-center text-gray-400">© 2021 Proflow. All rights reserved.</p>
+            <p class="mt-8 text-base leading-6 text-center text-gray-400">© 2021 Undergraduate Project Supervision. All rights reserved.</p>
         </div>
     </section>
 

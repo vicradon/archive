@@ -1,1 +1,1 @@
-<img src="/text-logo.png" alt="Proflow">
+<img src="/text-logo.png" alt="app-logo">

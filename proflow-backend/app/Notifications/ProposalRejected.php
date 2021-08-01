@@ -41,12 +41,18 @@ class ProposalRejected extends Notification
     public function toMail($notifiable)
     {
         $proposal_name = $this->proposal->name;
+        $app_name = config('app.name');
+        $frontend_root = config('app.env') === 'local' ?
+            config('app.frontend_local_root_url') :
+            config('app.frontend_remote_root_url');
+        $url = "{$frontend_root}/student/project/setup";
+
         return (new MailMessage)
             ->subject('Proposal Rejected')
             ->line("Your proposal with title: ${proposal_name} was rejected.")
             ->line("Please review your topic and description here")
-            ->action('Notification Action', url('https://proflow-demo.netlify.app/student/project/setup'))
-            ->line('Thank you for using Proflow!');
+            ->action('Repropose Project', $url)
+            ->line("Thank you for using {$app_name}!");
     }
 
     /**
