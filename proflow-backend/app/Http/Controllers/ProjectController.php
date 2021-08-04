@@ -214,12 +214,14 @@ class ProjectController extends Controller
         // Local upload
         // $file_path = $request->file('project_pdf')->store('public/project_pdfs');
         // $pdf_path = config('app.url') . "/storage" . substr($file_path, 6);
+
         // $old_path = $project->pdf_path;
         // if ($old_path) {
         //     $path_without_storage = explode("/storage", $old_path)[1];
         //     Storage::delete("/public" . $path_without_storage);
         // }
 
+        // Cloudinary upload
         $pdf_path = $request->file('project_pdf')->storeOnCloudinary('undergraduate-project-supervision')->getSecurePath();
         $supervisor_user->notify(new NewProjectUpload($request->user()));
 

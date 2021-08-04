@@ -1,6 +1,6 @@
 ###
 
-POST http://localhost:8000/api/register
+POST https://proflow.osinachi.me/api/register
 X-Requested-With: XMLHttpRequest
 content-type: application/json
 
@@ -17,20 +17,20 @@ content-type: application/json
 ###
 
 
-POST http://localhost:8000/api/login 
+POST https://proflow.osinachi.me/api/login 
 X-Requested-With: XMLHttpRequest
 content-type: application/json
 
 {
-    "email": "trystan87@example.net",
-    "password": "password"
+    "email": "alvanachonwa@gmail.com",
+    "password": "12345678"
 }
 
 
 ###
 
 
-POST http://localhost:8000/api/supervisor/register
+POST https://proflow.osinachi.me/api/supervisor/register
 X-Requested-With: XMLHttpRequest
 Authorization: Bearer 3|Fbw6Mvy58kQx6wUwz5Si8a8Y0IHynmNXfYzUZK8D
 content-type: application/json
@@ -44,13 +44,13 @@ content-type: application/json
 
 ###
 
-GET  http://localhost:8000/api/users?role=student
+GET  https://proflow.osinachi.me/api/chapters/?student_id=1
 X-Requested-With: XMLHttpRequest
-Authorization: Bearer 10|Kcdaoj2lbMIae74qM2hUPcENKugg6H69DQH1gwpJ
+Authorization: Bearer 13|GkJY3Gz4hET2OSyZU3xIt9U0XlghIo9bZHdtvRwM
 
 
 ###
-POST  http://localhost:8000/api/comments?chapter_id=6&student_id=1
+POST  https://proflow.osinachi.me/api/comments?chapter_id=6&student_id=1
 X-Requested-With: XMLHttpRequest
 Authorization: Bearer 7|YIo0gnoRuwCRYsES2LSg6d71M3aFdMX1MucodWfG
 content-type: application/json
@@ -62,15 +62,15 @@ content-type: application/json
 
 ###
 
-GET http://localhost:8000/api/stuff
+GET https://proflow.osinachi.me/api/stuff
 X-Requested-With: XMLHttpRequest
 
 ###
-POST   http://localhost:8000/api/pdf
+POST   https://proflow.osinachi.me/api/pdf
 X-Requested-With: XMLHttpRequest
 Authorization: Bearer 4|3FtzU7C63FCFYKmz6TEW6lq6eSUu8Zd3cZmgOveP
 content-type: application/json
 
 {
-    "url": "http://localhost:8000/storage/project_pdfs/ypvo9971XJssN3aqkzP5azZHgjjIO25wRfipucEX.pdf"
+    "url": "https://proflow.osinachi.me/storage/project_pdfs/ypvo9971XJssN3aqkzP5azZHgjjIO25wRfipucEX.pdf"
 }
