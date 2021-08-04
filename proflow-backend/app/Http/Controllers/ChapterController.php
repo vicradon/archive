@@ -34,6 +34,25 @@ class ChapterController extends Controller
         ]);
     }
 
+    public function getStudentChapters(Request $request)
+    {
+        $chapters = Chapter::where('chapters.student_id', $request->student_id)
+            ->leftJoin('comments', 'chapters.id', '=', 'comments.chapter_id')
+            ->withCount([
+                'comments',
+                'comments as comments_count' => function ($query) {
+                    $query->where('resolved', false);
+                }
+            ])
+            ->distinct()
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'chapters' => $chapters
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
