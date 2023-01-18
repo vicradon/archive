@@ -14,8 +14,9 @@ Please complete the following before Saturday, the 21st of January.
    
    c. [Mac](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) (should also already be available on Mac)
 
-2. Create a Github account using [this url](https://github.com/join): https://github.com/join. You should see the following screen if you successfully install Github.
-![Untitled](https://user-images.githubusercontent.com/40396070/213217949-24c4e1b8-bf41-441b-983a-6275413042f7.png)
+2. Create a Github account using [this url](https://github.com/join): https://github.com/join. You should see the following screen after you successfully created a Github account.
+
+![Github accoutn successful creation](https://user-images.githubusercontent.com/40396070/213217949-24c4e1b8-bf41-441b-983a-6275413042f7.png)
 
 3. Go through this [introduction to Github training on Microsoft Learn](https://learn.microsoft.com/en-gb/training/modules/introduction-to-github)
 
