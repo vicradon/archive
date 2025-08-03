@@ -146,6 +146,8 @@ class AgentService:
             collated_reports.append(page_report)
 
         audit_result =  "\n".join(collated_reports)
+
+
         # join collated reports with ai
         # print("collating reports...")
         # collated_reports_prompt = cls.get_final_report_prompt(collated_reports)
@@ -255,7 +257,7 @@ class AgentService:
                 return reply
 
         except (KeyError, IndexError, json.JSONDecodeError, Exception) as e:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
+            return "An error occured"
         
 
     def is_internal_link(base_url, link):
