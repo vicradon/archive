@@ -8,11 +8,15 @@ from dotenv import load_dotenv
 from services import AgentService
 import lxml
 
+from typing import Union
+
 from a2a.types import (
     AgentCard,
     AgentCapabilities,
     AgentSkill,
-    AgentProvider
+    AgentProvider,
+    SendMessageRequest,
+    GetTaskRequest
 )
 import a2a.types as a2a_types
 
@@ -52,7 +56,7 @@ def get_agent_card(request: Request):
     )
 
     agent_card = AgentCard(
-        name='SEO Audit Agent',
+        name='SEO Audit Agent - Gitpod-Test1',
         description='Audits Webpages for SEO issues',
         url=current_base_url,
         version='1.0.1',
@@ -70,12 +74,11 @@ def get_agent_card(request: Request):
 
 
 async def handle_task(message:str, request_id, user_id:str, task_id: str, webhook_url: str, api_key: str, context_id: str):
-    
   links = await AgentService.discover_links(start_url=message, max_pages=3)
-  print(links)
-
   data = await AgentService.audit_multiple_pages_with_ai(links=links, api_key=api_key)
   pprint(data)
+
+  return "stopping..."
 
   parts = a2a_types.TextPart(text=data)
 
@@ -110,34 +113,22 @@ async def handle_task(message:str, request_id, user_id:str, task_id: str, webhoo
   return 
 
 
+async def handle_get_task_request(request: GetTaskRequest):
+  pass
 
-@app.post("/")
-async def handle_request(request: Request, background_tasks: BackgroundTasks):
-  try:
-    body = await request.json()
-
-  except json.JSONDecodeError as e:
-    error = a2a_types.JSONParseError(
-      data = str(e)
-    )
-    response = a2a_types.JSONRPCErrorResponse(
-       error=error
-    )
-
-  request_id = body.get("id")
-  user_id = body["params"]["message"]["metadata"].get("telex_user_id", None)  
-  org_id = body["params"]["message"]["metadata"].get("org_id", None)  
-  webhook_url = body["params"]["configuration"]["pushNotificationConfig"]["url"]
-  api_key = body["params"]["configuration"]["pushNotificationConfig"]["authentication"].get("credentials", TELEX_API_KEY)
-
-  message_parts = body["params"]["message"]["parts"]
+async def handle_send_message_request(request: SendMessageRequest, background_tasks: BackgroundTasks):
+  user_id = request.params.message.metadata.get("telex_user_id")
+  org_id = request.params.message.metadata.get("org_id")  
+  webhook_url = request.params.configuration.pushNotificationConfig.url
+  api_key = request.params.configuration.pushNotificationConfig.authentication.credentials or TELEX_API_KEY
+  message_parts = request.params.message.parts
 
   if not message_parts:
     raise HTTPException(
       status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
       detail="Message cannot be empty."
     )
-  
+
   context_id = uuid4().hex
 
   new_task = a2a_types.Task(
@@ -145,34 +136,46 @@ async def handle_request(request: Request, background_tasks: BackgroundTasks):
     contextId=context_id,
     status =  a2a_types.TaskStatus(
       state=a2a_types.TaskState.submitted, 
-      message=a2a_types.Message(messageId=uuid4().hex, role=a2a_types.Role.agent, parts=[a2a_types.TextPart(text="In progress")])
+      message=a2a_types.Message(messageId=uuid4().hex, role=a2a_types.Role.agent, parts=[a2a_types.TextPart(text="your task is in progress")])
     )
   )
 
-  incoming_message: a2a_types.Part = message_parts[0]
+  combined_text_parts = ""
 
-  print(incoming_message, "message")
+  for part in message_parts:
+    if isinstance(part.root, a2a_types.TextPart):
+      combined_text_parts += part.root.text
 
-  text_message = incoming_message.get("text", None)
 
-  if not text_message:
+  if not combined_text_parts:
     raise HTTPException(
       status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
       detail="Message text cannot be empty."
     )
 
-  background_tasks.add_task(handle_task, text_message, request_id, user_id, new_task.id, webhook_url, api_key, context_id)
 
-  response = a2a_types.JSONRPCResponse(
-      id=request_id,
+  background_tasks.add_task(handle_task, combined_text_parts, request.id, user_id, new_task.id, webhook_url, api_key, context_id)
+
+  response = a2a_types.SendMessageSuccessResponse(
       result=new_task
   )
 
   response = response.model_dump(exclude_none=True)
-  pprint(response)
+
   return response
+
+@app.post("/")
+async def handle_request(request: Union[SendMessageRequest, GetTaskRequest], background_tasks: BackgroundTasks):
+  if isinstance(request, SendMessageRequest):
+    return await handle_send_message_request(request, background_tasks)
+  elif isinstance(request, GetTaskRequest):
+    return await handle_get_task_request(request)
+  else:
+    return a2a_types.SendMessageSuccessResponse(result=a2a_types.Message(parts=[a2a_types.TextPart(text="Unhandled A2A type supplied")]))
 
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 4000))
     uvicorn.run("main:app", host="127.0.0.1", port=port, reload=True)
+
+
