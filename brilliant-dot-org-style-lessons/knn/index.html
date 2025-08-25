@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K-Nearest Neighbors: Interactive Lesson</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="controls">
+        <button
+          class="geist-button geist-button-secondary"
+          id="prevBtn"
+          onclick="previousSection()"
+        >
+          ← Previous
+        </button>
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span
+            id="sectionIndicator"
+            style="font-weight: 600; color: var(--geist-gray-10)"
+            >Section 1 of 6</span
+          >
+          <button
+            class="geist-button"
+            onclick="toggleTheme()"
+            style="padding: 8px"
+          >
+            🌓
+          </button>
+        </div>
+        <button class="geist-button" id="nextBtn" onclick="nextSection()">
+          Next →
+        </button>
+      </div>
+    </div>
+    <div class="geist-card lesson-header">
+      <h1>🍷 K-Nearest Neighbors</h1>
+      <p>Predict wine quality using machine learning!</p>
+      <div class="progress-bar">
+        <div class="progress" id="progressBar"></div>
+      </div>
+    </div>
+
+    <!-- Section 1: Introduction -->
+    <div class="geist-card section active" id="section1">
+      <h2><span class="section-number">1</span>What is Machine Learning?</h2>
+      <p>
+        Machine learning is about
+        <strong>learning patterns from data</strong> to make predictions. The
+        basic idea is simple:
+      </p>
+
+      <div class="interactive-demo">
+        <div class="ml-flow">
+          <div class="ml-box" style="border-color: var(--geist-blue-9)">
+            <strong>Inputs (x)</strong><br />
+            <small>Summer temp, Winter rainfall</small>
+          </div>
+          <div class="ml-arrow">→</div>
+          <div class="ml-box" style="border-color: var(--geist-amber-9)">
+            <strong>Algorithm (f)</strong><br />
+            <small>K-Nearest Neighbors</small>
+          </div>
+          <div class="ml-arrow">→</div>
+          <div class="ml-box" style="border-color: var(--geist-green-9)">
+            <strong>Output (y)</strong><br />
+            <small>Wine Price</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-container">
+        <div class="quiz-question">
+          🤔 What type of problem is predicting wine price?
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            Classification (predicting categories)
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, true)">
+            Regression (predicting numbers)
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            Clustering (finding groups)
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <strong>💡 Key Insight:</strong> Since wine price is a continuous number
+        (like $13.20, $45.60), this is a <strong>regression</strong> problem!
+        We're predicting numerical values, not categories.
+      </div>
+    </div>
+
+    <!-- Section 2: The Wine Dataset -->
+    <div class="geist-card section" id="section2">
+      <h2><span class="section-number">2</span>The Wine Quality Dataset</h2>
+      <p>
+        Professor Orley Ashenfelter used weather data to predict Bordeaux wine
+        prices. Each dot represents a different vintage year with its weather
+        conditions and resulting price.
+      </p>
+
+      <div class="interactive-demo">
+        <div class="wine-plot" id="winePlot">
+          <div class="axis-label y-axis">Summer Temperature (°C)</div>
+        </div>
+        <div class="plot-labels">
+          <span>← Low Winter Rainfall</span>
+          <span>Winter Rainfall (mm)</span>
+          <span>High Winter Rainfall →</span>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <strong>🎯 Your Mission:</strong> Click anywhere on the plot above to
+        add a test point (red) and see how the K-NN algorithm predicts its wine
+        price!
+      </div>
+
+      <div class="slider-container">
+        <label class="slider-label"
+          >Number of Neighbors (k): <span id="kValue">3</span></label
+        >
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value="3"
+          class="slider"
+          id="kSlider"
+        />
+      </div>
+
+      <div class="quiz-container">
+        <div class="quiz-question">
+          🍇 Looking at the plot, what pattern do you notice about expensive
+          wines?
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            They're randomly scattered
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, true)">
+            They tend to cluster in certain weather conditions
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            They only appear at the edges
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: How KNN Works -->
+    <div class="geist-card section" id="section3">
+      <h2>
+        <span class="section-number">3</span>How K-Nearest Neighbors Works
+      </h2>
+      <p>
+        K-NN is beautifully simple:
+        <em
+          >"Show me who your neighbors are, and I'll tell you who you are!"</em
+        >
+      </p>
+
+      <div class="algorithm-steps">
+        <div class="step active" id="step1">
+          <div class="step-number">1</div>
+          <div>
+            <strong>Calculate distances</strong> from test point to all training
+            points
+          </div>
+        </div>
+        <div class="step" id="step2">
+          <div class="step-number">2</div>
+          <div>
+            <strong>Find the k nearest neighbors</strong> (closest points)
+          </div>
+        </div>
+        <div class="step" id="step3">
+          <div class="step-number">3</div>
+          <div>
+            <strong>Average their prices</strong> to make the final prediction
+          </div>
+        </div>
+      </div>
+
+      <div class="interactive-demo">
+        <button class="geist-button" onclick="demonstrateAlgorithm()">
+          🎬 Watch Algorithm in Action
+        </button>
+        <div id="algorithmDemo" style="margin-top: 20px"></div>
+      </div>
+
+      <div class="quiz-container">
+        <div class="quiz-question">
+          🔍 Why do we need to scale/standardize features before calculating
+          distances?
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            To make the algorithm run faster
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, true)">
+            So features with different units/scales don't dominate the distance
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            It's not actually necessary for K-NN
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <strong>⚖️ Scaling Example:</strong> Without scaling, a 1mm difference
+        in rainfall might seem tiny compared to a 1°C temperature difference,
+        even though both could be equally important for wine quality!
+      </div>
+    </div>
+
+    <!-- Section 4: Interactive Prediction -->
+    <div class="geist-card section" id="section4">
+      <h2><span class="section-number">4</span>Make Your Own Predictions</h2>
+      <p>
+        Now it's your turn! Click different locations on the plot to see how
+        weather conditions affect wine price predictions.
+      </p>
+
+      <div class="interactive-demo">
+        <div class="wine-plot" id="predictionPlot">
+          <div class="axis-label y-axis">Summer Temperature (°C)</div>
+        </div>
+        <div class="plot-labels">
+          <span>← Low Winter Rainfall</span>
+          <span>Winter Rainfall (mm)</span>
+          <span>High Winter Rainfall →</span>
+        </div>
+        <div
+          id="predictionResult"
+          class="prediction-result"
+          style="display: none"
+        >
+          <div>
+            🍷 Predicted Wine Price: $<span id="predictedPrice">0</span>
+          </div>
+          <div style="font-size: 1rem; margin-top: 12px; font-weight: normal">
+            Based on <span id="neighborsCount">3</span> nearest neighbors
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <strong>🎯 Experiments to Try:</strong>
+        <ul style="margin-left: 20px; margin-top: 12px">
+          <li>
+            Click in regions with many expensive (red/orange) wines vs cheap
+            (green) wines
+          </li>
+          <li>
+            Adjust k to see how it changes predictions - what happens with k=1
+            vs k=10?
+          </li>
+          <li>Try clicking in empty areas with few nearby points</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 5: Implementation -->
+    <div class="geist-card section" id="section5">
+      <h2><span class="section-number">5</span>Code Implementation</h2>
+      <p>Here's how to implement K-NN in Python using scikit-learn:</p>
+
+      <div class="code-example">
+        <span class="highlight"
+          >from sklearn.neighbors import KNeighborsRegressor</span
+        >
+        <span class="highlight"
+          >from sklearn.preprocessing import StandardScaler</span
+        >
+        <span class="highlight"
+          >from sklearn.pipeline import make_pipeline</span
+        >
+
+        # Create the model pipeline pipeline = make_pipeline( StandardScaler(),
+        # Scale features first! KNeighborsRegressor(n_neighbors=5) ) # Fit the
+        model on training data pipeline.fit(X_train, y_train) # Make predictions
+        on new data predictions = pipeline.predict(X_test) # The pipeline
+        automatically scales X_test using the # same scaling parameters learned
+        from X_train
+      </div>
+
+      <div class="quiz-container">
+        <div class="quiz-question">
+          💻 What does the Pipeline do in this code?
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            Makes the code run significantly faster
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, true)">
+            Chains preprocessing and modeling steps together automatically
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            Improves the prediction accuracy
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <strong>⚠️ Critical Detail:</strong> The pipeline ensures test data gets
+        scaled using the <em>same</em> parameters (mean, std) that were
+        calculated from training data. This prevents data leakage!
+      </div>
+    </div>
+
+    <!-- Section 6: Wrap-up -->
+    <div class="geist-card section" id="section6">
+      <h2><span class="section-number">6</span>Key Takeaways & Next Steps</h2>
+
+      <div class="feature-grid">
+        <div class="info-panel">
+          <h3>🎯 Simple but Powerful</h3>
+          <p>
+            K-NN makes intuitive sense: similar inputs should produce similar
+            outputs. No complex math required!
+          </p>
+        </div>
+        <div class="info-panel">
+          <h3>🔧 No Training Phase</h3>
+          <p>
+            K-NN is "lazy learning" - it doesn't build a model during training,
+            just stores all the data points.
+          </p>
+        </div>
+        <div class="info-panel">
+          <h3>📏 Distance is Key</h3>
+          <p>
+            Always scale features so no single feature dominates distance
+            calculations due to different units.
+          </p>
+        </div>
+        <div class="info-panel">
+          <h3>⚖️ Choosing k Wisely</h3>
+          <p>
+            Small k (1-3) = sensitive to noise<br />Large k (10+) = smoother,
+            more stable predictions
+          </p>
+        </div>
+      </div>
+
+      <div class="quiz-container">
+        <div class="quiz-question">
+          🏆 Final Challenge: For a dataset with 1000 training points, what's a
+          reasonable starting value for k?
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            k = 1 (most responsive to local patterns)
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, true)">
+            k = 5-10 (good balance of local sensitivity and stability)
+          </div>
+          <div class="quiz-option" onclick="selectAnswer(this, false)">
+            k = 100 (very smooth but may miss local patterns)
+          </div>
+        </div>
+      </div>
+
+      <div class="prediction-result">
+        🎉 Congratulations! You've mastered K-Nearest Neighbors!<br />
+        <small style="font-weight: normal"
+          >You understand the algorithm, can implement it, and know the key
+          considerations.</small
+        >
+      </div>
+
+      <div class="info-panel">
+        <strong>🚀 What's Next?</strong>
+        <ul style="margin-left: 20px; margin-top: 12px">
+          <li>
+            Try K-NN on different datasets (classification problems, higher
+            dimensions)
+          </li>
+          <li>Explore other distance metrics (Manhattan, Minkowski)</li>
+          <li>
+            Learn about more advanced algorithms like Decision Trees and Random
+            Forest
+          </li>
+          <li>Practice with real datasets on Kaggle or UCI ML Repository</li>
+        </ul>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
