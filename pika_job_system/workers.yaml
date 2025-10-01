@@ -1,0 +1,7 @@
+chat:
+  worker_count: 2
+  queue_name: chat
+
+notifications:
+  worker_count: 1
+  queue_name: chat-update
