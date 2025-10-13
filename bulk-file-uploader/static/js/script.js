@@ -1,6 +1,61 @@
 let selectedFiles = [];
 let activeUploads = {};
 
+// File type filters
+const fileFilters = {
+  all: { label: "All Files", accept: "*/*" },
+  video: { label: "Videos (MP4, MOV, AVI, MKV)", accept: "video/*,.mov,.mkv" },
+  image: { label: "Images (JPG, PNG, GIF, HEIC)", accept: "image/*,.heic,.heif" },
+  document: { label: "Documents (PDF, DOC, TXT)", accept: ".pdf,.doc,.docx,.txt,.rtf" },
+  audio: { label: "Audio (MP3, WAV, FLAC)", accept: "audio/*" },
+  archive: { label: "Archives (ZIP, RAR, 7Z)", accept: ".zip,.rar,.7z,.tar,.gz" }
+};
+
+let currentFilter = "all";
+
+document.addEventListener("DOMContentLoaded", function() {
+  createFilterButtons();
+  updateFileInputAccept();
+});
+
+function createFilterButtons() {
+  const filterContainer = document.createElement("div");
+  filterContainer.className = "filter-buttons";
+  filterContainer.style.cssText = "margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px;";
+  
+  Object.entries(fileFilters).forEach(([key, filter]) => {
+    const btn = document.createElement("button");
+    btn.textContent = filter.label;
+    btn.className = key === "all" ? "filter-btn active" : "filter-btn";
+    btn.onclick = () => setFilter(key);
+    btn.dataset.filter = key;
+    filterContainer.appendChild(btn);
+  });
+  
+  const fileInput = document.getElementById("file");
+  fileInput.parentElement.insertBefore(filterContainer, fileInput);
+}
+
+function setFilter(filterKey) {
+  currentFilter = filterKey;
+  
+  // Update button states
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    if (btn.dataset.filter === filterKey) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+  
+  updateFileInputAccept();
+}
+
+function updateFileInputAccept() {
+  const fileInput = document.getElementById("file");
+  fileInput.setAttribute("accept", fileFilters[currentFilter].accept);
+}
+
 document.getElementById("file").onchange = function (e) {
   const newFiles = Array.from(e.target.files);
   selectedFiles = [...selectedFiles, ...newFiles];

@@ -107,14 +107,16 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 	session, exists := sessions[sessionID]
 	if !exists {
 		filepath := filepath.Join(uploadDir, filename)
-		file, err := os.Create(filepath)
+
+		// Open file with O_RDWR to allow seeking and writing
+		file, err := os.OpenFile(filepath, os.O_RDWR|os.O_CREATE, 0644)
 		if err != nil {
 			sessionsMu.Unlock()
 			http.Error(w, "Error creating file", http.StatusInternalServerError)
 			return
 		}
 
-		// Pre-allocate file to total size
+		// Pre-allocate file to total size to prevent fragmentation
 		if err := file.Truncate(totalSize); err != nil {
 			file.Close()
 			sessionsMu.Unlock()
@@ -156,23 +158,44 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Write chunk at the specific offset
-	written, err := io.Copy(session.File, chunk)
+	// Verify chunk size matches what we expect
+	actualChunkSize := header.Size
+
+	// Read chunk into buffer first to ensure complete read
+	buffer := make([]byte, actualChunkSize)
+	n, err := io.ReadFull(chunk, buffer)
+	if err != nil && err != io.EOF && err != io.ErrUnexpectedEOF {
+		log.Printf("Error reading chunk data: %v", err)
+		http.Error(w, "Error reading chunk data", http.StatusInternalServerError)
+		return
+	}
+
+	if int64(n) != actualChunkSize {
+		log.Printf("WARNING: Expected to read %d bytes but got %d bytes", actualChunkSize, n)
+	}
+
+	// Write the exact amount read
+	written, err := session.File.WriteAt(buffer[:n], offset)
 	if err != nil {
+		log.Printf("Error writing chunk at offset %d: %v", offset, err)
 		http.Error(w, "Error writing chunk", http.StatusInternalServerError)
 		return
 	}
 
-	if written != chunkSize {
-		http.Error(w, "Incomplete chunk write", http.StatusInternalServerError)
+	if int64(written) != int64(n) {
+		log.Printf("ERROR: Incomplete chunk write at offset %d: expected %d, wrote %d", offset, n, written)
+		http.Error(w, fmt.Sprintf("Incomplete chunk write: expected %d, wrote %d", n, written), http.StatusInternalServerError)
 		return
 	}
 
-	// Sync to ensure data is written to disk
+	// Sync to ensure data is written to disk immediately
 	if err := session.File.Sync(); err != nil {
+		log.Printf("Error syncing file: %v", err)
 		http.Error(w, "Error syncing file", http.StatusInternalServerError)
 		return
 	}
+
+	log.Printf("Successfully wrote chunk at offset %d, size %d bytes (chunk %s/%s)", offset, written, chunkIndex, totalChunks)
 
 	// Track received range
 	newRange := ByteRange{Start: offset, End: offset + chunkSize}
