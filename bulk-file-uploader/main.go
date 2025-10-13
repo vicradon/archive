@@ -9,16 +9,24 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"sync"
 )
 
 const uploadDir = "./uploads"
 
+type ByteRange struct {
+	Start int64
+	End   int64
+}
+
 type UploadSession struct {
-	File     *os.File
-	Paused   bool
-	Canceled bool
-	mu       sync.Mutex
+	File           *os.File
+	TotalSize      int64
+	ReceivedRanges []ByteRange
+	Paused         bool
+	Canceled       bool
+	mu             sync.Mutex
 }
 
 var sessions = make(map[string]*UploadSession)
@@ -46,6 +54,7 @@ func main() {
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/upload-chunk", uploadChunkHandler)
 	http.HandleFunc("/cancel", cancelHandler)
+	http.HandleFunc("/status", statusHandler)
 
 	fmt.Println("Server starting on http://0.0.0.0:8080")
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
@@ -69,13 +78,29 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 	filename := r.FormValue("filename")
 	chunkIndex := r.FormValue("chunkIndex")
 	totalChunks := r.FormValue("totalChunks")
+	offsetStr := r.FormValue("offset")
+	totalSizeStr := r.FormValue("totalSize")
 
-	chunk, _, err := r.FormFile("chunk")
+	offset, err := strconv.ParseInt(offsetStr, 10, 64)
+	if err != nil {
+		http.Error(w, "Invalid offset", http.StatusBadRequest)
+		return
+	}
+
+	totalSize, err := strconv.ParseInt(totalSizeStr, 10, 64)
+	if err != nil {
+		http.Error(w, "Invalid total size", http.StatusBadRequest)
+		return
+	}
+
+	chunk, header, err := r.FormFile("chunk")
 	if err != nil {
 		http.Error(w, "Error reading chunk", http.StatusBadRequest)
 		return
 	}
 	defer chunk.Close()
+
+	chunkSize := header.Size
 
 	sessionID := r.RemoteAddr + filename
 	sessionsMu.Lock()
@@ -88,33 +113,95 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Error creating file", http.StatusInternalServerError)
 			return
 		}
-		session = &UploadSession{File: file}
+
+		// Pre-allocate file to total size
+		if err := file.Truncate(totalSize); err != nil {
+			file.Close()
+			sessionsMu.Unlock()
+			http.Error(w, "Error allocating file space", http.StatusInternalServerError)
+			return
+		}
+
+		session = &UploadSession{
+			File:           file,
+			TotalSize:      totalSize,
+			ReceivedRanges: make([]ByteRange, 0),
+		}
 		sessions[sessionID] = session
 	}
 	sessionsMu.Unlock()
 
 	session.mu.Lock()
+	defer session.mu.Unlock()
+
 	if session.Canceled {
-		session.mu.Unlock()
 		http.Error(w, "Upload canceled", http.StatusBadRequest)
 		return
 	}
 
-	if _, err := io.Copy(session.File, chunk); err != nil {
-		session.mu.Unlock()
+	// Check if this range was already received
+	if isRangeReceived(session.ReceivedRanges, offset, offset+chunkSize) {
+		log.Printf("Chunk at offset %d already received, skipping", offset)
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"status":   "ok",
+			"message":  "chunk already received",
+			"progress": calculateProgress(session),
+		})
+		return
+	}
+
+	// Seek to the correct position
+	if _, err := session.File.Seek(offset, 0); err != nil {
+		http.Error(w, "Error seeking in file", http.StatusInternalServerError)
+		return
+	}
+
+	// Write chunk at the specific offset
+	written, err := io.Copy(session.File, chunk)
+	if err != nil {
 		http.Error(w, "Error writing chunk", http.StatusInternalServerError)
 		return
 	}
-	session.mu.Unlock()
 
-	if chunkIndex == totalChunks || chunkIndex+"1" == totalChunks {
-		sessionsMu.Lock()
-		session.File.Close()
-		delete(sessions, sessionID)
-		sessionsMu.Unlock()
+	if written != chunkSize {
+		http.Error(w, "Incomplete chunk write", http.StatusInternalServerError)
+		return
 	}
 
-	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+	// Sync to ensure data is written to disk
+	if err := session.File.Sync(); err != nil {
+		http.Error(w, "Error syncing file", http.StatusInternalServerError)
+		return
+	}
+
+	// Track received range
+	newRange := ByteRange{Start: offset, End: offset + chunkSize}
+	session.ReceivedRanges = mergeRanges(session.ReceivedRanges, newRange)
+
+	progress := calculateProgress(session)
+
+	log.Printf("Chunk %s/%s written at offset %d, size %d bytes, progress: %.2f%%",
+		chunkIndex, totalChunks, offset, chunkSize, progress*100)
+
+	// Check if upload is complete
+	if isUploadComplete(session) {
+		log.Printf("Upload complete for %s", filename)
+		session.File.Close()
+		sessionsMu.Lock()
+		delete(sessions, sessionID)
+		sessionsMu.Unlock()
+
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"status":   "complete",
+			"progress": 1.0,
+		})
+		return
+	}
+
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"status":   "ok",
+		"progress": progress,
+	})
 }
 
 func cancelHandler(w http.ResponseWriter, r *http.Request) {
@@ -138,4 +225,106 @@ func cancelHandler(w http.ResponseWriter, r *http.Request) {
 	sessionsMu.Unlock()
 
 	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+}
+
+func statusHandler(w http.ResponseWriter, r *http.Request) {
+	filename := r.URL.Query().Get("filename")
+	if filename == "" {
+		http.Error(w, "Filename required", http.StatusBadRequest)
+		return
+	}
+
+	sessionID := r.RemoteAddr + filename
+	sessionsMu.RLock()
+	session, exists := sessions[sessionID]
+	sessionsMu.RUnlock()
+
+	if !exists {
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"exists":   false,
+			"progress": 0,
+		})
+		return
+	}
+
+	session.mu.Lock()
+	progress := calculateProgress(session)
+	ranges := make([]map[string]int64, len(session.ReceivedRanges))
+	for i, r := range session.ReceivedRanges {
+		ranges[i] = map[string]int64{"start": r.Start, "end": r.End}
+	}
+	session.mu.Unlock()
+
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"exists":   true,
+		"progress": progress,
+		"ranges":   ranges,
+	})
+}
+
+// Helper functions
+
+func isRangeReceived(ranges []ByteRange, start, end int64) bool {
+	for _, r := range ranges {
+		if start >= r.Start && end <= r.End {
+			return true
+		}
+	}
+	return false
+}
+
+func mergeRanges(ranges []ByteRange, newRange ByteRange) []ByteRange {
+	ranges = append(ranges, newRange)
+
+	// Sort ranges by start position
+	for i := 0; i < len(ranges); i++ {
+		for j := i + 1; j < len(ranges); j++ {
+			if ranges[j].Start < ranges[i].Start {
+				ranges[i], ranges[j] = ranges[j], ranges[i]
+			}
+		}
+	}
+
+	// Merge overlapping ranges
+	merged := make([]ByteRange, 0)
+	for _, r := range ranges {
+		if len(merged) == 0 {
+			merged = append(merged, r)
+			continue
+		}
+
+		last := &merged[len(merged)-1]
+		if r.Start <= last.End {
+			// Overlapping or adjacent, merge
+			if r.End > last.End {
+				last.End = r.End
+			}
+		} else {
+			merged = append(merged, r)
+		}
+	}
+
+	return merged
+}
+
+func calculateProgress(session *UploadSession) float64 {
+	if session.TotalSize == 0 {
+		return 0
+	}
+
+	var received int64
+	for _, r := range session.ReceivedRanges {
+		received += r.End - r.Start
+	}
+
+	return float64(received) / float64(session.TotalSize)
+}
+
+func isUploadComplete(session *UploadSession) bool {
+	if len(session.ReceivedRanges) != 1 {
+		return false
+	}
+
+	r := session.ReceivedRanges[0]
+	return r.Start == 0 && r.End == session.TotalSize
 }

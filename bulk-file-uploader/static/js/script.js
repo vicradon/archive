@@ -122,7 +122,8 @@ async function uploadFileInChunks(uploadId, file) {
       }
     }
 
-    const start = currentChunk * chunkSize;
+    const offset = currentChunk * chunkSize;
+    const start = offset;
     const end = Math.min(start + chunkSize, file.size);
     const chunk = file.slice(start, end);
 
@@ -131,6 +132,8 @@ async function uploadFileInChunks(uploadId, file) {
     formData.append("filename", file.name);
     formData.append("chunkIndex", currentChunk);
     formData.append("totalChunks", totalChunks);
+    formData.append("offset", offset.toString());
+    formData.append("totalSize", file.size.toString());
 
     try {
       const response = await fetch("/upload-chunk", {
@@ -142,6 +145,14 @@ async function uploadFileInChunks(uploadId, file) {
         throw new Error("Upload failed");
       }
 
+      const result = await response.json();
+      
+      // Check if upload is complete
+      if (result.status === "complete") {
+        removeUploadFromQueue(uploadId, "Complete", false);
+        return;
+      }
+
       currentChunk++;
       uploadedBytes = Math.min(end, file.size);
 
@@ -151,11 +162,13 @@ async function uploadFileInChunks(uploadId, file) {
 
       updateUploadProgress(uploadId, percent, speed);
     } catch (error) {
+      console.error("Upload error:", error);
       removeUploadFromQueue(uploadId, "Failed: " + error.message, true);
       return;
     }
   }
 
+  // This shouldn't be reached if server properly signals completion
   removeUploadFromQueue(uploadId, "Complete", false);
 }
 
