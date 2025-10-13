@@ -13,7 +13,10 @@ import (
 	"sync"
 )
 
-const uploadDir = "./uploads"
+const (
+	ongoingDir   = "./uploads/ongoing"
+	completedDir = "./uploads/completed"
+)
 
 type ByteRange struct {
 	Start int64
@@ -46,8 +49,11 @@ func main() {
 		log.Fatalf("Error loading template: %v", err)
 	}
 
-	if err := os.MkdirAll(uploadDir, 0755); err != nil {
-		log.Fatal("Failed to create uploads directory:", err)
+	if err := os.MkdirAll(ongoingDir, 0755); err != nil {
+		log.Fatal("Failed to create ongoing directory:", err)
+	}
+	if err := os.MkdirAll(completedDir, 0755); err != nil {
+		log.Fatal("Failed to create completed directory:", err)
 	}
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
@@ -106,17 +112,15 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 	sessionsMu.Lock()
 	session, exists := sessions[sessionID]
 	if !exists {
-		filepath := filepath.Join(uploadDir, filename)
+		filePath := filepath.Join(ongoingDir, filename)
 
-		// Open file with O_RDWR to allow seeking and writing
-		file, err := os.OpenFile(filepath, os.O_RDWR|os.O_CREATE, 0644)
+		file, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0644)
 		if err != nil {
 			sessionsMu.Unlock()
 			http.Error(w, "Error creating file", http.StatusInternalServerError)
 			return
 		}
 
-		// Pre-allocate file to total size to prevent fragmentation
 		if err := file.Truncate(totalSize); err != nil {
 			file.Close()
 			sessionsMu.Unlock()
@@ -141,7 +145,6 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if this range was already received
 	if isRangeReceived(session.ReceivedRanges, offset, offset+chunkSize) {
 		log.Printf("Chunk at offset %d already received, skipping", offset)
 		json.NewEncoder(w).Encode(map[string]interface{}{
@@ -152,16 +155,13 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Seek to the correct position
 	if _, err := session.File.Seek(offset, 0); err != nil {
 		http.Error(w, "Error seeking in file", http.StatusInternalServerError)
 		return
 	}
 
-	// Verify chunk size matches what we expect
 	actualChunkSize := header.Size
 
-	// Read chunk into buffer first to ensure complete read
 	buffer := make([]byte, actualChunkSize)
 	n, err := io.ReadFull(chunk, buffer)
 	if err != nil && err != io.EOF && err != io.ErrUnexpectedEOF {
@@ -174,7 +174,6 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("WARNING: Expected to read %d bytes but got %d bytes", actualChunkSize, n)
 	}
 
-	// Write the exact amount read
 	written, err := session.File.WriteAt(buffer[:n], offset)
 	if err != nil {
 		log.Printf("Error writing chunk at offset %d: %v", offset, err)
@@ -188,7 +187,6 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Sync to ensure data is written to disk immediately
 	if err := session.File.Sync(); err != nil {
 		log.Printf("Error syncing file: %v", err)
 		http.Error(w, "Error syncing file", http.StatusInternalServerError)
@@ -197,7 +195,6 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Successfully wrote chunk at offset %d, size %d bytes (chunk %s/%s)", offset, written, chunkIndex, totalChunks)
 
-	// Track received range
 	newRange := ByteRange{Start: offset, End: offset + chunkSize}
 	session.ReceivedRanges = mergeRanges(session.ReceivedRanges, newRange)
 
@@ -206,10 +203,20 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Chunk %s/%s written at offset %d, size %d bytes, progress: %.2f%%",
 		chunkIndex, totalChunks, offset, chunkSize, progress*100)
 
-	// Check if upload is complete
 	if isUploadComplete(session) {
 		log.Printf("Upload complete for %s", filename)
+
+		oldPath := session.File.Name()
+		newPath := filepath.Join(completedDir, filename)
+
 		session.File.Close()
+
+		if err := os.Rename(oldPath, newPath); err != nil {
+			log.Printf("Error moving file to completed: %v", err)
+			http.Error(w, "Error finalizing upload", http.StatusInternalServerError)
+			return
+		}
+
 		sessionsMu.Lock()
 		delete(sessions, sessionID)
 		sessionsMu.Unlock()
@@ -285,8 +292,6 @@ func statusHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// Helper functions
-
 func isRangeReceived(ranges []ByteRange, start, end int64) bool {
 	for _, r := range ranges {
 		if start >= r.Start && end <= r.End {
@@ -299,7 +304,6 @@ func isRangeReceived(ranges []ByteRange, start, end int64) bool {
 func mergeRanges(ranges []ByteRange, newRange ByteRange) []ByteRange {
 	ranges = append(ranges, newRange)
 
-	// Sort ranges by start position
 	for i := 0; i < len(ranges); i++ {
 		for j := i + 1; j < len(ranges); j++ {
 			if ranges[j].Start < ranges[i].Start {
@@ -308,7 +312,6 @@ func mergeRanges(ranges []ByteRange, newRange ByteRange) []ByteRange {
 		}
 	}
 
-	// Merge overlapping ranges
 	merged := make([]ByteRange, 0)
 	for _, r := range ranges {
 		if len(merged) == 0 {
@@ -318,7 +321,6 @@ func mergeRanges(ranges []ByteRange, newRange ByteRange) []ByteRange {
 
 		last := &merged[len(merged)-1]
 		if r.Start <= last.End {
-			// Overlapping or adjacent, merge
 			if r.End > last.End {
 				last.End = r.End
 			}
