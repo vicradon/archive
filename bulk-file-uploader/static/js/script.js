@@ -3,66 +3,42 @@ let activeUploads = {};
 
 // File type filters
 const fileFilters = {
-  all: { label: "All Files", accept: "*/*" },
-  video: { label: "Videos (MP4, MOV, AVI, MKV)", accept: "video/*,.mov,.mkv" },
-  image: { label: "Images (JPG, PNG, GIF, HEIC)", accept: "image/*,.heic,.heif" },
-  document: { label: "Documents (PDF, DOC, TXT)", accept: ".pdf,.doc,.docx,.txt,.rtf" },
-  audio: { label: "Audio (MP3, WAV, FLAC)", accept: "audio/*" },
-  archive: { label: "Archives (ZIP, RAR, 7Z)", accept: ".zip,.rar,.7z,.tar,.gz" }
+  all: "*/*",
+  video: "video/*,.mov,.mkv",
+  image: "image/*,.heic,.heif",
+  document: ".pdf,.doc,.docx,.txt,.rtf",
+  audio: "audio/*",
+  archive: ".zip,.rar,.7z,.tar,.gz"
 };
 
-let currentFilter = "all";
+// Apply filter changes via radio buttons
+document.addEventListener("DOMContentLoaded", () => {
+  const fileInput = document.getElementById("file");
+  const radios = document.querySelectorAll('input[name="fileFilter"]');
 
-document.addEventListener("DOMContentLoaded", function() {
-  createFilterButtons();
-  updateFileInputAccept();
+  radios.forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      const selected = e.target.value;
+      fileInput.setAttribute("accept", fileFilters[selected]);
+    });
+  });
+
+  // Default accept
+  fileInput.setAttribute("accept", fileFilters.all);
+
+  // File selection handler
+  fileInput.addEventListener("change", handleFileSelect);
 });
 
-function createFilterButtons() {
-  const filterContainer = document.createElement("div");
-  filterContainer.className = "filter-buttons";
-  filterContainer.style.cssText = "margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px;";
-  
-  Object.entries(fileFilters).forEach(([key, filter]) => {
-    const btn = document.createElement("button");
-    btn.textContent = filter.label;
-    btn.className = key === "all" ? "filter-btn active" : "filter-btn";
-    btn.onclick = () => setFilter(key);
-    btn.dataset.filter = key;
-    filterContainer.appendChild(btn);
-  });
-  
-  const fileInput = document.getElementById("file");
-  fileInput.parentElement.insertBefore(filterContainer, fileInput);
-}
-
-function setFilter(filterKey) {
-  currentFilter = filterKey;
-  
-  // Update button states
-  document.querySelectorAll(".filter-btn").forEach(btn => {
-    if (btn.dataset.filter === filterKey) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
-    }
-  });
-  
-  updateFileInputAccept();
-}
-
-function updateFileInputAccept() {
-  const fileInput = document.getElementById("file");
-  fileInput.setAttribute("accept", fileFilters[currentFilter].accept);
-}
-
-document.getElementById("file").onchange = function (e) {
+// Handle file selection
+function handleFileSelect(e) {
   const newFiles = Array.from(e.target.files);
   selectedFiles = [...selectedFiles, ...newFiles];
   updateSelectedFilesList();
   e.target.value = "";
-};
+}
 
+// Update the file list display
 function updateSelectedFilesList() {
   const container = document.getElementById("selectedFiles");
   const uploadBtn = document.getElementById("uploadBtn");
@@ -79,23 +55,25 @@ function updateSelectedFilesList() {
   container.innerHTML = selectedFiles
     .map(
       (file, index) => `
-                <div class="file-item">
-                    <div class="file-info">
-                        <div class="file-name">${file.name}</div>
-                        <div class="file-size">${formatBytes(file.size)}</div>
-                    </div>
-                    <button class="remove-btn" onclick="removeFile(${index})">Remove</button>
-                </div>
-            `
+        <div class="file-item">
+          <div class="file-info">
+            <div class="file-name">${file.name}</div>
+            <div class="file-size">${formatBytes(file.size)}</div>
+          </div>
+          <button class="remove-btn" onclick="removeFile(${index})">Remove</button>
+        </div>
+      `
     )
     .join("");
 }
 
+// Remove file from selection
 function removeFile(index) {
   selectedFiles.splice(index, 1);
   updateSelectedFilesList();
 }
 
+// Human-readable size
 function formatBytes(bytes) {
   if (bytes === 0) return "0 Bytes";
   const k = 1024;
@@ -104,6 +82,7 @@ function formatBytes(bytes) {
   return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
 }
 
+// Start upload
 function startUploads() {
   if (selectedFiles.length === 0) return;
 
@@ -114,7 +93,7 @@ function startUploads() {
   filesToUpload.forEach((file) => {
     const uploadId = Date.now() + "_" + Math.random();
     activeUploads[uploadId] = {
-      file: file,
+      file,
       paused: false,
       canceled: false,
       progress: 0,
@@ -125,6 +104,7 @@ function startUploads() {
   });
 }
 
+// Add upload to UI queue
 function addUploadToQueue(uploadId, file) {
   const queueContainer = document.getElementById("uploadQueue");
 
@@ -136,22 +116,23 @@ function addUploadToQueue(uploadId, file) {
   uploadItem.className = "upload-item";
   uploadItem.id = "upload-" + uploadId;
   uploadItem.innerHTML = `
-                <div class="upload-header">
-                    <div class="upload-name">${file.name}</div>
-                    <div class="upload-status" id="status-${uploadId}">0% • 0 MB/s</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-${uploadId}"></div>
-                </div>
-                <div class="upload-controls">
-                    <button class="btn-secondary" id="pause-${uploadId}" onclick="togglePause('${uploadId}')">Pause</button>
-                    <button class="btn-danger" onclick="cancelUpload('${uploadId}')">Cancel</button>
-                </div>
-            `;
+    <div class="upload-header">
+      <div class="upload-name">${file.name}</div>
+      <div class="upload-status" id="status-${uploadId}">0% • 0 MB/s</div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-${uploadId}"></div>
+    </div>
+    <div class="upload-controls">
+      <button class="btn-secondary" id="pause-${uploadId}" onclick="togglePause('${uploadId}')">Pause</button>
+      <button class="btn-danger" onclick="cancelUpload('${uploadId}')">Cancel</button>
+    </div>
+  `;
 
   queueContainer.appendChild(uploadItem);
 }
 
+// Upload logic (chunked)
 async function uploadFileInChunks(uploadId, file) {
   const chunkSize = 1024 * 1024; // 1MB
   const totalChunks = Math.ceil(file.size / chunkSize);
@@ -161,7 +142,6 @@ async function uploadFileInChunks(uploadId, file) {
 
   while (currentChunk < totalChunks) {
     const upload = activeUploads[uploadId];
-
     if (!upload || upload.canceled) {
       await fetch("/cancel", { method: "POST" });
       removeUploadFromQueue(uploadId, "Canceled", true);
@@ -196,13 +176,9 @@ async function uploadFileInChunks(uploadId, file) {
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error("Upload failed");
-      }
-
+      if (!response.ok) throw new Error("Upload failed");
       const result = await response.json();
-      
-      // Check if upload is complete
+
       if (result.status === "complete") {
         removeUploadFromQueue(uploadId, "Complete", false);
         return;
@@ -223,44 +199,40 @@ async function uploadFileInChunks(uploadId, file) {
     }
   }
 
-  // This shouldn't be reached if server properly signals completion
   removeUploadFromQueue(uploadId, "Complete", false);
 }
 
+// Progress update
 function updateUploadProgress(uploadId, percent, speed) {
   const progressBar = document.getElementById("progress-" + uploadId);
   const statusText = document.getElementById("status-" + uploadId);
 
-  if (progressBar) {
-    progressBar.style.width = percent + "%";
-  }
-
-  if (statusText) {
-    statusText.textContent = percent + "% • " + formatBytes(speed) + "/s";
-  }
+  if (progressBar) progressBar.style.width = percent + "%";
+  if (statusText) statusText.textContent = `${percent}% • ${formatBytes(speed)}/s`;
 
   if (activeUploads[uploadId]) {
     activeUploads[uploadId].progress = percent;
   }
 }
 
+// Pause/resume upload
 function togglePause(uploadId) {
   const upload = activeUploads[uploadId];
   if (!upload) return;
 
   upload.paused = !upload.paused;
   const pauseBtn = document.getElementById("pause-" + uploadId);
-  if (pauseBtn) {
-    pauseBtn.textContent = upload.paused ? "Resume" : "Pause";
-  }
+  if (pauseBtn) pauseBtn.textContent = upload.paused ? "Resume" : "Pause";
 }
 
+// Cancel upload
 function cancelUpload(uploadId) {
   if (activeUploads[uploadId]) {
     activeUploads[uploadId].canceled = true;
   }
 }
 
+// Remove upload from queue
 function removeUploadFromQueue(uploadId, status, isError) {
   const uploadItem = document.getElementById("upload-" + uploadId);
   if (!uploadItem) return;
@@ -274,23 +246,16 @@ function removeUploadFromQueue(uploadId, status, isError) {
     if (!isError) progressBar.style.width = "100%";
   }
 
-  if (statusText) {
-    statusText.textContent = status;
-  }
-
-  if (controls) {
-    controls.remove();
-  }
+  if (statusText) statusText.textContent = status;
+  if (controls) controls.remove();
 
   delete activeUploads[uploadId];
 
   setTimeout(() => {
     uploadItem.remove();
-
     const queueContainer = document.getElementById("uploadQueue");
     if (queueContainer.children.length === 0) {
-      queueContainer.innerHTML =
-        '<div class="empty-state">No active uploads</div>';
+      queueContainer.innerHTML = '<div class="empty-state">No active uploads</div>';
     }
   }, 3000);
 }
