@@ -2,16 +2,44 @@
 Creating a Kubernetes Deployment
 """
 import pulumi
+import pulumi_docker as docker
 from pulumi_kubernetes.apps.v1 import Deployment
 from pulumi_kubernetes.core.v1 import Service
 import subprocess
 
 # Minikube does not implement services of type `LoadBalancer`; require the user to specify if we're
-# running on minikube, and if so, create only services of type ClusterIP.
+# running on minikube, and if so, create only services of type NodePort (not cluster ip lol).
 config = pulumi.Config()
 is_minikube = config.require_bool("isMinikube")
 
-app_name = "nginx"
+
+registry_prefix = config.get("registryPrefix") or "localhost:5000"
+
+registry = docker.Container(
+    "local-registry",
+    image="registry:2",
+    ports=[{"internal": 5000, "external": 5000}],
+    restart="always",
+)
+
+
+
+images = ["app-ui", "app-orders", "app-catalog", "app-cart", "ui-ui", "app-checkout"]
+
+pushed_images = []
+for img in images:
+    full_tag = f"{registry_prefix}/{img}:latest"
+    pushed = docker.Tag(
+        f"{img}-push",
+        source_image=f"{img}:latest",
+        target_image=full_tag,
+        opts=pulumi.ResourceOptions(depends_on=[registry]),
+    )
+    pushed_images.append(pushed)
+
+pulumi.export("pushed_images", [p.target_image for p in pushed_images])
+
+app_name = "app-ui"
 app_labels = { "app": app_name }
 
 deployment = Deployment(
@@ -21,7 +49,7 @@ deployment = Deployment(
         "replicas": 1,
         "template": {
             "metadata": { "labels": app_labels },
-            "spec": { "containers": [{ "name": app_name, "image": "nginx" }] }
+            "spec": { "containers": [{ "name": app_name, "image": f"vicradon/timeapi" }] }
         }
     })
 
@@ -33,7 +61,8 @@ frontend = Service(
     },
     spec={
         "type": "NodePort" if is_minikube else "LoadBalancer",
-        "ports": [{ "port": 80, "target_port": 80, "protocol": "TCP" }],
+        # port is 2500, services within kubernetes use it. target port is 4500, the app runs there
+        "ports": [{ "port": 2500, "target_port": 4500, "protocol": "TCP" }],
         "selector": app_labels,
     })
 
