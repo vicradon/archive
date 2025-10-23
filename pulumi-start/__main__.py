@@ -109,6 +109,18 @@ def replace_images_with_ecr(obj, opts):
             job_template = spec.get("jobTemplate", {})
             template = job_template.get("spec", {}).get("template", {})
             pod_spec = template.get("spec", {})
+        elif kind == "Service":
+            metadata = obj.get("metadata", {})
+            name = metadata.get("name", "").lower()
+            if "ui" in name:
+                spec = obj.get("spec", {})
+                spec["type"] = "LoadBalancer"
+
+                for port in spec.get("ports", []):
+                    port["port"] = 80
+
+                obj["spec"] = spec 
+                pulumi.log.info(f"Converted service '{name}' to LoadBalancer on port 80")
         else:
             pod_spec = {}
         
@@ -167,14 +179,14 @@ for service in services:
         all_files = yaml_files + yml_files
         
         if all_files:
-            print(f"  ✅ Found {len(all_files)} YAML file(s):")
+            print(f"  Found {len(all_files)} YAML file(s):")
             for f in all_files:
                 print(f"    - {f.name}")
             services_with_files.append(service)
         else:
-            print(f"  ❌ Directory exists but NO YAML files found!")
+            print(f"Directory exists but NO YAML files found!")
     else:
-        print(f"  ❌ Directory does NOT exist!")
+        print(f"Directory does NOT exist!")
         print(f"  → Run: cd ../src/{service} && mkdir -p kompose_files && kompose convert --out kompose_files")
 
 print("\n" + "="*60)
@@ -218,11 +230,11 @@ for service in services:
             if service == "ui":
                 ui_service = config_group
             
-            pulumi.log.info(f"✅ Applied Kubernetes manifests for {service} ({len(all_files)} files)")
+            pulumi.log.info(f"Applied Kubernetes manifests for {service} ({len(all_files)} files)")
         else:
-            pulumi.log.warn(f"❌ Skipping {service}: Directory exists but no YAML files found")
+            pulumi.log.warn("Skipping {service}: Directory exists but no YAML files found")
     else:
-        pulumi.log.warn(f"❌ Skipping {service}: Directory not found at {kompose_files_dir}")
+        pulumi.log.warn("Skipping {service}: Directory not found at {kompose_files_dir}")
 
 pulumi.export("deployed_services", services_with_files)
 pulumi.export("deployed_count", deployed_count)
