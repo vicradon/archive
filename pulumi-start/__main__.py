@@ -112,12 +112,14 @@ def replace_images_with_ecr(obj, opts):
         elif kind == "Service":
             metadata = obj.get("metadata", {})
             name = metadata.get("name", "").lower()
+
             if "ui" in name:
                 spec = obj.get("spec", {})
                 spec["type"] = "LoadBalancer"
 
                 for port in spec.get("ports", []):
                     port["port"] = 80
+                    port["target_port"] = 8080
 
                 obj["spec"] = spec 
                 pulumi.log.info(f"Converted service '{name}' to LoadBalancer on port 80")
@@ -239,3 +241,13 @@ for service in services:
 pulumi.export("deployed_services", services_with_files)
 pulumi.export("deployed_count", deployed_count)
 
+
+if ui_service:
+    ui_svc = k8s.core.v1.Service.get(
+        "ui-lb-service",
+        pulumi.Output.concat(namespace_name, "/ui"),
+        opts=pulumi.ResourceOptions(provider=k8s_provider)
+    )
+    pulumi.export("ui_url", ui_svc.status.apply(
+        lambda s: f"http://{s.load_balancer.ingress[0].hostname if s and s.load_balancer and s.load_balancer.ingress else 'pending'}"
+    ))
