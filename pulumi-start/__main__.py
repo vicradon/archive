@@ -6,88 +6,161 @@ import pulumi_docker as docker
 from pulumi_kubernetes.apps.v1 import Deployment
 from pulumi_kubernetes.core.v1 import Service
 import subprocess
+import pulumi_awsx as awsx
+import pulumi_eks as eks
+import pulumi_kubernetes as k8s
 
-# Minikube does not implement services of type `LoadBalancer`; require the user to specify if we're
-# running on minikube, and if so, create only services of type NodePort (not cluster ip lol).
+container_repository = awsx.ecr.Repository("retailstore_repository")
+pulumi.export("repository_url", container_repository.url)
+
+images = ["app-orders", "app-catalog", "app-cart", "ui-ui", "app-checkout"]
+
+# Build and push all images
+built_images = {}
+for image in images:
+    app_dir = "../src/" + image.split("-")[1]
+
+    built_image = awsx.ecr.Image(
+        image,
+        repository_url=container_repository.url,
+        context=app_dir,
+        platform="linux/amd64",
+        opts=pulumi.ResourceOptions(
+            ignore_changes=["provider"]
+        )
+    )
+    built_images[image] = built_image
+
+# Minikube configuration
 config = pulumi.Config()
 is_minikube = config.require_bool("isMinikube")
 
+# EKS configuration
+min_cluster_size = config.get_int("minClusterSize", 1)
+max_cluster_size = config.get_int("maxClusterSize", 3)
+desired_cluster_size = config.get_int("desiredClusterSize", 2)
+eks_node_instance_type = config.get("eksNodeInstanceType", "t3.medium")
+vpc_network_cidr = config.get("vpcNetworkCidr", "10.0.0.0/16")
 
-registry_prefix = config.get("registryPrefix") or "localhost:5000"
+# Create EKS cluster and Kubernetes provider (only if not using minikube)
+if not is_minikube:
+    eks_vpc = awsx.ec2.Vpc("eks-vpc",
+        enable_dns_hostnames=True,
+        cidr_block=vpc_network_cidr)
 
-registry = docker.Container(
-    "local-registry",
-    image="registry:2",
-    ports=[{"internal": 5000, "external": 5000}],
-    restart="always",
-)
-
-
-
-images = ["app-ui", "app-orders", "app-catalog", "app-cart", "ui-ui", "app-checkout"]
-
-pushed_images = []
-for img in images:
-    full_tag = f"{registry_prefix}/{img}:latest"
-    pushed = docker.Tag(
-        f"{img}-push",
-        source_image=f"{img}:latest",
-        target_image=full_tag,
-        opts=pulumi.ResourceOptions(depends_on=[registry]),
+    eks_cluster = eks.Cluster("eks-cluster",
+        vpc_id=eks_vpc.vpc_id,
+        authentication_mode=eks.AuthenticationMode.API,
+        public_subnet_ids=eks_vpc.public_subnet_ids,
+        private_subnet_ids=eks_vpc.private_subnet_ids,
+        instance_type=eks_node_instance_type,
+        desired_capacity=desired_cluster_size,
+        min_size=min_cluster_size,
+        
+        max_size=max_cluster_size,
+        node_associate_public_ip_address=False,
+        endpoint_private_access=False,
+        endpoint_public_access=True
     )
-    pushed_images.append(pushed)
+    
+    # Create Kubernetes provider from EKS cluster
+    k8s_provider = k8s.Provider("k8s-provider",
+        kubeconfig=eks_cluster.kubeconfig)
+    
+    # Export the kubeconfig for EKS
+    pulumi.export("kubeconfig", eks_cluster.kubeconfig)
 
-pulumi.export("pushed_images", [p.target_image for p in pushed_images])
+# Deploy each microservice
+deployments = {}
+services = {}
 
-app_name = "app-ui"
-app_labels = { "app": app_name }
+# Service configurations (adjust ports based on your actual app requirements)
+service_configs = {
+    "app-orders": {"port": 8080, "target_port": 8080},
+    "app-catalog": {"port": 8080, "target_port": 8080},
+    "app-cart": {"port": 8080, "target_port": 8080},
+    "app-checkout": {"port": 8080, "target_port": 8080},
+    "ui-ui": {"port": 8080, "target_port": 8080},
+}
 
-deployment = Deployment(
-    app_name,
-    spec={
-        "selector": { "match_labels": app_labels },
-        "replicas": 1,
-        "template": {
-            "metadata": { "labels": app_labels },
-            "spec": { "containers": [{ "name": app_name, "image": f"vicradon/timeapi" }] }
-        }
-    })
+for image_name in images:
+    app_labels = {"app": image_name}
+    
+    # Set provider based on environment
+    deployment_opts = pulumi.ResourceOptions(depends_on=[built_images[image_name]])
+    service_opts = pulumi.ResourceOptions()
+    
+    if not is_minikube:
+        deployment_opts = pulumi.ResourceOptions(
+            provider=k8s_provider,
+            depends_on=[built_images[image_name]]
+        )
+        service_opts = pulumi.ResourceOptions(provider=k8s_provider)
+    
+    # Create deployment
+    deployment = Deployment(
+        image_name,
+        spec={
+            "selector": {"match_labels": app_labels},
+            "replicas": 1,
+            "template": {
+                "metadata": {"labels": app_labels},
+                "spec": {
+                    "containers": [{
+                        "name": image_name,
+                        "image": built_images[image_name].image_uri,
+                    }]
+                }
+            }
+        },
+        opts=deployment_opts
+    )
+    deployments[image_name] = deployment
+    
+    # Create service
+    service = Service(
+        f"{image_name}-service",
+        metadata={
+            "labels": app_labels,
+        },
+        spec={
+            "type": "NodePort" if is_minikube else "LoadBalancer",
+            "ports": [{
+                "port": service_configs[image_name]["port"],
+                "target_port": service_configs[image_name]["target_port"],
+                "protocol": "TCP"
+            }],
+            "selector": app_labels,
+        },
+        opts=service_opts
+    )
+    services[image_name] = service
 
-# Allocate an IP to the Deployment.
-frontend = Service(
-    app_name,
-    metadata={
-        "labels": deployment.spec["template"]["metadata"]["labels"],
-    },
-    spec={
-        "type": "NodePort" if is_minikube else "LoadBalancer",
-        # port is 2500, services within kubernetes use it. target port is 4500, the app runs there
-        "ports": [{ "port": 2500, "target_port": 4500, "protocol": "TCP" }],
-        "selector": app_labels,
-    })
-
-# When "done", this will print the public IP.
-result = None
+# Export URLs for each service
 if is_minikube:
-    result = frontend.spec.apply(lambda v: v["cluster_ip"] if "cluster_ip" in v else None)
-
     try:
         minikube_ip = subprocess.run(
             ["minikube", "ip"], capture_output=True, text=True, check=True
         ).stdout.strip()
     except Exception:
         minikube_ip = "unknown"
-
-    # Extract nodePort dynamically
-    node_port = frontend.spec.apply(
-        lambda spec: spec["ports"][0]["node_port"] if "ports" in spec else None
-    )
-
-    # Build full URL like: http://192.168.49.2:31501
-    url = node_port.apply(lambda p: f"http://{minikube_ip}:{p}" if p else "unknown")
-    pulumi.export("url", url)
+    
+    for image_name, service in services.items():
+        node_port = service.spec.apply(
+            lambda spec: spec["ports"][0]["node_port"] if "ports" in spec else None
+        )
+        url = node_port.apply(lambda p: f"http://{minikube_ip}:{p}" if p else "unknown")
+        pulumi.export(f"{image_name}_url", url)
 else:
-    ingress = frontend.status.load_balancer.apply(lambda v: v["ingress"][0] if "ingress" in v else "output<string>")
-    result = ingress.apply(lambda v: v["ip"] if v and "ip" in v else (v["hostname"] if v and "hostname" in v else "output<string>"))
-
-pulumi.export("ip", result)
+    for image_name, service in services.items():
+        # Use apply() to access the Output value
+        url = service.status.apply(
+            lambda status: status["load_balancer"]["ingress"][0]["hostname"] 
+            if status and "load_balancer" in status 
+            and status["load_balancer"] 
+            and "ingress" in status["load_balancer"]
+            and len(status["load_balancer"]["ingress"]) > 0
+            and "hostname" in status["load_balancer"]["ingress"][0]
+            else None
+        )
+        pulumi.export(f"{image_name}_url", url)
