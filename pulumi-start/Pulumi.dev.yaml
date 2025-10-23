@@ -1,8 +1,2 @@
 config:
   aws:region: eu-north-1
-  retailstore:desiredClusterSize: "2"
-  retailstore:eksNodeInstanceType: t3.medium
-  retailstore:maxClusterSize: "3"
-  retailstore:minClusterSize: "1"
-  retailstore:vpcNetworkCidr: 10.0.0.0/16
-  retailstore:isMinikube: "false"
