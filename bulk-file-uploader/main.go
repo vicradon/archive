@@ -6,10 +6,12 @@ import (
 	"html/template"
 	"io"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -36,6 +38,17 @@ var sessions = make(map[string]*UploadSession)
 var sessionsMu sync.RWMutex
 
 var tmpl *template.Template
+var uploadsTmpl *template.Template
+
+type FileInfo struct {
+	Name string
+	Size int64
+	Path string
+}
+
+type UploadsPageData struct {
+	Files []FileInfo
+}
 
 type PageData struct {
 	Message     string
@@ -49,6 +62,15 @@ func main() {
 		log.Fatalf("Error loading template: %v", err)
 	}
 
+	funcMap := template.FuncMap{
+		"formatFileSize": formatFileSize,
+	}
+
+	uploadsTmpl, err = template.New("uploads.html").Funcs(funcMap).ParseFiles("templates/uploads.html")
+	if err != nil {
+		log.Fatalf("Error loading uploads template: %v", err)
+	}
+
 	if err := os.MkdirAll(ongoingDir, 0755); err != nil {
 		log.Fatal("Failed to create ongoing directory:", err)
 	}
@@ -58,6 +80,9 @@ func main() {
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/uploads", uploadsHandler)
+	http.HandleFunc("/download/", downloadHandler)
+	http.HandleFunc("/delete/", deleteHandler)
 	http.HandleFunc("/upload-chunk", uploadChunkHandler)
 	http.HandleFunc("/cancel", cancelHandler)
 	http.HandleFunc("/status", statusHandler)
@@ -68,6 +93,142 @@ func main() {
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, PageData{})
+}
+
+func uploadsHandler(w http.ResponseWriter, r *http.Request) {
+	files, err := getUploadedFiles()
+	if err != nil {
+		log.Printf("Error getting uploaded files: %v", err)
+		http.Error(w, "Error reading uploads directory", http.StatusInternalServerError)
+		return
+	}
+
+	data := UploadsPageData{
+		Files: files,
+	}
+
+	err = uploadsTmpl.Execute(w, data)
+	if err != nil {
+		log.Printf("Error executing uploads template: %v", err)
+		http.Error(w, "Error rendering page", http.StatusInternalServerError)
+	}
+}
+
+func formatFileSize(bytes int64) string {
+	if bytes == 0 {
+		return "0 Bytes"
+	}
+	const k = 1024
+	sizes := []string{"Bytes", "KB", "MB", "GB"}
+	i := int(math.Log(float64(bytes)) / math.Log(float64(k)))
+	return fmt.Sprintf("%.1f %s", float64(bytes)/math.Pow(float64(k), float64(i)), sizes[i])
+}
+
+func downloadHandler(w http.ResponseWriter, r *http.Request) {
+	filename := r.URL.Path[len("/download/"):]
+	if filename == "" {
+		http.Error(w, "Filename required", http.StatusBadRequest)
+		return
+	}
+
+	filename = filepath.Clean(filename)
+	filePath := filepath.Join(completedDir, filename)
+	fmt.Println("Downloading", filePath)
+
+	absCompletedDir, err := filepath.Abs(completedDir)
+	if err != nil {
+		http.Error(w, "Error processing directory", http.StatusInternalServerError)
+		return
+	}
+
+	absFilePath, err := filepath.Abs(filePath)
+	if err != nil {
+		http.Error(w, "Error processing file path", http.StatusInternalServerError)
+		return
+	}
+
+	if !strings.HasPrefix(absFilePath, absCompletedDir+string(filepath.Separator)) &&
+		absFilePath != absCompletedDir {
+		http.Error(w, "Invalid file path", http.StatusBadRequest)
+		return
+	}
+
+	info, err := os.Stat(filePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			http.Error(w, "File not found", http.StatusNotFound)
+		} else {
+			http.Error(w, "Error accessing file", http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", filename))
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Header().Set("Content-Length", fmt.Sprintf("%d", info.Size()))
+
+	http.ServeFile(w, r, filePath)
+}
+
+func deleteHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodDelete {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	filename := r.URL.Path[len("/delete/"):]
+	if filename == "" {
+		http.Error(w, "Filename required", http.StatusBadRequest)
+		return
+	}
+
+	filePath := filepath.Join(completedDir, filename)
+
+	// Security check to prevent directory traversal
+	if !strings.HasPrefix(filePath, completedDir) {
+		http.Error(w, "Invalid file path", http.StatusBadRequest)
+		return
+	}
+
+	// Check if file exists and delete it
+	err := os.Remove(filePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			http.Error(w, "File not found", http.StatusNotFound)
+		} else {
+			http.Error(w, "Error deleting file", http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+}
+
+func getUploadedFiles() ([]FileInfo, error) {
+	var files []FileInfo
+
+	entries, err := os.ReadDir(completedDir)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			info, err := entry.Info()
+			if err != nil {
+				continue
+			}
+
+			files = append(files, FileInfo{
+				Name: entry.Name(),
+				Size: info.Size(),
+				Path: filepath.Join(completedDir, entry.Name()),
+			})
+		}
+	}
+
+	return files, nil
 }
 
 func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
