@@ -16,8 +16,8 @@ import (
 )
 
 const (
-	ongoingDir   = "./uploads/ongoing"
-	completedDir = "./uploads/completed"
+	ongoingDir   = "uploads/ongoing"
+	completedDir = "uploads/completed"
 )
 
 type ByteRange struct {
@@ -40,6 +40,16 @@ var sessionsMu sync.RWMutex
 var tmpl *template.Template
 var uploadsTmpl *template.Template
 
+var (
+	absOngoingDir   string
+	absCompletedDir string
+)
+
+func getExecutableDir() string {
+	// Return the absolute path to the fileserver directory
+	return "C:\\Users\\USER\\codes\\fileserver"
+}
+
 type FileInfo struct {
 	Name string
 	Size int64
@@ -56,8 +66,11 @@ type PageData struct {
 }
 
 func main() {
+	execDir := getExecutableDir()
+
 	var err error
-	tmpl, err = template.ParseFiles("templates/index.html")
+	tmplPath := filepath.Join(execDir, "templates", "index.html")
+	tmpl, err = template.ParseFiles(tmplPath)
 	if err != nil {
 		log.Fatalf("Error loading template: %v", err)
 	}
@@ -66,19 +79,24 @@ func main() {
 		"formatFileSize": formatFileSize,
 	}
 
-	uploadsTmpl, err = template.New("uploads.html").Funcs(funcMap).ParseFiles("templates/uploads.html")
+	uploadsTmplPath := filepath.Join(execDir, "templates", "uploads.html")
+	uploadsTmpl, err = template.New("uploads.html").Funcs(funcMap).ParseFiles(uploadsTmplPath)
 	if err != nil {
 		log.Fatalf("Error loading uploads template: %v", err)
 	}
 
-	if err := os.MkdirAll(ongoingDir, 0755); err != nil {
+	absOngoingDir = filepath.Join(execDir, ongoingDir)
+	absCompletedDir = filepath.Join(execDir, completedDir)
+
+	if err := os.MkdirAll(absOngoingDir, 0755); err != nil {
 		log.Fatal("Failed to create ongoing directory:", err)
 	}
-	if err := os.MkdirAll(completedDir, 0755); err != nil {
+	if err := os.MkdirAll(absCompletedDir, 0755); err != nil {
 		log.Fatal("Failed to create completed directory:", err)
 	}
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	staticDir := filepath.Join(execDir, "static")
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(staticDir))))
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/uploads", uploadsHandler)
 	http.HandleFunc("/download/", downloadHandler)
@@ -132,14 +150,8 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	filename = filepath.Clean(filename)
-	filePath := filepath.Join(completedDir, filename)
+	filePath := filepath.Join(absCompletedDir, filename)
 	fmt.Println("Downloading", filePath)
-
-	absCompletedDir, err := filepath.Abs(completedDir)
-	if err != nil {
-		http.Error(w, "Error processing directory", http.StatusInternalServerError)
-		return
-	}
 
 	absFilePath, err := filepath.Abs(filePath)
 	if err != nil {
@@ -182,10 +194,10 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	filePath := filepath.Join(completedDir, filename)
+	filePath := filepath.Join(absCompletedDir, filename)
 
 	// Security check to prevent directory traversal
-	if !strings.HasPrefix(filePath, completedDir) {
+	if !strings.HasPrefix(filePath, absCompletedDir) {
 		http.Error(w, "Invalid file path", http.StatusBadRequest)
 		return
 	}
@@ -208,7 +220,7 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 func getUploadedFiles() ([]FileInfo, error) {
 	var files []FileInfo
 
-	entries, err := os.ReadDir(completedDir)
+	entries, err := os.ReadDir(absCompletedDir)
 	if err != nil {
 		return nil, err
 	}
@@ -223,7 +235,7 @@ func getUploadedFiles() ([]FileInfo, error) {
 			files = append(files, FileInfo{
 				Name: entry.Name(),
 				Size: info.Size(),
-				Path: filepath.Join(completedDir, entry.Name()),
+				Path: filepath.Join(absCompletedDir, entry.Name()),
 			})
 		}
 	}
@@ -273,7 +285,7 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 	sessionsMu.Lock()
 	session, exists := sessions[sessionID]
 	if !exists {
-		filePath := filepath.Join(ongoingDir, filename)
+		filePath := filepath.Join(absOngoingDir, filename)
 
 		file, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0644)
 		if err != nil {
@@ -368,7 +380,7 @@ func uploadChunkHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Upload complete for %s", filename)
 
 		oldPath := session.File.Name()
-		newPath := filepath.Join(completedDir, filename)
+		newPath := filepath.Join(absCompletedDir, filename)
 
 		session.File.Close()
 
