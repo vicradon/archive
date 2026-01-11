@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosine Similarity Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 16px;
+            flex: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .canvas-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            flex: 1;
+            min-height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .canvas-wrapper {
+                min-height: 350px;
+            }
+        }
+
+        #vectorCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+
+        .controls-card {
+            position: sticky;
+            top: 16px;
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+        }
+
+        .control-section {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .control-section:last-child {
+            border-bottom: none;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .slider-control {
+            margin: 12px 0;
+        }
+
+        .slider-control label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 4px;
+            color: var(--muted-foreground);
+        }
+
+        .slider-control input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--input);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 2px solid var(--background);
+        }
+
+        .slider-control input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 2px solid var(--background);
+        }
+
+        .vector-item.selected {
+            border-color: var(--ring);
+            background: var(--muted);
+        }
+
+        /* Mobile selected vector controls - positioned near canvas */
+        .mobile-vector-controls {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .desktop-vector-controls {
+                display: none;
+            }
+
+            .mobile-vector-controls {
+                display: block;
+            }
+
+            .controls-card .control-section {
+                padding: 12px;
+            }
+        }
+
+        .component-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .component-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .component-input label {
+            font-size: 14px;
+            font-weight: 600;
+            min-width: 20px;
+        }
+
+        .component-input input {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        .close-controls {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .close-controls:hover {
+            background: var(--accent);
+        }
+
+        .value-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .value-input-group label {
+            flex: 1;
+            font-size: 12px;
+            color: var(--muted-foreground);
+        }
+
+        .value-input-group input[type="number"] {
+            width: 70px;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .value-input-group span {
+            font-size: 12px;
+            color: var(--muted-foreground);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="flex: 1;">
+        <header class="header">
+            <h1>Cosine Similarity Calculator</h1>
+            <nav class="nav">
+                <button class="btn btn-icon" id="themeToggle" aria-label="Toggle theme">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <a href="3d.html" class="btn">3D Mode</a>
+            </nav>
+        </header>
+
+        <div class="main-layout">
+            <div class="canvas-section">
+                <div class="card canvas-wrapper">
+                    <canvas id="vectorCanvas"></canvas>
+                </div>
+
+                <!-- Mobile: Selected vector controls (shown below canvas) -->
+                <div class="card mobile-vector-controls" id="mobileVectorControls" style="display: none;">
+                    <div class="card-header" style="position: relative;">
+                        <h2>Selected: <span id="mobileSelectedName">v1</span></h2>
+                        <button class="close-controls" id="closeMobileControls">×</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="component-inputs">
+                            <div class="component-input">
+                                <label for="componentX">X</label>
+                                <input type="number" id="componentX" class="input" step="0.1" placeholder="0.0">
+                            </div>
+                            <div class="component-input">
+                                <label for="componentY">Y</label>
+                                <input type="number" id="componentY" class="input" step="0.1" placeholder="0.0">
+                            </div>
+                        </div>
+
+                        <div class="slider-control">
+                            <div class="value-input-group">
+                                <label>Magnitude</label>
+                                <input type="number" id="mobileMagnitudeValue" class="input" step="0.1" min="0" value="1.0">
+                            </div>
+                            <input type="range" id="mobileMagnitudeSlider" min="0" max="20" step="0.1" value="1">
+                        </div>
+
+                        <div class="slider-control">
+                            <div class="value-input-group">
+                                <label>Angle</label>
+                                <input type="number" id="mobileAngleValue" class="input" step="1" min="0" max="360" value="0">
+                                <span>°</span>
+                            </div>
+                            <input type="range" id="mobileAngleSlider" min="0" max="360" step="1" value="0">
+                        </div>
+
+                        <div class="btn-group">
+                            <button class="btn flex-1" id="mobileDuplicateVector">Duplicate</button>
+                            <button class="btn flex-1" id="mobileDeleteVector">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Similarity Matrix</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="similarityMatrix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-card card">
+                <div class="control-section">
+                    <h3>Add Vector</h3>
+                    <p class="text-sm mb-4">Enter coordinates or click + drag on canvas</p>
+                    <label class="label">Coordinates</label>
+                    <input type="text" id="vectorInput" class="input mb-4" placeholder="[x, y] or [[x], [y]]">
+                    <button class="btn btn-primary btn-full" id="addVectorBtn">+ Add Vector</button>
+                </div>
+
+                <!-- Desktop: Selected vector controls -->
+                <div class="control-section desktop-vector-controls" id="desktopVectorControls" style="display: none;">
+                    <h3>Selected Vector</h3>
+                    <p class="text-sm mb-4" id="selectedVectorName">-</p>
+
+                    <div class="component-inputs">
+                        <div class="component-input">
+                            <label for="desktopComponentX">X</label>
+                            <input type="number" id="desktopComponentX" class="input" step="0.1" placeholder="0.0">
+                        </div>
+                        <div class="component-input">
+                            <label for="desktopComponentY">Y</label>
+                            <input type="number" id="desktopComponentY" class="input" step="0.1" placeholder="0.0">
+                        </div>
+                    </div>
+
+                    <div class="slider-control">
+                        <div class="value-input-group">
+                            <label>Magnitude</label>
+                            <input type="number" id="magnitudeValue" class="input" step="0.1" min="0" value="1.0">
+                        </div>
+                        <input type="range" id="magnitudeSlider" min="0" max="20" step="0.1" value="1">
+                    </div>
+
+                    <div class="slider-control">
+                        <div class="value-input-group">
+                            <label>Angle</label>
+                            <input type="number" id="angleValue" class="input" step="1" min="0" max="360" value="0">
+                            <span>°</span>
+                        </div>
+                        <input type="range" id="angleSlider" min="0" max="360" step="1" value="0">
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-sm flex-1" id="duplicateVector">Duplicate</button>
+                        <button class="btn btn-sm flex-1" id="deleteVector">Delete</button>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>All Vectors</h3>
+                    <div id="vectorsList" class="vector-list mt-4"></div>
+                    <button class="btn btn-sm btn-full mt-4" id="clearAllBtn">Clear All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vector-math.js"></script>
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // 2D Canvas Renderer
+        class Renderer2D {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.resize();
+                window.addEventListener('resize', () => {
+                    this.resize();
+                    if (window.app) window.app.render();
+                });
+            }
+
+            resize() {
+                const rect = this.canvas.parentElement.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
+                this.ctx.scale(dpr, dpr);
+                this.width = rect.width;
+                this.height = rect.height;
+                this.scale = Math.min(this.width, this.height) / 14;
+                this.origin = { x: this.width / 2, y: this.height / 2 };
+            }
+
+            clear() {
+                this.ctx.clearRect(0, 0, this.width, this.height);
+            }
+
+            drawGrid() {
+                const ctx = this.ctx;
+                const isDark = html.classList.contains('dark');
+                const gridColor = isDark ? '#27272a' : '#e4e4e7';
+                const axisColor = isDark ? '#52525b' : '#a1a1aa';
+
+                ctx.strokeStyle = gridColor;
+                ctx.lineWidth = 1;
+
+                const range = 7;
+                for (let i = -range; i <= range; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(this.origin.x + i * this.scale, 0);
+                    ctx.lineTo(this.origin.x + i * this.scale, this.height);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(0, this.origin.y - i * this.scale);
+                    ctx.lineTo(this.width, this.origin.y - i * this.scale);
+                    ctx.stroke();
+                }
+
+                ctx.strokeStyle = axisColor;
+                ctx.lineWidth = 2;
+
+                ctx.beginPath();
+                ctx.moveTo(0, this.origin.y);
+                ctx.lineTo(this.width, this.origin.y);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(this.origin.x, 0);
+                ctx.lineTo(this.origin.x, this.height);
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = axisColor;
+                ctx.font = '12px -apple-system, sans-serif';
+                for (let i = -range; i <= range; i++) {
+                    if (i !== 0) {
+                        ctx.fillText(i, this.origin.x + i * this.scale - 5, this.origin.y + 15);
+                        ctx.fillText(i, this.origin.x + 5, this.origin.y - i * this.scale + 4);
+                    }
+                }
+            }
+
+            drawVector(vector, isHighlighted) {
+                const ctx = this.ctx;
+                const endX = this.origin.x + vector.components[0] * this.scale;
+                const endY = this.origin.y - vector.components[1] * this.scale;
+
+                // Shadow for highlighted vectors
+                if (isHighlighted) {
+                    ctx.shadowColor = vector.color;
+                    ctx.shadowBlur = 10;
+                }
+
+                ctx.strokeStyle = vector.color;
+                ctx.lineWidth = isHighlighted ? 4 : 2;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(this.origin.x, this.origin.y);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                ctx.shadowBlur = 0;
+
+                // Arrow head
+                const angle = Math.atan2(this.origin.y - endY, endX - this.origin.x);
+                const headLen = 14;
+
+                ctx.fillStyle = vector.color;
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(
+                    endX - headLen * Math.cos(angle - Math.PI / 6),
+                    endY + headLen * Math.sin(angle - Math.PI / 6)
+                );
+                ctx.lineTo(
+                    endX - headLen * Math.cos(angle + Math.PI / 6),
+                    endY + headLen * Math.sin(angle + Math.PI / 6)
+                );
+                ctx.closePath();
+                ctx.fill();
+
+                // Label
+                ctx.fillStyle = vector.color;
+                ctx.font = 'bold 14px -apple-system, sans-serif';
+                ctx.fillText(vector.name, endX + 10, endY - 10);
+
+                // Hit area (wider for easier selection)
+                const buffer = 15;
+                vector.hitArea = {
+                    x1: Math.min(this.origin.x, endX) - buffer,
+                    y1: Math.min(this.origin.y, endY) - buffer,
+                    x2: Math.max(this.origin.x, endX) + buffer,
+                    y2: Math.max(this.origin.y, endY) + buffer
+                };
+            }
+
+            render(vectors, selectedVector) {
+                this.clear();
+                this.drawGrid();
+                vectors.forEach(v => this.drawVector(v, v === selectedVector));
+            }
+        }
+
+        // App
+        class App2D {
+            constructor() {
+                this.canvas = document.getElementById('vectorCanvas');
+                this.renderer = new Renderer2D(this.canvas);
+                this.vectors = [];
+                this.selectedVector = null;
+                this.vectorCounter = 0;
+                this.colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'];
+                this.isDragging = false;
+                this.dragStart = null;
+
+                this.initListeners();
+                this.render();
+            }
+
+            initListeners() {
+                // Add vector from input
+                document.getElementById('addVectorBtn').addEventListener('click', () => this.addFromInput());
+                document.getElementById('vectorInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.addFromInput();
+                });
+
+                // Clear all
+                document.getElementById('clearAllBtn').addEventListener('click', () => this.clearAll());
+
+                // Canvas interaction
+                this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
+                this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
+                this.canvas.addEventListener('mouseup', (e) => this.onMouseUp(e));
+                this.canvas.addEventListener('mouseleave', () => {
+                    this.isDragging = false;
+                    this.dragStart = null;
+                });
+
+                // Desktop magnitude controls
+                document.getElementById('magnitudeSlider').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const mag = parseFloat(e.target.value);
+                        document.getElementById('magnitudeValue').value = mag.toFixed(1);
+                        this.updateVectorMagnitude(mag);
+                    }
+                });
+
+                document.getElementById('magnitudeValue').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const mag = parseFloat(e.target.value);
+                        if (!isNaN(mag) && mag >= 0) {
+                            document.getElementById('magnitudeSlider').value = Math.min(mag, 20);
+                            this.updateVectorMagnitude(mag);
+                        }
+                    }
+                });
+
+                // Desktop angle controls
+                document.getElementById('angleSlider').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const angle = parseFloat(e.target.value);
+                        document.getElementById('angleValue').value = angle;
+                        this.updateVectorAngle(angle);
+                    }
+                });
+
+                document.getElementById('angleValue').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        let angle = parseFloat(e.target.value);
+                        if (!isNaN(angle)) {
+                            angle = angle % 360;
+                            if (angle < 0) angle += 360;
+                            document.getElementById('angleSlider').value = angle;
+                            document.getElementById('angleValue').value = Math.round(angle);
+                            this.updateVectorAngle(angle);
+                        }
+                    }
+                });
+
+                // Desktop component controls
+                document.getElementById('desktopComponentX').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const val = parseFloat(e.target.value);
+                        if (!isNaN(val)) {
+                            this.selectedVector.components[0] = val;
+                            this.syncControlsFromComponents();
+                        }
+                    }
+                });
+
+                document.getElementById('desktopComponentY').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const val = parseFloat(e.target.value);
+                        if (!isNaN(val)) {
+                            this.selectedVector.components[1] = val;
+                            this.syncControlsFromComponents();
+                        }
+                    }
+                });
+
+                document.getElementById('duplicateVector').addEventListener('click', () => this.duplicateVector());
+                document.getElementById('deleteVector').addEventListener('click', () => this.deleteSelected());
+
+                // Mobile controls
+                document.getElementById('closeMobileControls').addEventListener('click', () => {
+                    document.getElementById('mobileVectorControls').style.display = 'none';
+                    this.selectedVector = null;
+                    this.render();
+                });
+
+                // Mobile magnitude controls
+                document.getElementById('mobileMagnitudeSlider').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const mag = parseFloat(e.target.value);
+                        document.getElementById('mobileMagnitudeValue').value = mag.toFixed(1);
+                        this.updateVectorMagnitude(mag);
+                    }
+                });
+
+                document.getElementById('mobileMagnitudeValue').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const mag = parseFloat(e.target.value);
+                        if (!isNaN(mag) && mag >= 0) {
+                            document.getElementById('mobileMagnitudeSlider').value = Math.min(mag, 20);
+                            this.updateVectorMagnitude(mag);
+                        }
+                    }
+                });
+
+                // Mobile angle controls
+                document.getElementById('mobileAngleSlider').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const angle = parseFloat(e.target.value);
+                        document.getElementById('mobileAngleValue').value = angle;
+                        this.updateVectorAngle(angle);
+                    }
+                });
+
+                document.getElementById('mobileAngleValue').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        let angle = parseFloat(e.target.value);
+                        if (!isNaN(angle)) {
+                            angle = angle % 360;
+                            if (angle < 0) angle += 360;
+                            document.getElementById('mobileAngleSlider').value = angle;
+                            document.getElementById('mobileAngleValue').value = Math.round(angle);
+                            this.updateVectorAngle(angle);
+                        }
+                    }
+                });
+
+                // Mobile component controls
+                document.getElementById('componentX').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const val = parseFloat(e.target.value);
+                        if (!isNaN(val)) {
+                            this.selectedVector.components[0] = val;
+                            this.syncControlsFromComponents();
+                        }
+                    }
+                });
+
+                document.getElementById('componentY').addEventListener('input', (e) => {
+                    if (this.selectedVector) {
+                        const val = parseFloat(e.target.value);
+                        if (!isNaN(val)) {
+                            this.selectedVector.components[1] = val;
+                            this.syncControlsFromComponents();
+                        }
+                    }
+                });
+
+                document.getElementById('mobileDuplicateVector').addEventListener('click', () => this.duplicateVector());
+                document.getElementById('mobileDeleteVector').addEventListener('click', () => this.deleteSelected());
+            }
+
+            syncControlsFromComponents() {
+                if (!this.selectedVector) return;
+
+                const currentMag = VectorMath.magnitude(this.selectedVector.components);
+                const angle = Math.atan2(this.selectedVector.components[1], this.selectedVector.components[0]) * 180 / Math.PI;
+                const normalizedAngle = angle < 0 ? angle + 360 : angle;
+
+                // Desktop
+                document.getElementById('magnitudeSlider').value = Math.min(currentMag, 20);
+                document.getElementById('magnitudeValue').value = currentMag.toFixed(1);
+                document.getElementById('angleSlider').value = normalizedAngle;
+                document.getElementById('angleValue').value = Math.round(normalizedAngle);
+
+                // Mobile
+                document.getElementById('mobileMagnitudeSlider').value = Math.min(currentMag, 20);
+                document.getElementById('mobileMagnitudeValue').value = currentMag.toFixed(1);
+                document.getElementById('mobileAngleSlider').value = normalizedAngle;
+                document.getElementById('mobileAngleValue').value = Math.round(normalizedAngle);
+
+                this.render();
+                this.updateSimilarityMatrix();
+            }
+
+            getCanvasCoords(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                return {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+            }
+
+            onMouseDown(e) {
+                const { x, y } = this.getCanvasCoords(e);
+
+                // Check if clicking on existing vector
+                const clicked = this.vectors.find(v => {
+                    if (!v.hitArea) return false;
+                    return x >= v.hitArea.x1 && x <= v.hitArea.x2 && y >= v.hitArea.y1 && y <= v.hitArea.y2;
+                });
+
+                if (clicked) {
+                    this.selectVector(clicked);
+                } else {
+                    // Start dragging to create new vector
+                    this.isDragging = true;
+                    this.dragStart = { x, y };
+                }
+            }
+
+            onMouseMove(e) {
+                if (this.isDragging && this.dragStart) {
+                    const { x, y } = this.getCanvasCoords(e);
+                    this.render();
+                    this.drawPreview(x, y);
+                }
+            }
+
+            onMouseUp(e) {
+                if (this.isDragging && this.dragStart) {
+                    const { x, y } = this.getCanvasCoords(e);
+                    const worldX = (x - this.renderer.origin.x) / this.renderer.scale;
+                    const worldY = -(y - this.renderer.origin.y) / this.renderer.scale;
+
+                    // Only add if dragged far enough
+                    const dx = x - this.dragStart.x;
+                    const dy = y - this.dragStart.y;
+                    if (Math.sqrt(dx * dx + dy * dy) > 10) {
+                        this.addVector([Math.round(worldX * 10) / 10, Math.round(worldY * 10) / 10]);
+                    }
+                }
+                this.isDragging = false;
+                this.dragStart = null;
+            }
+
+            drawPreview(x, y) {
+                const ctx = this.renderer.ctx;
+                ctx.strokeStyle = '#71717a';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(this.renderer.origin.x, this.renderer.origin.y);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            addFromInput() {
+                const input = document.getElementById('vectorInput');
+                const parsed = VectorMath.parse(input.value);
+                if (!parsed || parsed.length < 2 || parsed.some(isNaN)) {
+                    alert('Invalid format. Use [x, y] or [[x], [y]]');
+                    return;
+                }
+                this.addVector([parsed[0], parsed[1]]);
+                input.value = '';
+            }
+
+            addVector(components) {
+                this.vectorCounter++;
+                this.vectors.push({
+                    id: this.vectorCounter,
+                    name: `v${this.vectorCounter}`,
+                    components,
+                    color: this.colors[this.vectors.length % this.colors.length]
+                });
+                this.updateUI();
+            }
+
+            selectVector(vector) {
+                this.selectedVector = vector;
+
+                // Desktop controls
+                const desktopControls = document.getElementById('desktopVectorControls');
+                desktopControls.style.display = 'block';
+                document.getElementById('selectedVectorName').textContent =
+                    `${vector.name} = [${vector.components.map(c => c.toFixed(1)).join(', ')}]`;
+
+                // Mobile controls
+                const mobileControls = document.getElementById('mobileVectorControls');
+                const isMobile = window.innerWidth <= 1024;
+                if (isMobile) {
+                    mobileControls.style.display = 'block';
+                    document.getElementById('mobileSelectedName').textContent = vector.name;
+                }
+
+                // Update component inputs
+                document.getElementById('desktopComponentX').value = vector.components[0];
+                document.getElementById('desktopComponentY').value = vector.components[1];
+                document.getElementById('componentX').value = vector.components[0];
+                document.getElementById('componentY').value = vector.components[1];
+
+                // Update sliders and value inputs
+                const currentMag = VectorMath.magnitude(vector.components);
+                const angle = Math.atan2(vector.components[1], vector.components[0]) * 180 / Math.PI;
+                const normalizedAngle = angle < 0 ? angle + 360 : angle;
+
+                // Desktop
+                document.getElementById('magnitudeSlider').value = Math.min(currentMag, 20);
+                document.getElementById('magnitudeValue').value = currentMag.toFixed(1);
+                document.getElementById('angleSlider').value = normalizedAngle;
+                document.getElementById('angleValue').value = Math.round(normalizedAngle);
+
+                // Mobile
+                document.getElementById('mobileMagnitudeSlider').value = Math.min(currentMag, 20);
+                document.getElementById('mobileMagnitudeValue').value = currentMag.toFixed(1);
+                document.getElementById('mobileAngleSlider').value = normalizedAngle;
+                document.getElementById('mobileAngleValue').value = Math.round(normalizedAngle);
+
+                this.updateVectorsList();
+                this.render();
+            }
+
+            updateVectorMagnitude(mag) {
+                if (!this.selectedVector) return;
+                const current = VectorMath.normalize(this.selectedVector.components);
+                this.selectedVector.components = current.map(c => c * mag);
+                this.updateUI(false);
+            }
+
+            updateVectorAngle(angle) {
+                if (!this.selectedVector) return;
+                const mag = VectorMath.magnitude(this.selectedVector.components);
+                const rad = angle * Math.PI / 180;
+                this.selectedVector.components = [
+                    mag * Math.cos(rad),
+                    mag * Math.sin(rad)
+                ];
+                this.updateUI(false);
+            }
+
+            duplicateVector() {
+                if (!this.selectedVector) return;
+                this.addVector([...this.selectedVector.components]);
+            }
+
+            deleteSelected() {
+                if (!this.selectedVector) return;
+                this.deleteVector(this.selectedVector.id);
+            }
+
+            deleteVector(id) {
+                this.vectors = this.vectors.filter(v => v.id !== id);
+                if (this.selectedVector?.id === id) {
+                    this.selectedVector = null;
+                    document.getElementById('desktopVectorControls').style.display = 'none';
+                    document.getElementById('mobileVectorControls').style.display = 'none';
+                }
+                this.updateUI();
+            }
+
+            clearAll() {
+                this.vectors = [];
+                this.selectedVector = null;
+                document.getElementById('desktopVectorControls').style.display = 'none';
+                document.getElementById('mobileVectorControls').style.display = 'none';
+                this.updateUI();
+            }
+
+            updateUI(updateComponentInputs = true) {
+                this.render();
+                this.updateVectorsList();
+                this.updateSimilarityMatrix();
+                if (this.selectedVector) {
+                    const nameText = `${this.selectedVector.name} = [${this.selectedVector.components.map(c => c.toFixed(1)).join(', ')}]`;
+                    document.getElementById('selectedVectorName').textContent = nameText;
+                    document.getElementById('mobileSelectedName').textContent = this.selectedVector.name;
+
+                    if (updateComponentInputs) {
+                        document.getElementById('desktopComponentX').value = this.selectedVector.components[0];
+                        document.getElementById('desktopComponentY').value = this.selectedVector.components[1];
+                        document.getElementById('componentX').value = this.selectedVector.components[0];
+                        document.getElementById('componentY').value = this.selectedVector.components[1];
+                    }
+                }
+            }
+
+            updateVectorsList() {
+                const list = document.getElementById('vectorsList');
+                list.innerHTML = this.vectors.map(v => `
+                    <div class="vector-item ${v === this.selectedVector ? 'selected' : ''}" onclick="window.app.selectVectorById(${v.id})">
+                        <div class="vector-color" style="background: ${v.color}"></div>
+                        <div class="vector-info">
+                            <div class="vector-name">${v.name}</div>
+                            <div class="vector-coords">[${v.components.map(c => c.toFixed(1)).join(', ')}]</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            selectVectorById(id) {
+                const vector = this.vectors.find(v => v.id === id);
+                if (vector) this.selectVector(vector);
+            }
+
+            updateSimilarityMatrix() {
+                const container = document.getElementById('similarityMatrix');
+                if (this.vectors.length < 2) {
+                    container.innerHTML = '<p class="text-sm text-center">Add at least 2 vectors to see similarities</p>';
+                    return;
+                }
+
+                let html = '<table class="table"><thead><tr><th></th>';
+                this.vectors.forEach(v => html += `<th>${v.name}</th>`);
+                html += '</tr></thead><tbody>';
+
+                this.vectors.forEach(v1 => {
+                    html += `<tr><th>${v1.name}</th>`;
+                    this.vectors.forEach(v2 => {
+                        const sim = VectorMath.cosineSimilarity(v1.components, v2.components);
+                        const cls = Math.abs(sim) >= 0.8 ? 'similarity-high' : Math.abs(sim) >= 0.5 ? 'similarity-medium' : 'similarity-low';
+                        html += `<td><span class="${cls}">${sim.toFixed(3)}</span></td>`;
+                    });
+                    html += '</tr>';
+                });
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+
+            render() {
+                this.renderer.render(this.vectors, this.selectedVector);
+            }
+        }
+
+        window.app = new App2D();
+    </script>
+</body>
+</html>
