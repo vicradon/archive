@@ -51,6 +51,9 @@ body {
   color: var(--foreground);
   line-height: 1.5;
   transition: background 0.2s, color 0.2s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .container {
@@ -95,6 +98,8 @@ body {
   cursor: pointer;
   transition: all 0.15s;
   text-decoration: none;
+  border: none; /* Reset if needed but original had border */
+  border: 1px solid var(--border); /* Restore */
 }
 
 .btn:hover {
@@ -354,4 +359,214 @@ body {
     width: 100%;
     justify-content: space-between;
   }
+}
+
+/* Additional styles from index.html internal style tag */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 16px;
+    flex: 1;
+}
+
+@media (max-width: 1024px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.canvas-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.canvas-wrapper {
+    position: relative;
+    flex: 1;
+    min-height: 400px;
+}
+
+@media (max-width: 768px) {
+    .canvas-wrapper {
+        min-height: 350px;
+    }
+}
+
+#vectorCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+.controls-card {
+    position: sticky;
+    top: 16px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+}
+
+.control-section {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.control-section:last-child {
+    border-bottom: none;
+}
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.slider-control {
+    margin: 12px 0;
+}
+
+.slider-control label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: var(--muted-foreground);
+}
+
+.slider-control input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--input);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.slider-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 2px solid var(--background);
+}
+
+.slider-control input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 2px solid var(--background);
+}
+
+.vector-item.selected {
+    border-color: var(--ring);
+    background: var(--muted);
+}
+
+/* Mobile selected vector controls - positioned near canvas */
+.mobile-vector-controls {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .desktop-vector-controls {
+        display: none;
+    }
+
+    .mobile-vector-controls {
+        display: block;
+    }
+
+    .controls-card .control-section {
+        padding: 12px;
+    }
+}
+
+.component-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.component-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.component-input label {
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 20px;
+}
+
+.component-input input {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.close-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.close-controls:hover {
+    background: var(--accent);
+}
+
+.value-input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.value-input-group label {
+    flex: 1;
+    font-size: 12px;
+    color: var(--muted-foreground);
+}
+
+.value-input-group input[type="number"] {
+    width: 70px;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.value-input-group span {
+    font-size: 12px;
+    color: var(--muted-foreground);
+}
+
+/* 3D specific ones */
+.rotation-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.rotation-controls button {
+    flex: 1;
 }

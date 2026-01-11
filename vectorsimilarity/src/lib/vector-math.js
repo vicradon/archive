@@ -1,5 +1,5 @@
 // Vector Math Utilities
-const VectorMath = {
+export const VectorMath = {
     parse(input) {
         input = input.trim();
         if (input.startsWith('[[') && input.endsWith(']]')) {
