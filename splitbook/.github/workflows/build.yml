@@ -2,8 +2,7 @@ name: Build
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -22,8 +21,17 @@ jobs:
       run: |
         chmod +x build.sh
         ./build.sh
-    - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v2
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.2
       with:
-        files: bin/*
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        default_bump: patch
+        custom_tag: "v1.0.${{ github.run_number }}"
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "bin/*"
+        tag: ${{ steps.tag_version.outputs.new_tag }}
+        name: Release ${{ steps.tag_version.outputs.new_tag }}
+        body: ${{ steps.tag_version.outputs.changelog }}
