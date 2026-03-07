@@ -40,3 +40,13 @@ The resulting binaries will be placed in the `bin/` directory.
 ## Dependencies
 
 - [github.com/pdfcpu/pdfcpu](https://github.com/pdfcpu/pdfcpu)
+
+### Recommended: Ghostscript
+
+For the best performance, especially when extracting from very large PDF files, `splitbook` relies on [Ghostscript](https://ghostscript.com/releases/index.html).
+
+If Ghostscript (`gs`, `gswin64c.exe`, etc.) is available on the system `PATH` or bundled in the exact same directory as the `splitbook` executable, the tool will:
+- Extract pages significantly faster.
+- Provide a real-time terminal progress bar (when extracting > 5 pages).
+
+*Note: If Ghostscript is not found, `splitbook` will gracefully fall back to its internal `pdfcpu` engine.*
