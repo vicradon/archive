@@ -1,0 +1,4 @@
+bin/
+splitbook
+test.go
+test_out.pdf
