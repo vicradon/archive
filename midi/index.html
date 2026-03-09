@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale Alternator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --border: #2a2a32;
+    --accent: #c8f060;
+    --accent2: #60c8f0;
+    --text: #e8e8f0;
+    --muted: #6a6a80;
+    --playing-low: #f0a060;
+    --playing-high: #60c8f0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  header {
+    margin-bottom: 48px;
+    text-align: left;
+  }
+
+  .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 14px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* Scale row */
+  .scale-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .scale-row label {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    min-width: 40px;
+  }
+
+  select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236a6a80'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+    transition: border-color 0.15s;
+  }
+
+  select:focus { outline: none; border-color: var(--accent); }
+
+  /* Interval display */
+  .interval-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-top: 12px;
+  }
+
+  .interval-badge b { color: var(--accent2); }
+
+  /* Speed control */
+  .speed-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 180px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .speed-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    min-width: 50px;
+  }
+
+  /* Sequence preview */
+  .sequence-grid {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .seq-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .seq-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--muted);
+    transition: all 0.1s;
+    min-width: 42px;
+    text-align: center;
+  }
+
+  .seq-note.active-low {
+    background: var(--playing-low);
+    color: #000;
+    border-color: var(--playing-low);
+  }
+
+  .seq-note.active-high {
+    background: var(--playing-high);
+    color: #000;
+    border-color: var(--playing-high);
+  }
+
+  .seq-arrow {
+    font-size: 9px;
+    color: var(--border);
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    padding: 14px 28px;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+
+  .btn-play {
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+  }
+
+  .btn-play:hover { background: #d8ff70; }
+  .btn-play:active { transform: scale(0.97); }
+
+  .btn-stop {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-stop:hover { color: var(--text); border-color: var(--muted); }
+
+  .btn-play:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Status */
+  .status {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: background 0.2s;
+  }
+
+  .dot.playing { background: var(--accent); animation: pulse 0.8s ease-in-out infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Loop toggle */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .toggle {
+    width: 36px; height: 20px;
+    background: var(--border);
+    border-radius: 10px;
+    position: relative;
+    transition: background 0.2s;
+    cursor: pointer;
+    border: none;
+    flex-shrink: 0;
+  }
+
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    background: var(--muted);
+    border-radius: 50%;
+    top: 3px; left: 3px;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .toggle.on { background: #1e3a1a; }
+  .toggle.on::after { transform: translateX(16px); background: var(--accent); }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">Web Audio API + Tone.js</div>
+    <h1>Scale<br><span>Alternator</span></h1>
+    <p class="subtitle">// pair two scales, hear them interleave</p>
+  </header>
+
+  <!-- Scale A -->
+  <div class="card">
+    <div class="card-label">Scale A — lower voice</div>
+    <div class="scale-row">
+      <label>Root</label>
+      <select id="rootA"></select>
+      <select id="typeA"></select>
+      <select id="octaveA"></select>
+    </div>
+  </div>
+
+  <!-- Scale B -->
+  <div class="card">
+    <div class="card-label">Scale B — upper voice</div>
+    <div class="scale-row">
+      <label>Root</label>
+      <select id="rootB"></select>
+      <select id="typeB"></select>
+      <select id="octaveB"></select>
+    </div>
+    <div class="interval-badge">interval: <b id="intervalLabel">—</b></div>
+  </div>
+
+  <!-- Sequence preview -->
+  <div class="card">
+    <div class="card-label">Sequence preview</div>
+    <div class="sequence-grid" id="seqGrid"></div>
+  </div>
+
+  <!-- Options -->
+  <div class="card">
+    <div class="card-label">Options</div>
+    <div class="speed-row" style="margin-bottom: 18px;">
+      <span style="font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);">Speed</span>
+      <input type="range" id="speedSlider" min="80" max="800" value="400" step="20">
+      <span class="speed-val" id="speedVal">400 ms</span>
+    </div>
+    <label class="toggle-row">
+      <button class="toggle" id="loopToggle" aria-pressed="false"></button>
+      Loop
+    </label>
+  </div>
+
+  <!-- Controls -->
+  <div class="card">
+    <div class="controls">
+      <button class="btn btn-play" id="playBtn">▶ Play</button>
+      <button class="btn btn-stop" id="stopBtn">■ Stop</button>
+      <div class="status">
+        <div class="dot" id="statusDot"></div>
+        <span id="statusText">idle</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Music theory data ──────────────────────────────────────────
+const NOTES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+
+const SCALES = {
+  'Major':         [0,2,4,5,7,9,11],
+  'Natural Minor': [0,2,3,5,7,8,10],
+  'Harmonic Minor':[0,2,3,5,7,8,11],
+  'Dorian':        [0,2,3,5,7,9,10],
+  'Phrygian':      [0,1,3,5,7,8,10],
+  'Lydian':        [0,2,4,6,7,9,11],
+  'Mixolydian':    [0,2,4,5,7,9,10],
+  'Pentatonic Maj':[0,2,4,7,9],
+  'Pentatonic Min':[0,3,5,7,10],
+  'Blues':         [0,3,5,6,7,10],
+  'Whole Tone':    [0,2,4,6,8,10],
+  'Chromatic':     [0,1,2,3,4,5,6,7,8,9,10,11],
+};
+
+const INTERVAL_NAMES = {
+  0:'Unison',1:'m2',2:'M2',3:'m3',4:'M3',5:'P4',
+  6:'TT',7:'P5',8:'m6',9:'M6',10:'m7',11:'M7',12:'Octave',
+  13:'m9',14:'M9',15:'m10',16:'M10',
+};
+
+function noteToMidi(name, octave) {
+  return NOTES.indexOf(name) + (octave + 1) * 12;
+}
+
+function midiToFreq(midi) {
+  return 440 * Math.pow(2, (midi - 69) / 12);
+}
+
+function getScaleNotes(root, type, octave) {
+  return SCALES[type].map(interval => {
+    const midi = noteToMidi(root, octave) + interval;
+    const noteName = NOTES[midi % 12];
+    const oct = Math.floor(midi / 12) - 1;
+    return { name: noteName + oct, midi, freq: midiToFreq(midi) };
+  });
+}
+
+function calcInterval(midiA, midiB) {
+  const diff = Math.abs(midiB - midiA);
+  return INTERVAL_NAMES[diff] || diff + ' semitones';
+}
+
+// ── DOM helpers ────────────────────────────────────────────────
+function populate(id, options, selected) {
+  const el = document.getElementById(id);
+  el.innerHTML = '';
+  options.forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = o; opt.textContent = o;
+    if (o == selected) opt.selected = true;
+    el.appendChild(opt);
+  });
+}
+
+function val(id) { return document.getElementById(id).value; }
+
+// ── Init selects ───────────────────────────────────────────────
+populate('rootA', NOTES, 'C');
+populate('rootB', NOTES, 'D');
+populate('typeA', Object.keys(SCALES), 'Major');
+populate('typeB', Object.keys(SCALES), 'Major');
+populate('octaveA', [2,3,4,5], 3);
+populate('octaveB', [3,4,5,6], 4);
+
+// ── Build sequence ─────────────────────────────────────────────
+function buildSequence() {
+  const scaleA = getScaleNotes(val('rootA'), val('typeA'), +val('octaveA'));
+  const scaleB = getScaleNotes(val('rootB'), val('typeB'), +val('octaveB'));
+  const len = Math.min(scaleA.length, scaleB.length);
+  const pairs = [];
+  for (let i = 0; i < len; i++) pairs.push([scaleA[i], scaleB[i]]);
+
+  // update interval badge
+  if (pairs.length > 0) {
+    document.getElementById('intervalLabel').textContent =
+      calcInterval(pairs[0][0].midi, pairs[0][1].midi);
+  }
+
+  return pairs;
+}
+
+// ── Render sequence grid ───────────────────────────────────────
+function renderGrid(pairs, activeStep = -1, activeVoice = -1) {
+  const grid = document.getElementById('seqGrid');
+  grid.innerHTML = '';
+  pairs.forEach(([a, b], i) => {
+    const step = document.createElement('div');
+    step.className = 'seq-step';
+    step.innerHTML = `
+      <div class="seq-note ${i === activeStep && activeVoice === 1 ? 'active-high' : ''}">${b.name}</div>
+      <div class="seq-arrow">↕</div>
+      <div class="seq-note ${i === activeStep && activeVoice === 0 ? 'active-low' : ''}">${a.name}</div>
+    `;
+    grid.appendChild(step);
+  });
+}
+
+// ── Tone.js synth ──────────────────────────────────────────────
+let synth = null;
+let playing = false;
+let stopRequested = false;
+let loopOn = false;
+
+function getSynth() {
+  if (!synth) {
+    synth = new Tone.PolySynth(Tone.Synth, {
+      oscillator: { type: 'triangle' },
+      envelope: { attack: 0.02, decay: 0.1, sustain: 0.5, release: 0.8 },
+    }).toDestination();
+    const reverb = new Tone.Reverb({ decay: 1.8, wet: 0.3 }).toDestination();
+    synth.connect(reverb);
+  }
+  return synth;
+}
+
+function setStatus(text, isPlaying) {
+  document.getElementById('statusText').textContent = text;
+  document.getElementById('statusDot').classList.toggle('playing', isPlaying);
+  document.getElementById('playBtn').disabled = isPlaying;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function play() {
+  if (playing) return;
+  await Tone.start();
+  playing = true;
+  stopRequested = false;
+  setStatus('playing…', true);
+
+  const s = getSynth();
+
+  do {
+    const pairs = buildSequence();
+    const dur = +document.getElementById('speedSlider').value;
+
+    for (let i = 0; i < pairs.length; i++) {
+      if (stopRequested) break;
+      const [low, high] = pairs[i];
+
+      renderGrid(pairs, i, 0);
+      s.triggerAttackRelease(low.freq, '8n');
+      await sleep(dur);
+      if (stopRequested) break;
+
+      renderGrid(pairs, i, 1);
+      s.triggerAttackRelease(high.freq, '8n');
+      await sleep(dur);
+    }
+
+    renderGrid(pairs);
+    if (stopRequested) break;
+  } while (loopOn && !stopRequested);
+
+  playing = false;
+  setStatus('idle', false);
+}
+
+function stop() {
+  stopRequested = true;
+  if (synth) synth.releaseAll();
+  playing = false;
+  setStatus('idle', false);
+  renderGrid(buildSequence());
+}
+
+// ── Event listeners ────────────────────────────────────────────
+document.getElementById('playBtn').addEventListener('click', play);
+document.getElementById('stopBtn').addEventListener('click', stop);
+
+document.getElementById('speedSlider').addEventListener('input', function() {
+  document.getElementById('speedVal').textContent = this.value + ' ms';
+});
+
+const loopBtn = document.getElementById('loopToggle');
+loopBtn.addEventListener('click', function() {
+  loopOn = !loopOn;
+  this.classList.toggle('on', loopOn);
+  this.setAttribute('aria-pressed', loopOn);
+});
+
+['rootA','typeA','octaveA','rootB','typeB','octaveB'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => {
+    renderGrid(buildSequence());
+  });
+});
+
+// ── Initial render ─────────────────────────────────────────────
+renderGrid(buildSequence());
+</script>
+</body>
+</html>
