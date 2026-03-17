@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docx Replacer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+  <script src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #111010;
+      --paper: #f4f1ea;
+      --paper2: #eae6db;
+      --white: #ffffff;
+      --accent: #c0392b;
+      --accent-soft: #f9ebe9;
+      --amber: #d4820a;
+      --green: #2a7a50;
+      --green-soft: #eaf5ef;
+      --muted: #8a8070;
+      --border: #d4cfc3;
+      --mono: 'DM Mono', monospace;
+      --sans: 'Syne', sans-serif;
+      --radius: 3px;
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--mono);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 13px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      border-bottom: 3px solid var(--accent);
+    }
+    .topbar-brand { font-family: var(--sans); font-weight: 800; font-size: 17px; letter-spacing: -0.5px; }
+    .topbar-brand span { color: var(--accent); }
+    .topbar-sub { font-size: 11px; color: rgba(244,241,234,0.45); letter-spacing: 0.07em; }
+
+    /* ── Workspace ── */
+    .workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(280px, 400px) 6px minmax(200px, 1fr);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .workspace.preview-collapsed {
+      grid-template-columns: 1fr 0 0;
+    }
+
+    .workspace.preview-collapsed .panel-preview {
+      width: 0;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .workspace.preview-collapsed .resize-handle,
+    .workspace.preview-collapsed .collapse-btn {
+      display: none;
+    }
+
+    /* ── Resize handle ── */
+    .resize-handle {
+      background: var(--border);
+      cursor: col-resize;
+      position: relative;
+      transition: background .2s;
+      user-select: none;
+    }
+
+    .resize-handle:hover,
+    .resize-handle.dragging {
+      background: var(--amber);
+    }
+
+    .resize-handle::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 4px;
+      height: 24px;
+      background: var(--muted);
+      opacity: 0.3;
+      border-radius: 2px;
+    }
+
+    .resize-handle:hover::after {
+      opacity: 0.5;
+    }
+
+    /* ── Left panel ── */
+    .panel-form {
+      border-right: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .form-scroll {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .form-scroll::-webkit-scrollbar { width: 4px; }
+    .form-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .panel-section {
+      padding: 18px 20px;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .section-label {
+      display: flex; align-items: center; gap: 9px; margin-bottom: 13px;
+    }
+    .section-label .num {
+      font-family: var(--sans); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; background: var(--ink); color: var(--paper);
+      padding: 2px 7px; border-radius: 2px;
+    }
+    .section-label > span { font-family: var(--sans); font-weight: 600; font-size: 13px; }
+
+    /* Drop zone */
+    #drop-zone {
+      border: 2px dashed var(--border); border-radius: var(--radius);
+      padding: 28px 14px; text-align: center; cursor: pointer;
+      position: relative; transition: border-color .2s, background .2s;
+    }
+    #drop-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    #drop-zone.over  { border-color: var(--accent); background: var(--accent-soft); }
+    #drop-zone.ready { border-style: solid; border-color: var(--green); background: var(--green-soft); }
+    .drop-icon { font-size: 26px; margin-bottom: 7px; display: block; }
+    .drop-main { font-family: var(--sans); font-weight: 700; font-size: 13px; }
+    .drop-sub  { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+    #file-info {
+      display: none; align-items: center; gap: 8px; margin-top: 10px;
+      padding: 7px 11px; background: var(--paper2);
+      border: 1.5px solid var(--border); border-radius: var(--radius); font-size: 12px;
+    }
+    #file-info.show { display: flex; }
+    .fname { font-weight: 500; color: var(--green); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .fsize { color: var(--muted); font-size: 11px; flex-shrink: 0; }
+    .remove-file {
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 15px; padding: 0 2px; line-height: 1;
+    }
+    .remove-file:hover { color: var(--accent); }
+
+    /* Presets */
+    .presets-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+    .preset-lbl { font-size: 10px; color: var(--muted); align-self: center; text-transform: uppercase; letter-spacing: 0.06em; }
+    .preset-btn {
+      font-family: var(--mono); font-size: 10px; padding: 3px 8px;
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      background: var(--paper2); cursor: pointer; color: var(--ink);
+      transition: border-color .15s, background .15s;
+    }
+    .preset-btn:hover { border-color: var(--amber); background: var(--white); }
+
+    /* Field rows */
+    .field-labels {
+      display: grid; grid-template-columns: 1fr 1fr 28px; gap: 7px; margin-bottom: 5px;
+    }
+    .field-label { font-size: 10px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+
+    #fields-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+
+    .field-row {
+      display: grid; grid-template-columns: 1fr 1fr 28px;
+      gap: 7px; align-items: center;
+      animation: rowIn .15s ease;
+    }
+    @keyframes rowIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+
+    .field-row input {
+      font-family: var(--mono); font-size: 12px;
+      padding: 6px 9px; border: 1.5px solid var(--border);
+      border-radius: var(--radius); background: var(--paper);
+      color: var(--ink); outline: none; transition: border-color .15s; width: 100%;
+    }
+    .field-row input:focus { border-color: var(--amber); background: #fff; }
+    .field-row input::placeholder { color: var(--muted); font-size: 11px; }
+    .field-row .key-input { color: #5a3e9a; font-weight: 500; }
+
+    .remove-row {
+      width: 28px; height: 28px; background: none;
+      border: 1.5px solid transparent; border-radius: var(--radius);
+      cursor: pointer; color: var(--muted); font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: color .15s, border-color .15s;
+    }
+    .remove-row:hover { color: var(--accent); border-color: var(--accent); }
+
+    .btn-add {
+      background: none; border: 1.5px dashed var(--border); border-radius: var(--radius);
+      padding: 6px 12px; font-family: var(--mono); font-size: 12px;
+      color: var(--muted); cursor: pointer; width: 100%;
+      display: flex; align-items: center; gap: 7px; justify-content: center;
+      transition: border-color .15s, color .15s;
+    }
+    .btn-add:hover { border-color: var(--amber); color: var(--ink); }
+
+    /* Submit */
+    .panel-footer {
+      padding: 14px 20px; background: var(--paper2);
+      border-top: 1.5px solid var(--border); flex-shrink: 0;
+    }
+    #submit-btn {
+      width: 100%; padding: 12px;
+      font-family: var(--sans); font-size: 13px; font-weight: 700;
+      background: var(--ink); color: var(--paper); border: none;
+      border-radius: var(--radius); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      transition: background .2s;
+    }
+    #submit-btn:hover:not(:disabled) { background: var(--accent); }
+    #submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .spinner {
+      display: none; width: 15px; height: 15px;
+      border: 2px solid rgba(255,255,255,.25); border-top-color: #fff;
+      border-radius: 50%; animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #submit-btn.loading .spinner { display: block; }
+    #submit-btn.loading .btn-lbl { opacity: .65; }
+
+    /* ── Right panel (preview) ── */
+    .panel-preview {
+      display: flex; flex-direction: column;
+      background: #252525; overflow: hidden;
+    }
+
+    .preview-bar {
+      background: #1a1a1a; border-bottom: 1px solid #333;
+      padding: 10px 18px; display: flex; align-items: center;
+      justify-content: space-between; flex-shrink: 0; min-height: 44px;
+      position: relative;
+    }
+
+    /* Collapse button */
+    .collapse-btn {
+      position: absolute;
+      left: -32px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 3px;
+      color: rgba(255,255,255,.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all .2s;
+      z-index: 10;
+    }
+
+    .collapse-btn:hover {
+      background: #252525;
+      color: rgba(255,255,255,.7);
+      border-color: var(--accent);
+    }
+
+    .workspace.preview-collapsed .collapse-btn {
+      left: -32px;
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .preview-title {
+      font-family: var(--sans); font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.35); letter-spacing: .1em; text-transform: uppercase;
+    }
+    .preview-title.active { color: rgba(255,255,255,.85); }
+
+    .preview-actions { display: flex; gap: 8px; align-items: center; }
+
+    .preview-pill {
+      font-family: var(--mono); font-size: 10px; padding: 3px 9px;
+      border-radius: 20px; letter-spacing: .04em;
+      background: rgba(255,255,255,.07); color: rgba(255,255,255,.4);
+    }
+    .preview-pill.original { background: rgba(42,122,80,.3); color: #6ee0a2; }
+    .preview-pill.filled   { background: rgba(192,57,43,.35); color: #f0847a; }
+
+    #download-btn {
+      font-family: var(--sans); font-size: 11px; font-weight: 700;
+      padding: 6px 13px; background: var(--accent); color: #fff;
+      border: none; border-radius: var(--radius); cursor: pointer;
+      letter-spacing: .04em; transition: opacity .15s;
+      display: none; align-items: center; gap: 6px;
+    }
+    #download-btn.show { display: flex; }
+    #download-btn:hover { opacity: .85; }
+
+    .preview-viewport {
+      flex: 1; overflow-y: auto; padding: 22px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+    }
+    .preview-viewport::-webkit-scrollbar { width: 5px; }
+    .preview-viewport::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 3px; }
+
+    /* Empty */
+    .preview-empty {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 12px; flex: 1;
+      color: rgba(255,255,255,.2); text-align: center; padding: 40px;
+    }
+    .preview-empty .empty-title { font-family: var(--sans); font-size: 15px; font-weight: 600; color: rgba(255,255,255,.22); }
+    .preview-empty .empty-sub { font-size: 11px; color: rgba(255,255,255,.16); max-width: 220px; line-height: 1.7; }
+
+    /* Loading */
+    .preview-loading {
+      display: none; flex-direction: column; align-items: center;
+      justify-content: center; gap: 14px; flex: 1; color: rgba(255,255,255,.4);
+    }
+    .preview-loading.show { display: flex; }
+    .big-spinner {
+      width: 34px; height: 34px;
+      border: 3px solid rgba(255,255,255,.1); border-top-color: rgba(255,255,255,.5);
+      border-radius: 50%; animation: spin .9s linear infinite;
+    }
+    .preview-loading p { font-size: 12px; }
+
+    /* docx-preview container */
+    #docx-render-container {
+      width: 100%; max-width: 800px;
+      background: transparent;
+      border-radius: 3px;
+      padding: 0;
+      display: none;
+      animation: fadeIn .3s ease forwards;
+    }
+    #docx-render-container.show { display: block; }
+    /* Override docx-preview internals for clean look */
+    #docx-render-container .docx-wrapper {
+      background: transparent !important;
+      padding: 20px 0 !important;
+    }
+    #docx-render-container .docx-wrapper > section.docx {
+      box-shadow: 0 1px 8px rgba(0,0,0,.18) !important;
+      margin-bottom: 16px !important;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* Error */
+    .page-counter { display: none; }
+    .preview-error {
+      background: rgba(192,57,43,.12); border: 1px solid rgba(192,57,43,.3);
+      border-radius: var(--radius); padding: 16px 20px; max-width: 480px;
+      color: #f0847a; font-size: 12px; line-height: 1.7; text-align: center;
+    }
+    .preview-error strong { display: block; margin-bottom: 5px; font-family: var(--sans); font-size: 13px; }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 22px; left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--ink); color: var(--paper);
+      font-size: 12px; padding: 9px 18px; border-radius: var(--radius);
+      transition: transform .25s ease; z-index: 999; white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.err { background: var(--accent); }
+
+    @media (max-width: 800px) {
+      html, body { overflow: auto; }
+      .workspace { grid-template-columns: 1fr; grid-template-rows: auto; overflow: visible; }
+      .workspace.preview-collapsed { grid-template-columns: 1fr; }
+      .panel-form { overflow: visible; }
+      .panel-preview { min-height: 60vh; }
+      .resize-handle { display: none; }
+      .collapse-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-brand">Docx <span>Replacer</span></div>
+  <div class="topbar-sub">drop → fill → preview → download</div>
+</header>
+
+<div class="workspace">
+
+  <!-- LEFT: Form -->
+  <div class="panel-form">
+    <div class="form-scroll">
+
+      <div class="panel-section">
+        <div class="section-label">
+          <span class="num">01</span><span>Upload Document</span>
+        </div>
+        <div id="drop-zone">
+          <input type="file" id="file-input" accept=".docx" />
+          <span class="drop-icon">📄</span>
+          <div class="drop-main">Drop your .docx here</div>
+          <div class="drop-sub">or click to browse</div>
+        </div>
+        <div id="file-info">
+          <span class="fname" id="fname-lbl"></span>
+          <span class="fsize" id="fsize-lbl"></span>
+          <button class="remove-file" id="remove-file" title="Remove file">×</button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-label">
+          <span class="num">02</span><span>Replacement Fields</span>
+        </div>
+
+        <div class="presets-wrap">
+          <span class="preset-lbl">Quick-add</span>
+          <button class="preset-btn" data-key="taskName">taskName</button>
+          <button class="preset-btn" data-key="taskCreatedDate">taskCreatedDate</button>
+          <button class="preset-btn" data-key="taskRevisionDate">taskRevisionDate</button>
+          <button class="preset-btn" data-key="taskWorkers">taskWorkers</button>
+          <button class="preset-btn" data-key="taskReviewers">taskReviewers</button>
+          <button class="preset-btn" data-key="taskClassification">taskClassification</button>
+          <button class="preset-btn" data-key="taskVersion">taskVersion</button>
+        </div>
+
+        <div class="field-labels">
+          <span class="field-label">Placeholder</span>
+          <span class="field-label">Value</span>
+          <span></span>
+        </div>
+
+        <div id="fields-list"></div>
+        <button class="btn-add" id="add-row">＋ Add field</button>
+      </div>
+
+    </div><!-- /form-scroll -->
+
+    <div class="panel-footer">
+      <button id="submit-btn" disabled>
+        <div class="spinner"></div>
+        <span class="btn-lbl">Generate &amp; Preview →</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Resize handle -->
+  <div class="resize-handle" id="resize-handle" title="Drag to resize"></div>
+
+  <!-- RIGHT: Preview -->
+  <div class="panel-preview">
+    <button class="collapse-btn" id="collapse-btn" title="Toggle preview panel">«</button>
+    <div class="preview-bar">
+      <span class="preview-title" id="preview-label">Preview</span>
+      <div class="preview-actions">
+        <span class="preview-pill" id="preview-pill" style="display:none"></span>
+        <button id="download-btn">↓ Download .docx</button>
+      </div>
+    </div>
+
+    <div class="preview-viewport" id="preview-viewport">
+      <div class="preview-empty" id="preview-empty">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <rect x="8" y="4" width="36" height="48" rx="3" fill="white" fill-opacity="0.12"/>
+          <rect x="14" y="15" width="24" height="2.5" rx="1.25" fill="white" fill-opacity="0.25"/>
+          <rect x="14" y="22" width="19" height="2.5" rx="1.25" fill="white" fill-opacity="0.25"/>
+          <rect x="14" y="29" width="22" height="2.5" rx="1.25" fill="white" fill-opacity="0.25"/>
+          <rect x="14" y="36" width="16" height="2.5" rx="1.25" fill="white" fill-opacity="0.25"/>
+        </svg>
+        <div class="empty-title">No preview yet</div>
+        <div class="empty-sub">Drop a .docx to see the original. Generate to preview the filled version.</div>
+      </div>
+      <div class="preview-loading" id="preview-loading">
+        <div class="big-spinner"></div>
+        <p id="loading-msg">Rendering…</p>
+      </div>
+      <div id="docx-render-container"></div>
+    </div>
+  </div>
+
+</div><!-- /workspace -->
+
+<div id="toast"></div>
+
+<script>
+  // ── State
+  let selectedFile   = null;
+  let pendingDownload = null; // { filename, base64 }
+  let isPreviewCollapsed = false;
+  let previewWidthPercent = 35; // Default preview width in percentage
+
+  // ── Refs
+  const dropZone       = document.getElementById('drop-zone');
+  const fileInput      = document.getElementById('file-input');
+  const fileInfo       = document.getElementById('file-info');
+  const fnameLbl       = document.getElementById('fname-lbl');
+  const fsizeLbl       = document.getElementById('fsize-lbl');
+  const removeFileBtn  = document.getElementById('remove-file');
+  const fieldsList     = document.getElementById('fields-list');
+  const addRowBtn      = document.getElementById('add-row');
+  const submitBtn      = document.getElementById('submit-btn');
+  const previewVP      = document.getElementById('preview-viewport');
+  const previewEmpty   = document.getElementById('preview-empty');
+  const previewLoading = document.getElementById('preview-loading');
+  const loadingMsg     = document.getElementById('loading-msg');
+  const previewLabel   = document.getElementById('preview-label');
+  const previewPill    = document.getElementById('preview-pill');
+  const downloadBtn    = document.getElementById('download-btn');
+  const toastEl        = document.getElementById('toast');
+  const resizeHandle   = document.getElementById('resize-handle');
+  const collapseBtn    = document.getElementById('collapse-btn');
+  const workspace      = document.querySelector('.workspace');
+
+  // ── Utilities
+  const fmtBytes = b => b < 1024 ? b+' B' : b < 1048576 ? (b/1024).toFixed(1)+' KB' : (b/1048576).toFixed(1)+' MB';
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  let toastTimer;
+  function toast(msg, err=false) {
+    toastEl.textContent = msg;
+    toastEl.className = 'show'+(err?' err':'');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>toastEl.className='', 3200);
+  }
+
+  function checkReady() {
+    const rows = [...fieldsList.querySelectorAll('.field-row')];
+    const anyValid = rows.some(r =>
+      r.querySelector('.key-input').value.trim() &&
+      r.querySelector('.val-input').value.trim()
+    );
+    submitBtn.disabled = !(selectedFile && rows.length > 0 && anyValid);
+  }
+
+  // ── Preview panel
+  const docxRenderContainer = document.getElementById('docx-render-container');
+
+  function clearDocxRender() {
+    docxRenderContainer.classList.remove('show');
+    docxRenderContainer.innerHTML = '';
+    previewVP.querySelectorAll('.preview-error').forEach(n => n.remove());
+  }
+
+  function showLoading(msg = 'Rendering…') {
+    previewEmpty.style.display = 'none';
+    loadingMsg.textContent = msg;
+    previewLoading.classList.add('show');
+    clearDocxRender();
+  }
+
+  function showEmpty() {
+    previewLoading.classList.remove('show');
+    previewEmpty.style.display = '';
+    clearDocxRender();
+    previewLabel.textContent = 'Preview';
+    previewLabel.classList.remove('active');
+    previewPill.style.display = 'none';
+    downloadBtn.classList.remove('show');
+    pendingDownload = null;
+  }
+
+  async function renderDocx(base64, title, pillText, pillClass) {
+    previewLoading.classList.remove('show');
+    previewEmpty.style.display = 'none';
+    clearDocxRender();
+    previewLabel.textContent = title;
+    previewLabel.classList.add('active');
+    previewPill.textContent = pillText;
+    previewPill.className = 'preview-pill ' + pillClass;
+    previewPill.style.display = '';
+
+    // Convert base64 → ArrayBuffer
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+
+    docxRenderContainer.classList.add('show');
+    await docx.renderAsync(bytes.buffer, docxRenderContainer, null, {
+      className: 'docx',
+      inWrapper: true,
+      ignoreWidth: false,
+      ignoreHeight: false,
+      ignoreFonts: false,
+      breakPages: true,
+      useBase64URL: true,
+      renderChanges: false,
+      renderHeaders: true,
+      renderFooters: true,
+    });
+    previewVP.scrollTop = 0;
+  }
+
+  function showError(msg) {
+    previewLoading.classList.remove('show');
+    previewEmpty.style.display = 'none';
+    clearDocxRender();
+    const div = document.createElement('div');
+    div.className = 'preview-error';
+    div.innerHTML = `<strong>Preview unavailable</strong>${esc(msg)}`;
+    previewVP.appendChild(div);
+    previewLabel.textContent = 'Preview error';
+    previewLabel.classList.add('active');
+    previewPill.style.display = 'none';
+  }
+
+  // ── File handling
+  async function setFile(file) {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith('.docx')) { toast('Please upload a .docx file.', true); return; }
+    selectedFile = file;
+    fnameLbl.textContent = file.name;
+    fsizeLbl.textContent = fmtBytes(file.size);
+    fileInfo.classList.add('show');
+    dropZone.classList.add('ready');
+    dropZone.querySelector('.drop-main').textContent = 'File ready';
+    downloadBtn.classList.remove('show');
+    pendingDownload = null;
+    checkReady();
+    // Auto-preview original
+    showLoading('Loading original document…');
+    const fd = new FormData();
+    fd.append('docx', file);
+    try {
+      const res = await fetch('/preview', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.docxBase64) await renderDocx(data.docxBase64, file.name, 'original', 'original');
+      else showError(data.error || 'Could not render preview.');
+    } catch(e) { showError(e.message); }
+  }
+
+  function clearFile() {
+    selectedFile = null;
+    fileInput.value = '';
+    fileInfo.classList.remove('show');
+    dropZone.classList.remove('ready');
+    dropZone.querySelector('.drop-main').textContent = 'Drop your .docx here';
+    showEmpty();
+    checkReady();
+  }
+
+  fileInput.addEventListener('change', e => setFile(e.target.files[0]));
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('over');
+    setFile(e.dataTransfer.files[0]);
+  });
+  removeFileBtn.addEventListener('click', clearFile);
+
+  // ── Field rows
+  function addRow(key='', val='') {
+    const row = document.createElement('div');
+    row.className = 'field-row';
+    row.innerHTML = `
+      <input class="key-input" type="text" placeholder="e.g. taskName" value="${esc(key)}" />
+      <input class="val-input" type="text" placeholder="value" value="${esc(val)}" />
+      <button class="remove-row" title="Remove">×</button>
+    `;
+    row.querySelector('.remove-row').addEventListener('click', () => { row.remove(); checkReady(); });
+    row.querySelectorAll('input').forEach(i => i.addEventListener('input', checkReady));
+    fieldsList.appendChild(row);
+    row.querySelector('.key-input').focus();
+    checkReady();
+  }
+
+  addRowBtn.addEventListener('click', () => addRow());
+
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.key;
+      const existing = [...fieldsList.querySelectorAll('.key-input')].find(i => i.value === key);
+      if (existing) existing.nextElementSibling.focus();
+      else addRow(key, '');
+    });
+  });
+
+  // ── Submit
+  submitBtn.addEventListener('click', async () => {
+    if (!selectedFile) return;
+    const replacements = {};
+    let hasBlank = false;
+    [...fieldsList.querySelectorAll('.field-row')].forEach(row => {
+      const k = row.querySelector('.key-input').value.trim();
+      const v = row.querySelector('.val-input').value.trim();
+      if (k) { replacements[k] = v; if (!v) hasBlank = true; }
+    });
+    if (hasBlank) { toast('All keys need a value.', true); return; }
+    if (!Object.keys(replacements).length) { toast('Add at least one field.', true); return; }
+
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    showLoading('Applying replacements & rendering…');
+
+    try {
+      const fd = new FormData();
+      fd.append('docx', selectedFile);
+      fd.append('replacements', JSON.stringify(replacements));
+
+      const res = await fetch('/replace?preview=1', { method: 'POST', body: fd });
+      if (!res.ok) {
+        const err = await res.json().catch(()=>({error:'Server error'}));
+        throw new Error(err.error || 'Server error');
+      }
+      const data = await res.json();
+
+      if (data.docxBase64) {
+        pendingDownload = { filename: data.filename, base64: data.docxBase64 };
+        downloadBtn.classList.add('show');
+        await renderDocx(data.docxBase64, data.filename, 'filled', 'filled');
+      } else {
+        showError(data.error || 'Preview render failed.');
+      }
+    } catch(e) {
+      showError(e.message);
+      toast(e.message, true);
+    } finally {
+      submitBtn.classList.remove('loading');
+      checkReady();
+    }
+  });
+
+  // ── Download
+  downloadBtn.addEventListener('click', () => {
+    if (!pendingDownload) return;
+    const { filename, base64 } = pendingDownload;
+    const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+    const blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  // ── Panel resize
+  let isResizing = false;
+  let startX = 0;
+  let startPreviewFr = 0; // preview width as a fraction of workspace (0..1)
+
+  function setPreviewFr(fr) {
+    // fr is a 0..1 fraction of total workspace for the preview column
+    // Left col is capped at 400px; handle is 6px fixed.
+    // We express preview as `{fr}fr` within the fr space, but simpler:
+    // Just use pixel width for preview, auto for left so it fills remaining space.
+    const totalW = workspace.offsetWidth;
+    const handleW = 6;
+    const maxLeftW = 400;
+    const minPreviewW = 200;
+    const maxPreviewW = totalW * 0.7;
+    let previewW = Math.max(minPreviewW, Math.min(maxPreviewW, fr * totalW));
+    previewWidthPercent = (previewW / totalW) * 100;
+    workspace.style.gridTemplateColumns = `minmax(280px, 1fr) ${handleW}px ${previewW}px`;
+  }
+
+  resizeHandle.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    const previewPanel = document.querySelector('.panel-preview');
+    startPreviewFr = previewPanel.offsetWidth / workspace.offsetWidth;
+    resizeHandle.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isResizing) return;
+    const deltaFr = (e.clientX - startX) / workspace.offsetWidth;
+    setPreviewFr(startPreviewFr - deltaFr);
+  });
+
+  document.addEventListener('mouseup', (e) => {
+    if (!isResizing) return;
+    const deltaFr = (e.clientX - startX) / workspace.offsetWidth;
+    setPreviewFr(startPreviewFr - deltaFr);
+    isResizing = false;
+    resizeHandle.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+
+  // ── Panel collapse
+  collapseBtn.addEventListener('click', () => {
+    isPreviewCollapsed = !isPreviewCollapsed;
+
+    if (isPreviewCollapsed) {
+      workspace.classList.add('preview-collapsed');
+      collapseBtn.textContent = '»';
+    } else {
+      workspace.classList.remove('preview-collapsed');
+      // Restore to previous stored fraction
+      setPreviewFr(previewWidthPercent / 100);
+      collapseBtn.textContent = '«';
+    }
+  });
+
+  // Initialize grid: preview starts at 35% of workspace
+  function initGrid() {
+    setPreviewFr(0.35);
+  }
+
+  // Initialize on load; on window resize, recompute using stored fraction
+  initGrid();
+  window.addEventListener('resize', () => {
+    if (!isPreviewCollapsed && !isResizing) {
+      setPreviewFr(previewWidthPercent / 100);
+    }
+  });
+</script>
+</body>
+</html>
