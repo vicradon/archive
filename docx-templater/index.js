@@ -3,6 +3,9 @@ const multer = require("multer");
 const Docxtemplater = require("docxtemplater");
 const PizZip = require("pizzip");
 const path = require("path");
+const fs = require("fs");
+
+require("dotenv").config()
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -21,7 +24,7 @@ function wrapPlaceholders(zip, placeholders) {
     let xml = zip.files[name].asText();
     let changed = false;
     for (const p of placeholders) {
-      const escaped = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const escaped = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ +/g, "\\s+");
       const bare = new RegExp(`(?<!\\{)\\b${escaped}\\b(?!\\})`, "g");
       if (bare.test(xml)) {
         xml = xml.replace(bare, `{${p}}`);
@@ -102,6 +105,22 @@ app.post("/replace", upload.single("docx"), (req, res) => {
     console.error("Replace error:", err);
     res.status(500).json({ error: err.message || "Failed to process document." });
   }
+});
+
+/**
+ * GET /serve-file?path=/absolute/path/to/file.docx
+ * Reads a .docx from the given filesystem path and streams it to the client.
+ * Called by preview-file.html on every load so the page always reflects the
+ * latest version of the file on disk.
+ */
+app.get("/serve-file", (req, res) => {
+  const filePath = req.query.path;
+  if (!filePath) return res.status(400).json({ error: "Missing ?path= query parameter." });
+  if (!filePath.toLowerCase().endsWith(".docx")) return res.status(400).json({ error: "Only .docx files are supported." });
+  if (!fs.existsSync(filePath)) return res.status(404).json({ error: "File not found: " + filePath });
+  res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+  res.setHeader("Cache-Control", "no-store");
+  fs.createReadStream(filePath).pipe(res);
 });
 
 const PORT = process.env.PORT || 4000;
