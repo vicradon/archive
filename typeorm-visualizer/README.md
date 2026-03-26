@@ -1,2 +1,3 @@
-# typeorm-visualizer
-visualize typeorm migrations
+# Typeorm Visualizer
+
+Visualize typeorm migrations
