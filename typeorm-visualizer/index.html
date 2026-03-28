@@ -1103,14 +1103,57 @@ function parseColDef(name, rest) {
   return { name, type, notes };
 }
 
+function parseCreateTable(q) {
+  // Match: CREATE TABLE "name" (col1 type1, col2 type2, CONSTRAINT ...)
+  const headerMatch = q.match(/^CREATE TABLE\s+"?(\w+)"?\s*\((.+)\)$/is);
+  if (!headerMatch) return null;
+  const tableName = headerMatch[1];
+  const body = headerMatch[2];
+  const columns = [];
+  const constraints = [];
+  // Split by top-level commas (ignore commas inside parens)
+  const parts = [];
+  let depth = 0, cur = '';
+  for (const ch of body) {
+    if (ch === '(') { depth++; cur += ch; }
+    else if (ch === ')') { depth--; cur += ch; }
+    else if (ch === ',' && depth === 0) { parts.push(cur.trim()); cur = ''; }
+    else cur += ch;
+  }
+  if (cur.trim()) parts.push(cur.trim());
+  for (const part of parts) {
+    if (/^CONSTRAINT\s+/i.test(part)) {
+      const cm = part.match(/^CONSTRAINT\s+"?(\w+)"?\s+(.+)$/i);
+      if (cm) constraints.push({ name: cm[1], def: cm[2].trim() });
+    } else {
+      // column definition: "colname" type ...
+      const colMatch = part.match(/^"?(\w+)"?\s+(.+)$/i);
+      if (colMatch) columns.push(parseColDef(colMatch[1], colMatch[2]));
+    }
+  }
+  return { tableName, columns, constraints };
+}
+
 function parseQueries(queries) {
   const tables = {};
   const enums = {};
+  const newTables = {};   // CREATE TABLE
+  const droppedTables = new Set(); // DROP TABLE
   function getTable(n) {
     if (!tables[n]) tables[n] = { added: [], removed: [], modified: [], constraints: { added: [], removed: [] } };
     return tables[n];
   }
   for (const q of queries) {
+    // CREATE TABLE
+    if (/^CREATE TABLE\s+/i.test(q)) {
+      const parsed = parseCreateTable(q);
+      if (parsed) { newTables[parsed.tableName] = { columns: parsed.columns, constraints: parsed.constraints }; }
+      continue;
+    }
+    // DROP TABLE
+    const dropTable = q.match(/^DROP TABLE\s+(?:IF EXISTS\s+)?"?(\w+)"?/i);
+    if (dropTable) { droppedTables.add(dropTable[1]); continue; }
+
     const dropType = q.match(/^DROP TYPE\s+"?(?:public\.")?([^"\s]+)"?$/i);
     if (dropType) { const k = dropType[1].replace(/"/g,''); enums[k] = {...(enums[k]||{}), dropped:true}; continue; }
     const createEnum = q.match(/^CREATE TYPE\s+"?(?:public\.")?([^"(]+)"?\s+AS ENUM\s*\((.+)\)/i);
@@ -1126,7 +1169,7 @@ function parseQueries(queries) {
     const dropConst = q.match(/^ALTER TABLE\s+"?(\w+)"?\s+DROP CONSTRAINT\s+"(\w+)"$/i);
     if (dropConst) { const [,t,cn]=dropConst; getTable(t).constraints.removed.push({name:cn}); continue; }
   }
-  return {tables,enums};
+  return {tables, enums, newTables, droppedTables};
 }
 
 function parseMigration() {
@@ -1139,9 +1182,9 @@ function parseMigration() {
   rawUpQueries = upQueries;
   const migName = extractMigrationName(src);
   const ts = extractTimestamp(migName);
-  const { tables, enums } = parseQueries(upQueries);
-  if (!Object.keys(tables).length && !Object.keys(enums).length) { showError('No schema changes detected.'); return; }
-  parsedData = { migName, ts, tables, enums };
+  const { tables, enums, newTables, droppedTables } = parseQueries(upQueries);
+  if (!Object.keys(tables).length && !Object.keys(enums).length && !Object.keys(newTables).length && !droppedTables.size) { showError('No schema changes detected.'); return; }
+  parsedData = { migName, ts, tables, enums, newTables, droppedTables };
   renderResult(parsedData);
   enableExports();
 }
@@ -1159,7 +1202,7 @@ function enableExports() {
 }
 
 // ── Rendering ──
-function renderResult({ migName, ts, tables, enums }) {
+function renderResult({ migName, ts, tables, enums, newTables, droppedTables }) {
   document.getElementById('empty-state').style.display = 'none';
   const ra = document.getElementById('result-area');
   ra.style.display = 'block';
@@ -1173,23 +1216,82 @@ function renderResult({ migName, ts, tables, enums }) {
     totalModified+=t.modified.length; totalConstraints+=t.constraints.added.length;
   }
   const enumEntries = Object.entries(enums);
+  const newTableCount = Object.keys(newTables).length;
+  const droppedTableCount = droppedTables.size;
 
   const sb = document.getElementById('summary-bar');
   sb.innerHTML = '';
   const chips = [
-    [totalAdded, 'added', 'added', 'column'],
-    [totalRemoved, 'removed', 'removed', 'column'],
-    [totalModified, 'modified', 'modified', 'column'],
-    [totalConstraints, 'constraint', 'constraint', 'constraint'],
-    [enumEntries.length, 'enum', 'enum', 'type'],
+    [newTableCount, 'added', 'new table'],
+    [droppedTableCount, 'removed', 'dropped table'],
+    [totalAdded, 'added', 'column added'],
+    [totalRemoved, 'removed', 'column dropped'],
+    [totalModified, 'modified', 'column altered'],
+    [totalConstraints, 'constraint', 'constraint added'],
+    [enumEntries.length, 'enum', 'enum type changed'],
   ];
-  for (const [n, dotClass, , label] of chips) {
+  for (const [n, dotClass, label] of chips) {
     if (!n) continue;
-    sb.innerHTML += `<span class="summary-chip"><span class="chip-dot ${dotClass}"></span>${n} ${label}${n!==1?'s':''} ${dotClass==='added'?'added':dotClass==='removed'?'dropped':dotClass==='modified'?'altered':dotClass==='constraint'?'added':'changed'}</span>`;
+    sb.innerHTML += `<span class="summary-chip"><span class="chip-dot ${dotClass}"></span>${n} ${label}${n!==1?'s':''}</span>`;
   }
 
   const out = document.getElementById('tables-output');
   out.innerHTML = '';
+
+  // ── New tables (CREATE TABLE) ──
+  for (const [tableName, info] of Object.entries(newTables)) {
+    let colRows = '';
+    for (const col of info.columns) colRows += fieldRow(col, 'added');
+
+    let constraintHTML = '';
+    if (info.constraints.length) {
+      let tags = '';
+      for (const c of info.constraints) {
+        const isFK = /FOREIGN KEY/i.test(c.def), isUQ = /UNIQUE/i.test(c.def);
+        tags += `<span class="ctag ${isFK?'fk':isUQ?'uq':'fk'}">${isFK?'FK':'UQ'} ${c.name.slice(0,32)}</span>`;
+      }
+      constraintHTML = `<div class="constraints-section"><div class="footer-label">Constraints</div><div class="constraint-chips">${tags}</div></div>`;
+    }
+
+    out.innerHTML += `
+    <div class="table-card" style="border-color:var(--green-border)">
+      <div class="table-card-header" style="background:var(--green-bg)">
+        <div class="table-card-left">
+          <div class="table-icon" style="background:var(--green-bg);border-color:var(--green-border);color:var(--green)">+</div>
+          <span class="table-name">${tableName}</span>
+          <span class="change-pill" style="background:var(--green-bg);border-color:var(--green-border);color:var(--green)">new table · ${info.columns.length} column${info.columns.length!==1?'s':''}</span>
+        </div>
+      </div>
+      <div class="diff-pane" style="width:100%">
+        <div class="pane-header"><span class="pane-dot after-dot"></span><span class="pane-label">All columns</span></div>
+        ${colRows || '<div class="empty-pane">No columns detected</div>'}
+      </div>
+      <div class="card-footer">
+        ${constraintHTML}
+        <div class="base-fields-note">↳ Inherits: id · createdAt · updatedAt · deletedAt · createdById · updatedById</div>
+      </div>
+    </div>`;
+  }
+
+  // ── Dropped tables (DROP TABLE) ──
+  for (const tableName of droppedTables) {
+    out.innerHTML += `
+    <div class="table-card" style="border-color:var(--red-border)">
+      <div class="table-card-header" style="background:var(--red-bg)">
+        <div class="table-card-left">
+          <div class="table-icon" style="background:var(--red-bg);border-color:var(--red-border);color:var(--red)">−</div>
+          <span class="table-name">${tableName}</span>
+          <span class="change-pill" style="background:var(--red-bg);border-color:var(--red-border);color:var(--red)">dropped table</span>
+        </div>
+      </div>
+      <div class="diff-pane" style="width:100%;padding:12px 14px">
+        <div class="field-row removed" style="border-radius:6px">
+          <span class="field-marker">−</span>
+          <div><span class="field-name" style="color:var(--red)">Table and all its data will be permanently deleted</span></div>
+        </div>
+      </div>
+    </div>`;
+  }
 
   for (const [tableName, changes] of Object.entries(tables)) {
     const total = changes.added.length + changes.removed.length + changes.modified.length;
@@ -1378,6 +1480,8 @@ function exportJSON() {
     migration: parsedData.migName,
     generatedAt: parsedData.ts,
     exportedAt: new Date().toISOString(),
+    newTables: Object.fromEntries(Object.entries(parsedData.newTables).map(([n,v])=>([n,{columns:v.columns,constraints:v.constraints}]))),
+    droppedTables: [...parsedData.droppedTables],
     tables: {},
     enums: parsedData.enums,
   };
