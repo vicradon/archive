@@ -122,7 +122,7 @@ func exportHTMLFallback(slides []slides.Slide, outDir string) error {
 
 func fullHTML(slideList []slides.Slide, title string) string {
 	var b strings.Builder
-	b.WriteString(render.HTMLHead(title, ""))
+	b.WriteString(render.HTMLHead(title, render.ThemeWhite, ""))
 	b.WriteString(`<body>`)
 
 	b.WriteString(`<div class="export-bar">`)
@@ -143,7 +143,7 @@ func singleSlideHTML(s slides.Slide, title string) string {
 @media print { .slide { min-height: 100vh; } }
 `
 	var b strings.Builder
-	b.WriteString(render.HTMLHead(fmt.Sprintf("%s – %s", title, s.ID), extra))
+	b.WriteString(render.HTMLHead(fmt.Sprintf("%s – %s", title, s.ID), render.ThemeWhite, extra))
 	b.WriteString(`<body>`)
 	b.WriteString(s.HTML)
 	b.WriteString(`</body></html>`)

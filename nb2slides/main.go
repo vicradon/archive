@@ -7,6 +7,7 @@ import (
 
 	"nb2slides/internal/export"
 	"nb2slides/internal/notebook"
+	"nb2slides/internal/render"
 	"nb2slides/internal/server"
 	"nb2slides/internal/slides"
 )
@@ -19,12 +20,22 @@ func main() {
 		showOutputs = flag.Bool("outputs", true, "Include cell outputs (default true)")
 		serve       = flag.Bool("serve", false, "Open browser preview instead of exporting (useful when chromium is unavailable)")
 		port        = flag.String("port", "8080", "Port for preview server (used with -serve)")
+		themeFlag   = flag.String("theme", "dark", "Colour theme: white | dark | sepia")
 	)
 	flag.Parse()
 
 	if *inputFile == "" {
 		fmt.Fprintln(os.Stderr, "Error: -i <notebook.ipynb> is required")
 		flag.Usage()
+		os.Exit(1)
+	}
+
+	theme := render.Theme(*themeFlag)
+	switch theme {
+	case render.ThemeWhite, render.ThemeDark, render.ThemeSepia:
+		// valid
+	default:
+		fmt.Fprintf(os.Stderr, "Error: unknown theme %q — must be white, dark, or sepia\n", *themeFlag)
 		os.Exit(1)
 	}
 
@@ -38,7 +49,7 @@ func main() {
 	fmt.Printf("Notebook parsed: %d cells → %d slides\n", len(nb.Cells), len(slideList))
 
 	if *serve {
-		server.ServePreviews(slideList, *port)
+		server.ServePreviews(slideList, *port, theme)
 		return
 	}
 
