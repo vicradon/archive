@@ -1,0 +1,20 @@
+{
+  "name": "stack-problems",
+  "version": "1.0.0",
+  "description": "Five stack-based problems worked through progressively, easy → hard, building the monotonic-stack intuition step by step:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "tsx",
+    "infix": "tsx 04-infix-to-postfix-tokenizer/evaluateInfix.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.0",
+    "typescript": "^7.0.2"
+  }
+}
