@@ -1,0 +1,1 @@
+az deployment operation group list --resource-group demo_vnet-rg --name public-private-vm --output table
