@@ -132,3 +132,4 @@
 | cisco-packet-tracer-labs | repo | https://github.com/vicradon/cisco-packet-tracer-labs | Labs and demos for Cisco Packet Tracer |  | 2024-01-08 |
 | anon-msg-app | repo | https://github.com/vicradon/anon-msg-app | An app that allows folks to share anonymous messages to friends and have full-control of their data | https://anon-msg-app.vercel.app | 2023-12-21 |
 | futo-academia | repo | https://github.com/vicradon/futo-academia |  |  | 2023-12-20 |
+| object-tracking-yolov8-deep-sort | fork of computervisioneng/object-tracking-yolov8-deep-sort (no own commits) | https://github.com/vicradon/object-tracking-yolov8-deep-sort |  |  | 2023-12-19 |
