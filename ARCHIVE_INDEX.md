@@ -274,3 +274,4 @@
 | cube-tutorial | empty (no commits) | https://github.com/vicradon/cube-tutorial |  |  | 2022-01-28 |
 | playwright.dev | fork of microsoft/playwright.dev (no own commits) | https://github.com/vicradon/playwright.dev | Documentation website for Playwright | https://playwright.dev | 2022-01-17 |
 | reviewing-a-pull-request | repo | https://github.com/vicradon/reviewing-a-pull-request |  | https://lab.github.com/githubtraining/reviewing-pull-requests | 2022-01-12 |
+| awesome-mecheng | fork of m2n037/awesome-mecheng (no own commits) | https://github.com/vicradon/awesome-mecheng | Awesome Mechanical Engineering Resources |  | 2021-11-17 |
