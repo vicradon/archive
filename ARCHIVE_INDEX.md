@@ -89,3 +89,4 @@
 | flashcards | repo | https://github.com/vicradon/flashcards | A flashcards app with text comparison feature using machine learning | https://flashcards-ten-nu.vercel.app | 2024-08-22 |
 | hng_boilerplate_nextjs | fork of hngprojects/hng_boilerplate_nextjs (24 patches) | https://github.com/vicradon/hng_boilerplate_nextjs |  | https://deployment.nextjs.boilerplate.hng.tech | 2024-08-13 |
 | dora-exporter | fork of mprokopov/dora-exporter (no own commits) | https://github.com/vicradon/dora-exporter | Prometheus DORA exporter for GitHub (issues and deployments) metrics |  | 2024-08-13 |
+| create-env-action | repo | https://github.com/vicradon/create-env-action | A github action that creates an .env file |  | 2024-08-11 |
