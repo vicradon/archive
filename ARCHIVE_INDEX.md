@@ -360,3 +360,4 @@
 | snbank | repo | https://github.com/vicradon/snbank | A CLI app for a bank called SN-Bank |  | 2020-05-07 |
 | stl | repo | https://github.com/vicradon/stl | Send stuff to your laptop without using bluetooth | https://stl-rosy.now.sh | 2020-05-02 |
 | enget | repo | https://github.com/vicradon/enget | A service that delivers daily nuggets about engineering to engineering students | https://enget.netlify.app | 2020-04-30 |
+| genesys-js-workshops | repo | https://github.com/vicradon/genesys-js-workshops | A repo with workshop code |  | 2020-04-27 |
