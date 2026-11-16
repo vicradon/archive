@@ -85,3 +85,4 @@
 | ollama | fork of ollama/ollama (no own commits) | https://github.com/vicradon/ollama | Get up and running with Llama 2 and other large language models locally | https://ollama.ai | 2024-09-10 |
 | hng_boilerplate_golang_web | fork of hngprojects/hng_boilerplate_golang_web (34 patches) | https://github.com/vicradon/hng_boilerplate_golang_web |  |  | 2024-09-03 |
 | terraform-projects | repo | https://github.com/vicradon/terraform-projects | A set of terraform projects that showcase different use-cases of terraform |  | 2024-09-03 |
+| telex_aggregator | repo | https://github.com/vicradon/telex_aggregator | Telex aggregator |  | 2024-08-24 |
