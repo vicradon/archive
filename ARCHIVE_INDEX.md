@@ -379,3 +379,4 @@
 | sololearn-profile | repo | https://github.com/vicradon/sololearn-profile | A profile clone of Sololearn | https://vicradon.github.io/sololearn-profile/ | 2020-01-17 |
 | quick-quiz | fork of UcheSylvester/quick-quiz (no own commits) | https://github.com/vicradon/quick-quiz | A quiz app where users answer questiions and scores depending on the correctness of their answers! Technology: HTML, CSS, JavaScript, LocalStorage, Netlify | https://quiz-time.netlify.com/ | 2020-01-17 |
 | gpa-calculator | repo | https://github.com/vicradon/gpa-calculator | A gpa pwa for university students which integrates with drive | https://vicradon.github.io/gpa-calculator/ | 2020-01-17 |
+| project-x | repo | https://github.com/vicradon/project-x | The website built at the project-x challenge organised by ctrl-x hub | https://vicradon.github.io/project-x/ | 2020-01-17 |
