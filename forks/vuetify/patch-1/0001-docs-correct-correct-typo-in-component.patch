@@ -1,0 +1,26 @@
+From 6941b5e26bfe96e88093af180f4470ee971fc60a Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Mon, 12 Oct 2020 14:36:21 +0100
+Subject: [PATCH] docs: correct correct typo in component
+
+Change breakpoint range of lg screen from '960px > < 1264px*' to '1264px > < 1904px*',
+---
+ packages/docs/src/components/doc/BreakpointsTable.vue | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/packages/docs/src/components/doc/BreakpointsTable.vue b/packages/docs/src/components/doc/BreakpointsTable.vue
+index 1497d63b..a969951f 100644
+--- a/packages/docs/src/components/doc/BreakpointsTable.vue
++++ b/packages/docs/src/components/doc/BreakpointsTable.vue
+@@ -122,7 +122,7 @@
+           device: 'large',
+           code: 'lg',
+           type: 'desktop',
+-          range: '960px > < 1264px*',
++          range: '1264px > < 1904px*',
+         },
+         {
+           icon: '$mdiTelevision',
+-- 
+2.47.3
+
