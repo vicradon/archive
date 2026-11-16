@@ -396,3 +396,4 @@
 | LCM-display-in-table | fork of sammychinedu2ky/LCM-display-in-table (no own commits) | https://github.com/vicradon/LCM-display-in-table |  |  | 2019-10-16 |
 | Need-for-Shift | fork of sammychinedu2ky/Need-for-Shift (2 patches) | https://github.com/vicradon/Need-for-Shift |  |  | 2019-10-16 |
 | exploring-matter.js | repo | https://github.com/vicradon/exploring-matter.js | My repo with all matter.js experiments | https://vicradon.github.io/exploring-matter.js/ | 2019-10-06 |
+| Medium-Article | fork of BaijayantaRoy/Medium-Article (no own commits) | https://github.com/vicradon/Medium-Article | Repository of code for Medium Article  |  | 2019-09-30 |
