@@ -1,0 +1,22 @@
+From 81e2a72082911c313498abe0d65013902d5ed366 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <vicraph7@gmail.com>
+Date: Wed, 17 Jun 2020 15:36:35 +0100
+Subject: [PATCH] osinachi: add osinachi to contributors.txt
+
+---
+ contributors.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contributors.txt b/contributors.txt
+index 8cae299..3aec1a4 100644
+--- a/contributors.txt
++++ b/contributors.txt
+@@ -2,4 +2,4 @@
+ 1. Okewole Oluwatobi
+ 2.Alkaseem Abubakar
+ 3. nomuoja oghenemaro slack username gosteve
+-
++4. Name: Osinachi Chukwujama Slack username: Osinachi
+-- 
+2.47.3
+
