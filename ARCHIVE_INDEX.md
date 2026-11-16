@@ -234,3 +234,4 @@
 | ecom-storefront | repo | https://github.com/vicradon/ecom-storefront | A storefront for an imaginary e-commerce application |  | 2022-07-05 |
 | wasm101 | repo | https://github.com/vicradon/wasm101 |  |  | 2022-07-02 |
 | tap-jsonplaceholder | repo | https://github.com/vicradon/tap-jsonplaceholder |  |  | 2022-06-30 |
+| twitter-bots | repo | https://github.com/vicradon/twitter-bots | This repo contains all my webhook-triggered Twitter bots |  | 2022-06-28 |
