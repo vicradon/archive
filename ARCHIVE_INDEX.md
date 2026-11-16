@@ -316,3 +316,4 @@
 | tic-tac-toe-tut | repo | https://github.com/vicradon/tic-tac-toe-tut | Multiplayer tic-tac-toe built with AdonisJS Websockets | https://tic-tac-toe-adonis.herokuapp.com | 2021-01-22 |
 | edgeToHtml | repo | https://github.com/vicradon/edgeToHtml |  |  | 2021-01-18 |
 | docker.github.io | fork of docker/docs (1 patches) | https://github.com/vicradon/docker.github.io | Source repo for Docker's Documentation | https://docs.docker.com | 2021-01-13 |
+| tic-tac-toe | repo | https://github.com/vicradon/tic-tac-toe | Multiplayer tic-tac-toe built with AdonisJS Websockets | https://tic-tac-toe-trm58.ondigitalocean.app/ | 2021-01-13 |
