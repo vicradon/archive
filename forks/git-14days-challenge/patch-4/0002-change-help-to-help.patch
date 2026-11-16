@@ -1,0 +1,26 @@
+From 34fff1468f900a994d3f934096311cb1513582c9 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 04:17:46 +0100
+Subject: [PATCH] change - help to -help
+
+- help is a typo
+---
+ day5challenge/README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/day5challenge/README.md b/day5challenge/README.md
+index 091eaaf..2116c84 100644
+--- a/day5challenge/README.md
++++ b/day5challenge/README.md
+@@ -51,7 +51,7 @@ Lets assume running the `git remote -v` returns something  different for you, th
+ 
+ - Make Screenshot 
+ 
+-- run `git <any-previous-command-learnt> --help `
++- run `git <any-previous-command-learnt> -help `
+ 
+ - Make Screenshot 
+ 
+-- 
+2.47.3
+

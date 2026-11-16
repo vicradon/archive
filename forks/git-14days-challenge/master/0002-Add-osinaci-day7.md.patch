@@ -1,0 +1,25 @@
+From 4b15499053781010e8adc96e100a677ec3bfc2a1 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 04:45:41 +0100
+Subject: [PATCH] Add osinaci-day7.md
+
+---
+ day7challenge/osinachi-day7.md | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/day7challenge/osinachi-day7.md b/day7challenge/osinachi-day7.md
+index e69de29..3f495de 100644
+--- a/day7challenge/osinachi-day7.md
++++ b/day7challenge/osinachi-day7.md
+@@ -0,0 +1,8 @@
++# Todo Item
++![day7-project-board-todo](https://user-images.githubusercontent.com/40396070/82009238-b83c1f80-9666-11ea-8d0c-12e91e1a8eb1.PNG)
++
++# Item moved to in-progress
++![todo-to-in-progress](https://user-images.githubusercontent.com/40396070/82009235-b7a38900-9666-11ea-84d3-98491866aad6.PNG)
++
++# Item moved to done
++![inprogress-to-done](https://user-images.githubusercontent.com/40396070/82009232-b6725c00-9666-11ea-9ab5-0ff4b1604657.PNG)
+-- 
+2.47.3
+

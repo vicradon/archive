@@ -1,0 +1,34 @@
+From 717231755de251826d7782addf561fd7a9114d7a Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 04:42:30 +0100
+Subject: [PATCH] change all instances of osinachi to osinachi-dayx
+
+---
+ day3challenge/{osinachi.md => osinachi-day3.md} | 0
+ day4challenge/{osinachi.md => osinachi-day4.md} | 0
+ day5challenge/{osinachi.md => osinachi-day5.md} | 0
+ day7challenge/osinachi-day7.md                  | 0
+ 4 files changed, 0 insertions(+), 0 deletions(-)
+ rename day3challenge/{osinachi.md => osinachi-day3.md} (100%)
+ rename day4challenge/{osinachi.md => osinachi-day4.md} (100%)
+ rename day5challenge/{osinachi.md => osinachi-day5.md} (100%)
+ create mode 100644 day7challenge/osinachi-day7.md
+
+diff --git a/day3challenge/osinachi.md b/day3challenge/osinachi-day3.md
+similarity index 100%
+rename from day3challenge/osinachi.md
+rename to day3challenge/osinachi-day3.md
+diff --git a/day4challenge/osinachi.md b/day4challenge/osinachi-day4.md
+similarity index 100%
+rename from day4challenge/osinachi.md
+rename to day4challenge/osinachi-day4.md
+diff --git a/day5challenge/osinachi.md b/day5challenge/osinachi-day5.md
+similarity index 100%
+rename from day5challenge/osinachi.md
+rename to day5challenge/osinachi-day5.md
+diff --git a/day7challenge/osinachi-day7.md b/day7challenge/osinachi-day7.md
+new file mode 100644
+index 0000000..e69de29
+-- 
+2.47.3
+

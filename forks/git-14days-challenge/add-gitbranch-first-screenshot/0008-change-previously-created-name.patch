@@ -1,0 +1,18 @@
+From 1ce56072fcff71bb12351760b91c395bdd98263c Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 04:22:40 +0100
+Subject: [PATCH] change previously created name
+
+change osinachi.md to osinachi-day6-branch1
+---
+ day6challenge/{osinachi.md => osinachi-day6-branch1.md} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename day6challenge/{osinachi.md => osinachi-day6-branch1.md} (100%)
+
+diff --git a/day6challenge/osinachi.md b/day6challenge/osinachi-day6-branch1.md
+similarity index 100%
+rename from day6challenge/osinachi.md
+rename to day6challenge/osinachi-day6-branch1.md
+-- 
+2.47.3
+

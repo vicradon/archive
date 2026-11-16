@@ -1,0 +1,28 @@
+From 88e44644ac650660b697ed124f54d38473bbbe96 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 06:58:35 +0100
+Subject: [PATCH] Add osinachi-day10.md in day11challenge dir
+
+---
+ day11challenge/osinachi-day11.md | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+ create mode 100644 day11challenge/osinachi-day11.md
+
+diff --git a/day11challenge/osinachi-day11.md b/day11challenge/osinachi-day11.md
+new file mode 100644
+index 0000000..0f8278f
+--- /dev/null
++++ b/day11challenge/osinachi-day11.md
+@@ -0,0 +1,8 @@
++## Screenshot of site
++![hosted site](https://user-images.githubusercontent.com/40396070/82016467-08bc7880-9679-11ea-827c-967d05329608.PNG)
++
++## Link to hosted site
++[Hosted Site](http://osinachi.me)
++
++## Link to Github Repository
++[Github Repo](https://github.com/vicradon/vicradon.github.io)
+\ No newline at end of file
+-- 
+2.47.3
+

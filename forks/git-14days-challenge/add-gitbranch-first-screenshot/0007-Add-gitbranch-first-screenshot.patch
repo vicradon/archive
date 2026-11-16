@@ -1,0 +1,21 @@
+From efc701caa15f2283f0a38ecd41f9a7b5f5fcd153 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 04:15:39 +0100
+Subject: [PATCH] Add gitbranch first screenshot
+
+---
+ day6challenge/osinachi.md | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 day6challenge/osinachi.md
+
+diff --git a/day6challenge/osinachi.md b/day6challenge/osinachi.md
+new file mode 100644
+index 0000000..d63ef79
+--- /dev/null
++++ b/day6challenge/osinachi.md
+@@ -0,0 +1,2 @@
++#Add Gitbranch First Screenshot
++![Add Gitbranch First Screenshot](https://user-images.githubusercontent.com/40396070/82007644-a5275080-9662-11ea-9708-89c2e596c3e3.PNG)
+-- 
+2.47.3
+

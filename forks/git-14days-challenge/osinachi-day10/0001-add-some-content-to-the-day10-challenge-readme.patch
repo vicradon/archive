@@ -1,0 +1,36 @@
+From a171cd57290db42c294ccba5ba938a0c7c234680 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 05:37:55 +0100
+Subject: [PATCH] add some content to the day10 challenge readme
+
+add content to osinachi-day10.md
+
+add another header to osinachi-day10.md
+
+add more content to osinachi-day10.md
+
+add even more content to osinachi-day10.md
+---
+ day10challenge/osinachi-day10.md | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 day10challenge/osinachi-day10.md
+
+diff --git a/day10challenge/osinachi-day10.md b/day10challenge/osinachi-day10.md
+new file mode 100644
+index 0000000..973da4a
+--- /dev/null
++++ b/day10challenge/osinachi-day10.md
+@@ -0,0 +1,9 @@
++# I finally reached day 10
++So, I never thought I would be able to meet up. But I did. Hurray.
++
++# So, what did I do wrong?
++I didn't make new branches for all my code
++So, equivalently, I did not make a PR. 
++
++## Resolution
++I believe that one PR would solve everything. So, it doesn't really matter
+\ No newline at end of file
+-- 
+2.47.3
+

@@ -1,0 +1,37 @@
+From f3b3049edc05e3bc9813096085647ad363199e28 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Thu, 14 May 2020 20:07:16 +0100
+Subject: [PATCH] Add my name to contributors list Add screenshot of command
+ made fix issue #146 Add osinachi.md to day3challenge folder
+
+---
+ day3challenge/contributors.md | 3 ++-
+ day3challenge/osinachi.md     | 5 +++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+ create mode 100644 day3challenge/osinachi.md
+
+diff --git a/day3challenge/contributors.md b/day3challenge/contributors.md
+index 13c0a0c..657311f 100644
+--- a/day3challenge/contributors.md
++++ b/day3challenge/contributors.md
+@@ -1 +1,2 @@
+-vincent edeh
+\ No newline at end of file
++vincent edeh
++Osinachi Chukwujama
+\ No newline at end of file
+diff --git a/day3challenge/osinachi.md b/day3challenge/osinachi.md
+new file mode 100644
+index 0000000..d220d53
+--- /dev/null
++++ b/day3challenge/osinachi.md
+@@ -0,0 +1,5 @@
++# Add Screenshot for Git Status and Git log
++![Day 3 Git staus](https://user-images.githubusercontent.com/40396070/81975913-a5522c80-961f-11ea-9459-7b865e233e7f.PNG)
++
++# Add Editor Screenshot 
++![Day 3 editor](https://user-images.githubusercontent.com/40396070/81975918-a6835980-961f-11ea-9c2e-c130c337a966.PNG)
+\ No newline at end of file
+-- 
+2.47.3
+

@@ -1,0 +1,33 @@
+From e86ae3b4c616d6a5f9f344aac3e4072b1c6ff810 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 22 May 2020 07:50:35 +0100
+Subject: [PATCH] chore: add osinachi-day12.md to repo
+
+---
+ day12challenge/osinachi-day12.md | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 day12challenge/osinachi-day12.md
+
+diff --git a/day12challenge/osinachi-day12.md b/day12challenge/osinachi-day12.md
+new file mode 100644
+index 0000000..2b4ec3d
+--- /dev/null
++++ b/day12challenge/osinachi-day12.md
+@@ -0,0 +1,14 @@
++# Initial Commit
++![Initial Commit](https://user-images.githubusercontent.com/40396070/82639348-711ed300-9c00-11ea-9765-ecb9b5b1b2fe.png)
++
++# Creating a branch
++![Creating a branch](https://user-images.githubusercontent.com/40396070/82639351-72e89680-9c00-11ea-89fa-bf97c0c40936.png)
++
++# Listing of branches
++![branches](https://user-images.githubusercontent.com/40396070/82639306-606e5d00-9c00-11ea-848b-4dd6a88457ad.PNG)
++
++# Commits
++![test-branch-commit](https://user-images.githubusercontent.com/40396070/82639304-5fd5c680-9c00-11ea-9c0c-4cde2a5485e1.PNG)
++
++# Merge to master
++![merge-into-master](https://user-images.githubusercontent.com/40396070/82639297-5ea49980-9c00-11ea-8e7e-084dea2e14d9.PNG)
+-- 
+2.47.3
+

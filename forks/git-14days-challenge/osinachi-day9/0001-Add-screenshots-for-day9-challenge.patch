@@ -1,0 +1,24 @@
+From 235d9f1821ba689acca35e754c2b14159a67b7fc Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 05:33:57 +0100
+Subject: [PATCH] Add screenshots for day9 challenge
+
+---
+ day9challenge/osinachi-day9.md | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 day9challenge/osinachi-day9.md
+
+diff --git a/day9challenge/osinachi-day9.md b/day9challenge/osinachi-day9.md
+new file mode 100644
+index 0000000..6a8e859
+--- /dev/null
++++ b/day9challenge/osinachi-day9.md
+@@ -0,0 +1,5 @@
++# Game Dev Software
++![game dev software](https://user-images.githubusercontent.com/40396070/82011642-811d3c80-966d-11ea-9f51-e573d225e2a6.PNG)
++
++# Bug in setter and correction
++![bug and correction](https://user-images.githubusercontent.com/40396070/82011644-82e70000-966d-11ea-9e70-56c94b257500.PNG)
+-- 
+2.47.3
+

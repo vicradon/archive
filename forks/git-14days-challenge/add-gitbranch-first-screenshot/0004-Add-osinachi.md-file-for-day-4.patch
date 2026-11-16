@@ -1,0 +1,38 @@
+From 041c63eea8dda4de3ef9a9af6aa2c81afc6ea5d8 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Thu, 14 May 2020 20:50:06 +0100
+Subject: [PATCH] Add osinachi.md file for day 4
+
+---
+ day4challenge/osinachi.md | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 day4challenge/osinachi.md
+
+diff --git a/day4challenge/osinachi.md b/day4challenge/osinachi.md
+new file mode 100644
+index 0000000..a025c6b
+--- /dev/null
++++ b/day4challenge/osinachi.md
+@@ -0,0 +1,18 @@
++## Tables
++| `Column 1` | `Column 2`|
++| :-----------  | :-------------
++|  Row stuff       | An item
++
++## Lists
++* Item 
++* 1
++1. Numbered
++2. List
++
++
++## Headers
++### Other
++#### Headers
++
++## Others
++> lorem ipsum dolor sit amnet
+\ No newline at end of file
+-- 
+2.47.3
+

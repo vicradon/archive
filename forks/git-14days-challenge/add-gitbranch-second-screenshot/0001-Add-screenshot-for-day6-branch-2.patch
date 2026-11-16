@@ -1,0 +1,21 @@
+From 049b20d97cdaa441629ff5759a4034a1e1bbfc6a Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 04:24:33 +0100
+Subject: [PATCH] Add screenshot for day6 branch 2
+
+---
+ day6challenge/osinachi-day6-branch2.md | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 day6challenge/osinachi-day6-branch2.md
+
+diff --git a/day6challenge/osinachi-day6-branch2.md b/day6challenge/osinachi-day6-branch2.md
+new file mode 100644
+index 0000000..2fa387c
+--- /dev/null
++++ b/day6challenge/osinachi-day6-branch2.md
+@@ -0,0 +1,2 @@
++# Delete and show branches
++![delete-and-show-branches](https://user-images.githubusercontent.com/40396070/82008171-e10ee580-9663-11ea-8e18-0ea70c0ffe6c.PNG)
+-- 
+2.47.3
+

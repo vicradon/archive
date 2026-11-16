@@ -1,0 +1,22 @@
+From 31846738fc48c1ada296058921793c42473fc747 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 05:21:15 +0100
+Subject: [PATCH] Add screenshots to day8challenge directory
+
+---
+ day8challenge/osinachi-day8.md | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/day8challenge/osinachi-day8.md b/day8challenge/osinachi-day8.md
+index e69de29..f6af4eb 100644
+--- a/day8challenge/osinachi-day8.md
++++ b/day8challenge/osinachi-day8.md
+@@ -0,0 +1,5 @@
++# Git Aliases
++![git-alias](https://user-images.githubusercontent.com/40396070/82011053-bf196100-966b-11ea-9227-99e16c9add4a.PNG)
++
++# Git Aliases in Action 
++![git-alias-in-action](https://user-images.githubusercontent.com/40396070/82011051-bde83400-966b-11ea-8240-b81900d849e1.PNG)
+-- 
+2.47.3
+

@@ -1,0 +1,17 @@
+From 4bb4a57e0c61b62822c6c8b5a5f2491cec7b1cfe Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Fri, 15 May 2020 05:19:22 +0100
+Subject: [PATCH] Add osinachi-day8.md
+
+Also using git aliases
+---
+ day8challenge/osinachi-day8.md | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 day8challenge/osinachi-day8.md
+
+diff --git a/day8challenge/osinachi-day8.md b/day8challenge/osinachi-day8.md
+new file mode 100644
+index 0000000..e69de29
+-- 
+2.47.3
+

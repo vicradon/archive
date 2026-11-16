@@ -1,0 +1,27 @@
+From aeac895a87ae8143865048cec2df0d1c4e85af36 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Thu, 14 May 2020 19:45:35 +0100
+Subject: [PATCH] Create osinachi.md
+
+---
+ day1challenge/osinachi.md | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+ create mode 100644 day1challenge/osinachi.md
+
+diff --git a/day1challenge/osinachi.md b/day1challenge/osinachi.md
+new file mode 100644
+index 0000000..94a042b
+--- /dev/null
++++ b/day1challenge/osinachi.md
+@@ -0,0 +1,8 @@
++# My Github account 
++![gitAccount](./githubaccount.png)
++
++# Forked Repo
++![forked repo](./repo.png)
++
++# Cloned Forked Repo
++![forked repo](./localrepo.png)
+-- 
+2.47.3
+
