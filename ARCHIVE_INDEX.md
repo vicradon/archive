@@ -138,3 +138,4 @@
 | notebooks | fork of roboflow/notebooks (no own commits) | https://github.com/vicradon/notebooks | Examples and tutorials on using SOTA computer vision models and techniques. Learn everything from old-school ResNet, through YOLO and object-detection transformers like DETR, to the latest models like Grounding DINO and SAM. | https://roboflow.com/models | 2023-11-27 |
 | opensearch-py-ml | fork of opensearch-project/opensearch-py-ml (no own commits) | https://github.com/vicradon/opensearch-py-ml |  |  | 2023-11-15 |
 | covidbot | repo | https://github.com/vicradon/covidbot | Created with CodeSandbox https://codesandbox.io/s/github/vicradon/covidbot | https://covidbot-iota.vercel.app | 2023-11-10 |
+| agenta | fork of Agenta-AI/agenta (2 patches) | https://github.com/vicradon/agenta |  The LLMOps platform to build robust LLM apps. Easily experiment and evaluate different prompts, models, and workflows. | http://www.agenta.ai | 2023-11-01 |
