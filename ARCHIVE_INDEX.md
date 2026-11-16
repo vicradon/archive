@@ -394,3 +394,4 @@
 | go-repl | fork of golobby/repl (no own commits) | https://github.com/vicradon/go-repl | Golang REPL, Prototype as fast as possible |  | 2019-10-19 |
 | enye-coding-challenge-one | repo | https://github.com/vicradon/enye-coding-challenge-one | Created with CodeSandbox | https://codesandbox.io/s/github/Vicradon/enye-coding-challenge-one | 2019-10-19 |
 | LCM-display-in-table | fork of sammychinedu2ky/LCM-display-in-table (no own commits) | https://github.com/vicradon/LCM-display-in-table |  |  | 2019-10-16 |
+| Need-for-Shift | fork of sammychinedu2ky/Need-for-Shift (2 patches) | https://github.com/vicradon/Need-for-Shift |  |  | 2019-10-16 |
