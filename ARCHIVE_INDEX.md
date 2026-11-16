@@ -403,3 +403,4 @@
 | Study-Todo-App | repo | https://github.com/vicradon/Study-Todo-App | A PWA for students to plan their studying and collaborate |  | 2019-09-09 |
 | daily-ui-011 | repo | https://github.com/vicradon/daily-ui-011 | The eleventh challenge of the daily UI challenges | https://vicradon.github.io/daily-ui-011/ | 2019-09-08 |
 | firestore-tutorial | repo | https://github.com/vicradon/firestore-tutorial | Firestore Tutorial from Net Ninja | https://vicradon.github.io/firestore-tutorial/ | 2019-08-20 |
+| music-app-flex-ui | repo | https://github.com/vicradon/music-app-flex-ui | Music App UI | https://vicradon.github.io/music-app-flex-ui/ | 2019-08-20 |
