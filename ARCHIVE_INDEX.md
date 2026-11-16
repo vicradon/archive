@@ -93,3 +93,4 @@
 | pr-deploy | fork of hngprojects/pr-deploy (no own commits) | https://github.com/vicradon/pr-deploy | A github action that deploys preview PRs from Dockerfiles |  | 2024-08-10 |
 | pocketbase | fork of pocketbase/pocketbase (no own commits) | https://github.com/vicradon/pocketbase | Open Source realtime backend in 1 file | https://pocketbase.io | 2024-07-31 |
 | azure4everyone-samples | fork of MarczakIO/azure4everyone-samples (2 patches) | https://github.com/vicradon/azure4everyone-samples |  |  | 2024-07-27 |
+| devopsfetch | repo | https://github.com/vicradon/devopsfetch |  |  | 2024-07-24 |
