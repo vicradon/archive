@@ -13,3 +13,4 @@
 | semantic-kernel-demos | repo | https://github.com/vicradon/semantic-kernel-demos | Demos for the semantic kernel |  | 2026-05-04 |
 | final-year-project | repo | https://github.com/vicradon/final-year-project | Final year project on drone object detection |  | 2026-04-27 |
 | Kinematic-configuration | fork of favourodunze-design/Kinematic-configuration- (no own commits) | https://github.com/vicradon/Kinematic-configuration |  |  | 2026-04-15 |
+| novu | fork of novuhq/novu (no own commits) | https://github.com/vicradon/novu | The open-source notification infrastructure. In-app Inbox component, E-mail, SMS, Push and Slack Integrations. | https://go.novu.co/github | 2026-04-14 |
