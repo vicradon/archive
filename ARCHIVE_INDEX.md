@@ -330,3 +330,4 @@
 | cgpa-api | repo | https://github.com/vicradon/cgpa-api |  |  | 2020-11-30 |
 | boil-app2 | fork of Neche-Stephen/boil-app2 (1 patches) | https://github.com/vicradon/boil-app2 |  |  | 2020-11-25 |
 | swag-gp-vue | repo | https://github.com/vicradon/swag-gp-vue | Vue js implementation of swag-gp | swag-gp-vue.vercel.app | 2020-11-18 |
+| math-functions | repo | https://github.com/vicradon/math-functions | A project with math functions in javascript |  | 2020-11-12 |
