@@ -188,3 +188,4 @@
 | resumewebsitefunctions | repo | https://github.com/vicradon/resumewebsitefunctions | Azure functions for resume website |  | 2023-01-14 |
 | resume-maker | repo | https://github.com/vicradon/resume-maker | A website for generating resumes with export functionality |  | 2023-01-14 |
 | pepcycle | repo | https://github.com/vicradon/pepcycle | Created with CodeSandbox | https://codesandbox.io/s/github/vicradon/ditch-the-backend-with-azure-functions | 2023-01-13 |
+| techwinx | repo | https://github.com/vicradon/techwinx | The Techwinx Website | https://techwinx.netlify.com | 2023-01-11 |
