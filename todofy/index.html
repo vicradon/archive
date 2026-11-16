@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="icon" href="./icons/favicon.ico" />
+
+  <title>LIPE-Todo</title>
+  <link rel="stylesheet" href="./css/style.css">
+
+  <link rel="manifest" href="manifest.json">
+
+  <!-- IOS SUPPORT -->
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-status-bar" content="#007bff">
+  <meta name="theme-color" content="#007bff">
+</head>
+
+<body>
+  <header>
+    <nav>
+      <p><a class="logo" href="/index.html">Todofy</a></p>
+      <p><a class="about" href="/pages/about.html">About</a></p>
+    </nav>
+  </header>
+  <div id="root"></div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(regObj => console.log("Service worker registered"))
+        .catch(err => console.log("An error occured", err))
+    }
+  </script>
+
+  <script src="./js/script.min.js"></script>
+
+</body>
+
+</html>
