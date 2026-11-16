@@ -12,3 +12,4 @@
 | TensorTonic-Solutions | repo | https://github.com/vicradon/TensorTonic-Solutions | My solutions to TensorTonic problems |  | 2026-05-13 |
 | semantic-kernel-demos | repo | https://github.com/vicradon/semantic-kernel-demos | Demos for the semantic kernel |  | 2026-05-04 |
 | final-year-project | repo | https://github.com/vicradon/final-year-project | Final year project on drone object detection |  | 2026-04-27 |
+| Kinematic-configuration | fork of favourodunze-design/Kinematic-configuration- (no own commits) | https://github.com/vicradon/Kinematic-configuration |  |  | 2026-04-15 |
