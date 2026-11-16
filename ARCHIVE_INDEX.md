@@ -75,3 +75,4 @@
 | finrec | repo | https://github.com/vicradon/finrec | An expense tracker built with React, Redux, Auth0, MongoDB and ChakraUI | https://finrec.now.sh | 2024-11-19 |
 | libraryapi | repo | https://github.com/vicradon/libraryapi | A simple library API built with Gin |  | 2024-10-29 |
 | product-api-go | repo | https://github.com/vicradon/product-api-go | A products API written in Go with no frameworks for performing CRUD on products |  | 2024-10-23 |
+| python-visualizations | repo | https://github.com/vicradon/python-visualizations | A repo of python files and interactive python notebooks that show visualizations for technical concepts |  | 2024-10-18 |
