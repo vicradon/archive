@@ -71,3 +71,4 @@
 | golang-wasm-demo | repo | https://github.com/vicradon/golang-wasm-demo | A demo application for adding numbers using a wasm binary | https://vicradon.github.io/golang-wasm-demo/ | 2024-12-17 |
 | renergy-hub-frontend | fork of InternPulse/renergy-hub-frontend (no own commits) | https://github.com/vicradon/renergy-hub-frontend |  | https://renergy-hub-frontendxyz.vercel.app/ | 2024-12-15 |
 | fellowship.ai-flowers102-task | repo | https://github.com/vicradon/fellowship.ai-flowers102-task | The flowers102 task for the fellowship.ai fellowship |  | 2024-12-04 |
+| opencv-demos | repo | https://github.com/vicradon/opencv-demos | demos on opencv and stuff |  | 2024-11-23 |
