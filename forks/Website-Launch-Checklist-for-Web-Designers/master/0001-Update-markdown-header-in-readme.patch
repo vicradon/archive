@@ -1,0 +1,22 @@
+From df0651a6d113da14668b2e98d67a14e4f412f118 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <vicraph7@gmail.com>
+Date: Tue, 21 Jul 2020 20:00:10 +0100
+Subject: [PATCH] Update markdown header in readme
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index fd3c0c5..6391727 100644
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,4 @@
+-##Website-Launch-Checklist-for-Web-Designers
++# Website-Launch-Checklist-for-Web-Designers
+ 
+ At FHOKE we’ve been through it all, from perfect launches to ones that have turned into complete nightmares! Through our experiences we’ve compiled a list, in no particular order, of a process we go through before we launch our sites. 
+ 
+-- 
+2.47.3
+
