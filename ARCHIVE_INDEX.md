@@ -20,3 +20,4 @@
 | kottster | fork of kottster/kottster (1 patches) | https://github.com/vicradon/kottster | Instant Node.js admin panel. Secure, self-hosted, and easy to set up | https://kottster.app | 2026-03-31 |
 | typeorm-visualizer | repo | https://github.com/vicradon/typeorm-visualizer | visualize typeorm migrations | https://typeorm-visualizer.vercel.app | 2026-03-28 |
 | kaggle-gdrive | repo | https://github.com/vicradon/kaggle-gdrive |  |  | 2026-03-23 |
+| first-contributions | fork of firstcontributions/first-contributions (1 patches) | https://github.com/vicradon/first-contributions | 🚀✨ Help beginners to contribute to open source projects | https://firstcontributions.github.io | 2026-03-12 |

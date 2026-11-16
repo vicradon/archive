@@ -1,0 +1,31 @@
+From 70fcc995b9c3be33c1a35fac9ca9042660b6bd59 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Thu, 12 Mar 2026 05:31:10 +0100
+Subject: [PATCH] Add Osinachi Chukwujama to Contributors list
+
+---
+ Contributors.md | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Contributors.md b/Contributors.md
+index 2948d965..76043e9f 100644
+--- a/Contributors.md
++++ b/Contributors.md
+@@ -822,6 +822,7 @@ Rongxin Zhang
+ - [Omm Prakash Nayak](https://github.com/bithal2006)
+ - [Ong TX](https://github.com/AlexanderXI0904)
+ - [OsamaShabih](https://github.com/osamashabih6960)
++- [Osinachi Chukwujama](https://github.com/vicradon)
+ - [Osman Kaplan](https://github.com/kplnosmn94-droid)
+ - [Ossama Nahle](https://github.com/ossamanahle)
+ - [Otavio Góes](https://github.com/ogoess1999)
+@@ -1525,4 +1526,4 @@ Merjen Amanmuradova
+ - [fzgma] (https://github.com/fzgma)
+ - [Pragya Mandal] (github.com/pragyamandal)
+ - [Nour] (https://github.com/Nour-ad)
+--[sog](https://github.com/jtystart)
+\ No newline at end of file
++-[sog](https://github.com/jtystart)
+-- 
+2.47.3
+
