@@ -80,3 +80,4 @@
 | socketiodemo-lol | repo | https://github.com/vicradon/socketiodemo-lol | This is a random-ass demo of socketio sending random ass messages to a client connection |  | 2024-09-25 |
 | jetson-nano-yolo-demo | repo | https://github.com/vicradon/jetson-nano-yolo-demo | A very simple demo on running ultralytics YOLO on a Jetson Nano |  | 2024-09-20 |
 | some-algos | repo | https://github.com/vicradon/some-algos |  |  | 2024-09-19 |
+| esp32-temperature-humidity | repo | https://github.com/vicradon/esp32-temperature-humidity | ESP32 sensor to collect temperature and humidity sensing |  | 2024-09-14 |
