@@ -79,3 +79,4 @@
 | discord-emojier | repo | https://github.com/vicradon/discord-emojier | A Telex Integration that sends emojis to discord channels |  | 2024-10-03 |
 | socketiodemo-lol | repo | https://github.com/vicradon/socketiodemo-lol | This is a random-ass demo of socketio sending random ass messages to a client connection |  | 2024-09-25 |
 | jetson-nano-yolo-demo | repo | https://github.com/vicradon/jetson-nano-yolo-demo | A very simple demo on running ultralytics YOLO on a Jetson Nano |  | 2024-09-20 |
+| some-algos | repo | https://github.com/vicradon/some-algos |  |  | 2024-09-19 |
