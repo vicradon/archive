@@ -365,3 +365,4 @@
 | regex-validation | repo | https://github.com/vicradon/regex-validation | Validate a simple form using regular expressions |  | 2020-04-27 |
 | post-stuff | repo | https://github.com/vicradon/post-stuff | A React app demoing CRUD functionality | https://post-stuff.netlify.com | 2020-04-26 |
 | un_guess | repo | https://github.com/vicradon/un_guess | A CLI guessing game written in python |  | 2020-04-20 |
+| c19-python-estimator | repo | https://github.com/vicradon/c19-python-estimator | A covid-19 estimator built with python |  | 2020-04-13 |
