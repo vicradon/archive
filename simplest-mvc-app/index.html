@@ -1,0 +1,81 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <p>Calculator</p>
+      <div class="icons"></div>
+    </nav>
+  </header>
+  <section id="root">
+    <div id="calculator">
+      <div class="display">
+        <p id ="unevaluated"></p>
+        <p id="results">7</p>
+      </div>
+      <div class="button-set">
+        <div class = "row" id="row1">
+          <p>x<sup>2</sup></p>
+          <p>x<sup>y</sup></p>
+          <p>sin</p>
+          <p>cos</p>
+          <p>tan</p>
+        </div>
+        <div class = "row" id="row2">
+          <p>sqrt</p>
+          <p>10<sup>x</sup></p>
+          <p>log</p>
+          <p>Exp</p>
+          <p>Mod</p>
+        </div>
+        <div class = "row" id="row3">
+          <p>&uparrow;</p>
+          <p>CE</p>
+          <p>C</p>
+          <p>DEL</p>
+          <p class="operator directOutput">&divide;</p>
+        </div>
+        <div class = "row" id="row4">
+          <p>&pi;</p>
+          <p class="num directOutput">7</p>
+          <p class="num directOutput">8</p>
+          <p class="num directOutput">9</p>
+          <p class="operator directOutput">X</p>
+        </div>
+        <div class = "row" id="row5">
+          <p>n!</p>
+          <p class="num directOutput">4</p>
+          <p class="num directOutput">5</p>
+          <p class="num directOutput">6</p>
+          <p class="operator directOutput">-</p>
+        </div>
+        <div class = "row" id="row6">
+          <p>&PlusMinus;</p>
+          <p class="num directOutput">1</p>
+          <p class="num directOutput">2</p>
+          <p class="num directOutput">3</p>
+          <p class="operator directOutput">+</p>
+        </div>
+        <div class = "row" id="row7">
+          <p class="directOutput">(</p>
+          <p class="directOutput">)</p>
+          <p class="num directOutput">0</p>
+          <p class="operator directOutput">.</p>
+          <p id="evaluate-button">=</p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  <script src="./script.js"></script>
+</body>
+
+</html>
