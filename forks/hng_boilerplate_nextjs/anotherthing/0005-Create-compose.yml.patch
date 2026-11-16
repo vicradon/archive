@@ -1,0 +1,21 @@
+From 1f216f77f7950dc85b1b14b6c327272732d985c6 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Wed, 7 Aug 2024 14:24:24 +0100
+Subject: [PATCH] Create compose.yml
+
+Signed-off-by: Osinachi Chukwujama  <Osinachi.Chukwujama@gmail.com>
+---
+ docker/staging/compose.yml | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 docker/staging/compose.yml
+
+diff --git a/docker/staging/compose.yml b/docker/staging/compose.yml
+new file mode 100644
+index 0000000..1a6d52f
+--- /dev/null
++++ b/docker/staging/compose.yml
+@@ -0,0 +1 @@
++version: 3.9
+-- 
+2.47.3
+

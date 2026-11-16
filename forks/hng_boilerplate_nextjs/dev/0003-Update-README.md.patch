@@ -1,0 +1,27 @@
+From 2b74446c58b577050e4c832cfe7aaffa464b36af Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Thu, 8 Aug 2024 19:55:19 +0100
+Subject: [PATCH] Update README.md
+
+Signed-off-by: Osinachi Chukwujama  <Osinachi.Chukwujama@gmail.com>
+---
+ README.md | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/README.md b/README.md
+index e7863bc..e9d73a8 100644
+--- a/README.md
++++ b/README.md
+@@ -2,8 +2,7 @@
+ 
+ ## Overview
+ 
+-[Description]
+-
++chatgpt 
+ ## Getting Started
+ 
+ In order to run this app locally, you should have the following programs installed on your computer:
+-- 
+2.47.3
+

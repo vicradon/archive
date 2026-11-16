@@ -1,0 +1,26 @@
+From 66da97b8ac536601f6a2388d9f96fc54501074d5 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Wed, 7 Aug 2024 12:59:30 +0100
+Subject: [PATCH] Update page.tsx
+
+Signed-off-by: Osinachi Chukwujama  <Osinachi.Chukwujama@gmail.com>
+---
+ src/app/dashboard/(admin)/admin/(overview)/page.tsx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/app/dashboard/(admin)/admin/(overview)/page.tsx b/src/app/dashboard/(admin)/admin/(overview)/page.tsx
+index 169d770..a94f6e2 100644
+--- a/src/app/dashboard/(admin)/admin/(overview)/page.tsx
++++ b/src/app/dashboard/(admin)/admin/(overview)/page.tsx
+@@ -3,7 +3,7 @@ import AdminPage from "~/app/dashboard/(admin)/admin/(overview)/client";
+ export const metadata = {
+   title: "Dashboard",
+   description:
+-    "Super Admin Dashboard using ShadCN UI components, Wo, wetin concine me? adhering to design specifications and best practices for accessibility.",
++    "Super Admin Dashboard using lol UI components, Wo, wetin concine me? adhering to design specifications and best practices for accessibility.",
+ };
+ 
+ const Admin = () => {
+-- 
+2.47.3
+

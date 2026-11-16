@@ -1,0 +1,21 @@
+From ad2c033ab4c0bfe902d34d35e48bad625de24731 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Thu, 8 Aug 2024 19:32:04 +0100
+Subject: [PATCH] Create seomthing1
+
+Signed-off-by: Osinachi Chukwujama  <Osinachi.Chukwujama@gmail.com>
+---
+ seomthing1 | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 seomthing1
+
+diff --git a/seomthing1 b/seomthing1
+new file mode 100644
+index 0000000..deba01f
+--- /dev/null
++++ b/seomthing1
+@@ -0,0 +1 @@
++something
+-- 
+2.47.3
+

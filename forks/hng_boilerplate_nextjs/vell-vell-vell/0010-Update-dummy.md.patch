@@ -1,0 +1,24 @@
+From 34eeef6b46654b9a29354cfbd2a6cc3719f2ad7a Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Wed, 7 Aug 2024 23:11:57 +0100
+Subject: [PATCH] Update dummy.md
+
+Signed-off-by: Osinachi Chukwujama  <Osinachi.Chukwujama@gmail.com>
+---
+ dummy.md | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/dummy.md b/dummy.md
+index 6bbbcd3..bdd4683 100644
+--- a/dummy.md
++++ b/dummy.md
+@@ -14,3 +14,6 @@ The wolf is there
+ 
+ I can't tell 
+ bro
++
++
++Bro tenacious
+-- 
+2.47.3
+

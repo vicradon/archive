@@ -1,0 +1,27 @@
+From 8f20dcce046052407c26ed14e5b892ff438e2e5c Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Thu, 8 Aug 2024 00:17:42 +0100
+Subject: [PATCH] Update dummy.md
+
+Signed-off-by: Osinachi Chukwujama  <Osinachi.Chukwujama@gmail.com>
+---
+ dummy.md | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/dummy.md b/dummy.md
+index bdd4683..2b6da58 100644
+--- a/dummy.md
++++ b/dummy.md
+@@ -17,3 +17,9 @@ bro
+ 
+ 
+ Bro tenacious
++
++
++So here's the thing.
++
++This is how we track a commit that goes into this branch first
++Before it finnaly makes it's way to dev
+-- 
+2.47.3
+

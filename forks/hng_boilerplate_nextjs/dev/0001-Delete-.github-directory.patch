@@ -1,0 +1,720 @@
+From bbe3ce644737178ed2dc14bb5fe621a0dde369eb Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Thu, 8 Aug 2024 19:24:40 +0100
+Subject: [PATCH] Delete .github directory
+
+Signed-off-by: Osinachi Chukwujama  <Osinachi.Chukwujama@gmail.com>
+---
+ .github/ISSUE_TEMPLATE/feature.yml          |  38 ------
+ .github/pull_request_template.md            |  49 -------
+ .github/workflows/build-and-upload.yml      |  63 ---------
+ .github/workflows/build-lint-test.yml       |  51 -------
+ .github/workflows/codeql.yml                |  93 -------------
+ .github/workflows/coverage-report.yml       |  29 ----
+ .github/workflows/dev-deployment.yml        |  28 ----
+ .github/workflows/production-deployment.yml |  68 ----------
+ .github/workflows/staging-deployment.yml    |  68 ----------
+ .github/workflows/team-deployment.yml       | 141 --------------------
+ 10 files changed, 628 deletions(-)
+ delete mode 100644 .github/ISSUE_TEMPLATE/feature.yml
+ delete mode 100644 .github/pull_request_template.md
+ delete mode 100644 .github/workflows/build-and-upload.yml
+ delete mode 100644 .github/workflows/build-lint-test.yml
+ delete mode 100644 .github/workflows/codeql.yml
+ delete mode 100644 .github/workflows/coverage-report.yml
+ delete mode 100644 .github/workflows/dev-deployment.yml
+ delete mode 100644 .github/workflows/production-deployment.yml
+ delete mode 100644 .github/workflows/staging-deployment.yml
+ delete mode 100644 .github/workflows/team-deployment.yml
+
+diff --git a/.github/ISSUE_TEMPLATE/feature.yml b/.github/ISSUE_TEMPLATE/feature.yml
+deleted file mode 100644
+index d7afe15..0000000
+--- a/.github/ISSUE_TEMPLATE/feature.yml
++++ /dev/null
+@@ -1,38 +0,0 @@
+-name: Feature
+-description: An enhancement or feature
+-title: "[Feature]: "
+-labels: ["triage", "feature"]
+-body:
+-  - type: textarea
+-    id: description
+-    attributes:
+-      label: Description
+-      description: A step-by-step description of the suggested feature/enhancement.
+-      placeholder: On the user page, you should be able to...
+-    validations:
+-      required: true
+-  - type: textarea
+-    id: acceptanceCriteria
+-    attributes:
+-      label: Acceptance Criteria
+-      description: What are the things that must be achieved for your ticket to be considered complete.
+-    validations:
+-      required: true
+-  - type: markdown
+-    attributes:
+-      value: >
+-        | Please include any screenshots which would help demonstrate the steps
+-        and point out which parts the feature is related to
+-  - type: textarea
+-    id: links
+-    attributes:
+-      label: Links
+-      description: Place links to supporting docs here. e.g. Figma
+-      value: >
+-        | [`FIGMA LINK`](LINK_HERE)
+-  - type: textarea
+-    id: images
+-    attributes:
+-      label: Images
+-      description: Paste images or image urls
+-      value: "![image](URL_HERE)"
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+deleted file mode 100644
+index e7ab1cf..0000000
+--- a/.github/pull_request_template.md
++++ /dev/null
+@@ -1,49 +0,0 @@
+-<!-- Do not delete this PR template. Just edit it to include the required information -->
+-
+-# Description
+-
+-<!-- If your PR fixes an open issue, use `Closes #999` to link your PR with the issue. #999 stands for the issue number you are fixing -->
+-
+-<!-- Github Issue Example: Closes #31 -->
+-
+-**Closes #issue_number_here**
+-
+-# Changes proposed
+-
+-## What were you told to do?
+-
+-<!-- Write the title of the issue/feature you are working on -->
+-
+-## What did you do?
+-
+-<!-- Talk about the things you did eg. files changes, dependencies installed e.t.c -->
+-
+-# Check List (Check all the applicable boxes)
+-
+-🚨Please review the [contribution guideline](CONTRIBUTING.md) for this repository.
+-
+-<!-- Mark all the applicable boxes. To mark the box as done follow the following conventions -->
+-
+-<!--
+-[x] - Correct; marked as done
+-[X] - Correct; marked as done
+-[ ] - Correct; marked as **not** done
+-
+-[] - Not Correct; syntax error
+-[ x] - Not Correct; space between the brackets
+--->
+-
+-- [ ] My code follows the code style of this project.
+-- [ ] This PR does not contain plagiarized content.
+-- [ ] The title and description of the PR is clear and explains the approach.
+-- [ ] I am making a pull request against the **dev branch** (left side).
+-- [ ] My commit messages styles matches our requested structure.
+-- [ ] My code additions will fail neither code linting checks nor unit test.
+-- [ ] I am only making changes to files I was requested to.
+-
+-# Screenshots/Videos
+-
+-<!-- If the changes are static page changes or UI changes add screenshots -->
+-<!-- If the changes involve implementing a functionality or working with apis, include a video
+-detailing how to implement the functionality and the request to the api and responses from the api endpoint-->
+-<!-- Add all the screenshots/videos which support your changes i.e before your change and after your change -->
+diff --git a/.github/workflows/build-and-upload.yml b/.github/workflows/build-and-upload.yml
+deleted file mode 100644
+index de4d895..0000000
+--- a/.github/workflows/build-and-upload.yml
++++ /dev/null
+@@ -1,63 +0,0 @@
+-name: Build and Upload
+-
+-on:
+-  push:
+-    branches:
+-      - dev
+-
+-jobs:
+-  build:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v2
+-      
+-      - name: Build Docker image
+-        run: docker build -t hngdevops/nextjs-boilerplate:dev -f docker/development/Dockerfile .
+-      
+-      - name: Save and compress Docker image
+-        run: |
+-          docker save hngdevops/nextjs-boilerplate:dev > nextjs-dev.tar
+-          gzip nextjs-dev.tar
+-      
+-      - name: Upload artifact
+-        uses: actions/upload-artifact@v2
+-        with:
+-          name: docker-image
+-          path: nextjs-dev.tar.gz
+-
+-  copy-and-load-image:
+-    needs: build
+-    runs-on: ubuntu-latest
+-    if: github.event.repository.fork == false
+-
+-    environment:
+-      name: "dev"
+-      url: ${{ vars.URL }}
+-      
+-    steps:
+-      - name: Download artifact
+-        uses: actions/download-artifact@v2
+-        with:
+-          name: docker-image
+-          path: .
+-      
+-      - name: Copy to server
+-        uses: appleboy/scp-action@master
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          source: "nextjs-dev.tar.gz"
+-          target: "/tmp/nextjs"
+-  
+-      - name: Load image in server
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd /tmp/nextjs
+-            gunzip nextjs-dev.tar.gz
+-            docker load < nextjs-dev.tar
+-            rm -f nextjs-dev.tar
+diff --git a/.github/workflows/build-lint-test.yml b/.github/workflows/build-lint-test.yml
+deleted file mode 100644
+index 160cc51..0000000
+--- a/.github/workflows/build-lint-test.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-name: Build, Lint and Test
+-
+-on:
+-  pull_request
+-
+-jobs:
+-  build_lint_test:
+-    runs-on: ubuntu-latest
+-
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v3
+-
+-      - name: Set up Node.js
+-        uses: actions/setup-node@v3
+-        with:
+-          node-version: "20"
+-        
+-      - name: Cache pnpm modules
+-        uses: actions/cache@v3
+-        with:
+-          path: ~/.pnpm-store
+-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+-          restore-keys: |
+-            ${{ runner.os }}-pnpm-
+-
+-      - name: Install pnpm
+-        uses: pnpm/action-setup@v4
+-        with:
+-          version: 9
+-
+-      - name: Install dependencies
+-        run: pnpm install
+-
+-      - name: Lint code
+-        run: pnpm lint
+-
+-      - name: Build email
+-        run: pnpm email:build
+-
+-      - name: Build project
+-        run: pnpm build
+-
+-      - name: Run tests
+-        run: pnpm run test:ci
+-        
+-      - name: Upload coverage reports
+-        uses: actions/upload-artifact@v3
+-        with:
+-          name: coverage-report
+-          path: coverage/
+diff --git a/.github/workflows/codeql.yml b/.github/workflows/codeql.yml
+deleted file mode 100644
+index b36496d..0000000
+--- a/.github/workflows/codeql.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# For most projects, this workflow file will not need changing; you simply need
+-# to commit it to your repository.
+-#
+-# You may wish to alter this file to override the set of languages analyzed,
+-# or to provide custom queries or build logic.
+-#
+-# ******** NOTE ********
+-# We have attempted to detect the languages in your repository. Please check
+-# the `language` matrix defined below to confirm you have the correct set of
+-# supported CodeQL languages.
+-#
+-name: "CodeQL"
+-
+-on:
+-  push:
+-    branches: [ "dev", "devops", "main", "staging" ]
+-  pull_request:
+-    branches: [ "dev", "devops", "main", "staging" ]
+-  schedule:
+-    - cron: '35 14 * * 1'
+-
+-jobs:
+-  analyze:
+-    name: Analyze (${{ matrix.language }})
+-    # Runner size impacts CodeQL analysis time. To learn more, please see:
+-    #   - https://gh.io/recommended-hardware-resources-for-running-codeql
+-    #   - https://gh.io/supported-runners-and-hardware-resources
+-    #   - https://gh.io/using-larger-runners (GitHub.com only)
+-    # Consider using larger runners or machines with greater resources for possible analysis time improvements.
+-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+-    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+-    permissions:
+-      # required for all workflows
+-      security-events: write
+-
+-      # required to fetch internal or private CodeQL packs
+-      packages: read
+-
+-      # only required for workflows in private repositories
+-      actions: read
+-      contents: read
+-
+-    strategy:
+-      fail-fast: false
+-      matrix:
+-        include:
+-        - language: javascript-typescript
+-          build-mode: none
+-        # CodeQL supports the following values keywords for 'language': 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
+-        # Use `c-cpp` to analyze code written in C, C++ or both
+-        # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
+-        # Use 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
+-        # To learn more about changing the languages that are analyzed or customizing the build mode for your analysis,
+-        # see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning.
+-        # If you are analyzing a compiled language, you can modify the 'build-mode' for that language to customize how
+-        # your codebase is analyzed, see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/codeql-code-scanning-for-compiled-languages
+-    steps:
+-    - name: Checkout repository
+-      uses: actions/checkout@v4
+-
+-    # Initializes the CodeQL tools for scanning.
+-    - name: Initialize CodeQL
+-      uses: github/codeql-action/init@v3
+-      with:
+-        languages: ${{ matrix.language }}
+-        build-mode: ${{ matrix.build-mode }}
+-        # If you wish to specify custom queries, you can do so here or in a config file.
+-        # By default, queries listed here will override any specified in a config file.
+-        # Prefix the list here with "+" to use these queries and those in the config file.
+-
+-        # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+-        # queries: security-extended,security-and-quality
+-
+-    # If the analyze step fails for one of the languages you are analyzing with
+-    # "We were unable to automatically build your code", modify the matrix above
+-    # to set the build mode to "manual" for that language. Then modify this step
+-    # to build your code.
+-    # ℹ️ Command-line programs to run using the OS shell.
+-    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+-    - if: matrix.build-mode == 'manual'
+-      shell: bash
+-      run: |
+-        echo 'If you are using a "manual" build mode for one or more of the' \
+-          'languages you are analyzing, replace this with the commands to build' \
+-          'your code, for example:'
+-        echo '  make bootstrap'
+-        echo '  make release'
+-        exit 1
+-
+-    - name: Perform CodeQL Analysis
+-      uses: github/codeql-action/analyze@v3
+-      with:
+-        category: "/language:${{matrix.language}}"
+diff --git a/.github/workflows/coverage-report.yml b/.github/workflows/coverage-report.yml
+deleted file mode 100644
+index 8d89a8c..0000000
+--- a/.github/workflows/coverage-report.yml
++++ /dev/null
+@@ -1,29 +0,0 @@
+-name: Coverage Report
+-
+-on:
+-  workflow_run:
+-    workflows: ["Build, Lint and Test"]
+-    types:
+-      - completed
+-
+-jobs:
+-  coverage_report:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    permissions:
+-      pull-requests: write 
+-
+-    steps:
+-      - uses: actions/checkout@v4
+-
+-      - name: Download coverage artifact
+-        uses: actions/download-artifact@v4
+-        with:
+-          github-token: ${{ secrets.GITHUB_TOKEN }}
+-          run-id: ${{ github.event.workflow_run.id }}
+-          name: coverage-report
+-          path: coverage
+-
+-      - name: "Coverage Report"
+-        uses: davelosert/vitest-coverage-report-action@v2
+diff --git a/.github/workflows/dev-deployment.yml b/.github/workflows/dev-deployment.yml
+deleted file mode 100644
+index 553bbbb..0000000
+--- a/.github/workflows/dev-deployment.yml
++++ /dev/null
+@@ -1,28 +0,0 @@
+-name: Dev Deployment
+-
+-on:
+-  workflow_run:
+-    workflows: ["Build and Upload"]
+-    types:
+-      - completed
+-
+-jobs:   
+-  deploy_to_dev:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "dev"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Deploy on server
+-        uses: appleboy/ssh-action@master
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd hng_boilerplate_nextjs
+-            chmod +x ./scripts/*.sh
+-            ./scripts/dev_deploy.sh
+diff --git a/.github/workflows/production-deployment.yml b/.github/workflows/production-deployment.yml
+deleted file mode 100644
+index 61bc3a7..0000000
+--- a/.github/workflows/production-deployment.yml
++++ /dev/null
+@@ -1,68 +0,0 @@
+-name: Production Deployment
+-
+-on:
+-  workflow_dispatch:
+-  push:
+-    branches:
+-      - main
+-    paths-ignore:
+-      - .github/workflows/**
+-
+-jobs:
+-  build:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v2
+-      
+-      - name: Build Docker image
+-        run: docker build -t hngdevops/nextjs-boilerplate:prod -f docker/prod/Dockerfile .
+-      
+-      - name: Save and compress Docker image
+-        run: |
+-          docker save hngdevops/nextjs-boilerplate:prod > nextjs-prod.tar
+-          gzip nextjs-prod.tar
+-      
+-      - name: Upload artifact
+-        uses: actions/upload-artifact@v2
+-        with:
+-          name: docker-image
+-          path: nextjs-prod.tar.gz
+-        
+-  deploy_to_prod:
+-    if: github.event.repository.fork == false
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "prod"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Download artifact
+-        uses: actions/download-artifact@v2
+-        with:
+-          name: docker-image
+-          path: .
+-      
+-      - name: Copy to server
+-        uses: appleboy/scp-action@master
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          source: "nextjs-prod.tar.gz"
+-          target: "/tmp/nextjs"
+-  
+-      - name: Deploy on server
+-        uses: appleboy/ssh-action@master
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd /tmp/nextjs
+-            gunzip nextjs-prod.tar.gz
+-            docker load < nextjs-prod.tar
+-            rm -f nextjs-prod.tar
+-            cd /home/${{ secrets.USERNAME }}/hng_boilerplate_nextjs
+-            chmod +x ./scripts/*.sh
+-            ./scripts/prod_deploy.sh
+diff --git a/.github/workflows/staging-deployment.yml b/.github/workflows/staging-deployment.yml
+deleted file mode 100644
+index 2168a27..0000000
+--- a/.github/workflows/staging-deployment.yml
++++ /dev/null
+@@ -1,68 +0,0 @@
+-name: Staging Deployment
+-
+-on:
+-  workflow_dispatch:
+-  push:
+-    branches:
+-      - staging
+-    paths-ignore:
+-      - .github/workflows/**
+-
+-jobs:
+-  build:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v2
+-      
+-      - name: Build Docker image
+-        run: docker build -t hngdevops/nextjs-boilerplate:staging -f docker/staging/Dockerfile .
+-      
+-      - name: Save and compress Docker image
+-        run: |
+-          docker save hngdevops/nextjs-boilerplate:staging > nextjs-staging.tar
+-          gzip nextjs-staging.tar
+-      
+-      - name: Upload artifact
+-        uses: actions/upload-artifact@v2
+-        with:
+-          name: docker-image
+-          path: nextjs-staging.tar.gz
+-        
+-  deploy_to_staging:
+-    if: github.event.repository.fork == false
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "staging"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Download artifact
+-        uses: actions/download-artifact@v2
+-        with:
+-          name: docker-image
+-          path: .
+-      
+-      - name: Copy to server
+-        uses: appleboy/scp-action@master
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          source: "nextjs-staging.tar.gz"
+-          target: "/tmp/nextjs"
+-  
+-      - name: Deploy on server
+-        uses: appleboy/ssh-action@master
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd /tmp/nextjs
+-            gunzip nextjs-staging.tar.gz
+-            docker load < nextjs-staging.tar
+-            rm -f nextjs-staging.tar
+-            cd /home/${{ secrets.USERNAME }}/hng_boilerplate_nextjs
+-            chmod +x ./scripts/*.sh
+-            ./scripts/staging_deploy.sh
+diff --git a/.github/workflows/team-deployment.yml b/.github/workflows/team-deployment.yml
+deleted file mode 100644
+index 6e8de6d..0000000
+--- a/.github/workflows/team-deployment.yml
++++ /dev/null
+@@ -1,141 +0,0 @@
+-name: Team Deployment
+-
+-on:
+-  workflow_run:
+-    workflows: ["Build and Upload"]
+-    types:
+-      - completed
+-
+-jobs:
+-  kimiko-golang:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "kimiko-golang"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Deploy to kimiko-golang environment
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd hng_boilerplate_nextjs
+-            ./scripts/team_deploy.sh kimiko-golang ${{ vars.PORT }}
+-            
+-  kimiko-csharp:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "kimiko-csharp"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Deploy to kimiko-csharp environment
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd hng_boilerplate_nextjs
+-            ./scripts/team_deploy.sh kimiko-csharp ${{ vars.PORT }}
+-
+-  anchor-java:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "anchor-java"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Deploy to anchor-java environment
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd hng_boilerplate_nextjs
+-            ./scripts/team_deploy.sh anchor-java ${{ vars.PORT }}
+-
+-  anchor-python:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "anchor-python"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Deploy to anchor-python environment
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd hng_boilerplate_nextjs
+-            ./scripts/team_deploy.sh anchor-python ${{ vars.PORT }}
+-
+-  bulldozer-php:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "bulldozer-php"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Deploy to bulldozer-php environment
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd hng_boilerplate_nextjs
+-            ./scripts/team_deploy.sh bulldozer-php ${{ vars.PORT }}
+-
+-  starlight-nestjs:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "starlight-nestjs"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Deploy to starlight-nestjs environment
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd hng_boilerplate_nextjs
+-            ./scripts/team_deploy.sh starlight-nestjs ${{ vars.PORT }}
+-
+-  panther-expressjs:
+-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+-    runs-on: ubuntu-latest
+-
+-    environment:
+-      name: "panther-expressjs"
+-      url: ${{ vars.URL }}
+-
+-    steps:
+-      - name: Deploy to panther-expressjs environment
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ secrets.HOST }}
+-          username: ${{ secrets.USERNAME }}
+-          password: ${{ secrets.PASSWORD }}
+-          script: |
+-            cd hng_boilerplate_nextjs
+-            ./scripts/team_deploy.sh panther-expressjs ${{ vars.PORT }}
+-- 
+2.47.3
+
