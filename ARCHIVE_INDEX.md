@@ -118,3 +118,4 @@
 | pytorch-transformer-distributed | fork of hkproj/pytorch-transformer-distributed (no own commits) | https://github.com/vicradon/pytorch-transformer-distributed | Distributed training (multi-node) of a Transformer model | https://www.youtube.com/watch?v=toUSzwR0EV8 | 2024-04-10 |
 | youtubedlbot | repo | https://github.com/vicradon/youtubedlbot | Telegram bot for downloading youtube videos |  | 2024-04-03 |
 | github-actions-demos | repo | https://github.com/vicradon/github-actions-demos | A full repository of demos showing Github actions run for different repository events |  | 2024-03-19 |
+| webhooksite | repo | https://github.com/vicradon/webhooksite | A webhook.site-like web application that allows you to receive webhook messages |  | 2024-03-19 |
