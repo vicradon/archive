@@ -1,0 +1,47 @@
+.drawing-area {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  z-index: 10;
+  width: 200px;
+  height: 400px;
+}
+
+.canvas-container {
+  width: 200px;
+  height: 400px;
+  position: relative;
+  user-select: none;
+}
+
+#tshirt-div {
+  margin-top: 100px;
+  width: 300px;
+  height: 548px;
+  position: relative;
+  background-color: #fff;
+}
+
+#tshirt-canvas {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  left: 0px;
+  top: 0px;
+  user-select: none;
+  cursor: default;
+}
+
+/* add media query for 400px and below */
+
+@media screen and (max-width: 400px) {
+  .drawing-area {
+    height: 200px;
+  }
+
+  .upper-canvas  {
+    height: 10px !important;
+  }
+
+
+}
