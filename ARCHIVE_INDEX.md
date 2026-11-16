@@ -152,3 +152,4 @@
 | thumbor | fork of thumbor/thumbor (no own commits) | https://github.com/vicradon/thumbor | thumbor is an open-source photo thumbnail service by globo.com | http://thumbor.org | 2023-09-25 |
 | hngx-task3-go | repo | https://github.com/vicradon/hngx-task3-go | The free lunch app from HNGX written in Go |  | 2023-09-23 |
 | project-website | fork of opensearch-project/project-website (no own commits) | https://github.com/vicradon/project-website | The source to opensearch.org | https://opensearch.org | 2023-09-22 |
+| hngx-task2 | repo | https://github.com/vicradon/hngx-task2 | API for person resource |  | 2023-09-21 |
