@@ -272,3 +272,4 @@
 | cube-echarts-backend | repo | https://github.com/vicradon/cube-echarts-backend | The backend for an article with Cube and Echarts |  | 2022-01-31 |
 | first-near-nft | empty (no commits) | https://github.com/vicradon/first-near-nft | NFT on the NEAR protocol |  | 2022-01-29 |
 | cube-tutorial | empty (no commits) | https://github.com/vicradon/cube-tutorial |  |  | 2022-01-28 |
+| playwright.dev | fork of microsoft/playwright.dev (no own commits) | https://github.com/vicradon/playwright.dev | Documentation website for Playwright | https://playwright.dev | 2022-01-17 |
