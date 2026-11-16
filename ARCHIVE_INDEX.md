@@ -391,3 +391,4 @@
 | simple-beedle-app | repo | https://github.com/vicradon/simple-beedle-app | A simple app using Beedle | https://vicradon.github.io/simple-beedle-app/ | 2019-11-17 |
 | beedle-crud-app | repo | https://github.com/vicradon/beedle-crud-app | A simple app using Beedle for state management | https://vicradon.github.io/beedle-crud-app/ | 2019-11-10 |
 | React-Quote-Generator | fork of sammychinedu2ky/React-Quote-Generator (2 patches) | https://github.com/vicradon/React-Quote-Generator | Created with CodeSandbox | https://codesandbox.io/s/github/sammychinedu2ky/React-Quote-Generator | 2019-10-22 |
+| go-repl | fork of golobby/repl (no own commits) | https://github.com/vicradon/go-repl | Golang REPL, Prototype as fast as possible |  | 2019-10-19 |
