@@ -32,3 +32,4 @@
 | excalidraw-renderer | fork of Infatoshi/excalidraw.py (no own commits) | https://github.com/vicradon/excalidraw-renderer | Render Excalidraw files to PNG with proper text rendering |  | 2026-01-04 |
 | bulk-file-uploader | repo | https://github.com/vicradon/bulk-file-uploader | a bulk file uploader written in go that allows uploads across multiple filetypes |  | 2025-12-20 |
 | emotion-detection | repo | https://github.com/vicradon/emotion-detection | A simple emotion detection project using YOLO architecture |  | 2025-12-12 |
+| n8n | fork of n8n-io/n8n (no own commits) | https://github.com/vicradon/n8n | Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations. | https://n8n.io | 2025-12-02 |
