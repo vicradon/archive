@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uploaded Files</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="header-with-link">
+          <h1>Uploaded Files</h1>
+          <a href="/" class="view-uploads-link">Back to Upload</a>
+        </div>
+
+        {{if .Files}}
+        <div class="files-list">
+          {{range .Files}}
+          <div class="file-item">
+            <div class="file-info">
+              <div class="file-name">{{.Name}}</div>
+              <div class="file-size">{{formatFileSize .Size}}</div>
+            </div>
+            <div class="file-actions">
+              <button class="btn-secondary" onclick="downloadFile('{{.Name}}')">Download</button>
+              <button class="btn-danger" onclick="deleteFile('{{.Name}}')">Delete</button>
+            </div>
+          </div>
+          {{end}}
+        </div>
+        {{else}}
+        <div class="empty-state">No uploaded files found</div>
+        {{end}}
+      </div>
+    </div>
+
+    <script src="/static/js/uploads.js"></script>
+  </body>
+</html>

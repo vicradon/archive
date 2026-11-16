@@ -1,0 +1,9 @@
+.venv
+node_modules
+
+uploads/*
+corrupt/*
+
+*.exe
+*.bin
+fileserver

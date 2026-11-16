@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Upload</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="header-with-link">
+          <h1>Upload Files</h1>
+          <a href="/uploads" class="view-uploads-link">View Uploads</a>
+        </div>
+
+        <div
+          class="filter-group"
+          role="radiogroup"
+          aria-label="File type filter"
+        >
+          <label class="filter-option">
+            <input type="radio" name="fileFilter" value="all" checked />
+            <span>All Files</span>
+          </label>
+
+          <label class="filter-option">
+            <input type="radio" name="fileFilter" value="video" />
+            <span>Videos</span>
+          </label>
+
+          <label class="filter-option">
+            <input type="radio" name="fileFilter" value="image" />
+            <span>Images</span>
+          </label>
+
+          <label class="filter-option">
+            <input type="radio" name="fileFilter" value="document" />
+            <span>Documents</span>
+          </label>
+
+          <label class="filter-option">
+            <input type="radio" name="fileFilter" value="audio" />
+            <span>Audio</span>
+          </label>
+
+          <label class="filter-option">
+            <input type="radio" name="fileFilter" value="archive" />
+            <span>Archives</span>
+          </label>
+        </div>
+
+        <div class="upload-area">
+          <label for="file" class="file-label">
+            <div>Click to select files (or multiple files)</div>
+          </label>
+          <input type="file" id="file" name="file" multiple />
+        </div>
+
+        <div id="selectedFiles" class="selected-files hidden"></div>
+
+        <button
+          id="uploadBtn"
+          onclick="startUploads()"
+          style="width: 100%; margin-top: 16px"
+          disabled
+        >
+          Start Upload
+        </button>
+      </div>
+
+      <div class="card">
+        <h1>Upload Queue</h1>
+        <div id="uploadQueue">
+          <div class="empty-state">No active uploads</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+  </body>
+</html>
