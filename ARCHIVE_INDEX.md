@@ -354,3 +354,4 @@
 | osinachi | repo | https://github.com/vicradon/osinachi | HNGi7 Task 1 |  | 2020-06-01 |
 | coursefidence | repo | https://github.com/vicradon/coursefidence | The coursefidence app which helps you log your confidence level in your courses |  | 2020-06-01 |
 | git-14days-challenge | fork of fbdevcowerri/git-14days-challenge (23 patches) | https://github.com/vicradon/git-14days-challenge | Get(Git) up and running with Git, by following through on our 14 Days Git/Github Mastery Challenge |  | 2020-05-22 |
+| chakra-ui | fork of chakra-ui/chakra-ui (no own commits) | https://github.com/vicradon/chakra-ui | ⚡️Simple, Modular & Accessible UI Components for your React Applications | https://chakra-ui.com | 2020-05-19 |
