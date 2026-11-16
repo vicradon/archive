@@ -143,3 +143,4 @@
 | rent-predictor | fork of Greyisheep/rent-predictor (no own commits) | https://github.com/vicradon/rent-predictor |  |  | 2023-10-16 |
 | vulnerable-express-app | repo | https://github.com/vicradon/vulnerable-express-app | A deliberately vulnerable express.js application for demo purpose |  | 2023-10-16 |
 | ecommerce-api | repo | https://github.com/vicradon/ecommerce-api | An ecommerce API with user, orders, product |  | 2023-10-16 |
+| foxit-rfi-app | repo | https://github.com/vicradon/foxit-rfi-app | An implementation of Foxit PDF automation using their API |  | 2023-10-02 |
