@@ -168,3 +168,4 @@
 | merge-ats-demo | repo | https://github.com/vicradon/merge-ats-demo | A demo Python application for adding candidates to the merge ATS |  | 2023-07-31 |
 | petstoree | empty (no commits) | https://github.com/vicradon/petstoree | The Petstore API demo offered by SwaggerHub on NextJS |  | 2023-07-25 |
 | runam | repo | https://github.com/vicradon/runam | Runam website | https://runam.vercel.app | 2023-07-23 |
+| browser | empty (no commits) | https://github.com/vicradon/browser | A text-based browser cli that runs on any system |  | 2023-06-10 |
