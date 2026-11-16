@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Masked Armed Bandits Detection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
+  
+  </head>
+  <body class="min-h-screen">
+    <div class="min-h-screen py-8 px-4">
+      <!-- Header -->
+      <div class="flex justify-end mb-4 pr-4">
+        <button
+          id="themeToggle"
+          aria-label="Toggle Theme"
+          class="relative w-10 h-10 rounded-full flex items-center justify-center border border-gray-500 hover:border-white transition duration-300"
+        >
+          <span id="themeIcon" class="transition-transform duration-500 text-lg"
+            >🌙</span
+          >
+        </button>
+      </div>
+
+      <canvas id="mycanvas"></canvas>
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+          <h1 class="text-4xl font-semibold text-geist-primary mb-3">
+            Masked Armed Bandit Detection Web App
+          </h1>
+          <p class="text-lg text-geist-secondary max-w-2xl mx-auto">
+            Upload an image to detect masked armed bandits
+          </p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid lg:grid-cols-2 gap-8">
+          <!-- Left Panel -->
+          <div class="space-y-6">
+            <!-- Upload Section -->
+            <div class="geist-card p-6">
+              <h2 class="text-lg font-medium text-geist-primary mb-4">
+                Upload Image
+              </h2>
+              <div
+                id="uploadArea"
+                class="upload-area p-8 text-center cursor-pointer"
+              >
+                <input
+                  type="file"
+                  id="imageInput"
+                  accept="image/*"
+                  class="hidden"
+                />
+                <div id="uploadContent">
+                  <svg
+                    class="w-12 h-12 mx-auto mb-4 text-geist-muted"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                  <p class="text-geist-primary text-sm mb-2">
+                    Click to upload an image
+                  </p>
+                  <p class="text-geist-muted text-xs">or drag and drop</p>
+                  <p class="text-geist-muted text-xs mt-2">
+                    PNG, JPG, GIF up to 10MB
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Image Preview -->
+            <div id="previewContainer" class="geist-card p-6 hidden">
+              <h2 class="text-lg font-medium text-geist-primary mb-4">
+                Preview
+              </h2>
+              <div class="relative">
+                <img
+                  id="preview"
+                  src=""
+                  alt="Preview"
+                  class="w-full h-auto rounded-lg max-h-80 object-contain border border-gray-200"
+                />
+                <button
+                  id="removeImage"
+                  class="absolute top-2 right-2 w-6 h-6 bg-white shadow-md rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  <svg
+                    class="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Detection Button -->
+            <button id="detectBtn" class="geist-button w-full" disabled>
+              <span id="btnText">Detect Masked Armed Bandits</span>
+              <div id="loadingSpinner" class="loading-spinner hidden"></div>
+            </button>
+          </div>
+
+          <!-- Right Panel -->
+          <div class="space-y-6">
+            <!-- Status -->
+            <div class="geist-card p-6">
+              <h2 class="text-lg font-medium text-geist-primary mb-4">
+                Status
+              </h2>
+              <div id="statusIndicator" class="flex items-center gap-3">
+                <div class="status-dot status-ready"></div>
+                <span class="text-sm text-geist-secondary">Ready</span>
+              </div>
+            </div>
+
+            <!-- Results -->
+            <div class="geist-card p-6">
+              <h2 class="text-lg font-medium text-geist-primary mb-4">
+                Results
+              </h2>
+              <div id="outputContainer" class="min-h-48">
+                <div id="emptyState" class="text-center py-12">
+                  <svg
+                    class="w-12 h-12 mx-auto mb-4 text-geist-muted"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    ></path>
+                  </svg>
+                  <p class="text-geist-muted text-sm">
+                    Detection results will appear here
+                  </p>
+                </div>
+
+                <!-- Canvas Results -->
+                <div id="canvasResults" class="hidden">
+                  <div class="canvas-container">
+                    <img id="resultImage" src="" alt="Result" />
+                    <canvas id="resultCanvas"></canvas>
+                  </div>
+                  <div id="detectionInfo" class="detection-info">
+                    <div class="text-sm font-medium text-geist-primary mb-2">
+                      Detections:
+                    </div>
+                    <div id="detectionList"></div>
+                  </div>
+                </div>
+
+                <!-- JSON Output -->
+                <div id="jsonOutput" class="hidden">
+                  <div class="mb-3">
+                    <button
+                      id="toggleView"
+                      class="text-sm text-geist-blue-9 hover:underline"
+                    >
+                      Show JSON
+                    </button>
+                  </div>
+                  <div id="output" class="code-block"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info -->
+            <div class="geist-card p-6">
+              <h2 class="text-lg font-medium text-geist-primary mb-4">
+                How it works
+              </h2>
+              <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                  <div
+                    class="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 mt-0.5 flex-shrink-0"
+                  >
+                    1
+                  </div>
+                  <p class="text-sm text-geist-secondary">
+                    Upload an image using the file selector or drag and drop
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div
+                    class="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 mt-0.5 flex-shrink-0"
+                  >
+                    2
+                  </div>
+                  <p class="text-sm text-geist-secondary">
+                    Click "Detect Masked Armed Bandits" to run the inference
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div
+                    class="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 mt-0.5 flex-shrink-0"
+                  >
+                    3
+                  </div>
+                  <p class="text-sm text-geist-secondary">
+                    View the detection results with bounding boxes
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
