@@ -100,3 +100,4 @@
 | youtubesplitterapp | repo | https://github.com/vicradon/youtubesplitterapp | An app that splits YouTube videos |  | 2024-07-17 |
 | flask_background_processing | repo | https://github.com/vicradon/flask_background_processing | A repo containing a simple flask application using Celery and RabbitMQ |  | 2024-07-14 |
 | devops-stage-2 | fork of hngprojects/devops-stage-2 (9 patches) | https://github.com/vicradon/devops-stage-2 |  |  | 2024-07-08 |
+| expressvercel | repo | https://github.com/vicradon/expressvercel | This is an express app on vercel | https://expressvercel-beryl.vercel.app | 2024-07-02 |
