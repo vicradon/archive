@@ -1,0 +1,25 @@
+From d5ea52d7cf00b2540196ce685c74d871b339ce20 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Wed, 27 Jan 2021 03:51:56 +0100
+Subject: [PATCH] fix: add expose option for port 80
+
+---
+ Dockerfile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Dockerfile b/Dockerfile
+index b009ece..83ae720 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -8,6 +8,8 @@ RUN npm i -g @adonisjs/cli
+ # Change working directory
+ WORKDIR /var/www
+ 
++EXPOSE 80
++
+ # Copy init.sh
+ COPY init.sh /init.sh
+ 
+-- 
+2.47.3
+

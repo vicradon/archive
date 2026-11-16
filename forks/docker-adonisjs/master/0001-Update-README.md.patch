@@ -1,0 +1,25 @@
+From 5cca838ee925fc3c956bec4a347c19e5bc8066f1 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Wed, 27 Jan 2021 03:56:52 +0100
+Subject: [PATCH] Update README.md
+
+---
+ .github/README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.github/README.md b/.github/README.md
+index 4a6a5d8..79e36f8 100644
+--- a/.github/README.md
++++ b/.github/README.md
+@@ -2,7 +2,7 @@
+ 
+ [![Build Status](https://travis-ci.org/apquinit/docker-adonisjs.svg?branch=master)](https://travis-ci.org/apquinit/docker-adonisjs)
+ 
+-Docker image for AdonisJs projects.
++Dockerized Adonis starter app.
+ 
+ ## Installation
+ 
+-- 
+2.47.3
+

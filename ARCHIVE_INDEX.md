@@ -311,3 +311,4 @@
 | proposal-pattern-matching | fork of tc39/proposal-pattern-matching (1 patches) | https://github.com/vicradon/proposal-pattern-matching | Pattern matching syntax for ECMAScript |  | 2021-03-04 |
 | csv-parser-api | repo | https://github.com/vicradon/csv-parser-api | An API for parsing CSV and returning a JSON object |  | 2021-02-16 |
 | ros-arduino-navigation-bot | fork of vinay-lanka/navbot_hardware (no own commits) | https://github.com/vicradon/ros-arduino-navigation-bot | A differential drive robot controller with Arduino Mega and DC motors with encoders. Uses 2 PID controllers |  | 2021-01-31 |
+| docker-adonisjs | fork of apquinit/docker-adonisjs (2 patches) | https://github.com/vicradon/docker-adonisjs | Docker image for AdonisJs projects |  | 2021-01-27 |
