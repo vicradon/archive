@@ -324,3 +324,4 @@
 | webhooks-course | fork of TwilioDevEd/webhooks-course (2 patches) | https://github.com/vicradon/webhooks-course |  |  | 2020-12-31 |
 | hashnode-cli | repo | https://github.com/vicradon/hashnode-cli | Command line utilities for interacting with Hashnode. |  | 2020-12-29 |
 | hello-github-actions | repo | https://github.com/vicradon/hello-github-actions |  | https://lab.github.com/githubtraining/github-actions:-hello-world | 2020-12-27 |
+| engineering-blog-samples | fork of LoginRadius/engineering-blog-samples (no own commits) | https://github.com/vicradon/engineering-blog-samples | Code samples of LoginRadius Engineering Blog | https://www.loginradius.com/engineering/blog | 2020-12-13 |
