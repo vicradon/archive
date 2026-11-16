@@ -298,3 +298,4 @@
 | fesklas-web | fork of nwazuo/fesklas-web (2 patches) | https://github.com/vicradon/fesklas-web | Fesklas Web |  | 2021-07-21 |
 | azure-blob-storage-workshop | repo | https://github.com/vicradon/azure-blob-storage-workshop |  |  | 2021-05-22 |
 | micro-express-app | repo | https://github.com/vicradon/micro-express-app |  |  | 2021-05-21 |
+| shape-area-api | repo | https://github.com/vicradon/shape-area-api | An API for 2D shape computation |  | 2021-05-03 |
