@@ -388,3 +388,4 @@
 | simplest-mvc-app | repo | https://github.com/vicradon/simplest-mvc-app | A very simple example of MVC architecture | https://vicradon.github.io/simplest-mvc-app/ | 2019-12-21 |
 | next-express-demo | repo | https://github.com/vicradon/next-express-demo | A small demo of using next and express |  | 2019-12-09 |
 | draggable-box | empty (no commits) | https://github.com/vicradon/draggable-box | A shirt code showing a draggable-box |  | 2019-11-23 |
+| simple-beedle-app | repo | https://github.com/vicradon/simple-beedle-app | A simple app using Beedle | https://vicradon.github.io/simple-beedle-app/ | 2019-11-17 |
