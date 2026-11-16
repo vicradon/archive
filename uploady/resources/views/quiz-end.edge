@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game End</title>
+    {{ style('css/bootstrap.min') }}
+</head>
+<body>
+    <main class="container">
+        <h1>{{decode(title)}}</h1>
+
+        <div>
+            @each(quiz in quizes)
+            <div>
+                <h3>{{decode(quiz.question)}}</h3>
+                @each(answer in quiz.answers)
+                <div class="d-flex align-items-baseline">
+                    @if(answer.isCorrect)
+                        <img width="15" src="/icons/check.svg" alt="checkmark">
+                    @else
+                        <img width="15" src="/icons/x.svg" alt="checkmark">
+                    @endif
+
+                    <p class="ms-2">{{decode(answer.text)}}</p>
+                </div>
+                @endeach
+            </div>
+            @endeach
+        </div>
+
+        <div class="my-4">
+            <a href="/" class="btn btn-primary" type="submit">Play Again</a>
+        </div>
+    </main>
+</body>
+</html>
