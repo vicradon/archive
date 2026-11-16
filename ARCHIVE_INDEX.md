@@ -336,3 +336,4 @@
 | vuetify | fork of vuetifyjs/vuetify (1 patches) | https://github.com/vicradon/vuetify | 🐉 Material Component Framework for Vue | https://vuetifyjs.com | 2020-10-12 |
 | larticles_api | fork of bradtraversy/larticles_api (no own commits) | https://github.com/vicradon/larticles_api | Laravel 5.5 API using resources |  | 2020-10-06 |
 | FlappyLearning | fork of xviniette/FlappyLearning (no own commits) | https://github.com/vicradon/FlappyLearning | Program learning to play Flappy Bird by machine learning (Neuroevolution) | http://xviniette.github.io/FlappyLearning/ | 2020-10-01 |
+| todofy | repo | https://github.com/vicradon/todofy | A PWA ToDo app as part of the LIPE tasks | https://todofy.netlify.app/ | 2020-09-09 |
