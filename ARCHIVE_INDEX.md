@@ -107,3 +107,4 @@
 | imageprocessor | repo | https://github.com/vicradon/imageprocessor |  |  | 2024-06-29 |
 | user-info-site | repo | https://github.com/vicradon/user-info-site | A simple static website |  | 2024-06-28 |
 | flask_blog | repo | https://github.com/vicradon/flask_blog | A simple blog built with flask for demo purposes |  | 2024-06-22 |
+| portfolio-website | repo | https://github.com/vicradon/portfolio-website | Osinachi Chukwujama Portfolio Website | https://osinachi.me | 2024-06-18 |
