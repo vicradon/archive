@@ -42,3 +42,4 @@
 | pika_job_system | repo | https://github.com/vicradon/pika_job_system | A job processing system using postgresql and rabbitmq |  | 2025-10-01 |
 | 100DaysOfAlgo | repo | https://github.com/vicradon/100DaysOfAlgo |  |  | 2025-09-20 |
 | colab_notebooks | repo | https://github.com/vicradon/colab_notebooks | modified notebooks I found on the internet |  | 2025-09-19 |
+| trivial | repo | https://github.com/vicradon/trivial |  |  | 2025-09-19 |
