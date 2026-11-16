@@ -202,3 +202,4 @@
 | jaffle_shop | fork of dbt-labs/jaffle-shop-classic (no own commits) | https://github.com/vicradon/jaffle_shop | A self-contained dbt project for testing purposes |  | 2023-01-04 |
 | crudify | repo | https://github.com/vicradon/crudify |  |  | 2023-01-04 |
 | hygraph-crunch | repo | https://github.com/vicradon/hygraph-crunch | A blog application that fetches data from Yelp GraphQL API | hygraph-crunch.vercel.app | 2023-01-04 |
+| marv-chatbot | repo | https://github.com/vicradon/marv-chatbot | An OpenAI completion bot that can act as different personalities | marv-chatbot.vercel.app | 2023-01-01 |
