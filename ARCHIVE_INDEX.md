@@ -174,3 +174,4 @@
 | weaviate-stuff | empty (no commits) | https://github.com/vicradon/weaviate-stuff |  |  | 2023-05-13 |
 | notionxfutodevdemo | empty (no commits) | https://github.com/vicradon/notionxfutodevdemo |  |  | 2023-04-29 |
 | shopping-cart-microservice | repo | https://github.com/vicradon/shopping-cart-microservice | A shopping cart microservice written in Go |  | 2023-03-15 |
+| mariadb-gui | repo | https://github.com/vicradon/mariadb-gui | A MariaDB GUI built using Airplane views |  | 2023-03-10 |
