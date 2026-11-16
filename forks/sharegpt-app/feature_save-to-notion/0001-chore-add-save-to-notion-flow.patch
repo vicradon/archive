@@ -1,0 +1,293 @@
+From 65152bba8c3571d0430233912ca687ffab7c8939 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Sat, 10 Dec 2022 10:21:11 +0100
+Subject: [PATCH] chore: add save to notion flow
+
+---
+ .env.example                 |   5 ++
+ components/banner.tsx        |  13 ++-
+ package.json                 |   3 +
+ pages/[chat].tsx             |   4 +-
+ pages/api/notion/callback.ts | 153 +++++++++++++++++++++++++++++++++++
+ utils/CustomExceptions.ts    |  17 ++++
+ 6 files changed, 192 insertions(+), 3 deletions(-)
+ create mode 100644 .env.example
+ create mode 100644 pages/api/notion/callback.ts
+ create mode 100644 utils/CustomExceptions.ts
+
+diff --git a/.env.example b/.env.example
+new file mode 100644
+index 0000000..27ce103
+--- /dev/null
++++ b/.env.example
+@@ -0,0 +1,5 @@
++UPSTASH_REDIS_REST_URL=
++UPSTASH_REDIS_REST_TOKEN=
++NOTION_CLIENT_ID=
++NOTION_CLIENT_SECRET=
++BASE_URL=
+\ No newline at end of file
+diff --git a/components/banner.tsx b/components/banner.tsx
+index 720a9bc..9a52bd1 100644
+--- a/components/banner.tsx
++++ b/components/banner.tsx
+@@ -1,7 +1,7 @@
+ import Image from "next/image";
+ import Link from "next/link";
+ 
+-export default function Banner() {
++export default function Banner({ chat }: { chat: string }) {
+   return (
+     <div className="fixed bottom-5 inset-x-0 mx-auto max-w-fit rounded-lg p-2 bg-white border border-gray-100 shadow-md flex justify-between space-x-1 items-center">
+       <Link
+@@ -27,6 +27,17 @@ export default function Banner() {
+       >
+         <Image alt="Chrome logo" src="/chrome.svg" width={20} height={20} />
+       </Link>
++
++      <Link
++        href={encodeURI(
++          `https://api.notion.com/v1/oauth/authorize?client_id=67b08973-1b43-445f-b2e9-55e309eba7b3&response_type=code&owner=user&state=${chat}`
++        )}
++        target="_blank"
++        rel="noopener noreferrer"
++        className="p-2 rounded-md hover:bg-gray-100 active:bg-gray-200 transition-all"
++      >
++        Save to Notion
++      </Link>
+     </div>
+   );
+ }
+diff --git a/package.json b/package.json
+index ba54d61..335daff 100644
+--- a/package.json
++++ b/package.json
+@@ -12,6 +12,7 @@
+     "@next/font": "^13.0.6",
+     "@splinetool/react-spline": "^2.2.3",
+     "@splinetool/runtime": "^0.9.149",
++    "@tryfabric/martian": "^1.2.4",
+     "@upstash/ratelimit": "^0.1.5",
+     "@upstash/redis": "^1.18.1",
+     "@vercel/analytics": "^0.1.5",
+@@ -23,6 +24,7 @@
+     "react": "18.2.0",
+     "react-dom": "18.2.0",
+     "react-lite-youtube-embed": "^2.3.52",
++    "turndown": "^7.1.1",
+     "use-debounce": "^9.0.2"
+   },
+   "devDependencies": {
+@@ -30,6 +32,7 @@
+     "@types/node": "18.11.10",
+     "@types/react": "18.0.26",
+     "@types/react-dom": "18.0.9",
++    "@types/turndown": "^5.0.1",
+     "@types/uuid": "^9.0.0",
+     "autoprefixer": "^10.4.13",
+     "eslint": "8.29.0",
+diff --git a/pages/[chat].tsx b/pages/[chat].tsx
+index 0cc6170..05247d7 100644
+--- a/pages/[chat].tsx
++++ b/pages/[chat].tsx
+@@ -72,7 +72,7 @@ export default function ChatPage({ chat, avatarUrl, items }: ChatProps) {
+           </div>
+         ))}
+       </div>
+-      <Banner />
++      <Banner chat={chat} />
+     </>
+   );
+ }
+@@ -108,4 +108,4 @@ export const getStaticProps = async (
+ 
+ export const config = {
+   unstable_runtimeJS: false,
+-};
+\ No newline at end of file
++};
+diff --git a/pages/api/notion/callback.ts b/pages/api/notion/callback.ts
+new file mode 100644
+index 0000000..871a306
+--- /dev/null
++++ b/pages/api/notion/callback.ts
+@@ -0,0 +1,153 @@
++// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
++import type { NextApiRequest, NextApiResponse } from "next";
++import { Redis } from "@upstash/redis";
++import { Ratelimit } from "@upstash/ratelimit";
++const redis = Redis.fromEnv();
++import TurndownService from "turndown";
++import { markdownToRichText } from "@tryfabric/martian";
++import { NotionDatabaseNotFound } from "utils/CustomExceptions";
++
++// Create a new ratelimiter, that allows 10 requests per 10 seconds
++export const ratelimit = new Ratelimit({
++  redis: Redis.fromEnv(),
++  limiter: Ratelimit.slidingWindow(10, "10 s"),
++});
++
++const turndownService = new TurndownService();
++
++export default async function handler(
++  req: NextApiRequest,
++  res: NextApiResponse
++) {
++  //   if (req.headers.origin !== "https://shareg.pt") {
++  //     return res.status(400).json("Invalid origin");
++  //   }
++  if (req.method !== "OPTIONS") {
++    const { success } = await ratelimit.limit(
++      "sharegpt-save-to-notion-endpoint"
++    );
++    if (!success) {
++      res.status(429).json({ error: "Don't DDoS me pls 🥺" });
++    }
++
++    const code = req.query.code;
++    const basicToken = Buffer.from(
++      `${process.env.NOTION_CLIENT_ID}:${process.env.NOTION_CLIENT_SECRET}`
++    ).toString("base64");
++
++    try {
++      const response = await fetch("https://api.notion.com/v1/oauth/token", {
++        method: "post",
++        body: JSON.stringify({
++          code: code,
++          grant_type: "authorization_code",
++        }),
++        headers: {
++          Authorization: `Basic ${basicToken}`,
++          "Content-Type": "application/json",
++        },
++      });
++
++      // TODO: save the necessary data
++      const notionResponse = await response.json();
++
++      const cachedKey = req.query.state;
++      if (cachedKey) {
++        await saveToNotion(cachedKey, notionResponse);
++        res.redirect(`${process.env.BASE_URL}/${cachedKey}`);
++      } else {
++        res.redirect(
++          `${process.env.BASE_URL}?error="Key not included in request"`
++        );
++      }
++    } catch (error: any) {
++      res.redirect(
++        `${process.env.BASE_URL}?error=${
++          error?.status?.data?.message ||
++          error?.message ||
++          "Something went wrong"
++        }`
++      );
++    }
++  } else {
++    return res.status(200).end();
++  }
++}
++
++const saveToNotion = async (cachedKey: any, notionResponse: any) => {
++  const response = await fetch("https://api.notion.com/v1/search", {
++    method: "POST",
++    headers: {
++      authorization: `Bearer ${notionResponse.access_token}`,
++      "Content-Type": "application/json",
++      "Notion-Version": "2022-06-28",
++    },
++  });
++
++  const { results } = await response.json();
++
++  if (results.length) {
++    const databaseId = results.find(
++      (result: any) => result.object === "database"
++    )?.id;
++
++    if (!databaseId) throw new NotionDatabaseNotFound("No database found");
++
++    const pageContent = await generatePageContent(databaseId, cachedKey);
++
++    await fetch(`https://api.notion.com/v1/pages`, {
++      method: "post",
++      body: JSON.stringify(pageContent),
++      headers: {
++        Authorization: `Bearer ${notionResponse.access_token}`,
++        "Content-Type": "application/json",
++        "Notion-Version": "2022-06-28",
++      },
++    });
++  }
++};
++
++type JSONConversation = {
++  items: {
++    from: string;
++    value: string;
++  }[];
++};
++
++const generatePageContent = async (databaseId: any, cachedKey: any) => {
++  const jsonConversation = (await redis.get(cachedKey)) as JSONConversation;
++  return {
++    parent: {
++      database_id: databaseId,
++    },
++    properties: {
++      Name: {
++        title: [
++          {
++            text: {
++              content:
++                (jsonConversation.items.length > 0
++                  ? jsonConversation.items[0].value
++                  : ""
++                ).substring(0, 100) || "Conversation with chatGPT",
++            },
++          },
++        ],
++      },
++    },
++    children: jsonConversation.items.map((item: any) => {
++      return {
++        type: "callout",
++        callout: {
++          rich_text: markdownToRichText(
++            turndownService.turndown(item.value || "")
++          ),
++          icon: {
++            emoji: item.from === "human" ? "👨‍💻" : "🤖",
++          },
++          color: "default",
++        },
++      };
++    }),
++  };
++};
+diff --git a/utils/CustomExceptions.ts b/utils/CustomExceptions.ts
+new file mode 100644
+index 0000000..b020ca9
+--- /dev/null
++++ b/utils/CustomExceptions.ts
+@@ -0,0 +1,17 @@
++class NotionDatabaseNotFound extends Error {
++  response: { status: number; data: { message: string } };
++  constructor(message: string) {
++    super(message);
++    this.name = "NotionDatabaseNotFound";
++
++    this.response = {
++      status: 404,
++      data: {
++        message:
++          "No database found. Ensure you select a database that was duplicated from the template.",
++      },
++    };
++  }
++}
++
++export { NotionDatabaseNotFound };
+-- 
+2.47.3
+

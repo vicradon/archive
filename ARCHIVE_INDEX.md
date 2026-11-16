@@ -211,3 +211,4 @@
 | robotcar | repo | https://github.com/vicradon/robotcar | Robot Operating System (ROS) source code for a mobile robot that can carry out navigation and path planning |  | 2022-12-15 |
 | aye-learn | repo | https://github.com/vicradon/aye-learn | An API of an online tutoring app |  | 2022-12-12 |
 | godabeg | repo | https://github.com/vicradon/godabeg |  | godabeg.vercel.app | 2022-12-11 |
+| sharegpt-app | fork of domeccleston/sharegpt-app (1 patches) | https://github.com/vicradon/sharegpt-app |  | chatgpt-share.vercel.app | 2022-12-10 |
