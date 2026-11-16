@@ -96,3 +96,4 @@
 | devopsfetch | repo | https://github.com/vicradon/devopsfetch |  |  | 2024-07-24 |
 | golang_internet_clipboard | repo | https://github.com/vicradon/golang_internet_clipboard | This is a sample repo that has a golang application that requires access to a PostgreSQL database and a messaging queue |  | 2024-07-24 |
 | obahnet-website | fork of Obah007/website (no own commits) | https://github.com/vicradon/obahnet-website |  | https://obahnetsolutions.vercel.app | 2024-07-24 |
+| bypass-mdm | fork of assafdori/bypass-mdm (no own commits) | https://github.com/vicradon/bypass-mdm | Bypass MDM Setup for MacOS, up to Sequoia (24A335). |  | 2024-07-22 |
