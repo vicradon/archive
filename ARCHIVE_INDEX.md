@@ -357,3 +357,4 @@
 | chakra-ui | fork of chakra-ui/chakra-ui (no own commits) | https://github.com/vicradon/chakra-ui | ⚡️Simple, Modular & Accessible UI Components for your React Applications | https://chakra-ui.com | 2020-05-19 |
 | virj-chat | fork of saucecodee/virj-chat (1 patches) | https://github.com/vicradon/virj-chat | A chat app built with express and deployed to heroku |  | 2020-05-12 |
 | ft_quiz | repo | https://github.com/vicradon/ft_quiz | A quiz app made with Flutter |  | 2020-05-12 |
+| snbank | repo | https://github.com/vicradon/snbank | A CLI app for a bank called SN-Bank |  | 2020-05-07 |
