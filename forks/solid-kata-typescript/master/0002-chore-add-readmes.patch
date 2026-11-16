@@ -1,0 +1,360 @@
+From 90b49da43a5bae62bde572ebe545cb48c847aed8 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Sat, 20 Jun 2026 14:14:37 +0100
+Subject: [PATCH] chore: add readmes
+
+---
+ README.md         |  2 +-
+ src/dip/README.md | 66 ++++++++++++++++++++++++++++++++++++++++++++
+ src/isp/README.md | 70 +++++++++++++++++++++++++++++++++++++++++++++++
+ src/lsp/README.md | 47 +++++++++++++++++++++++++++++++
+ src/ocp/README.md | 56 +++++++++++++++++++++++++++++++++++++
+ src/srp/README.md | 56 +++++++++++++++++++++++++++++++++++++
+ 6 files changed, 296 insertions(+), 1 deletion(-)
+ create mode 100644 src/dip/README.md
+ create mode 100644 src/isp/README.md
+ create mode 100644 src/lsp/README.md
+ create mode 100644 src/ocp/README.md
+ create mode 100644 src/srp/README.md
+
+diff --git a/README.md b/README.md
+index 9665d33..6364b1e 100644
+--- a/README.md
++++ b/README.md
+@@ -14,7 +14,7 @@ should be open for extension, but closed for modification.
+ forced to depend on interfaces they do not use.
+ 
+ - Dependency Inversion Principle: Depend on abstractions, not on concretions. High-level modules should not depend on
+- low-level modules. Both should depend on abstractions.   Abstractions should not depend on details. Details should 
++ low-level modules. Both should depend on abstractions. Abstractions should not depend on details. Details should 
+  depend on abstractions.
+ 
+ The objective is modify each of the examples in order to not violate the corresponding SOLID principle.
+diff --git a/src/dip/README.md b/src/dip/README.md
+new file mode 100644
+index 0000000..6c88663
+--- /dev/null
++++ b/src/dip/README.md
+@@ -0,0 +1,66 @@
++# DIP - Dependency Inversion Principle Violation
++
++## Principle
++> High-level modules should not depend on low-level modules. Both should depend on abstractions.
++
++## The Violation
++
++The `BirthdayGreeter` high-level module **directly instantiates** the `EmailSender` low-level module.
++
++### Problem
++- `BirthdayGreeter` depends on the concrete `EmailSender` class
++- Tight coupling between high-level and low-level modules
++- Cannot substitute `EmailSender` with `SMSSender` without modifying `BirthdayGreeter`
++- Violates "depend on abstractions, not concretions"
++
++### Evidence in Code
++```typescript
++export class BirthdayGreeter {
++  constructor(
++    private employeeRepository: EmployeeRepository,
++    private clock: Clock
++  ) {}  // ⚠️ No Sender dependency!
++
++  sendGreetings(): void {
++    employees.forEach((employee) => {
++      const email = this.emailFor(employee);
++      new EmailSender().send(email);  // ⚠️ Direct instantiation!
++    });
++  }
++}
++```
++
++**This violates DIP because:**
++- High-level module (`BirthdayGreeter`) depends on low-level module (`EmailSender`)
++- The dependency is on a concrete class, not an abstraction
++- Hard to test (cannot mock `EmailSender`)
++- Cannot change sending mechanism without modifying `BirthdayGreeter`
++
++## What the Solution Would Look Like
++
++Introduce a **Sender abstraction** that both high-level and low-level modules depend on:
++
++```typescript
++// Abstraction
++interface Sender {
++  send(employee: Employee): void;
++}
++
++// High-level module depends on abstraction
++class BirthdayGreeter {
++  constructor(
++    private employeeRepository: EmployeeRepository,
++    private sender: Sender,  // ⚠️ Depends on abstraction
++    private clock: Clock
++  ) {}
++}
++
++// Low-level module implements abstraction
++class EmailSender implements Sender { ... }
++class SMSSender implements Sender { ... }  // Easy to add new senders!
++```
++
++## Solution Branch
++```bash
++git checkout dip-solution
++```
+diff --git a/src/isp/README.md b/src/isp/README.md
+new file mode 100644
+index 0000000..709002c
+--- /dev/null
++++ b/src/isp/README.md
+@@ -0,0 +1,70 @@
++# ISP - Interface Segregation Principle Violation
++
++## Principle
++> Clients should not be forced to depend on methods they do not use.
++
++## The Violation
++
++The `Animal` interface forces **all** animals to implement `fly()`, `run()`, AND `bark()` - even when these methods don't make sense for certain animals.
++
++### Problem
++- A `Dog` cannot fly - but MUST implement `fly()`
++- A `Bird` cannot bark - but MUST implement `bark()`
++- Clients are forced to depend on methods their implementations don't use
++- Results in empty or meaningless method implementations
++
++### Evidence in Code
++```typescript
++export interface Animal {
++  fly(): void;
++  run(): void;
++  bark(): void;  // ⚠️ All animals forced to implement all methods
++}
++```
++
++**This violates ISP because:**
++- The interface is "fat" - too many methods bundled together
++- Implementing classes are forced to provide meaningless implementations
++- Clients depend on methods they never call
++- Changes to one method affect all implementers
++
++### Example Implementations
++```typescript
++// Dog - forced to implement fly() even though it can't fly
++class Dog implements Animal {
++  fly(): void {
++    // Empty implementation - meaningless!
++  }
++  run(): void { ... }
++  bark(): void { ... }
++}
++
++// Bird - forced to implement bark() even though it can't bark
++class Bird implements Animal {
++  fly(): void { ... }
++  run(): void { ... }
++  bark(): void {
++    // Empty implementation - meaningless!
++  }
++}
++```
++
++## What the Solution Would Look Like
++
++Split into **smaller, focused interfaces**:
++
++- `Flyable` - `fly()`
++- `Runnable` - `run()`
++- `Barkable` - `bark()`
++
++Each animal implements **only** the interfaces that apply to it.
++
++```typescript
++class Dog implements Runnable, Barkable { ... }
++class Bird implements Runnable, Flyable { ... }
++```
++
++## Solution Branch
++```bash
++git checkout isp-solution
++```
+diff --git a/src/lsp/README.md b/src/lsp/README.md
+new file mode 100644
+index 0000000..4aa0a17
+--- /dev/null
++++ b/src/lsp/README.md
+@@ -0,0 +1,47 @@
++# LSP - Liskov Substitution Principle Violation
++
++## Principle
++> If S is a subtype of T, then objects of type T may be replaced with objects of type S without breaking the program.
++
++## The Violation
++
++The `Vehicle` abstract class forces **all** subclasses to implement both `fillUpWithFuel()` AND `chargeBattery()`.
++
++### Problem
++- A `PetrolCar` cannot charge its battery - but MUST implement `chargeBattery()`
++- An `ElectricCar` cannot fill with fuel - but MUST implement `fillUpWithFuel()`
++- Substituting one vehicle type for another breaks the expected behavior
++- The abstraction doesn't apply uniformly to all subtypes
++
++### Evidence in Code
++```typescript
++export abstract class Vehicle {
++  startEngine(): void { ... }
++  stopEngine(): void { ... }
++
++  // ⚠️ Forces ALL vehicles to implement both!
++  abstract fillUpWithFuel(): void;
++  abstract chargeBattery(): void;
++}
++```
++
++**This violates LSP because:**
++- A `PetrolCar` has no battery but must implement `chargeBattery()`
++- An `ElectricCar` has no fuel tank but must implement `fillUpWithFuel()`
++- The contract promises behavior that some subtypes cannot honor
++- Clients using `Vehicle` cannot safely assume all methods are valid
++
++## What the Solution Would Look Like
++
++Use **separate abstractions** for different vehicle behaviors:
++
++- `Vehicle` - Common vehicle operations (engine management)
++- `Refuelable` - Interface for fuel-based vehicles
++- `Rechargeable` - Interface for electric vehicles
++
++Each vehicle implements **only** the interfaces that make sense for it.
++
++## Solution Branch
++```bash
++git checkout lsp-solution
++```
+diff --git a/src/ocp/README.md b/src/ocp/README.md
+new file mode 100644
+index 0000000..a7709e1
+--- /dev/null
++++ b/src/ocp/README.md
+@@ -0,0 +1,56 @@
++# OCP - Open/Closed Principle Violation
++
++## Principle
++> Software entities should be open for extension, but closed for modification.
++
++## The Violation
++
++The `Employee` class uses a **switch statement** that must be modified every time a new employee type is added.
++
++### Problem
++- To add a new employee type (Intern, Consultant, etc.), you **must modify** the existing `Employee` class
++- This breaks the "closed for modification" rule
++- Risk of introducing bugs in existing, tested code
++- The class is NOT extensible without modification
++
++### Evidence in Code
++```typescript
++export class Employee {
++  payAmount(): number {
++    switch (this.type) {
++      case EmployeeType.ENGINEER:
++        return this.salary;
++      case EmployeeType.MANAGER:
++        return this.salary + this.bonus;
++      // ⚠️ Must add new cases here for each employee type!
++      default:
++        return 0;
++    }
++  }
++}
++```
++
++Every new employee type requires:
++1. Adding to the `EmployeeType` enum
++2. Adding a new `case` to the switch statement
++3. **Modifying existing code** ❌
++
++## What the Solution Would Look Like
++
++Use **polymorphism** instead of switch statements:
++
++- Create an `IPayAmount` interface
++- Each employee type implements the interface
++- New types added by creating new classes (no modification to existing code)
++
++```typescript
++// No modification needed to add new types!
++class Engineer implements IPayAmount { ... }
++class Manager implements IPayAmount { ... }
++class Intern implements IPayAmount { ... }  // New type - no existing code changed
++```
++
++## Solution Branch
++```bash
++git checkout ocp-solution
++```
+diff --git a/src/srp/README.md b/src/srp/README.md
+new file mode 100644
+index 0000000..bedf8d7
+--- /dev/null
++++ b/src/srp/README.md
+@@ -0,0 +1,56 @@
++# SRP - Single Responsibility Principle Violation
++
++## Principle
++> A class should have only one reason to change.
++
++## The Violation
++
++The `AccountService` class handles **multiple responsibilities**:
++
++| Responsibility | Methods |
++|---|---|
++| Transaction Management | `deposit()`, `withdraw()`, `transactionWith()` |
++| Statement Printing | `printStatement()`, `printHeader()`, `printTransactions()` |
++| Transaction Formatting | `statementLine()`, `formatDate()`, `formatNumber()` |
++| Console Output | `printLine()` |
++
++### Problem
++Any change to formatting, printing, or transaction logic requires modifying the same class. This violates SRP because the class has **more than one reason to change**.
++
++### Evidence in Code
++```typescript
++export class AccountService {
++  // Transaction responsibility
++  deposit(amount: number): void { ... }
++  withdraw(amount: number): void { ... }
++
++  // Printing responsibility
++  printStatement(): void { ... }
++  private printHeader(): void { ... }
++  private printTransactions(): void { ... }
++
++  // Formatting responsibility
++  private statementLine(...): string { ... }
++  private formatDate(date: Date): string { ... }
++  private formatNumber(amount: number): string { ... }
++
++  // Output responsibility
++  private printLine(line: string): void { ... }
++}
++```
++
++## What the Solution Would Look Like
++
++Extract each responsibility into separate classes:
++
++- **AccountService** - Orchestrates operations only
++- **TransactionRepository** - Handles transaction storage
++- **PrintStatementService** - Handles statement formatting and printing
++- **Console** - Handles console output
++
++Each class would have a **single reason to change**.
++
++## Solution Branch
++```bash
++git checkout srp-solution
++```
+-- 
+2.47.3
+
