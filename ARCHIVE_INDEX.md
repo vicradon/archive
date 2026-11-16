@@ -183,3 +183,4 @@
 | djangoer | fork of lordsarcastic/djangoer (no own commits) | https://github.com/vicradon/djangoer | A production-ready template for Django applications |  | 2023-01-31 |
 | yoruba-to-english-translator | empty (no commits) | https://github.com/vicradon/yoruba-to-english-translator | Project information about a Yoruba to English translator |  | 2023-01-30 |
 | github-workshop | repo | https://github.com/vicradon/github-workshop | a practical guide to git and github |  | 2023-01-18 |
+| resumemaker2 | repo | https://github.com/vicradon/resumemaker2 |  |  | 2023-01-14 |
