@@ -111,3 +111,4 @@
 | petstore | repo | https://github.com/vicradon/petstore | A modified version of the Petstore API offered by SwaggerHub | https://petstore-e7b0.onrender.com | 2024-06-14 |
 | product-recommendation-argo-workflows | repo | https://github.com/vicradon/product-recommendation-argo-workflows |  |  | 2024-06-13 |
 | blob-storage-sales-records | repo | https://github.com/vicradon/blob-storage-sales-records |  |  | 2024-06-10 |
+| directus-guest-authoring | fork of directus-labs/guest-authoring (9 patches) | https://github.com/vicradon/directus-guest-authoring | A repo for our guest authors to work on content |  | 2024-06-03 |
