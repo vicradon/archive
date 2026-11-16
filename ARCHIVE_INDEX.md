@@ -165,3 +165,4 @@
 | coinflip-functions | repo | https://github.com/vicradon/coinflip-functions | Functions for coinflip  |  | 2023-08-22 |
 | chrome-dino-betting | fork of KarthikNedunchezhiyan/google-chrome-dino (no own commits) | https://github.com/vicradon/chrome-dino-betting | A Chrome Dino clone that allows several players to place bets on the dinosaur | https://karthiknedunchezhiyan.me/google-chrome-dino/ | 2023-08-04 |
 | signout | repo | https://github.com/vicradon/signout | Do your signout in style by inviting your family from all over | https://signout.vercel.app | 2023-08-01 |
+| merge-ats-demo | repo | https://github.com/vicradon/merge-ats-demo | A demo Python application for adding candidates to the merge ATS |  | 2023-07-31 |
