@@ -253,3 +253,4 @@
 | live-todo | repo | https://github.com/vicradon/live-todo |  |  | 2022-04-08 |
 | kstreams-demo | repo | https://github.com/vicradon/kstreams-demo | A Kafka Streams application that integrates with both Kafka and Redpanda |  | 2022-04-05 |
 | SATechnicalOnboarding-1 | fork of Drounz/SATechnicalOnboarding (1 patches) | https://github.com/vicradon/SATechnicalOnboarding-1 |  |  | 2022-04-02 |
+| excalidraw | fork of excalidraw/excalidraw (no own commits) | https://github.com/vicradon/excalidraw | Virtual whiteboard for sketching hand-drawn like diagrams | https://excalidraw.com | 2022-04-01 |
