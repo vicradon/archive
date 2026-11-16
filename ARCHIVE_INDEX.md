@@ -369,3 +369,4 @@
 | Reactive-Resume | fork of reactive-resume/reactive-resume (no own commits) | https://github.com/vicradon/Reactive-Resume | A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today! | https://rxresu.me/ | 2020-04-11 |
 | startng-python-task-2 | repo | https://github.com/vicradon/startng-python-task-2 | The second task of the python class in the startng2020 program |  | 2020-03-31 |
 | start.ng2020 | repo | https://github.com/vicradon/start.ng2020 | A repo containing the solutions to the start.ng2020 tasks |  | 2020-03-25 |
+| OxygenCGPA | repo | https://github.com/vicradon/OxygenCGPA | A CGPA app |  | 2020-03-24 |
