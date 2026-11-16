@@ -190,3 +190,4 @@
 | pepcycle | repo | https://github.com/vicradon/pepcycle | Created with CodeSandbox | https://codesandbox.io/s/github/vicradon/ditch-the-backend-with-azure-functions | 2023-01-13 |
 | techwinx | repo | https://github.com/vicradon/techwinx | The Techwinx Website | https://techwinx.netlify.com | 2023-01-11 |
 | regards-n-stuff | repo | https://github.com/vicradon/regards-n-stuff | A site which lets you write your regard messages and share to the world! |  | 2023-01-11 |
+| dummy-gatsby-project | repo | https://github.com/vicradon/dummy-gatsby-project | Sample DatoCMS website built with GatsbyJS |  | 2023-01-11 |
