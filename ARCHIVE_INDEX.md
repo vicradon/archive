@@ -279,3 +279,4 @@
 | engineering-education | fork of section-engineering-education/engineering-education (no own commits) | https://github.com/vicradon/engineering-education | A community-generated pool of educational content which is useful for engineers of every level.  |  | 2021-11-03 |
 | clerk-nextjs-app | repo | https://github.com/vicradon/clerk-nextjs-app |  | clerk-nextjs-app.vercel.app | 2021-10-25 |
 | nextjs-with-magic-auth | repo | https://github.com/vicradon/nextjs-with-magic-auth |  | with-magic-ashy.vercel.app | 2021-10-21 |
+| movie-search-frontend | repo | https://github.com/vicradon/movie-search-frontend | Frontend of a movie search application |  | 2021-10-17 |
