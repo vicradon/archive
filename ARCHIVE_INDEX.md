@@ -105,3 +105,4 @@
 | users-and-groups-linux | repo | https://github.com/vicradon/users-and-groups-linux | This repo contains a bash script that demos users, groups, and permissions |  | 2024-07-01 |
 | servicebusdemos | repo | https://github.com/vicradon/servicebusdemos |  |  | 2024-06-30 |
 | imageprocessor | repo | https://github.com/vicradon/imageprocessor |  |  | 2024-06-29 |
+| user-info-site | repo | https://github.com/vicradon/user-info-site | A simple static website |  | 2024-06-28 |
