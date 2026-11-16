@@ -150,3 +150,4 @@
 | pay-me-a-river-remastered | repo | https://github.com/vicradon/pay-me-a-river-remastered |  |  | 2023-09-30 |
 | free-lunch-app | repo | https://github.com/vicradon/free-lunch-app | This is an API for an app that allows employees to gift each other free lunch tokens |  | 2023-09-27 |
 | thumbor | fork of thumbor/thumbor (no own commits) | https://github.com/vicradon/thumbor | thumbor is an open-source photo thumbnail service by globo.com | http://thumbor.org | 2023-09-25 |
+| hngx-task3-go | repo | https://github.com/vicradon/hngx-task3-go | The free lunch app from HNGX written in Go |  | 2023-09-23 |
