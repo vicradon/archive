@@ -170,3 +170,4 @@
 | runam | repo | https://github.com/vicradon/runam | Runam website | https://runam.vercel.app | 2023-07-23 |
 | browser | empty (no commits) | https://github.com/vicradon/browser | A text-based browser cli that runs on any system |  | 2023-06-10 |
 | minigrep | repo | https://github.com/vicradon/minigrep | This is a version of grep built in Rust |  | 2023-06-03 |
+| ace-fuels | repo | https://github.com/vicradon/ace-fuels |  |  | 2023-06-02 |
