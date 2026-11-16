@@ -1,0 +1,238 @@
+From a6cebfcfeb068a6da61e05431c059d084a513cb8 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Wed, 5 Oct 2022 08:17:04 +0000
+Subject: [PATCH] chore: improved game logic and win sequence
+
+---
+ index.html | 55 ++++++++++++++++++-------------
+ script.js  | 96 +++++++++++++++++++++++++++++++-----------------------
+ styles.css |  6 ++++
+ 3 files changed, 94 insertions(+), 63 deletions(-)
+
+diff --git a/index.html b/index.html
+index c94b3d8..db05098 100644
+--- a/index.html
++++ b/index.html
+@@ -1,38 +1,49 @@
+ <!DOCTYPE html>
+ <html>
++
+ <head>
+     <meta charset='utf-8'>
+     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+     <title>Tic-tac-toe</title>
+     <meta name='viewport' content='width=device-width, initial-scale=1'>
+     <link rel='stylesheet' type='text/css' media='screen' href='styles.css'>
+-   
++
+ </head>
++
+ <body>
+     <div id="container">
+-    <div id="frame">
+-        <table>
+-            <tr>
+-                <td class="square"></td>
+-                <td class="square vertical"></td>
+-                <td class="square"></td>
+-            </tr>
+-            <tr>
+-                <td class="square horizontal"></td>
+-                <td class="square vertical horizontal"></td>
+-                <td class="square horizontal"></td>
+-            </tr>
+-            <tr>
+-                <td class="square"></td>
+-                <td class="square vertical"></td>
+-                <td class="square"></td>
+-            </tr>
+-           
+-        </table>
++
++        <div id="frame">
++
++            <div id="win-announcement">
++                <span>Player </span>
++                <span id="winner"></span>
++                <span> has won</span>
++            </div>
++
++            <table>
++                <tr>
++                    <td class="square"></td>
++                    <td class="square vertical"></td>
++                    <td class="square"></td>
++                </tr>
++                <tr>
++                    <td class="square horizontal"></td>
++                    <td class="square vertical horizontal"></td>
++                    <td class="square horizontal"></td>
++                </tr>
++                <tr>
++                    <td class="square"></td>
++                    <td class="square vertical"></td>
++                    <td class="square"></td>
++                </tr>
++
++            </table>
+             <button id="resetBtn">reset</button>
+         </div>
+ 
+-</div>
+- <script src='script.js'></script>
++    </div>
++    <script src='script.js'></script>
+ </body>
++
+ </html>
+\ No newline at end of file
+diff --git a/script.js b/script.js
+index d94126b..dc0f8f5 100644
+--- a/script.js
++++ b/script.js
+@@ -5,71 +5,85 @@ let playerTurn = 0;
+ let currentPlayer;
+ 
+ 
+-function isCurrentPlayer(){
+-    if(playerTurn % 2 !== 0){
+-     currentPlayer  = "O";
+-	 return currentPlayer;
+-}else{
+-    currentPlayer = "X";
+-	return currentPlayer;
+-}
++function isCurrentPlayer() {
++    if (playerTurn % 2 !== 0) {
++        currentPlayer = "O";
++        return currentPlayer;
++    } else {
++        currentPlayer = "X";
++        return currentPlayer;
++    }
+ }
+ 
+-resetButton.addEventListener("click", function(){
+-    console.log("the reset button was clicked");
++resetButton.addEventListener("click", function () {
++    squares.forEach((square) => {
++        square.innerHTML = ""
++        document.querySelector("#win-announcement").style.display = "none"
++    })
+ });
+ 
++function runWinSequence(){
++    if (isWinner()){
++        document.querySelector("#win-announcement").style.display = "block"
++        document.querySelector("#winner").textContent = isWinner()
++    }
++}
++
+ for (let i = 0; i < squares.length; i++) {
+     const square = squares[i];
+-    square.addEventListener("click", function(){
+-        if(playerTurn % 2 === 0 && this.textContent === ""){    
++    square.addEventListener("click", function () {
++        if (isWinner()) return
++
++        if (playerTurn % 2 === 0 && this.textContent === "") {
+             this.textContent = "X";
+             isCurrentPlayer();
+-            isWinner();
+             playerTurn++;
+-        }else if(this.textContent === ""){
++            runWinSequence()
++        } else if (this.textContent === "") {
+             this.textContent = "O";
+             isCurrentPlayer();
+-            isWinner();
+             playerTurn++;
++            runWinSequence()
+         }
+     })
+ };
+ 
+-
+-
+ function isWinner() {
+     //check if player has won either vertically, horizontally or diagonally 
+     //check for horizontal win
+-    for(let i = 0; i <= 6; i += 3) {
+-       if( (squares[i].textContent !== "") && (squares[i].textContent === squares[i + 1].textContent) && 
+-            (squares[i].textContent === squares[i + 2].textContent)){
+-                console.log("player " + currentPlayer + " has won!!");
+-            }
++    for (let i = 0; i <= 6; i += 3) {
++        if ((squares[i].textContent !== "") && (squares[i].textContent === squares[i + 1].textContent) &&
++            (squares[i].textContent === squares[i + 2].textContent)) {
++            return currentPlayer
++            console.log("player " + currentPlayer + " has won!!");
++        }
+     }
+     //check for vertical win
+-    for(let i = 0; i < 3; i++) {
+-        if( (squares[i].textContent !== "") && (squares[i].textContent === squares[i + 3].textContent) && 
+-        (squares[i].textContent === squares[i + 6].textContent)){
++    for (let i = 0; i < 3; i++) {
++        if ((squares[i].textContent !== "") && (squares[i].textContent === squares[i + 3].textContent) &&
++            (squares[i].textContent === squares[i + 6].textContent)) {
++            return currentPlayer
+             console.log("player " + currentPlayer + " has won!!");
+-        }  
++        }
+     }
+     //check for left diagonal win
+-     for(let i = 0; i <  1; i++) {
+-        if( (squares[i].textContent !== "") && (squares[i].textContent === squares[i + 4].textContent) && 
+-        (squares[i].textContent === squares[i + 8].textContent)){
+-            console.log("player " + currentPlayer + " has won!!"); 
+-        } 
+-    }
+-        //check for right diagonal win
+-        for(let i = 2; i < 3; i++) {
+-            if( (squares[i].textContent !== "") && (squares[i].textContent === squares[i + 2].textContent) && 
+-            (squares[i].textContent === squares[i + 4].textContent)){
+-                console.log("player " + currentPlayer + " has won!!"); 
+-            } 
+-        }
+-} 
+- 
++    for (let i = 0; i < 1; i++) {
++        if ((squares[i].textContent !== "") && (squares[i].textContent === squares[i + 4].textContent) &&
++            (squares[i].textContent === squares[i + 8].textContent)) {
++            return currentPlayer
+ 
++            console.log("player " + currentPlayer + " has won!!");
++        }
++    }
++    //check for right diagonal win
++    for (let i = 2; i < 3; i++) {
++        if ((squares[i].textContent !== "") && (squares[i].textContent === squares[i + 2].textContent) &&
++            (squares[i].textContent === squares[i + 4].textContent)) {
++            return currentPlayer
+ 
++            console.log("player " + currentPlayer + " has won!!");
++        }
++    }
+ 
++    return ""
++}
+diff --git a/styles.css b/styles.css
+index 49b532f..81d4373 100644
+--- a/styles.css
++++ b/styles.css
+@@ -34,4 +34,10 @@ button {
+     padding: 5px 10px;
+     border: 8px solid rgb(199, 128, 21);
+     background-color: rgb(150, 50, 12);
++}
++#win-announcement {
++    display: none;
++    text-align: center;
++    font-size: 30px;
++    color: whitesmoke;
+ }
+\ No newline at end of file
+-- 
+2.47.3
+
