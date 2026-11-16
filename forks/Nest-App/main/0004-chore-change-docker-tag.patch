@@ -1,0 +1,25 @@
+From 26ea141e5f7e87542743cf1af23c1d521ebe3394 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Tue, 31 May 2022 09:05:07 +0100
+Subject: [PATCH] chore: change docker tag
+
+---
+ .github/workflows/release.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+index f737fb1..fe3ea1e 100644
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -10,6 +10,6 @@ jobs:
+ 
+     steps:
+       - uses: actions/checkout@v2
+-      - run: docker build . -t laithharden/nest-app
++      - run: docker build . -t vicradon/nest-app
+       - run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
+-      - run: docker push laithharden/nest-app
++      - run: docker push vicradon/nest-app
+-- 
+2.47.3
+

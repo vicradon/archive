@@ -1,0 +1,24 @@
+From 1bdf8c6ff5bcea27751a0afa887cc008b5769a24 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Tue, 31 May 2022 08:41:08 +0100
+Subject: [PATCH] bugfix: breaking changes
+
+---
+ src/app.service.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/app.service.ts b/src/app.service.ts
+index 44f84a3..10cdf7c 100644
+--- a/src/app.service.ts
++++ b/src/app.service.ts
+@@ -6,6 +6,6 @@ export class AppService {
+     return `Hi ${name}`;
+   }
+   getHello(): string {
+-    return 'Hi World!';
++    return 'Hello World!';
+   }
+ }
+-- 
+2.47.3
+

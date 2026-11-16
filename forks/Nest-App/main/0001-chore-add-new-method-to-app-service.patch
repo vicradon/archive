@@ -1,0 +1,26 @@
+From ef3bd25cbecf7ef5f7ea0bfda81c96bc2e9f94f4 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Tue, 31 May 2022 08:33:35 +0100
+Subject: [PATCH] chore: add new method to app service
+
+---
+ src/app.service.ts | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/app.service.ts b/src/app.service.ts
+index 927d7cc..10cdf7c 100644
+--- a/src/app.service.ts
++++ b/src/app.service.ts
+@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
+ 
+ @Injectable()
+ export class AppService {
++  sayHi(name): string {
++    return `Hi ${name}`;
++  }
+   getHello(): string {
+     return 'Hello World!';
+   }
+-- 
+2.47.3
+
