@@ -128,3 +128,4 @@
 | text-to-audio | repo | https://github.com/vicradon/text-to-audio | A Python app that allows you to convert text to audio |  | 2024-02-01 |
 | iac | repo | https://github.com/vicradon/iac | A repo containing Infrastructure as Code (Iac) scripts for different platforms |  | 2024-01-14 |
 | polls-api | repo | https://github.com/vicradon/polls-api | An API for a generic polls app |  | 2024-01-13 |
+| network-tools | repo | https://github.com/vicradon/network-tools | A repo containing Python and Javascript network scripts and tools |  | 2024-01-12 |
