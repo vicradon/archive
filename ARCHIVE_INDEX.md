@@ -122,3 +122,4 @@
 | fastapi-todo | repo | https://github.com/vicradon/fastapi-todo | A todo API built using FastAPI |  | 2024-03-09 |
 | express-todo | repo | https://github.com/vicradon/express-todo | A simple todo app built with express.js |  | 2024-03-08 |
 | tourafrica | repo | https://github.com/vicradon/tourafrica | A custom GPT app for african tourism |  | 2024-02-13 |
+| cyberclasscontent | repo | https://github.com/vicradon/cyberclasscontent | AI-900 and AI-102 Content for Cyberclass |  | 2024-02-09 |
