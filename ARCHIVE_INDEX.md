@@ -189,3 +189,4 @@
 | resume-maker | repo | https://github.com/vicradon/resume-maker | A website for generating resumes with export functionality |  | 2023-01-14 |
 | pepcycle | repo | https://github.com/vicradon/pepcycle | Created with CodeSandbox | https://codesandbox.io/s/github/vicradon/ditch-the-backend-with-azure-functions | 2023-01-13 |
 | techwinx | repo | https://github.com/vicradon/techwinx | The Techwinx Website | https://techwinx.netlify.com | 2023-01-11 |
+| regards-n-stuff | repo | https://github.com/vicradon/regards-n-stuff | A site which lets you write your regard messages and share to the world! |  | 2023-01-11 |
