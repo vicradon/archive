@@ -223,3 +223,4 @@
 | color-guessing-game-redo | repo | https://github.com/vicradon/color-guessing-game-redo | A redo of the color guessing game. Without any tutorial | https://vicradon.github.io/color-guessing-game-redo/ | 2022-09-18 |
 | hygraph-knowledgebase | repo | https://github.com/vicradon/hygraph-knowledgebase | This is a repo containing a Next.js application that connects to Hygraph to display knowledgebase articles and FAQs. | hygraph-knowledgebase.vercel.app | 2022-09-02 |
 | resumake.io | fork of saadq/resumake.io (2 patches) | https://github.com/vicradon/resumake.io | 📝 A website for automatically generating elegant LaTeX resumes. | https://resumake.io | 2022-08-20 |
+| mire-frontend | repo | https://github.com/vicradon/mire-frontend |  | mire-five.vercel.app | 2022-08-14 |
