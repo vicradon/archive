@@ -157,3 +157,4 @@
 | hngx-task1-go | repo | https://github.com/vicradon/hngx-task1-go | A go implementation of HNGX Task 1 |  | 2023-09-15 |
 | hngx-task1-rust | repo | https://github.com/vicradon/hngx-task1-rust | A rust implementation of the HNGX Backend Task 1 |  | 2023-09-14 |
 | stage1-node | repo | https://github.com/vicradon/stage1-node |  |  | 2023-09-09 |
+| hngx-task1 | repo | https://github.com/vicradon/hngx-task1 |  |  | 2023-09-08 |
