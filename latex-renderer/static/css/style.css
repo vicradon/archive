@@ -1,0 +1,250 @@
+:root {
+  --bg-primary: #fff;
+  --bg-secondary: #fafafa;
+  --text-primary: #000;
+  --text-secondary: #666;
+  --border-color: #eaeaea;
+}
+
+html.dark-theme {
+  --bg-primary: #000;
+  --bg-secondary: #111;
+  --text-primary: #fff;
+  --text-secondary: #888;
+  --border-color: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+#theme-toggle {
+  cursor: pointer;
+  font-size: 1.2rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  transition: all 0.2s ease;
+}
+
+#theme-toggle:hover {
+  background-color: var(--bg-primary);
+  border-color: var(--text-secondary);
+  transform: scale(1.05);
+}
+
+html.dark-theme #theme-toggle:hover {
+  background-color: #222;
+  border-color: #555;
+}
+
+#theme-icon {
+  display: inline-block;
+  line-height: 1;
+}
+
+#theme-icon {
+  display: inline-block;
+  line-height: 1;
+}
+
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.editor-section,
+.preview-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-section label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.zi-input-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  resize: vertical;
+  min-height: 400px;
+  transition: border-color 0.2s ease;
+}
+
+.zi-input-textarea:focus {
+  outline: none;
+  border-color: #0070f3;
+}
+
+#render-btn {
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+.preview-section {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--bg-secondary);
+  padding: 2rem;
+}
+
+#preview-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.loading-state,
+.error-state,
+.success-state,
+.empty-state {
+  text-align: center;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loading-state p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.error-state .zi-note {
+  margin: 0;
+  text-align: left;
+}
+
+#error-text {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.75rem;
+}
+
+.empty-state {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.rendered-output {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: var(--bg-primary);
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+  min-height: 200px;
+}
+
+#rendered-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+@media (max-width: 968px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
+
+html.dark-theme .zi-input-textarea {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html.dark-theme .zi-btn {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+html.dark-theme .zi-btn:hover {
+  background-color: #222;
+  border-color: #444;
+  color: var(--text-primary);
+}
+
+html.dark-theme .zi-btn.primary {
+  background-color: #0070f3;
+  color: #fff;
+  border-color: #0070f3;
+}
+
+html.dark-theme .zi-btn.primary:hover {
+  background-color: #0060df;
+  border-color: #0060df;
+  color: var(--text-primary);
+}
+
+.zi-btn {
+  transition: all 0.2s ease;
+}
