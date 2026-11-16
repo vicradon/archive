@@ -1,0 +1,168 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed to read tags
+
+      # ── Compute next version ──────────────────────────────────────────────
+      - name: Compute next version
+        id: version
+        run: |
+          # Get the latest semver tag, default to v0.0.0 if none exists
+          LATEST=$(git tag --list 'v*.*.*' --sort=-version:refname | head -n1)
+          LATEST=${LATEST:-v0.0.0}
+          echo "Latest tag: $LATEST"
+
+          # Strip leading 'v' and split into parts
+          VERSION=${LATEST#v}
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
+
+          # Increment patch
+          PATCH=$((PATCH + 1))
+          NEXT="v${MAJOR}.${MINOR}.${PATCH}"
+          echo "Next version: $NEXT"
+
+          echo "tag=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "version=${MAJOR}.${MINOR}.${PATCH}" >> "$GITHUB_OUTPUT"
+          echo "previous=$LATEST" >> "$GITHUB_OUTPUT"
+
+      # ── Set up Go ─────────────────────────────────────────────────────────
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      # ── Build for all platforms ───────────────────────────────────────────
+      - name: Build binaries
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          CGO_ENABLED: "0"
+        run: |
+          mkdir -p dist
+
+          declare -A TARGETS=(
+            ["linux/amd64"]="shapegen-linux-amd64"
+            ["linux/arm64"]="shapegen-linux-arm64"
+            ["darwin/amd64"]="shapegen-darwin-amd64"
+            ["darwin/arm64"]="shapegen-darwin-arm64"
+            ["windows/amd64"]="shapegen-windows-amd64.exe"
+            ["windows/arm64"]="shapegen-windows-arm64.exe"
+          )
+
+          for TARGET in "${!TARGETS[@]}"; do
+            OS=$(echo "$TARGET" | cut -d/ -f1)
+            ARCH=$(echo "$TARGET" | cut -d/ -f2)
+            OUT="dist/${TARGETS[$TARGET]}"
+            echo "Building $OUT …"
+            GOOS=$OS GOARCH=$ARCH go build \
+              -ldflags="-s -w -X main.Version=${VERSION}" \
+              -o "$OUT" .
+          done
+
+          ls -lh dist/
+
+      # ── Checksum file ─────────────────────────────────────────────────────
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum * > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      # ── Build changelog from commits since last tag ───────────────────────
+      - name: Generate changelog
+        id: changelog
+        env:
+          PREVIOUS: ${{ steps.version.outputs.previous }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          if [ "$PREVIOUS" = "v0.0.0" ]; then
+            RANGE="HEAD"
+          else
+            RANGE="${PREVIOUS}..HEAD"
+          fi
+
+          # Categorise commits by conventional-commit prefix
+          FEATURES=$(git log $RANGE --pretty=format:"- %s (%h)" \
+            --grep="^feat" | head -20)
+          FIXES=$(git log $RANGE --pretty=format:"- %s (%h)" \
+            --grep="^fix" | head -20)
+          OTHER=$(git log $RANGE --pretty=format:"- %s (%h)" \
+            --invert-grep --grep="^feat" --grep="^fix" \
+            --grep="^chore" --grep="^ci" | head -20)
+
+          {
+            echo "## What's changed in ${TAG}"
+            echo ""
+            if [ -n "$FEATURES" ]; then
+              echo "### ✨ Features"
+              echo "$FEATURES"
+              echo ""
+            fi
+            if [ -n "$FIXES" ]; then
+              echo "### 🐛 Bug fixes"
+              echo "$FIXES"
+              echo ""
+            fi
+            if [ -n "$OTHER" ]; then
+              echo "### 🔧 Other changes"
+              echo "$OTHER"
+              echo ""
+            fi
+            echo "---"
+            echo "**Full diff:** [\`${PREVIOUS}...${TAG}\`](../../compare/${PREVIOUS}...${TAG})"
+          } > CHANGELOG_RELEASE.md
+
+          cat CHANGELOG_RELEASE.md
+
+          # Pass multiline string to next steps
+          {
+            echo "body<<EOF"
+            cat CHANGELOG_RELEASE.md
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      # ── Tag the commit ────────────────────────────────────────────────────
+      - name: Create and push tag
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "$TAG" -m "Release $TAG"
+          git push origin "$TAG"
+
+      # ── GitHub Release ────────────────────────────────────────────────────
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: "shapegen ${{ steps.version.outputs.tag }}"
+          body: ${{ steps.changelog.outputs.body }}
+          draft: false
+          prerelease: false
+          files: |
+            dist/shapegen-linux-amd64
+            dist/shapegen-linux-arm64
+            dist/shapegen-darwin-amd64
+            dist/shapegen-darwin-arm64
+            dist/shapegen-windows-amd64.exe
+            dist/shapegen-windows-arm64.exe
+            dist/SHA256SUMS.txt
