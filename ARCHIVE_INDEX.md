@@ -329,3 +329,4 @@
 | zulip | fork of zulip/zulip (no own commits) | https://github.com/vicradon/zulip | Zulip server and webapp - powerful open source team chat | https://zulip.com | 2020-12-09 |
 | cgpa-api | repo | https://github.com/vicradon/cgpa-api |  |  | 2020-11-30 |
 | boil-app2 | fork of Neche-Stephen/boil-app2 (1 patches) | https://github.com/vicradon/boil-app2 |  |  | 2020-11-25 |
+| swag-gp-vue | repo | https://github.com/vicradon/swag-gp-vue | Vue js implementation of swag-gp | swag-gp-vue.vercel.app | 2020-11-18 |
