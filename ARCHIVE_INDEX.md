@@ -45,3 +45,4 @@
 | trivial | repo | https://github.com/vicradon/trivial |  |  | 2025-09-19 |
 | multitenant-app | repo | https://github.com/vicradon/multitenant-app | A simple application catering to different databases |  | 2025-09-16 |
 | simple_multitenant_app | repo | https://github.com/vicradon/simple_multitenant_app | A simple multi-tenant app using express.js and postgresql |  | 2025-09-14 |
+| RustAfricaEmbedded | fork of rust-edu/RustAfricaEmbedded (3 patches) | https://github.com/vicradon/RustAfricaEmbedded | Rust Africa Embedded course |  | 2025-09-10 |

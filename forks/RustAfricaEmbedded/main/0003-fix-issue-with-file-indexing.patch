@@ -1,0 +1,25 @@
+From 090f74a5cf2e227940f98bb933dfb7ca975652c1 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Thu, 4 Sep 2025 00:25:55 +0000
+Subject: [PATCH] fix: issue with file indexing
+
+---
+ runfiles.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/runfiles.sh b/runfiles.sh
+index 6af3935..07a8c15 100644
+--- a/runfiles.sh
++++ b/runfiles.sh
+@@ -15,7 +15,7 @@ declare -A file_paths
+ echo "Available files"
+ rust_files=(day*/**/main.rs)
+ for index in "${!rust_files[@]}"; do
+-    echo "$((index+1)). ${rust_files[$1]}"
++    echo "$((index+1)). ${rust_files[$index]}"
+ done
+ 
+ 
+-- 
+2.47.3
+
