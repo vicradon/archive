@@ -191,3 +191,4 @@
 | techwinx | repo | https://github.com/vicradon/techwinx | The Techwinx Website | https://techwinx.netlify.com | 2023-01-11 |
 | regards-n-stuff | repo | https://github.com/vicradon/regards-n-stuff | A site which lets you write your regard messages and share to the world! |  | 2023-01-11 |
 | dummy-gatsby-project | repo | https://github.com/vicradon/dummy-gatsby-project | Sample DatoCMS website built with GatsbyJS |  | 2023-01-11 |
+| my-static-web-app | repo | https://github.com/vicradon/my-static-web-app | A static web app from the Azure Static Web Apps tutorial |  | 2023-01-07 |
