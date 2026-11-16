@@ -283,3 +283,4 @@
 | movie-search-backend | repo | https://github.com/vicradon/movie-search-backend | The backend of a movie search application |  | 2021-10-17 |
 | stake | repo | https://github.com/vicradon/stake | Stake money, get productive |  | 2021-09-18 |
 | stake-backend | repo | https://github.com/vicradon/stake-backend | Backend of stake app |  | 2021-09-18 |
+| postgres-airbyte-snowflake-tut | repo | https://github.com/vicradon/postgres-airbyte-snowflake-tut | A repo containing tutorial files for migrating data from postgres to snowflake |  | 2021-09-15 |
