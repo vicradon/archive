@@ -82,3 +82,4 @@
 | some-algos | repo | https://github.com/vicradon/some-algos |  |  | 2024-09-19 |
 | esp32-temperature-humidity | repo | https://github.com/vicradon/esp32-temperature-humidity | ESP32 sensor to collect temperature and humidity sensing |  | 2024-09-14 |
 | shortlet-takehome | repo | https://github.com/vicradon/shortlet-takehome | Take-home assessment for Shortlet Cloud Engineering Role |  | 2024-09-11 |
+| ollama | fork of ollama/ollama (no own commits) | https://github.com/vicradon/ollama | Get up and running with Llama 2 and other large language models locally | https://ollama.ai | 2024-09-10 |
