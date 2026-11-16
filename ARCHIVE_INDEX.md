@@ -291,3 +291,4 @@
 | proflow | repo | https://github.com/vicradon/proflow |  | https://proflow-demo.netlify.app | 2021-08-12 |
 | proflow-backend | repo | https://github.com/vicradon/proflow-backend |  |  | 2021-08-04 |
 | system-design-primer | fork of donnemartin/system-design-primer (no own commits) | https://github.com/vicradon/system-design-primer | Learn how to design large-scale systems. Prep for the system design interview.  Includes Anki flashcards. |  | 2021-07-29 |
+| data-structures-all-langs | fork of oyekanmiayo/dsa-all-langs (no own commits) | https://github.com/vicradon/data-structures-all-langs | A repository that contains explanations and (custom) implementations of the most popular data structure in various languages. |  | 2021-07-29 |
