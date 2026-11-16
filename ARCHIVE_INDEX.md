@@ -205,3 +205,4 @@
 | marv-chatbot | repo | https://github.com/vicradon/marv-chatbot | An OpenAI completion bot that can act as different personalities | marv-chatbot.vercel.app | 2023-01-01 |
 | sharegpt | fork of domeccleston/sharegpt (no own commits) | https://github.com/vicradon/sharegpt | Easily share permanent links to ChatGPT conversations with your friends |  | 2022-12-31 |
 | meltano | fork of meltano/meltano (no own commits) | https://github.com/vicradon/meltano | Your open source DataOps Platform Infrastructure to let you manage all the data tools in your stack in one place, and turn them into your ideal end-to-end data platform | https://meltano.com | 2022-12-31 |
+| gobyexample | fork of mmcgrana/gobyexample (3 patches) | https://github.com/vicradon/gobyexample | Go by Example | https://gobyexample.com | 2022-12-24 |

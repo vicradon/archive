@@ -1,0 +1,3632 @@
+From 8579ae0ff35316a4a1d5843864fd167d4210a896 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Sat, 24 Dec 2022 20:01:48 +0100
+Subject: [PATCH] refactor: move all javascript style setting into variables
+
+---
+ public/404.html                        | 28 +++++++++++------
+ public/arrays                          | 28 +++++++++++------
+ public/atomic-counters                 | 28 +++++++++++------
+ public/base64-encoding                 | 28 +++++++++++------
+ public/channel-buffering               | 28 +++++++++++------
+ public/channel-directions              | 28 +++++++++++------
+ public/channel-synchronization         | 28 +++++++++++------
+ public/channels                        | 28 +++++++++++------
+ public/closing-channels                | 28 +++++++++++------
+ public/closures                        | 28 +++++++++++------
+ public/command-line-arguments          | 28 +++++++++++------
+ public/command-line-flags              | 28 +++++++++++------
+ public/command-line-subcommands        | 28 +++++++++++------
+ public/constants                       | 28 +++++++++++------
+ public/context                         | 28 +++++++++++------
+ public/defer                           | 28 +++++++++++------
+ public/directories                     | 28 +++++++++++------
+ public/embed-directive                 | 28 +++++++++++------
+ public/environment-variables           | 28 +++++++++++------
+ public/epoch                           | 28 +++++++++++------
+ public/errors                          | 28 +++++++++++------
+ public/execing-processes               | 28 +++++++++++------
+ public/exit                            | 28 +++++++++++------
+ public/file-paths                      | 28 +++++++++++------
+ public/for                             | 28 +++++++++++------
+ public/functions                       | 28 +++++++++++------
+ public/generics                        | 28 +++++++++++------
+ public/goroutines                      | 28 +++++++++++------
+ public/hello-world                     | 28 +++++++++++------
+ public/http-client                     | 28 +++++++++++------
+ public/http-server                     | 28 +++++++++++------
+ public/if-else                         | 28 +++++++++++------
+ public/index.html                      | 28 +++++++++++------
+ public/interfaces                      | 28 +++++++++++------
+ public/json                            | 28 +++++++++++------
+ public/line-filters                    | 28 +++++++++++------
+ public/maps                            | 28 +++++++++++------
+ public/methods                         | 28 +++++++++++------
+ public/multiple-return-values          | 28 +++++++++++------
+ public/mutexes                         | 28 +++++++++++------
+ public/non-blocking-channel-operations | 28 +++++++++++------
+ public/number-parsing                  | 28 +++++++++++------
+ public/panic                           | 28 +++++++++++------
+ public/pointers                        | 28 +++++++++++------
+ public/random-numbers                  | 28 +++++++++++------
+ public/range                           | 28 +++++++++++------
+ public/range-over-channels             | 28 +++++++++++------
+ public/rate-limiting                   | 28 +++++++++++------
+ public/reading-files                   | 28 +++++++++++------
+ public/recover                         | 28 +++++++++++------
+ public/recursion                       | 28 +++++++++++------
+ public/regular-expressions             | 28 +++++++++++------
+ public/select                          | 28 +++++++++++------
+ public/sha256-hashes                   | 28 +++++++++++------
+ public/signals                         | 28 +++++++++++------
+ public/site.js                         | 42 --------------------------
+ public/slices                          | 28 +++++++++++------
+ public/sorting                         | 28 +++++++++++------
+ public/sorting-by-functions            | 28 +++++++++++------
+ public/spawning-processes              | 28 +++++++++++------
+ public/stateful-goroutines             | 28 +++++++++++------
+ public/string-formatting               | 28 +++++++++++------
+ public/string-functions                | 28 +++++++++++------
+ public/strings-and-runes               | 28 +++++++++++------
+ public/struct-embedding                | 28 +++++++++++------
+ public/structs                         | 28 +++++++++++------
+ public/switch                          | 28 +++++++++++------
+ public/temporary-files-and-directories | 28 +++++++++++------
+ public/testing-and-benchmarking        | 28 +++++++++++------
+ public/text-templates                  | 28 +++++++++++------
+ public/tickers                         | 28 +++++++++++------
+ public/time                            | 28 +++++++++++------
+ public/time-formatting-parsing         | 28 +++++++++++------
+ public/timeouts                        | 28 +++++++++++------
+ public/timers                          | 28 +++++++++++------
+ public/url-parsing                     | 28 +++++++++++------
+ public/values                          | 28 +++++++++++------
+ public/variables                       | 28 +++++++++++------
+ public/variadic-functions              | 28 +++++++++++------
+ public/waitgroups                      | 28 +++++++++++------
+ public/worker-pools                    | 28 +++++++++++------
+ public/writing-files                   | 28 +++++++++++------
+ public/xml                             | 28 +++++++++++------
+ templates/footer.tmpl                  | 28 +++++++++++------
+ 84 files changed, 1494 insertions(+), 872 deletions(-)
+
+diff --git a/public/404.html b/public/404.html
+index a8bd431..a5a61f2 100644
+--- a/public/404.html
++++ b/public/404.html
+@@ -22,19 +22,27 @@
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/arrays b/public/arrays
+index 63c0bb1..f4c898f 100644
+--- a/public/arrays
++++ b/public/arrays
+@@ -199,19 +199,27 @@ when printed with <code>fmt.Println</code>.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/atomic-counters b/public/atomic-counters
+index 34a3178..1ff2447 100644
+--- a/public/atomic-counters
++++ b/public/atomic-counters
+@@ -237,19 +237,27 @@ state.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/base64-encoding b/public/base64-encoding
+index 01e8c7f..01f7afd 100644
+--- a/public/base64-encoding
++++ b/public/base64-encoding
+@@ -193,19 +193,27 @@ but they both decode to the original string as desired.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/channel-buffering b/public/channel-buffering
+index 9521b7c..09fe8f6 100644
+--- a/public/channel-buffering
++++ b/public/channel-buffering
+@@ -155,19 +155,27 @@ concurrent receive.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/channel-directions b/public/channel-directions
+index d0ec8e0..2b504cc 100644
+--- a/public/channel-directions
++++ b/public/channel-directions
+@@ -147,19 +147,27 @@ receive on this channel.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/channel-synchronization b/public/channel-synchronization
+index 38f4711..52d7cbd 100644
+--- a/public/channel-synchronization
++++ b/public/channel-synchronization
+@@ -186,19 +186,27 @@ started.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/channels b/public/channels
+index 63eb7d3..35a9d99 100644
+--- a/public/channels
++++ b/public/channels
+@@ -171,19 +171,27 @@ message without having to use any other synchronization.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/closing-channels b/public/closing-channels
+index 23c99cd..bc57f7b 100644
+--- a/public/closing-channels
++++ b/public/closing-channels
+@@ -197,19 +197,27 @@ example: <code>range</code> over channels.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/closures b/public/closures
+index ee50d20..b378178 100644
+--- a/public/closures
++++ b/public/closures
+@@ -192,19 +192,27 @@ recursion.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/command-line-arguments b/public/command-line-arguments
+index 2ecfbc0..c0aff52 100644
+--- a/public/command-line-arguments
++++ b/public/command-line-arguments
+@@ -172,19 +172,27 @@ with flags.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/command-line-flags b/public/command-line-flags
+index b161e8f..a746216 100644
+--- a/public/command-line-flags
++++ b/public/command-line-flags
+@@ -308,19 +308,27 @@ and show the help text again.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/command-line-subcommands b/public/command-line-subcommands
+index d194859..a6b33f3 100644
+--- a/public/command-line-subcommands
++++ b/public/command-line-subcommands
+@@ -262,19 +262,27 @@ way to parameterize programs.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/constants b/public/constants
+index 419f008..d62ac99 100644
+--- a/public/constants
++++ b/public/constants
+@@ -185,19 +185,27 @@ assignment or function call. For example, here
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/context b/public/context
+index 7f843a0..2ea54af 100644
+--- a/public/context
++++ b/public/context
+@@ -207,19 +207,27 @@ cancellation.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/defer b/public/defer
+index 60cbb6d..2173659 100644
+--- a/public/defer
++++ b/public/defer
+@@ -211,19 +211,27 @@ after being written.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/directories b/public/directories
+index 7f055a0..df16297 100644
+--- a/public/directories
++++ b/public/directories
+@@ -349,19 +349,27 @@ recursively by <code>filepath.Walk</code>.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/embed-directive b/public/embed-directive
+index 9a726ba..1bd9e66 100644
+--- a/public/embed-directive
++++ b/public/embed-directive
+@@ -212,19 +212,27 @@ this example can only be run on your local machine.)</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/environment-variables b/public/environment-variables
+index a951057..51ce357 100644
+--- a/public/environment-variables
++++ b/public/environment-variables
+@@ -188,19 +188,27 @@ program picks that value up.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/epoch b/public/epoch
+index 0f2ef53..cd6d24e 100644
+--- a/public/epoch
++++ b/public/epoch
+@@ -172,19 +172,27 @@ parsing and formatting.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/errors b/public/errors
+index 971665b..2f918c2 100644
+--- a/public/errors
++++ b/public/errors
+@@ -298,19 +298,27 @@ on the Go blog for more on error handling.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/execing-processes b/public/execing-processes
+index 4630748..6d96dcc 100644
+--- a/public/execing-processes
++++ b/public/execing-processes
+@@ -206,19 +206,27 @@ processes covers most use cases for <code>fork</code>.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/exit b/public/exit
+index 8347c3e..43a70a0 100644
+--- a/public/exit
++++ b/public/exit
+@@ -172,19 +172,27 @@ the status in the terminal.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/file-paths b/public/file-paths
+index ecab361..dcc185f 100644
+--- a/public/file-paths
++++ b/public/file-paths
+@@ -251,19 +251,27 @@ be made relative to base.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/for b/public/for
+index 4f52777..ad29e71 100644
+--- a/public/for
++++ b/public/for
+@@ -197,19 +197,27 @@ structures.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/functions b/public/functions
+index f837c2a..2f8e87e 100644
+--- a/public/functions
++++ b/public/functions
+@@ -194,19 +194,27 @@ multiple return values, which we&rsquo;ll look at next.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/generics b/public/generics
+index f4ad3e1..9db27b5 100644
+--- a/public/generics
++++ b/public/generics
+@@ -249,19 +249,27 @@ automatically.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/goroutines b/public/goroutines
+index 76accd7..27d7bb4 100644
+--- a/public/goroutines
++++ b/public/goroutines
+@@ -210,19 +210,27 @@ concurrent Go programs: channels.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/hello-world b/public/hello-world
+index 5403f5d..1b3db5a 100644
+--- a/public/hello-world
++++ b/public/hello-world
+@@ -137,19 +137,27 @@ learn more about the language.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/http-client b/public/http-client
+index 5182728..726cbfb 100644
+--- a/public/http-client
++++ b/public/http-client
+@@ -171,19 +171,27 @@ settings.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/http-server b/public/http-server
+index 5aae931..61bf5b6 100644
+--- a/public/http-server
++++ b/public/http-server
+@@ -212,19 +212,27 @@ router we&rsquo;ve just set up.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/if-else b/public/if-else
+index d2455b1..ea6bf9c 100644
+--- a/public/if-else
++++ b/public/if-else
+@@ -186,19 +186,27 @@ for basic conditions.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/index.html b/public/index.html
+index 3328a1d..4eaa921 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -201,19 +201,27 @@
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/interfaces b/public/interfaces
+index 6410da7..936941a 100644
+--- a/public/interfaces
++++ b/public/interfaces
+@@ -238,19 +238,27 @@ these structs as arguments to <code>measure</code>.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/json b/public/json
+index c2d3e44..446f0f5 100644
+--- a/public/json
++++ b/public/json
+@@ -414,19 +414,27 @@ for more.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/line-filters b/public/line-filters
+index b7d0ab6..beb14d4 100644
+--- a/public/line-filters
++++ b/public/line-filters
+@@ -205,19 +205,27 @@ lowercase lines.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/maps b/public/maps
+index a5b767c..14c83b2 100644
+--- a/public/maps
++++ b/public/maps
+@@ -235,19 +235,27 @@ printed with <code>fmt.Println</code>.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/methods b/public/methods
+index 0c9828a..3c7ee7b 100644
+--- a/public/methods
++++ b/public/methods
+@@ -198,19 +198,27 @@ naming related sets of methods: interfaces.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/multiple-return-values b/public/multiple-return-values
+index 7c8e48e..1eee043 100644
+--- a/public/multiple-return-values
++++ b/public/multiple-return-values
+@@ -168,19 +168,27 @@ feature of Go functions; we&rsquo;ll look at this next.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/mutexes b/public/mutexes
+index bff492c..36b6642 100644
+--- a/public/mutexes
++++ b/public/mutexes
+@@ -252,19 +252,27 @@ management task using only goroutines and channels.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/non-blocking-channel-operations b/public/non-blocking-channel-operations
+index 2a26abd..77b5cc7 100644
+--- a/public/non-blocking-channel-operations
++++ b/public/non-blocking-channel-operations
+@@ -178,19 +178,27 @@ on both <code>messages</code> and <code>signals</code>.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/number-parsing b/public/number-parsing
+index c744839..8ec9d27 100644
+--- a/public/number-parsing
++++ b/public/number-parsing
+@@ -216,19 +216,27 @@ bits.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/panic b/public/panic
+index 9246ddb..3ed2b5d 100644
+--- a/public/panic
++++ b/public/panic
+@@ -187,19 +187,27 @@ to use error-indicating return values wherever possible.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/pointers b/public/pointers
+index 4e2458a..740c114 100644
+--- a/public/pointers
++++ b/public/pointers
+@@ -195,19 +195,27 @@ the memory address for that variable.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/random-numbers b/public/random-numbers
+index ce784e8..a636bef 100644
+--- a/public/random-numbers
++++ b/public/random-numbers
+@@ -237,19 +237,27 @@ that Go can provide.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/range b/public/range
+index 4ef6efd..e553d27 100644
+--- a/public/range
++++ b/public/range
+@@ -204,19 +204,27 @@ details.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/range-over-channels b/public/range-over-channels
+index 5e443c2..13ad9e1 100644
+--- a/public/range-over-channels
++++ b/public/range-over-channels
+@@ -156,19 +156,27 @@ values be received.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/rate-limiting b/public/rate-limiting
+index 2824710..ae0fe1c 100644
+--- a/public/rate-limiting
++++ b/public/rate-limiting
+@@ -263,19 +263,27 @@ then serve the remaining 2 with ~200ms delays each.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/reading-files b/public/reading-files
+index 80092f1..b50387d 100644
+--- a/public/reading-files
++++ b/public/reading-files
+@@ -288,19 +288,27 @@ be scheduled immediately after <code>Open</code>ing with
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/recover b/public/recover
+index 55550b5..e4e77cb 100644
+--- a/public/recover
++++ b/public/recover
+@@ -197,19 +197,27 @@ panic and resumes in the deferred closure.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/recursion b/public/recursion
+index 53cb125..7cfc4ac 100644
+--- a/public/recursion
++++ b/public/recursion
+@@ -183,19 +183,27 @@ knows which function to call with <code>fib</code> here.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/regular-expressions b/public/regular-expressions
+index 100ec68..d0ba4a6 100644
+--- a/public/regular-expressions
++++ b/public/regular-expressions
+@@ -345,19 +345,27 @@ the <a href="https://pkg.go.dev/regexp"><code>regexp</code></a> package docs.</p
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/select b/public/select
+index f52596a..31f64cb 100644
+--- a/public/select
++++ b/public/select
+@@ -185,19 +185,27 @@ concurrently.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/sha256-hashes b/public/sha256-hashes
+index 815aeb2..756da79 100644
+--- a/public/sha256-hashes
++++ b/public/sha256-hashes
+@@ -201,19 +201,27 @@ you should carefully research
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/signals b/public/signals
+index 153fec1..3593495 100644
+--- a/public/signals
++++ b/public/signals
+@@ -215,19 +215,27 @@ causing the program to print <code>interrupt</code> and then exit.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/site.js b/public/site.js
+index d07d82e..752e656 100644
+--- a/public/site.js
++++ b/public/site.js
+@@ -15,45 +15,3 @@ var clipboard = new Clipboard('.copy', {
+         return codeLines.filter(function(cL) { return cL != '' }).join("\n").replace(/\n$/, '');
+     }
+ });
+-
+-
+-/**
+- * Code for theme switching
+- */
+-
+-
+-// var themeButton = document.getElementById('theme-button');
+-// var body = document.getElementsByTagName('body')[0];
+-
+-
+-// function activateDarkTheme(){
+-//     body.style.color = "#ffffffeb"
+-//     body.style.backgroundColor = "#1a202c"
+-//     localStorage.setItem('theme', 'dark')
+-// }
+-
+-// function activateLightTheme(){
+-//     body.style.color = "#252519"
+-//     body.style.backgroundColor = "white"
+-//     localStorage.setItem('theme', 'light')
+-// }
+-
+-// if (localStorage.getItem('theme') === 'light') {
+-//     activateLightTheme()
+-// } else if (localStorage.getItem('theme') === 'dark'){
+-//     activateDarkTheme()
+-// }
+-
+-// themeButton.onclick = function(){
+-//     if (localStorage.getItem('theme') === 'dark'){
+-//         activateLightTheme()
+-//     } else if (localStorage.getItem('theme') === 'light'){
+-//         activateDarkTheme()
+-//     } else {
+-//         if (body.style.color === "white"){
+-//             activateDarkTheme()
+-//         } else {
+-//             activateLightTheme()
+-//         }
+-//     }
+-// }
+\ No newline at end of file
+diff --git a/public/slices b/public/slices
+index 492f50d..bcdbbce 100644
+--- a/public/slices
++++ b/public/slices
+@@ -311,19 +311,27 @@ Go&rsquo;s other key builtin data structure: maps.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/sorting b/public/sorting
+index bd03bd7..7026fe6 100644
+--- a/public/sorting
++++ b/public/sorting
+@@ -163,19 +163,27 @@ slices and <code>true</code> as the result of our <code>AreSorted</code> test.</
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/sorting-by-functions b/public/sorting-by-functions
+index e31bf48..eca5510 100644
+--- a/public/sorting-by-functions
++++ b/public/sorting-by-functions
+@@ -181,19 +181,27 @@ functions.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/spawning-processes b/public/spawning-processes
+index cf9b386..df89b1a 100644
+--- a/public/spawning-processes
++++ b/public/spawning-processes
+@@ -285,19 +285,27 @@ an error message and non-zero return code.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/stateful-goroutines b/public/stateful-goroutines
+index 03ca520..94ae6f8 100644
+--- a/public/stateful-goroutines
++++ b/public/stateful-goroutines
+@@ -315,19 +315,27 @@ program.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/string-formatting b/public/string-formatting
+index 5d5f647..3b0d7f8 100644
+--- a/public/string-formatting
++++ b/public/string-formatting
+@@ -458,19 +458,27 @@ and returns a string without printing it anywhere.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/string-functions b/public/string-functions
+index 275ef0b..fc6e2d4 100644
+--- a/public/string-functions
++++ b/public/string-functions
+@@ -165,19 +165,27 @@ package docs.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/strings-and-runes b/public/strings-and-runes
+index 8276af9..b232158 100644
+--- a/public/strings-and-runes
++++ b/public/strings-and-runes
+@@ -285,19 +285,27 @@ can compare a <code>rune</code> value to a rune literal directly.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/struct-embedding b/public/struct-embedding
+index 5126ee9..36cc190 100644
+--- a/public/struct-embedding
++++ b/public/struct-embedding
+@@ -249,19 +249,27 @@ we see that a <code>container</code> now implements the
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/structs b/public/structs
+index cb51e79..6ddd267 100644
+--- a/public/structs
++++ b/public/structs
+@@ -268,19 +268,27 @@ pointers are automatically dereferenced.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/switch b/public/switch
+index 0c20392..682af37 100644
+--- a/public/switch
++++ b/public/switch
+@@ -205,19 +205,27 @@ type corresponding to its clause.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/temporary-files-and-directories b/public/temporary-files-and-directories
+index e066b06..7dfb230 100644
+--- a/public/temporary-files-and-directories
++++ b/public/temporary-files-and-directories
+@@ -241,19 +241,27 @@ prefixing them with our temporary directory.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/testing-and-benchmarking b/public/testing-and-benchmarking
+index b03b560..312bcf3 100644
+--- a/public/testing-and-benchmarking
++++ b/public/testing-and-benchmarking
+@@ -287,19 +287,27 @@ benchmark function names with a regexp.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/text-templates b/public/text-templates
+index 992d05f..536f57d 100644
+--- a/public/text-templates
++++ b/public/text-templates
+@@ -276,19 +276,27 @@ the range block <code>{{.}}</code> is set to the current item of the iteration.<
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/tickers b/public/tickers
+index 0ce4a93..e5a450a 100644
+--- a/public/tickers
++++ b/public/tickers
+@@ -173,19 +173,27 @@ before we stop it.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/time b/public/time
+index 938046b..96737df 100644
+--- a/public/time
++++ b/public/time
+@@ -272,19 +272,27 @@ the Unix epoch.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/time-formatting-parsing b/public/time-formatting-parsing
+index 953db05..cd96519 100644
+--- a/public/time-formatting-parsing
++++ b/public/time-formatting-parsing
+@@ -206,19 +206,27 @@ explaining the parsing problem.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/timeouts b/public/timeouts
+index a797d66..effc2cb 100644
+--- a/public/timeouts
++++ b/public/timeouts
+@@ -184,19 +184,27 @@ out and the second succeeding.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/timers b/public/timers
+index 1592b25..7d7e07b 100644
+--- a/public/timers
++++ b/public/timers
+@@ -187,19 +187,27 @@ a chance to fire.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/url-parsing b/public/url-parsing
+index 1132c4d..9ede32b 100644
+--- a/public/url-parsing
++++ b/public/url-parsing
+@@ -238,19 +238,27 @@ pieces that we extracted.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/values b/public/values
+index 639cd29..cff0270 100644
+--- a/public/values
++++ b/public/values
+@@ -154,19 +154,27 @@ basic examples.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/variables b/public/variables
+index 52edf3a..58b3f00 100644
+--- a/public/variables
++++ b/public/variables
+@@ -186,19 +186,27 @@ This syntax is only available inside functions.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/variadic-functions b/public/variadic-functions
+index 6c332a3..d5c112d 100644
+--- a/public/variadic-functions
++++ b/public/variadic-functions
+@@ -188,19 +188,27 @@ to form closures, which we&rsquo;ll look at next.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/waitgroups b/public/waitgroups
+index 8969237..4ccff46 100644
+--- a/public/waitgroups
++++ b/public/waitgroups
+@@ -254,19 +254,27 @@ is likely to be different for each invocation.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/worker-pools b/public/worker-pools
+index 86874a4..b30171c 100644
+--- a/public/worker-pools
++++ b/public/worker-pools
+@@ -225,19 +225,27 @@ there are 3 workers operating concurrently.</p>
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/writing-files b/public/writing-files
+index ddd3d96..899981b 100644
+--- a/public/writing-files
++++ b/public/writing-files
+@@ -288,19 +288,27 @@ we&rsquo;ve just seen to the <code>stdin</code> and <code>stdout</code> streams.
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/public/xml b/public/xml
+index 271e159..0a05233 100644
+--- a/public/xml
++++ b/public/xml
+@@ -279,19 +279,27 @@ to nest all <code>plant</code>s under <code>&lt;parent&gt;&lt;child&gt;...</code
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+diff --git a/templates/footer.tmpl b/templates/footer.tmpl
+index 492795e..4985838 100644
+--- a/templates/footer.tmpl
++++ b/templates/footer.tmpl
+@@ -11,19 +11,27 @@
+           var themeButton = document.getElementById('theme-button');
+           var body = document.getElementsByTagName('body')[0];
+ 
++          var lightText = "#ffffffeb";
++          var darkText = "#252519";
++          var lightBackground = "white";
++          var darkBackground = "#1a202c";
++          var lightCodeBackground = "#f0f0f0";
++          var darkCodeBackground = "#333333";
++
++
+           function activateTheme(theme) {
+             if (theme === 'dark') {
+-              body.style.color = "#ffffffeb";
+-              body.style.backgroundColor = "#1a202c";
+-              styleAllTags('a', 'color', '#ffffffeb')
+-              styleAllTags('td.code', 'background', '#333333')
+-              styleAllTags('td.code.empty', 'background', '#1a202c')
++              body.style.color = lightText;
++              body.style.backgroundColor = darkBackground;
++              styleAllTags('a', 'color', lightText)
++              styleAllTags('td.code', 'background', darkCodeBackground);
++              styleAllTags('td.code.empty', 'background', darkBackground)
+             } else {
+-              body.style.color = "#252519";
+-              body.style.backgroundColor = "white";
+-              styleAllTags('a', 'color', '#252519')
+-              styleAllTags('td.code', 'background', '#f0f0f0')
+-              styleAllTags('td.code.empty', 'background', 'white')
++              body.style.color = darkText;
++              body.style.backgroundColor = lightBackground;
++              styleAllTags('a', 'color', darkText)
++              styleAllTags('td.code', 'background', lightCodeBackground)
++              styleAllTags('td.code.empty', 'background', lightBackground)
+             }
+             localStorage.setItem('theme', theme);
+           }
+-- 
+2.47.3
+
