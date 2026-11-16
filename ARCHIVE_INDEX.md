@@ -242,3 +242,4 @@
 | k8s-stuff | repo | https://github.com/vicradon/k8s-stuff |  |  | 2022-06-02 |
 | Nest-App | fork of harblaith7/Node-App (4 patches) | https://github.com/vicradon/Nest-App |  |  | 2022-05-31 |
 | react-interview | repo | https://github.com/vicradon/react-interview |  | react-interview-chi.vercel.app | 2022-05-11 |
+| gdsc-imsu-nodejs-session | repo | https://github.com/vicradon/gdsc-imsu-nodejs-session |  |  | 2022-05-09 |
