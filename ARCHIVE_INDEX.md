@@ -24,3 +24,4 @@
 | dummy2 | empty (no commits) | https://github.com/vicradon/dummy2 |  |  | 2026-03-11 |
 | dummyrepo | repo | https://github.com/vicradon/dummyrepo | some description |  | 2026-03-11 |
 | midi | repo | https://github.com/vicradon/midi |  | https://midi-five-iota.vercel.app | 2026-03-09 |
+| splitbook | repo | https://github.com/vicradon/splitbook | splits a book into single file with page range |  | 2026-03-07 |
