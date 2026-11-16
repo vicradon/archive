@@ -1,0 +1,710 @@
+# The Wine Detective: Cracking the Code of K-Nearest Neighbors\n\n## Scene 1: A Mysterious Vintage\n*The year is 1986. Wine collectors across France are buzzing with anticipation.*\n\nPicture this: You're standing in the vineyards of Bordeaux, watching the last grapes of the 1986 harvest being picked. The summer was warm, the winter rainfall moderate. But here's the million-dollar question that has everyone on edge:\n\n**Will this vintage be worth collecting, or should investors steer clear?**\n\nTraditional wine experts would need years to taste and evaluate the wine. But Professor Orley Ashenfelter had a radical idea: What if we could predict wine quality using just weather data?\n\n---\n\n## Scene 2: The Pattern Detective's Dilemma\n*Our story begins with a simple observation...*\n\nAshenfelter noticed something intriguing: wines from years with similar weather patterns often had similar quality and prices. It was like nature left fingerprints on each vintage.\n\nThink about it — if you wanted to predict how good an unknown wine might be, what would be your strategy?\n\n**Quiz Time!** \nIf you had to predict the quality of a mystery wine, which approach sounds most reasonable?\n\nA) Flip a coin and hope for the best  \nB) Look at wines from years with similar weather and see how they turned out  \nC) Ask a magic 8-ball  \n\n*Take a moment to think about it...*\n\n✅ **Answer: B** — This is exactly the intuition behind our detective story! We're going to look for similar \"neighbors\" in the data.\n\n---\n\n## Scene 3: Meet the Data\n*Every good detective story needs evidence...*\n\nHere's what Ashenfelter collected for each vintage year:\n- **Summer temperature** (how warm it got)\n- **Winter rainfall** (how much it rained) \n- **Wine price** years later (our measure of quality)\n\nBut wait — there's a twist! For the years 1981-1991, he had the weather data but not the wine prices yet. These wines were still too young to evaluate.\n\n**The mission:** Use the older vintages (1952-1980) to predict the prices of the newer ones.\n\n---\n\n## Scene 4: The Visualization Reveals All\n*Let's see what patterns emerge when we plot the data...*\n\nWhen we create a scatter plot with winter rainfall on one axis and summer temperature on the other, something fascinating happens. Each dot represents a vintage year, colored by wine price:\n\n- 🟡 Yellow dots = expensive, high-quality wines\n- 🔵 Blue dots = cheaper, lower-quality wines  \n\nNow here's where it gets interesting: Notice how wines with similar weather conditions (dots close together) tend to have similar colors?\n\n---\n\n## Scene 5: The 1986 Mystery\n*Our plot thickens...*\n\nLooking at our weather map, we can see exactly where 1986 lands. The key insight that started our whole investigation:\n\n**The wines closest to 1986 in weather conditions were mostly low-quality vintages!**\n\nThis is the \"aha!\" moment. The nearest neighbors of 1986 were pointing toward disappointment.\n\n**Quick Reflection:** Why do you think looking at \"nearest neighbors\" might be a good prediction strategy?\n\n---\n\n## Scene 6: Formalizing Our Detective Work\n*Time to turn intuition into a systematic method...*\n\nOur wine detective approach has two key ingredients:\n\n1. **Training data** — vintages where we know both weather AND final wine quality\n2. **Test data** — vintages where we only know the weather (what we want to predict)\n\nThis is the fundamental setup of machine learning: learn from examples where you know the answer, then apply that knowledge to new cases.\n\n---\n\n## Scene 7: The K-Nearest Neighbors Algorithm Unveiled\n*Here's how our detective method works step by step...*\n\n**The K-Nearest Neighbors Algorithm:**\n\n**Step 1:** For a new wine (like 1986), find the K \"nearest\" wines in the training data based on weather similarity.\n\n**Step 2:** Average the prices of these K nearest neighbors.\n\n**Step 3:** That average becomes your prediction!\n\nThe \"K\" is just a number we choose — how many neighbors should we consult? 3? 5? 10?\n\n---\n\n## Quiz Break: Understanding Distance\n\nBefore we continue, let's test your understanding:\n\n**What makes two wines \"nearest neighbors\"?**\n\nA) They were made in consecutive years  \nB) They have similar weather patterns  \nC) They're from the same vineyard  \n\n✅ **Answer: B** — We measure \"nearness\" by how similar the weather conditions were, not by time or location!\n\n---\n\n## Scene 8: The Importance of Fair Comparison\n*But wait — we have a problem...*\n\nImagine comparing wines where:\n- Summer temperature ranges from 15°C to 18°C (small range)\n- Winter rainfall ranges from 400mm to 800mm (huge range)\n\nIf we calculate distance directly, rainfall will dominate simply because its numbers are bigger. It's like comparing apples measured in grams to oranges measured in kilograms!\n\n**The solution:** Scale both features to have similar ranges before calculating distances.\n\n---\n\n## Scene 9: Scaling the Data\n*Making fair comparisons...*\n\n**Standardization** transforms each feature to have:\n- Mean = 0\n- Standard deviation = 1\n\nThink of it as converting everything to the same \"units\" so no feature unfairly dominates the distance calculation.\n\n**Mathematical note:** For each feature, we calculate:\n`scaled_value = (original_value - mean) / standard_deviation`\n\n---\n\n## Scene 10: Calculating Distances\n*Now for some mathematical detective work...*\n\nTo find the nearest neighbors to 1986, we calculate the **Euclidean distance** between 1986 and every wine in our training data.\n\nFor two wines with weather conditions (x₁, y₁) and (x₂, y₂):\n**Distance = √[(x₁-x₂)² + (y₁-y₂)²]**\n\nThis gives us a single number representing how \"far apart\" two wines are in weather space.\n\n---\n\n## Quiz Break: Distance Intuition\n\n**Quick check:** If two wines have identical weather conditions, what will their distance be?\n\nA) 1  \nB) 0  \nC) Impossible to tell  \n\n✅ **Answer: B** — Identical conditions mean zero distance between them!\n\n---\n\n## Scene 11: The Nearest Neighbors of 1986\n*Our investigation gets specific...*\n\nAfter calculating all distances and sorting them, the 5 nearest neighbors to 1986 are:\n- 1974\n- 1958  \n- 1969\n- 1968\n- 1980\n\nThese were the years with the most similar weather patterns to 1986.\n\n---\n\n## Scene 12: Making the Prediction\n*The moment of truth...*\n\nThe prices of our 5 nearest neighbors were:\n- 1974: $8.50\n- 1958: $16.00\n- 1969: $14.50\n- 1968: $15.50\n- 1980: $11.50\n\n**Average = (8.50 + 16.00 + 14.50 + 15.50 + 11.50) ÷ 5 = $13.20**\n\nOur algorithm predicts 1986 will be worth $13.20 — suggesting a mediocre vintage.\n\n---\n\n## Quiz Break: Algorithm Understanding\n\n**If we had used K=3 instead of K=5, would our prediction be:**\n\nA) Exactly the same  \nB) Probably different  \nC) More accurate  \n\n✅ **Answer: B** — Different K values use different numbers of neighbors, leading to different predictions. The \"best\" K depends on the specific dataset.\n\n---\n\n## Scene 13: Implementing from Scratch\n*Let's code our detective work...*\n\nHere's how we'd implement this by hand:\n\n```python\n# Step 1: Scale the features\nX_train_scaled = (X_train - X_train.mean()) / X_train.std()\nX_test_scaled = (X_test - X_train.mean()) / X_train.std()\n\n# Step 2: Calculate distances\ndistances = []\nfor each wine in training_data:\n    distance = sqrt(sum((test_wine - train_wine)**2))\n    distances.append(distance)\n\n# Step 3: Find K nearest neighbors\nnearest_indices = sort(distances)[:K]\n\n# Step 4: Average their prices\nprediction = mean(prices[nearest_indices])\n```\n\n---\n\n## Scene 14: The Professional Detective Tools\n*Enter Scikit-Learn...*\n\nRather than implement everything from scratch, data scientists use professional tools. In Python, the `scikit-learn` library provides `KNeighborsRegressor`:\n\n```python\nfrom sklearn.neighbors import KNeighborsRegressor\nfrom sklearn.preprocessing import StandardScaler\n\n# Create and fit the model\nmodel = KNeighborsRegressor(n_neighbors=5)\nmodel.fit(X_train_scaled, y_train)\n\n# Make predictions\npredictions = model.predict(X_test_scaled)\n```\n\n---\n\n## Scene 15: The Power of Pipelines\n*Professional detective workflows...*\n\nReal machine learning involves many preprocessing steps. Scikit-learn's **Pipeline** lets us chain operations together:\n\n```python\nfrom sklearn.pipeline import make_pipeline\n\npipeline = make_pipeline(\n    StandardScaler(),           # First: scale the data\n    KNeighborsRegressor(n_neighbors=5)  # Then: apply KNN\n)\n\npipeline.fit(X_train, y_train)\npredictions = pipeline.predict(X_test)\n```\n\nThis ensures the same preprocessing is applied consistently to training and test data.\n\n---\n\n## Quiz Break: Pipeline Benefits\n\n**What's the main advantage of using a Pipeline?**\n\nA) It runs faster than separate steps  \nB) It ensures consistent preprocessing across training and test data  \nC) It automatically chooses the best K value  \n\n✅ **Answer: B** — Pipelines prevent the common mistake of preprocessing training and test data differently.\n\n---\n\n## Scene 16: Beyond Single Predictions  \n*Scaling up our detective work...*\n\nOur method doesn't stop at predicting one wine. We can predict the quality of all the mystery vintages (1981-1991) by applying the same process to each year.\n\nThe algorithm finds the nearest neighbors for each test vintage and makes individual predictions based on their specific weather patterns.\n\n---\n\n## Scene 17: Regression vs. Classification\n*Two types of detective problems...*\n\n**Regression problems** (like ours): Predict numerical values\n- Wine prices\n- House values  \n- Temperature\n\n**Classification problems**: Predict categories\n- Email spam or not spam\n- Image contains cat or dog\n- Wine quality: excellent/good/poor\n\nK-Nearest Neighbors works for both! For classification, instead of averaging prices, we'd take a majority vote among the K neighbors.\n\n---\n\n## Quiz Break: Problem Types\n\n**Which of these would be a classification problem?**\n\nA) Predicting tomorrow's stock price  \nB) Predicting whether a wine is red or white based on chemical properties  \nC) Predicting a house's sale price  \n\n✅ **Answer: B** — Red vs. white are categories, not numerical values.\n\n---\n\n## Scene 18: The Algorithm's Strengths\n*Why K-Nearest Neighbors is powerful...*\n\n**Advantages:**\n- **Intuitive**: Easy to understand and explain\n- **No assumptions**: Works with any data pattern  \n- **Flexible**: Handles both regression and classification\n- **Non-parametric**: Doesn't assume a specific mathematical form\n\nIt's like having a wise friend who remembers every similar situation and gives advice based on how those turned out.\n\n---\n\n## Scene 19: The Algorithm's Limitations  \n*Every detective method has weaknesses...*\n\n**Challenges:**\n- **Computational cost**: Must calculate distances to all training examples\n- **Sensitive to irrelevant features**: All features influence distance equally\n- **Curse of dimensionality**: Performance degrades with too many features\n- **Requires good K choice**: Too small = noisy, too large = overly smooth\n\n---\n\n## Scene 20: The Plot Twist Revealed!\n*History's surprise ending...*\n\nHere's the shocking revelation: **Ashenfelter's prediction was completely wrong!**\n\nThe 1986 Bordeaux vintage, which K-Nearest Neighbors predicted would be mediocre (scoring around $13), actually became one of the greatest vintages ever produced, with a quality score of **95 out of 100**!\n\nSometimes the most similar historical cases don't predict the future perfectly.\n\n---\n\n## Scene 21: Why Predictions Fail\n*The lesson in our detective story...*\n\n**Why was the prediction so far off?**\n\n1. **Limited features**: Weather alone doesn't capture everything about wine quality\n2. **Historical patterns**: The past doesn't always predict the future perfectly\n3. **Small dataset**: With only ~30 training examples, patterns might be misleading\n4. **Complex interactions**: Wine quality depends on subtle combinations weather factors\n\nThis teaches us that machine learning models are tools, not crystal balls.\n\n---\n\n## Quiz Break: Learning from Failure\n\n**What's the most important lesson from the 1986 prediction failure?**\n\nA) K-Nearest Neighbors is a bad algorithm  \nB) We should always use more neighbors  \nC) Models are imperfect tools that require human judgment  \n\n✅ **Answer: C** — Even sophisticated algorithms can fail. The key is understanding their limitations and using them wisely.\n\n---\n\n## Scene 22: Choosing K in Practice\n*The art of parameter selection...*\n\nHow do we choose the best K value? Common strategies:\n\n**Small K (1-3):**\n- More sensitive to individual examples\n- Can capture fine details but may overfit to noise\n\n**Large K (10+):**  \n- Smoother predictions\n- Less sensitive to outliers but may miss important patterns\n\n**The sweet spot:** Often found through **cross-validation** — testing different K values on held-out data.\n\n---\n\n## Scene 23: Feature Engineering Detective Work\n*Making better predictions...*\n\nTo improve wine predictions, we might collect additional features:\n- **Soil composition**\n- **Harvest timing**  \n- **Grape variety percentages**\n- **Vineyard altitude**\n- **Historical vintage reputation**\n\nMore relevant features often lead to better neighbors and more accurate predictions.\n\n---\n\n## Scene 24: Distance Metrics Beyond Euclidean\n*Different ways to measure similarity...*\n\n**Euclidean distance** isn't the only option:\n\n- **Manhattan distance**: Sum of absolute differences\n- **Cosine similarity**: Angle between feature vectors  \n- **Weighted distances**: Give some features more importance\n\nThe choice depends on your data and problem context.\n\n---\n\n## Scene 25: Real-World Applications\n*Where K-Nearest Neighbors solves problems...*\n\n**Recommendation Systems:**\n- \"Users similar to you also liked...\"\n- Netflix movie suggestions\n- Amazon product recommendations\n\n**Medical Diagnosis:**\n- Find patients with similar symptoms\n- Predict treatment outcomes based on similar cases\n\n**Financial Fraud Detection:**\n- Identify transactions similar to known fraud patterns\n\n---\n\n## Scene 26: The Scalability Challenge\n*When datasets grow large...*\n\nWith millions of data points, calculating distances to every single example becomes expensive. Solutions include:\n\n**Approximate methods:**\n- Locality Sensitive Hashing\n- Random sampling of neighbors\n- Tree-based search structures\n\n**Preprocessing:**\n- Dimensionality reduction\n- Feature selection\n- Data clustering\n\n---\n\n## Quiz Break: Scalability\n\n**If you had 1 million training examples and needed to make predictions in real-time, what would be your biggest concern with basic K-Nearest Neighbors?**\n\nA) Memory usage  \nB) Calculation time for distance to all examples  \nC) Accuracy would decrease  \n\n✅ **Answer: B** — Computing distances to every single training example would be too slow for real-time applications.\n\n---\n\n## Scene 27: Cross-Validation for Model Selection\n*Testing our detective method properly...*\n\nTo find the best K value:\n\n1. **Split training data** into smaller training and validation sets\n2. **Try different K values** (1, 3, 5, 7, 9, ...)\n3. **Measure prediction accuracy** on validation set for each K\n4. **Choose the K** with the best validation performance\n5. **Final test** on completely unseen test data\n\nThis prevents overfitting to any particular dataset split.\n\n---\n\n## Scene 28: Handling Different Data Types\n*Not all features are numbers...*\n\nWhat if we have categorical features like:\n- **Wine region**: Bordeaux, Burgundy, Champagne\n- **Grape variety**: Cabernet, Merlot, Pinot Noir\n- **Season**: Spring, Summer, Fall, Winter\n\n**Solutions:**\n- **One-hot encoding**: Convert categories to binary features\n- **Ordinal encoding**: For ordered categories (Low, Medium, High)\n- **Specialized distance metrics**: That handle mixed data types\n\n---\n\n## Scene 29: The Curse of Dimensionality\n*When more features hurt performance...*\n\nParadoxically, adding too many features can make K-Nearest Neighbors **worse**:\n\n- In high dimensions, all points become roughly equidistant\n- \"Nearest\" neighbors aren't really that near anymore\n- Random chance starts dominating meaningful patterns\n\n**The lesson:** More data isn't always better — focus on the most relevant features.\n\n---\n\n## Scene 30: Weighted K-Nearest Neighbors  \n*Giving closer neighbors more influence...*\n\nInstead of treating all K neighbors equally, we can weight them by distance:\n\n- **Closer neighbors** get higher weights\n- **Farther neighbors** get lower weights\n- **Formula**: weight = 1/distance (or similar)\n\nThis often provides more nuanced predictions than simple averaging.\n\n---\n\n## Quiz Break: Weighting Intuition\n\n**Why might weighted K-Nearest Neighbors give better predictions than regular KNN?**\n\nA) It uses fewer neighbors  \nB) It gives more influence to the most similar cases  \nC) It's faster to compute  \n\n✅ **Answer: B** — Intuitively, cases that are more similar should have more influence on our prediction.\n\n---\n\n## Scene 31: Local vs. Global Patterns\n*Understanding KNN's perspective...*\n\nK-Nearest Neighbors is a **local** method:\n- It only cares about nearby examples for each prediction\n- Different regions of feature space can have different patterns\n- No single global model is fit to all data\n\nThis contrasts with **global** methods like linear regression that assume one pattern fits everywhere.\n\n---\n\n## Scene 32: Handling Missing Data  \n*Real-world data is messy...*\n\nWhat if some vintages are missing temperature or rainfall data?\n\n**Options:**\n1. **Remove examples** with missing features (loses information)\n2. **Impute missing values** using KNN itself!\n3. **Use distance metrics** that handle missing values specially\n4. **Separate models** for different feature combinations\n\n---\n\n## Scene 33: The Bias-Variance Tradeoff\n*A fundamental machine learning concept...*\n\n**Small K (like K=1):**\n- **Low bias**: Can capture complex, local patterns\n- **High variance**: Very sensitive to individual training examples\n\n**Large K:**  \n- **Higher bias**: Smoother, potentially over-simplified predictions\n- **Lower variance**: More stable across different training sets\n\nThe optimal K balances these competing concerns.\n\n---\n\n## Scene 34: Ensemble Methods with KNN\n*Combining multiple detectives...*\n\nWe can improve predictions by combining multiple K-Nearest Neighbors models:\n\n- **Different K values**: Average predictions from K=3, K=5, K=7\n- **Different distance metrics**: Combine Euclidean and Manhattan distances  \n- **Different feature subsets**: Some models use weather, others use soil data\n- **Bootstrap aggregating**: Train on different random samples\n\n---\n\n## Quiz Break: Ensemble Benefits  \n\n**What's the main benefit of combining multiple KNN models?**\n\nA) Faster prediction time  \nB) Using less memory  \nC) More robust and accurate predictions  \n\n✅ **Answer: C** — Multiple models can compensate for each other's individual mistakes, leading to better overall performance.\n\n---\n\n## Scene 35: Modern Variations and Improvements\n*The evolution continues...*\n\n**Recent advances in nearest neighbor methods:**\n\n- **Approximate nearest neighbors**: Trade slight accuracy for massive speed improvements\n- **Learned distance metrics**: Use neural networks to learn better distance functions  \n- **Adaptive K selection**: Choose different K values for different regions of space\n- **GPU acceleration**: Parallel distance calculations for massive datasets\n\n---\n\n## Scene 36: When to Use K-Nearest Neighbors  \n*Choosing the right tool for the job...*\n\n**KNN works well when:**\n- Data has local patterns (similar inputs → similar outputs)\n- You need explainable predictions (\"because wines X, Y, Z were similar...\")\n- Dataset size is manageable\n- Features are meaningful for similarity comparison\n\n**Consider alternatives when:**\n- You need very fast real-time predictions\n- Dataset has millions of examples\n- Features are high-dimensional and sparse\n- You need probabilistic predictions\n\n---\n\n## Scene 37: Interpreting KNN Predictions  \n*Making the black box transparent...*\n\nOne of KNN's biggest advantages is **interpretability**:\n\n\"We predict this 1986 wine will cost $13.20 because it's most similar to 1974 ($8.50), 1958 ($16.00), 1969 ($14.50), 1968 ($15.50), and 1980 ($11.50).\"\n\nYou can show stakeholders the exact historical examples that drove each prediction.\n\n---\n\n## Scene 38: Practical Implementation Tips\n*Lessons from the field...*\n\n**Best practices for successful KNN projects:**\n\n1. **Always standardize** numerical features  \n2. **Start with small K** and increase gradually\n3. **Use cross-validation** to choose K\n4. **Consider feature selection** to remove noise\n5. **Monitor computational performance** as data grows\n6. **Validate on completely unseen data**\n\n---\n\n## Scene 39: The Detective's Toolkit Summary\n*Wrapping up our investigation...*\n\n**K-Nearest Neighbors Algorithm:**\n- **Input**: Training data with features and labels, new data to predict, K value\n- **Process**: Find K most similar training examples, average their labels  \n- **Output**: Prediction based on local neighborhood\n- **Strength**: Intuitive, flexible, interpretable\n- **Weakness**: Can be slow, sensitive to irrelevant features\n\n---\n\n## Final Quiz: Putting It All Together\n\n**You're tasked with predicting house prices using KNN. Your features are: square footage, number of bedrooms, age of house, and neighborhood name. What's your first preprocessing step?**\n\nA) Choose K=5  \nB) Standardize numerical features and encode neighborhood categorically  \nC) Remove the neighborhood feature  \n\n✅ **Answer: B** — Before any KNN analysis, you need to ensure all features contribute fairly to distance calculations through proper scaling and encoding.\n\n---\n\n## Scene 40: The Continuing Detective Story\n*Where do we go from here?*\n\nOur journey through K-Nearest Neighbors reveals a fundamental truth about machine learning: the best algorithms are often the simplest to understand.\n\nWhile deep neural networks grab headlines, KNN quietly powers recommendation systems, fraud detection, and countless other applications where interpretability and simplicity matter.\n\nThe 1986 wine prediction may have failed, but it taught us something invaluable: **models are tools to augment human judgment, not replace it.**\n\n**Remember:** Every great data scientist starts with simple, interpretable methods like KNN before moving to more complex approaches. Master the fundamentals, and the advanced techniques become much clearer.\n\n---\n\n## Final Reflection\n\n**Key Takeaways from Our Wine Detective Story:**\n\n1. **Similarity-based reasoning** is intuitive and powerful\n2. **Feature scaling** is crucial for fair distance calculations  \n3. **Model validation** helps us choose optimal parameters\n4. **Interpretability** makes models trustworthy and actionable\n5. **Failures teach us** about model limitations and the need for human oversight\n\nThe next time you get a recommendation from Netflix or Amazon, remember: there's probably a K-Nearest Neighbors algorithm quietly working behind the scenes, finding users similar to you and suggesting what they enjoyed.\n\n**Your turn:** What problem in your life could benefit from finding \"nearest neighbors\" in data? 🕵️‍♂️🍷"
+
+
+
+---
+
+### scene\_id: `scene_04_visualization_reveals_all`
+
+```python
+# Streamlit app: weather vs. price scatter with interactive hover
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+st.set_page_config(page_title="Scene 4 — Weather Map", layout="centered")
+
+st.title("Scene 4: The Visualization Reveals All")
+st.write("Winter rainfall vs. summer temperature, colored by wine price.")
+
+# Toy dataset with story-relevant years included
+data = [
+    # year, temp, rain, price
+    (1958, 16.2, 610, 16.00),
+    (1968, 16.0, 700, 15.50),
+    (1969, 15.7, 690, 14.50),
+    (1974, 16.5, 760,  8.50),
+    (1980, 16.4, 730, 11.50),
+    (1986, 16.3, 720, np.nan),  # test year (unknown price)
+    # a few filler points
+    (1955, 15.4, 520, 13.20),
+    (1961, 16.8, 580, 22.00),
+    (1970, 15.8, 650, 12.00),
+    (1975, 16.6, 770,  9.80),
+    (1978, 16.1, 640, 12.30),
+]
+df = pd.DataFrame(data, columns=["year", "summer_temp_c", "winter_rain_mm", "price_usd"])
+
+highlight_1986 = st.toggle("Highlight 1986", True)
+fig = px.scatter(
+    df, x="winter_rain_mm", y="summer_temp_c",
+    color="price_usd", hover_data=["year", "price_usd"],
+    color_continuous_scale="Viridis",
+    title="Weather space (rain vs temp), colored by price"
+)
+
+if highlight_1986:
+    y1986 = df.query("year==1986").iloc[0]
+    fig.add_scatter(
+        x=[y1986["winter_rain_mm"]], y=[y1986["summer_temp_c"]],
+        mode="markers+text", text=["1986"], textposition="top center",
+        marker=dict(size=14, line=dict(width=2, color="black"))
+    )
+
+st.plotly_chart(fig, use_container_width=True)
+```
+
+---
+
+### scene\_id: `scene_07_10_11_knn_distance_and_neighbors`
+
+```python
+# Streamlit app: compute standardized distances + list K nearest neighbors for 1986
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.set_page_config(page_title="Scene 7/10/11 — KNN Neighbors", layout="centered")
+st.title("Scenes 7, 10 & 11: From Distance to Nearest Neighbors")
+
+# Base data (train known prices, 1986 unknown)
+rows = [
+    (1958, 16.2, 610, 16.00),
+    (1968, 16.0, 700, 15.50),
+    (1969, 15.7, 690, 14.50),
+    (1974, 16.5, 760,  8.50),
+    (1980, 16.4, 730, 11.50),
+    (1978, 16.1, 640, 12.30),
+    (1970, 15.8, 650, 12.00),
+    (1961, 16.8, 580, 22.00),
+    (1955, 15.4, 520, 13.20),
+    (1986, 16.3, 720, np.nan),  # test
+]
+df = pd.DataFrame(rows, columns=["year", "temp", "rain", "price"])
+
+# Controls
+k = st.slider("K (number of neighbors)", 1, 7, 5, step=1)
+use_standardize = st.toggle("Standardize features (recommended)", True)
+
+train = df.dropna(subset=["price"]).copy()
+test = df.query("year==1986")[["temp","rain"]].iloc[0].values
+
+X = train[["temp","rain"]].to_numpy()
+y = train["price"].to_numpy()
+
+if use_standardize:
+    mu = X.mean(axis=0); sigma = X.std(axis=0, ddof=0)
+    Xs = (X - mu) / sigma
+    ts = (test - mu) / sigma
+else:
+    Xs = X.copy()
+    ts = test.copy()
+
+# Euclidean distances
+dists = np.sqrt(((Xs - ts)**2).sum(axis=1))
+train = train.assign(distance=dists).sort_values("distance")
+
+st.subheader("Nearest neighbors to 1986 by weather similarity")
+st.dataframe(train[["year","temp","rain","price","distance"]].head(k), use_container_width=True)
+```
+
+---
+
+### scene\_id: `scene_12_prediction_from_neighbors`
+
+```python
+# Streamlit app: predict 1986 price from K neighbors (with option for distance weighting)
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.set_page_config(page_title="Scene 12 — Prediction", layout="centered")
+st.title("Scene 12: The Moment of Truth — Predicting 1986")
+
+rows = [
+    (1958, 16.2, 610, 16.00),
+    (1968, 16.0, 700, 15.50),
+    (1969, 15.7, 690, 14.50),
+    (1974, 16.5, 760,  8.50),
+    (1980, 16.4, 730, 11.50),
+    (1978, 16.1, 640, 12.30),
+    (1970, 15.8, 650, 12.00),
+    (1961, 16.8, 580, 22.00),
+    (1955, 15.4, 520, 13.20),
+    (1986, 16.3, 720, np.nan),
+]
+df = pd.DataFrame(rows, columns=["year","temp","rain","price"])
+train = df.dropna(subset=["price"])
+x_test = df.query("year==1986")[["temp","rain"]].iloc[0].values
+
+k = st.slider("K", 1, 7, 5)
+standardize = st.toggle("Standardize features", True)
+weighted = st.toggle("Weighted KNN (1/distance)", False)
+
+X = train[["temp","rain"]].to_numpy()
+y = train["price"].to_numpy()
+
+if standardize:
+    mu, sd = X.mean(axis=0), X.std(axis=0, ddof=0)
+    Xs = (X - mu)/sd
+    ts = (x_test - mu)/sd
+else:
+    Xs = X.copy(); ts = x_test.copy()
+
+d = np.sqrt(((Xs - ts)**2).sum(axis=1))
+order = np.argsort(d)[:k]
+neighbors = train.iloc[order].assign(distance=d[order])
+
+if weighted:
+    # avoid division by zero
+    w = 1/np.maximum(neighbors["distance"].to_numpy(), 1e-9)
+    pred = (neighbors["price"].to_numpy()*w).sum()/w.sum()
+else:
+    pred = neighbors["price"].mean()
+
+st.metric("Predicted 1986 price (USD)", f"${pred:,.2f}")
+st.caption("This uses the selected K, scaling, and weighting options above.")
+st.dataframe(neighbors[["year","temp","rain","price","distance"]], use_container_width=True)
+```
+
+---
+
+### scene\_id: `scene_15_pipeline_cross_validation`
+
+```python
+# Streamlit app: sklearn Pipeline + cross-validation over K with RMSE curve
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+from sklearn.model_selection import KFold, cross_val_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsRegressor
+
+st.set_page_config(page_title="Scene 15 — Pipelines & CV", layout="centered")
+st.title("Scene 15: Pipelines + Cross-Validation")
+
+# slightly larger synthetic dataset for demo
+rng = np.random.default_rng(42)
+N = st.slider("Dataset size", 40, 400, 120, step=20)
+temp = rng.normal(16.2, 0.5, N)
+rain = rng.normal(670, 70, N)
+# latent relation + noise (purely for demo)
+price = 5 + 2.2*(temp-16) - 0.004*(rain-670) + rng.normal(0, 1.2, N)
+
+df = pd.DataFrame({"temp":temp, "rain":rain, "price":price})
+
+k_values = list(range(1, 26, 2))
+cv_folds = st.slider("CV folds", 3, 10, 5)
+
+rmse = []
+for k in k_values:
+    pipe = make_pipeline(StandardScaler(), KNeighborsRegressor(n_neighbors=k))
+    # negative MSE -> convert to RMSE
+    scores = cross_val_score(pipe, df[["temp","rain"]], df["price"], scoring="neg_mean_squared_error", cv=KFold(cv_folds, shuffle=True, random_state=0))
+    rmse.append(np.sqrt(-scores).mean())
+
+cv_df = pd.DataFrame({"K":k_values,"RMSE":rmse})
+fig = px.line(cv_df, x="K", y="RMSE", markers=True, title="CV RMSE vs K (lower is better)")
+st.plotly_chart(fig, use_container_width=True)
+
+best = cv_df.loc[cv_df["RMSE"].idxmin()]
+st.success(f"Best K ≈ {int(best.K)} with RMSE ≈ {best.RMSE:.3f}")
+```
+
+---
+
+### scene\_id: `scene_24_distance_metrics_comparison`
+
+```python
+# Streamlit app: compare distance metrics (Euclidean vs Manhattan vs Cosine) on prediction
+import streamlit as st
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from numpy.linalg import norm
+
+st.set_page_config(page_title="Scene 24 — Distance Metrics", layout="centered")
+st.title("Scene 24: Distance Metrics Beyond Euclidean")
+
+rows = [
+    (1958, 16.2, 610, 16.00),
+    (1968, 16.0, 700, 15.50),
+    (1969, 15.7, 690, 14.50),
+    (1974, 16.5, 760,  8.50),
+    (1980, 16.4, 730, 11.50),
+    (1978, 16.1, 640, 12.30),
+    (1970, 15.8, 650, 12.00),
+    (1961, 16.8, 580, 22.00),
+    (1955, 15.4, 520, 13.20),
+    (1986, 16.3, 720, np.nan),
+]
+df = pd.DataFrame(rows, columns=["year","temp","rain","price"])
+train = df.dropna(subset=["price"]).copy()
+x_test = df.query("year==1986")[["temp","rain"]].to_numpy()
+
+k = st.slider("K", 1, 7, 5)
+metric = st.selectbox("Distance metric", ["euclidean","manhattan","cosine"])
+standardize = st.toggle("Standardize features", True)
+
+X = train[["temp","rain"]].to_numpy()
+y = train["price"].to_numpy()
+Xt = x_test.copy()
+
+if standardize:
+    scaler = StandardScaler().fit(X)
+    X = scaler.transform(X)
+    Xt = scaler.transform(Xt)
+
+def pdist(A, b, metric):
+    if metric == "euclidean":
+        return np.sqrt(((A - b)**2).sum(axis=1))
+    if metric == "manhattan":
+        return np.abs(A - b).sum(axis=1)
+    if metric == "cosine":
+        # 1 - cosine similarity
+        return 1 - (A @ b.T).ravel()/(norm(A,axis=1)*norm(b))
+    raise ValueError(metric)
+
+d = pdist(X, Xt, metric)
+idx = np.argsort(d)[:k]
+pred = y[idx].mean()
+
+st.metric("Prediction for 1986", f"${pred:,.2f}")
+st.dataframe(train.iloc[idx].assign(distance=d[idx])[["year","temp","rain","price","distance"]], use_container_width=True)
+```
+
+---
+
+### scene\_id: `scene_30_weighted_knn_contributions`
+
+```python
+# Streamlit app: visualize neighbor contributions under distance weighting
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+st.set_page_config(page_title="Scene 30 — Weighted KNN", layout="centered")
+st.title("Scene 30: Weighted KNN — Who Influences the Prediction?")
+
+rows = [
+    (1958, 16.2, 610, 16.00),
+    (1968, 16.0, 700, 15.50),
+    (1969, 15.7, 690, 14.50),
+    (1974, 16.5, 760,  8.50),
+    (1980, 16.4, 730, 11.50),
+    (1978, 16.1, 640, 12.30),
+    (1970, 15.8, 650, 12.00),
+    (1961, 16.8, 580, 22.00),
+    (1955, 15.4, 520, 13.20),
+    (1986, 16.3, 720, np.nan),
+]
+df = pd.DataFrame(rows, columns=["year","temp","rain","price"])
+train = df.dropna(subset=["price"]).copy()
+test = df.query("year==1986")[["temp","rain"]].iloc[0].to_numpy()
+
+k = st.slider("K", 1, 7, 5)
+standardize = st.toggle("Standardize features", True)
+power = st.slider("Weight falloff exponent (1/d^p)", 0.5, 3.0, 1.0, 0.1)
+
+X = train[["temp","rain"]].to_numpy()
+y = train["price"].to_numpy()
+if standardize:
+    mu, sd = X.mean(axis=0), X.std(axis=0, ddof=0)
+    X = (X - mu)/sd
+    t = (test - mu)/sd
+else:
+    t = test.copy()
+
+dist = np.sqrt(((X - t)**2).sum(axis=1))
+order = np.argsort(dist)[:k]
+nn = train.iloc[order].copy()
+eps = 1e-9
+weights = 1/np.maximum(dist[order], eps)**power
+weights = weights/weights.sum()
+nn["weight"] = weights
+nn["contribution"] = nn["price"] * nn["weight"]
+
+pred = nn["contribution"].sum()
+st.metric("Weighted KNN Prediction", f"${pred:,.2f}")
+
+fig = px.bar(nn, x="year", y="contribution", hover_data=["price","weight"], title="Neighbor contributions to prediction")
+st.plotly_chart(fig, use_container_width=True)
+st.dataframe(nn[["year","price","weight","contribution"]], use_container_width=True)
+```
+
+---
+
+### scene\_id: `scene_33_bias_variance_demo`
+
+```python
+# Streamlit app: bias-variance with 1D function (synthetic), K slider
+import streamlit as st
+import numpy as np
+import pandas as pd
+import plotly.express as px
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+st.set_page_config(page_title="Scene 33 — Bias-Variance", layout="centered")
+st.title("Scene 33: Bias–Variance Tradeoff (KNN)")
+
+rng = np.random.default_rng(0)
+n = st.slider("Training points", 20, 200, 80, step=10)
+noise = st.slider("Noise σ", 0.0, 1.0, 0.3, 0.05)
+K = st.slider("K", 1, 51, 9, step=2)
+
+# true function
+X = np.linspace(-3, 3, 200).reshape(-1,1)
+y_true = np.sin(X).ravel()
+
+# sample training data
+Xtr = rng.uniform(-3, 3, size=(n,1))
+ytr = np.sin(Xtr).ravel() + rng.normal(0, noise, size=n)
+
+pipe = make_pipeline(StandardScaler(with_mean=True, with_std=True), KNeighborsRegressor(n_neighbors=K))
+pipe.fit(Xtr, ytr)
+yp = pipe.predict(X)
+
+df_plot = pd.DataFrame({"x":X.ravel(),"y_true":y_true,"y_pred":yp})
+fig = px.line(df_plot, x="x", y=["y_true","y_pred"], title="Effect of K on fit")
+st.plotly_chart(fig, use_container_width=True)
+
+st.caption("Small K → flexible but noisy. Large K → smoother but biased.")
+```
+
+---
+
+### scene\_id: `scene_36_scalability_back_of_envelope`
+
+```python
+# Streamlit app: back-of-the-envelope scalability calculator for KNN
+import streamlit as st
+import numpy as np
+
+st.set_page_config(page_title="Scene 36 — Scalability", layout="centered")
+st.title("Scene 36: Scalability — How Heavy Is KNN?")
+
+N = st.slider("Training size (N)", 1_000, 5_000_000, 200_000, step=1_000)
+d = st.slider("Number of features (d)", 2, 2000, 32)
+q = st.slider("Queries per second needed", 1, 10000, 100)
+
+# simplistic FLOP estimate: ~ (2d) per distance * N distances * q
+flops = 2 * d * N * q
+st.metric("Estimated floating-point ops/sec for brute-force search", f"{flops:,.0f}")
+
+st.write("""
+**Rules of thumb:**
+- Use approximate nearest neighbors or pre-indexing when `N` is large.
+- Lower `d` via feature selection or dimensionality reduction.
+""")
+```
+
+---
+
+### scene\_id: `scene_37_interpretability_neighbor_explanation`
+
+```python
+# Streamlit app: explanation card listing the neighbors + textual rationale
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+st.set_page_config(page_title="Scene 37 — Explanation", layout="centered")
+st.title("Scene 37: Why Did KNN Predict That?")
+
+rows = [
+    (1958, 16.2, 610, 16.00),
+    (1968, 16.0, 700, 15.50),
+    (1969, 15.7, 690, 14.50),
+    (1974, 16.5, 760,  8.50),
+    (1980, 16.4, 730, 11.50),
+    (1978, 16.1, 640, 12.30),
+    (1970, 15.8, 650, 12.00),
+    (1961, 16.8, 580, 22.00),
+    (1955, 15.4, 520, 13.20),
+    (1986, 16.3, 720, np.nan),
+]
+df = pd.DataFrame(rows, columns=["year","temp","rain","price"])
+train = df.dropna(subset=["price"])
+target_year = st.selectbox("Explain prediction for:", options=[1986], index=0)
+K = st.slider("K", 1, 7, 5)
+
+x = df.query("year==@target_year")[["temp","rain"]].to_numpy()
+X = train[["temp","rain"]].to_numpy()
+y = train["price"].to_numpy()
+
+# standardize
+mu, sd = X.mean(axis=0), X.std(axis=0, ddof=0)
+Xz = (X - mu)/sd
+xz = (x - mu)/sd
+
+d = np.sqrt(((Xz - xz)**2).sum(axis=1))
+idx = np.argsort(d)[:K]
+neighbors = train.iloc[idx].assign(distance=d[idx])
+
+pred = neighbors["price"].mean()
+st.metric(f"Prediction for {target_year}", f"${pred:,.2f}")
+
+st.write("**Rationale:** we averaged prices from the most similar weather years below.")
+st.dataframe(neighbors[["year","temp","rain","price","distance"]], use_container_width=True)
+```
+
+---
+
+### scene\_id: `scene_38_preprocessing_scaling_effect`
+
+```python
+# Streamlit app: scaling effect demo (how unscaled rainfall dominates)
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+st.set_page_config(page_title="Scene 38 — Scaling Effect", layout="centered")
+st.title("Scene 38: Why Scaling Matters")
+
+rows = [
+    (1958, 16.2, 610, 16.00),
+    (1968, 16.0, 700, 15.50),
+    (1969, 15.7, 690, 14.50),
+    (1974, 16.5, 760,  8.50),
+    (1980, 16.4, 730, 11.50),
+    (1978, 16.1, 640, 12.30),
+    (1970, 15.8, 650, 12.00),
+    (1961, 16.8, 580, 22.00),
+    (1955, 15.4, 520, 13.20),
+    (1986, 16.3, 720, np.nan),
+]
+df = pd.DataFrame(rows, columns=["year","temp","rain","price"])
+
+t = df.query("year==1986")[["temp","rain"]].iloc[0].to_numpy()
+A = df.dropna(subset=["price"])[["temp","rain"]].to_numpy()
+
+# distances with/without scaling
+mu, sd = A.mean(axis=0), A.std(axis=0, ddof=0)
+A_z = (A - mu)/sd
+t_z = (t - mu)/sd
+
+d_raw = np.sqrt(((A - t)**2).sum(axis=1))
+d_z = np.sqrt(((A_z - t_z)**2).sum(axis=1))
+
+view = df.dropna(subset=["price"])[["year","price"]].copy()
+view["dist_unscaled"] = d_raw
+view["dist_scaled"] = d_z
+view = view.sort_values("dist_unscaled")
+
+fig = px.scatter(view, x="dist_unscaled", y="dist_scaled", text="year",
+                 title="Distances to 1986: unscaled vs scaled")
+fig.update_traces(textposition="top center")
+st.plotly_chart(fig, use_container_width=True)
+st.dataframe(view, use_container_width=True)
+```
+
+---
+
+### scene\_id: `scene_27_cross_validation_grid`
+
+```python
+# Streamlit app: grid search over K with holdout set + learning curve style plot
+import streamlit as st
+import numpy as np
+import pandas as pd
+import plotly.express as px
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.metrics import mean_squared_error
+
+st.set_page_config(page_title="Scene 27 — Model Selection", layout="centered")
+st.title("Scene 27: Cross-Validation / Holdout Grid for K")
+
+rng = np.random.default_rng(7)
+N = st.slider("Data size", 60, 600, 180, step=20)
+temp = rng.normal(16.2, 0.6, N)
+rain = rng.normal(670, 90, N)
+price = 4.5 + 2.4*(temp-16) - 0.0035*(rain-670) + rng.normal(0, 1.3, N)
+
+X = np.c_[temp, rain]
+y = price
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.25, random_state=0)
+
+k_values = range(1, 32, 2)
+rmse = []
+scaler = StandardScaler().fit(Xtr)
+Xtrz, Xtez = scaler.transform(Xtr), scaler.transform(Xte)
+
+for k in k_values:
+    knn = KNeighborsRegressor(n_neighbors=k)
+    knn.fit(Xtrz, ytr)
+    yp = knn.predict(Xtez)
+    rmse.append(np.sqrt(mean_squared_error(yte, yp)))
+
+df = pd.DataFrame({"K":list(k_values),"RMSE":rmse})
+fig = px.line(df, x="K", y="RMSE", markers=True, title="Holdout RMSE vs K")
+st.plotly_chart(fig, use_container_width=True)
+st.success(f"Best K on holdout: {int(df.loc[df.RMSE.idxmin(),'K'])}")
+```
+
+---
+
+### scene\_id: `scene_25_classification_toggle`
+
+```python
+# Streamlit app: switch between regression and classification with the same KNN idea
+import streamlit as st
+import numpy as np
+import pandas as pd
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
+
+st.set_page_config(page_title="Scene 25 — Regression vs Classification", layout="centered")
+st.title("Scene 25: KNN for Regression vs Classification")
+
+rng = np.random.default_rng(123)
+N = 200
+temp = rng.normal(16.2, 0.6, N)
+rain = rng.normal(670, 80, N)
+price = 4.5 + 2.4*(temp-16) - 0.0035*(rain-670) + rng.normal(0, 1.2, N)
+quality_label = np.where(price > np.median(price), "high", "low")
+
+X = np.c_[temp, rain]
+mode = st.radio("Task", ["Regression (predict price)","Classification (high/low quality)"])
+K = st.slider("K", 1, 25, 7)
+
+if "Regression" in mode:
+    model = make_pipeline(StandardScaler(), KNeighborsRegressor(n_neighbors=K))
+    model.fit(X, price)
+    st.write("Try adjusting a hypothetical vintage:")
+    t = st.slider("Temp (°C)", 15.0, 17.5, 16.3, 0.1)
+    r = st.slider("Rain (mm)", 520.0, 780.0, 720.0, 5.0)
+    pred = model.predict([[t, r]])[0]
+    st.metric("Predicted price", f"${pred:,.2f}")
+else:
+    model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=K))
+    model.fit(X, quality_label)
+    t = st.slider("Temp (°C)", 15.0, 17.5, 16.3, 0.1)
+    r = st.slider("Rain (mm)", 520.0, 780.0, 720.0, 5.0)
+    pred = model.predict([[t, r]])[0]
+    proba = model.predict_proba([[t, r]])[0]
+    st.metric("Predicted class", pred)
+    st.write(f"Probabilities → low: {proba[0]:.2f}, high: {proba[1]:.2f}")
+```
+
+---
+
+### scene\_id: `scene_32_missing_data_knn_impute`
+
+```python
+# Streamlit app: simulate missing values and impute with KNNImputer
+import streamlit as st
+import numpy as np
+import pandas as pd
+from sklearn.impute import KNNImputer
+
+st.set_page_config(page_title="Scene 32 — Missing Data", layout="centered")
+st.title("Scene 32: Handling Missing Data with KNN Imputation")
+
+rng = np.random.default_rng(8)
+N = 120
+temp = rng.normal(16.2, 0.6, N)
+rain = rng.normal(670, 80, N)
+price = 4.5 + 2.4*(temp-16) - 0.0035*(rain-670) + rng.normal(0, 1.2, N)
+
+df = pd.DataFrame({"temp":temp, "rain":rain, "price":price})
+frac = st.slider("Fraction of missing entries", 0.0, 0.5, 0.15, 0.05)
+mask = rng.random(df.size).reshape(df.shape) < frac
+df_missing = df.copy()
+df_missing.values[mask] = np.nan
+
+k = st.slider("Imputer K", 1, 15, 5)
+imputer = KNNImputer(n_neighbors=k)
+df_imputed = pd.DataFrame(imputer.fit_transform(df_missing), columns=df.columns)
+
+st.write("Original (head)")
+st.dataframe(df.head(10), use_container_width=True)
+st.write("With missing values (head)")
+st.dataframe(df_missing.head(10), use_container_width=True)
+st.write("Imputed (head)")
+st.dataframe(df_imputed.head(10), use_container_width=True)
+```
+
+---
+
+### scene\_id: `scene_40_try_it_yourself_playground`
+
+```python
+# Streamlit app: full playground — upload your own vintage CSV, tune K, metric, scaling
+import streamlit as st
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsRegressor
+
+st.set_page_config(page_title="Scene 40 — KNN Playground", layout="wide")
+st.title("Scene 40: KNN Playground — Bring Your Own Vintages")
+
+st.write("""
+**Expected columns**  
+- Training rows: `year, summer_temp_c, winter_rain_mm, price_usd`  
+- Test rows (price unknown): `year, summer_temp_c, winter_rain_mm` with `price_usd` blank/NaN.
+""")
+
+uploaded = st.file_uploader("Upload CSV (or use demo)", type=["csv"])
+if uploaded is not None:
+    df = pd.read_csv(uploaded)
+else:
+    df = pd.DataFrame([
+        (1958, 16.2, 610, 16.00),
+        (1968, 16.0, 700, 15.50),
+        (1969, 15.7, 690, 14.50),
+        (1974, 16.5, 760,  8.50),
+        (1980, 16.4, 730, 11.50),
+        (1978, 16.1, 640, 12.30),
+        (1970, 15.8, 650, 12.00),
+        (1961, 16.8, 580, 22.00),
+        (1955, 15.4, 520, 13.20),
+        (1986, 16.3, 720, np.nan),
+    ], columns=["year","summer_temp_c","winter_rain_mm","price_usd"])
+
+st.dataframe(df, use_container_width=True, height=240)
+
+train = df.dropna(subset=["price_usd"]).copy()
+test = df[df["price_usd"].isna()].copy()
+
+if train.empty or test.empty:
+    st.stop()
+
+k = st.slider("K", 1, 21, 5, step=2)
+weights = st.selectbox("Weights", ["uniform","distance"])
+scale = st.toggle("Standardize features", True)
+metric = st.selectbox("Metric", ["minkowski (euclidean)","manhattan"], index=0)
+
+Xtr = train[["summer_temp_c","winter_rain_mm"]].to_numpy()
+ytr = train["price_usd"].to_numpy()
+Xte = test[["summer_temp_c","winter_rain_mm"]].to_numpy()
+
+if scale:
+    scaler = StandardScaler().fit(Xtr)
+    Xtr = scaler.transform(Xtr)
+    Xte = scaler.transform(Xte)
+
+p = 2 if "minkowski" in metric else 1
+model = KNeighborsRegressor(n_neighbors=k, weights=weights, p=p)
+model.fit(Xtr, ytr)
+preds = model.predict(Xte)
+
+out = test.copy()
+out["predicted_price_usd"] = preds
+st.subheader("Predictions")
+st.dataframe(out[["year","summer_temp_c","winter_rain_mm","predicted_price_usd"]], use_container_width=True)
+```
+
+---
+
+want me to drop these into a single multipage Streamlit app with a sidebar navigator (so you can run *all* scenes together)?
