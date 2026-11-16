@@ -129,3 +129,4 @@
 | iac | repo | https://github.com/vicradon/iac | A repo containing Infrastructure as Code (Iac) scripts for different platforms |  | 2024-01-14 |
 | polls-api | repo | https://github.com/vicradon/polls-api | An API for a generic polls app |  | 2024-01-13 |
 | network-tools | repo | https://github.com/vicradon/network-tools | A repo containing Python and Javascript network scripts and tools |  | 2024-01-12 |
+| cisco-packet-tracer-labs | repo | https://github.com/vicradon/cisco-packet-tracer-labs | Labs and demos for Cisco Packet Tracer |  | 2024-01-08 |
