@@ -160,3 +160,4 @@
 | hngx-task1 | repo | https://github.com/vicradon/hngx-task1 |  |  | 2023-09-08 |
 | transformers-js-demo | empty (no commits) | https://github.com/vicradon/transformers-js-demo | Using the HuggingFace Transformers in Next.js serverless functions |  | 2023-09-01 |
 | llama-api | repo | https://github.com/vicradon/llama-api | An API for the llama model |  | 2023-08-31 |
+| merge-user-deprovisioning-demo | repo | https://github.com/vicradon/merge-user-deprovisioning-demo | A demo application for Merge User Deprovisioning tutorial |  | 2023-08-29 |
