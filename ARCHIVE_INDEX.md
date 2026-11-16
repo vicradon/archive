@@ -313,3 +313,4 @@
 | ros-arduino-navigation-bot | fork of vinay-lanka/navbot_hardware (no own commits) | https://github.com/vicradon/ros-arduino-navigation-bot | A differential drive robot controller with Arduino Mega and DC motors with encoders. Uses 2 PID controllers |  | 2021-01-31 |
 | docker-adonisjs | fork of apquinit/docker-adonisjs (2 patches) | https://github.com/vicradon/docker-adonisjs | Docker image for AdonisJs projects |  | 2021-01-27 |
 | flask-hello-world | repo | https://github.com/vicradon/flask-hello-world |  |  | 2021-01-26 |
+| tic-tac-toe-tut | repo | https://github.com/vicradon/tic-tac-toe-tut | Multiplayer tic-tac-toe built with AdonisJS Websockets | https://tic-tac-toe-adonis.herokuapp.com | 2021-01-22 |
