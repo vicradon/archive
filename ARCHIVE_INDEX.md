@@ -218,3 +218,4 @@
 | stakefunds | repo | https://github.com/vicradon/stakefunds |  |  | 2022-11-12 |
 | Contoso-New-Patient-App | fork of Azure-Samples/azure-doc-intelligence-dynamic-models-patient (4 patches) | https://github.com/vicradon/Contoso-New-Patient-App |  |  | 2022-11-03 |
 | StrongSORT-YOLO | fork of Emmytheo/StrongSORT-YOLO (no own commits) | https://github.com/vicradon/StrongSORT-YOLO | Real-time multi-camera multi-object tracker using (YOLOv5, YOLOv7) and StrongSORT with OSNet |  | 2022-10-20 |
+| summer-recruiting | repo | https://github.com/vicradon/summer-recruiting | This repo contains a list of companies recruiting in the summer |  | 2022-10-15 |
