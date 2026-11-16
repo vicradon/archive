@@ -282,3 +282,4 @@
 | movie-search-frontend | repo | https://github.com/vicradon/movie-search-frontend | Frontend of a movie search application |  | 2021-10-17 |
 | movie-search-backend | repo | https://github.com/vicradon/movie-search-backend | The backend of a movie search application |  | 2021-10-17 |
 | stake | repo | https://github.com/vicradon/stake | Stake money, get productive |  | 2021-09-18 |
+| stake-backend | repo | https://github.com/vicradon/stake-backend | Backend of stake app |  | 2021-09-18 |
