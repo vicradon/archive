@@ -180,3 +180,4 @@
 | linker-game | repo | https://github.com/vicradon/linker-game | A game where you have to link fishes to earn points |  | 2023-02-24 |
 | sendchamp-pricing | repo | https://github.com/vicradon/sendchamp-pricing | The pricing page of the Sendchamp website | https://sendchamp-pricing.vercel.app | 2023-02-22 |
 | platformer-game | repo | https://github.com/vicradon/platformer-game | A defold platformer game |  | 2023-02-19 |
+| djangoer | fork of lordsarcastic/djangoer (no own commits) | https://github.com/vicradon/djangoer | A production-ready template for Django applications |  | 2023-01-31 |
