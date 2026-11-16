@@ -1,0 +1,38 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: default
+  resource: post
+  rules:
+    - name: allow_all_actions
+      actions: ["*"]
+      effect: EFFECT_ALLOW
+      roles:
+        - admin
+
+    - name: allow_user_to_create_posts
+      actions: ["create"]
+      effect: EFFECT_ALLOW
+      roles:
+        - user
+
+    - name: allow_user_to_update_and_delete_posts
+      actions: ["update", "delete"]
+      effect: EFFECT_ALLOW
+      roles:
+        - user
+      condition:
+        match:
+          expr: request.resource.attr.user_id == request.principal.id
+
+    - name: allow_user_to_read_posts
+      actions: ["read"]
+      effect: EFFECT_ALLOW
+      roles:
+        - user
+      condition:
+        match:
+          any:
+            of:
+              - expr: request.resource.attr.is_published == true
+              - expr: request.resource.attr.user_id == request.principal.id
