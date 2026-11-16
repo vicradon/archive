@@ -76,3 +76,4 @@
 | libraryapi | repo | https://github.com/vicradon/libraryapi | A simple library API built with Gin |  | 2024-10-29 |
 | product-api-go | repo | https://github.com/vicradon/product-api-go | A products API written in Go with no frameworks for performing CRUD on products |  | 2024-10-23 |
 | python-visualizations | repo | https://github.com/vicradon/python-visualizations | A repo of python files and interactive python notebooks that show visualizations for technical concepts |  | 2024-10-18 |
+| discord-emojier | repo | https://github.com/vicradon/discord-emojier | A Telex Integration that sends emojis to discord channels |  | 2024-10-03 |
