@@ -1,0 +1,26 @@
+From 9102298347c0318180bee97701ecc12a0ffcae79 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Tue, 15 Oct 2019 21:54:53 +0100
+Subject: [PATCH] Update index.md
+
+changed "function" component to "functional" component
+---
+ post/react/react-pass-parameter-event/index.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/post/react/react-pass-parameter-event/index.md b/post/react/react-pass-parameter-event/index.md
+index c700a5d..9e6ceaa 100644
+--- a/post/react/react-pass-parameter-event/index.md
++++ b/post/react/react-pass-parameter-event/index.md
+@@ -5,7 +5,7 @@ description: "Find out how to pass a parameter to onClick events for example, wi
+ tags: react
+ ---
+ 
+-When you work on a React function component you might have the need to attach an event to onClick (or other events).
++When you work on a React functional component you might have the need to attach an event to onClick (or other events).
+ 
+ You usually do:
+ 
+-- 
+2.47.3
+
