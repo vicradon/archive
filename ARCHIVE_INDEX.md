@@ -60,3 +60,4 @@
 | terminalchat | repo | https://github.com/vicradon/terminalchat | A simple Rust program that facilitates system-wide chat between users |  | 2025-05-14 |
 | telex-fastapi-uptime-monitor | repo | https://github.com/vicradon/telex-fastapi-uptime-monitor | An uptime monitor for the Telex application  |  | 2025-05-12 |
 | tactology-global-chatapp | repo | https://github.com/vicradon/tactology-global-chatapp | A chat application that forms part of the tactology global assessment | https://dachatapp.vercel.app | 2025-04-02 |
+| bookrecommenderapp | repo | https://github.com/vicradon/bookrecommenderapp | A simple dockerized demo application built with flask |  | 2025-03-19 |
