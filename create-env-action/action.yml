@@ -1,0 +1,22 @@
+name: "Upsert .env file"
+description: "An action that processes an .env file by replacing placeholders with provided environment variables."
+
+inputs:
+  action_input_file:
+    description: "The input file with placeholders (e.g., app-sample.env)"
+    required: false
+  action_output_file:
+    description: "The output file name"
+    default: ".env"
+    required: false
+  action_true_string_variables:
+    description: "List of variables that should be treated as true strings. It should be passed as a yaml multi-line string"
+    required: false
+
+outputs:
+  env_file:
+    description: "The path to the processed .env file"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
