@@ -51,3 +51,4 @@
 | brilliant-dot-org-style-lessons | repo | https://github.com/vicradon/brilliant-dot-org-style-lessons | A collections of web applications, aimed to mimic brilliant.org teaching style for new content.  |  | 2025-08-25 |
 | agent-chat-cli | repo | https://github.com/vicradon/agent-chat-cli | A chat cli for interacting with different agents |  | 2025-08-12 |
 | seo-audit-agent | repo | https://github.com/vicradon/seo-audit-agent |  |  | 2025-08-03 |
+| flare-ai-kit | fork of flare-foundation/flare-ai-kit (no own commits) | https://github.com/vicradon/flare-ai-kit | SDK for building verifiable AI Agents on Flare using Confidential Space |  | 2025-07-27 |
