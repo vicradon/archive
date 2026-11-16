@@ -290,3 +290,4 @@
 | blog-api | repo | https://github.com/vicradon/blog-api | A simple microblogging platform API built using Laravel |  | 2021-08-19 |
 | proflow | repo | https://github.com/vicradon/proflow |  | https://proflow-demo.netlify.app | 2021-08-12 |
 | proflow-backend | repo | https://github.com/vicradon/proflow-backend |  |  | 2021-08-04 |
+| system-design-primer | fork of donnemartin/system-design-primer (no own commits) | https://github.com/vicradon/system-design-primer | Learn how to design large-scale systems. Prep for the system design interview.  Includes Anki flashcards. |  | 2021-07-29 |
