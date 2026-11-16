@@ -1,0 +1,31 @@
+{
+  "name": "local-forage-demo",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "https://github.com/Vicradon/localforage-demo.git",
+  "author": "Vicradon <vicraph7@gmail.com>",
+  "description": "A local forage demo",
+  "license": "MIT",
+  "watch": {
+    "build": ["/src/sw.js"]
+  },
+  "scripts": {
+    "copy": "copyfiles -u 1 src/**/**/* src/**/* src/* public",
+    "build": "npm run copy && workbox injectManifest workbox-config.js",
+    "start": "node server.js",
+    "watch": "npm-watch build"
+  },
+  "keywords": [
+    "localforage"
+  ],
+  "devDependencies": {
+    "copyfiles": "^2.1.1",
+    "express": "^4.17.1",
+    "parcel": "^1.12.4",
+    "workbox-cli": "^4.3.1"
+  },
+  "dependencies": {
+    "localforage": "^1.7.3",
+    "npm-watch": "^0.6.0"
+  }
+}
