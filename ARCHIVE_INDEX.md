@@ -194,3 +194,4 @@
 | my-static-web-app | repo | https://github.com/vicradon/my-static-web-app | A static web app from the Azure Static Web Apps tutorial |  | 2023-01-07 |
 | graphql-express-demo | repo | https://github.com/vicradon/graphql-express-demo | A demo of graphql using express |  | 2023-01-07 |
 | localforage-demo | repo | https://github.com/vicradon/localforage-demo | A demo site with offline features using workbox and localforage | https://localforage-demo.netlify.com/ | 2023-01-07 |
+| WeatherApp | fork of Vicwin13/WeatherApp (no own commits) | https://github.com/vicradon/WeatherApp |  |  | 2023-01-06 |
