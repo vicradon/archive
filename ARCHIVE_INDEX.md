@@ -370,3 +370,4 @@
 | startng-python-task-2 | repo | https://github.com/vicradon/startng-python-task-2 | The second task of the python class in the startng2020 program |  | 2020-03-31 |
 | start.ng2020 | repo | https://github.com/vicradon/start.ng2020 | A repo containing the solutions to the start.ng2020 tasks |  | 2020-03-25 |
 | OxygenCGPA | repo | https://github.com/vicradon/OxygenCGPA | A CGPA app |  | 2020-03-24 |
+| tinacms.org | fork of tinacms/tina.io (1 patches) | https://github.com/vicradon/tinacms.org | Organization site for general info, documentation, blogs & contribution guidelines. | https://tinacms.org/ | 2020-03-22 |

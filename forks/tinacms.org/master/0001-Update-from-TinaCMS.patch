@@ -1,0 +1,26 @@
+From c1e95ba2febcd093dd9b308883bc4a2926ecf0ea Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Sun, 22 Mar 2020 07:36:47 +0100
+Subject: [PATCH] Update from TinaCMS
+
+---
+ content/blog/testing-out-the-blog.md | 6 ++++++
+ 1 file changed, 6 insertions(+)
+ create mode 100644 content/blog/testing-out-the-blog.md
+
+diff --git a/content/blog/testing-out-the-blog.md b/content/blog/testing-out-the-blog.md
+new file mode 100644
+index 0000000..0f4c623
+--- /dev/null
++++ b/content/blog/testing-out-the-blog.md
+@@ -0,0 +1,6 @@
++---
++title: Testing out the blog
++date: '2020-03-22T07:36:45+01:00'
++author: Chukwujama Osinachi
++---
++New post, who dis?
+\ No newline at end of file
+-- 
+2.47.3
+
