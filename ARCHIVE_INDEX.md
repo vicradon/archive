@@ -399,3 +399,4 @@
 | Medium-Article | fork of BaijayantaRoy/Medium-Article (no own commits) | https://github.com/vicradon/Medium-Article | Repository of code for Medium Article  |  | 2019-09-30 |
 | tdtsc1 | repo | https://github.com/vicradon/tdtsc1 | The first challenge of the 30 days 30 sites challenge | https://vicradon.github.io/tdtsc1/ | 2019-09-12 |
 | mvc | fork of taniarascia/mvc (no own commits) | https://github.com/vicradon/mvc | 🔱 A simple MVC application in plain JavaScript. | https://taniarascia.github.io/mvc | 2019-09-11 |
+| simple-site | repo | https://github.com/vicradon/simple-site | A simple site with firebase support | https://vicradon.github.io/simple-site | 2019-09-09 |
