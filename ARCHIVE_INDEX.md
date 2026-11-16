@@ -187,3 +187,4 @@
 | otherrepo | repo | https://github.com/vicradon/otherrepo |  |  | 2023-01-14 |
 | resumewebsitefunctions | repo | https://github.com/vicradon/resumewebsitefunctions | Azure functions for resume website |  | 2023-01-14 |
 | resume-maker | repo | https://github.com/vicradon/resume-maker | A website for generating resumes with export functionality |  | 2023-01-14 |
+| pepcycle | repo | https://github.com/vicradon/pepcycle | Created with CodeSandbox | https://codesandbox.io/s/github/vicradon/ditch-the-backend-with-azure-functions | 2023-01-13 |
