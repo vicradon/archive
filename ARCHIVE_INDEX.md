@@ -7,3 +7,4 @@
 | srp-order-demo | repo | https://github.com/vicradon/srp-order-demo | a repo with violation of the single responsibility principle |  | 2026-06-20 |
 | plain-typescript-project | repo | https://github.com/vicradon/plain-typescript-project | A plain typescript project for node.js |  | 2026-06-19 |
 | poulment-app | empty (no commits) | https://github.com/vicradon/poulment-app | A poultry management API |  | 2026-06-09 |
+| ml-workspace | repo | https://github.com/vicradon/ml-workspace | ML algorithms and the likes |  | 2026-05-25 |
