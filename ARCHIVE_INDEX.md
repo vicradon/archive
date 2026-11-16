@@ -387,3 +387,4 @@
 | hng-task-login-form | repo | https://github.com/vicradon/hng-task-login-form | The first task of the 2019  HNG internship. | https://vicradon.github.io/hng-task-login-form/ | 2020-01-01 |
 | simplest-mvc-app | repo | https://github.com/vicradon/simplest-mvc-app | A very simple example of MVC architecture | https://vicradon.github.io/simplest-mvc-app/ | 2019-12-21 |
 | next-express-demo | repo | https://github.com/vicradon/next-express-demo | A small demo of using next and express |  | 2019-12-09 |
+| draggable-box | empty (no commits) | https://github.com/vicradon/draggable-box | A shirt code showing a draggable-box |  | 2019-11-23 |
