@@ -11,3 +11,4 @@
 | shapegen | repo | https://github.com/vicradon/shapegen | shapegen is a tool for generating synthetic dataset of shapes |  | 2026-05-16 |
 | TensorTonic-Solutions | repo | https://github.com/vicradon/TensorTonic-Solutions | My solutions to TensorTonic problems |  | 2026-05-13 |
 | semantic-kernel-demos | repo | https://github.com/vicradon/semantic-kernel-demos | Demos for the semantic kernel |  | 2026-05-04 |
+| final-year-project | repo | https://github.com/vicradon/final-year-project | Final year project on drone object detection |  | 2026-04-27 |
