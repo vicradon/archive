@@ -1,0 +1,20 @@
+From 29a694f12df0165b47e66ffb1456d38dd103de37 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.chukwujama@gmail.com>
+Date: Wed, 27 Aug 2025 15:11:42 +0100
+Subject: [PATCH] chore: add .gitignore
+
+---
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 .gitignore
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..92df1a5
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1 @@
++annoymous/*
+-- 
+2.47.3
+

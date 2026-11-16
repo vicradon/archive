@@ -1,0 +1,26 @@
+From f61067dc704740ca3976f4ed791ed72022d80d78 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.chukwujama@gmail.com>
+Date: Wed, 27 Aug 2025 12:53:52 +0100
+Subject: [PATCH] add stuff to readme
+
+---
+ README.md | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index 1c58296..879e500 100644
+--- a/README.md
++++ b/README.md
+@@ -8,4 +8,6 @@ This code repository (or "repo") is designed to demonstrate the best GitHub has
+ 
+ The repo includes an `index.html` file (so it can render a web page), two GitHub Actions workflows, and a CSS stylesheet dependency.
+ 
+-This is a fun repo, yah!
+\ No newline at end of file
++This is a fun repo, yah!
++
++More stuff
+\ No newline at end of file
+-- 
+2.47.3
+

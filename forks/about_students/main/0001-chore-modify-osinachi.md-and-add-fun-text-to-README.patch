@@ -1,0 +1,35 @@
+From 92da5007780fe4f2830740bc2cd46ff3e91051dd Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Wed, 27 Aug 2025 12:45:44 +0100
+Subject: [PATCH] chore: modify osinachi.md and add fun text to README
+
+---
+ README.md   | 2 ++
+ osinachi.md | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/README.md b/README.md
+index cffc316..1c58296 100644
+--- a/README.md
++++ b/README.md
+@@ -7,3 +7,5 @@
+ This code repository (or "repo") is designed to demonstrate the best GitHub has to offer with the least amount of noise.
+ 
+ The repo includes an `index.html` file (so it can render a web page), two GitHub Actions workflows, and a CSS stylesheet dependency.
++
++This is a fun repo, yah!
+\ No newline at end of file
+diff --git a/osinachi.md b/osinachi.md
+index 5f5742f..0848470 100644
+--- a/osinachi.md
++++ b/osinachi.md
+@@ -2,3 +2,5 @@
+ 
+ I am a software engineer and I love doing pushups. Can do 50 at a go.
+ I am a Newton kind of guy.
++
++All of the above may or maynot be correct.
+\ No newline at end of file
+-- 
+2.47.3
+
