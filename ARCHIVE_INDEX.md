@@ -155,3 +155,4 @@
 | hngx-task2 | repo | https://github.com/vicradon/hngx-task2 | API for person resource |  | 2023-09-21 |
 | basic-crud-golang | repo | https://github.com/vicradon/basic-crud-golang | Golang implementation of the HNGX backend program | https://hngx-task2-go.onrender.com/api | 2023-09-17 |
 | hngx-task1-go | repo | https://github.com/vicradon/hngx-task1-go | A go implementation of HNGX Task 1 |  | 2023-09-15 |
+| hngx-task1-rust | repo | https://github.com/vicradon/hngx-task1-rust | A rust implementation of the HNGX Backend Task 1 |  | 2023-09-14 |
