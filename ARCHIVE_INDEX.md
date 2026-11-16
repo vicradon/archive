@@ -185,3 +185,4 @@
 | github-workshop | repo | https://github.com/vicradon/github-workshop | a practical guide to git and github |  | 2023-01-18 |
 | resumemaker2 | repo | https://github.com/vicradon/resumemaker2 |  |  | 2023-01-14 |
 | otherrepo | repo | https://github.com/vicradon/otherrepo |  |  | 2023-01-14 |
+| resumewebsitefunctions | repo | https://github.com/vicradon/resumewebsitefunctions | Azure functions for resume website |  | 2023-01-14 |
