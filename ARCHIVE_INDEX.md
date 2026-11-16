@@ -197,3 +197,4 @@
 | WeatherApp | fork of Vicwin13/WeatherApp (no own commits) | https://github.com/vicradon/WeatherApp |  |  | 2023-01-06 |
 | Mecharaf | repo | https://github.com/vicradon/Mecharaf | Codes for a website, www.mecharaf.wordpress.com | https://mecharaf.vercel.app | 2023-01-06 |
 | build_for_sdgs | repo | https://github.com/vicradon/build_for_sdgs | A repo containing the assessments of the builg for sdgs challenge |  | 2023-01-06 |
+| tracetest | fork of kubeshop/tracetest (no own commits) | https://github.com/vicradon/tracetest | Tracetest - Generate end-to-end tests automatically from your traces. For QA, Dev, & Ops. | https://docs.tracetest.io/ | 2023-01-05 |
