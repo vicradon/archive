@@ -15,3 +15,4 @@
 | Kinematic-configuration | fork of favourodunze-design/Kinematic-configuration- (no own commits) | https://github.com/vicradon/Kinematic-configuration |  |  | 2026-04-15 |
 | novu | fork of novuhq/novu (no own commits) | https://github.com/vicradon/novu | The open-source notification infrastructure. In-app Inbox component, E-mail, SMS, Push and Slack Integrations. | https://go.novu.co/github | 2026-04-14 |
 | nb2slides | repo | https://github.com/vicradon/nb2slides | jupyter notebooks to slides |  | 2026-04-13 |
+| docx-templater | repo | https://github.com/vicradon/docx-templater | A templating service |  | 2026-04-04 |
