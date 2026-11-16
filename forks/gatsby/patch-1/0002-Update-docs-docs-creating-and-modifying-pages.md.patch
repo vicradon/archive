@@ -1,0 +1,28 @@
+From 55918f7ee4d15ff2e8647dd859074b0f3d91696c Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Tue, 25 Feb 2020 12:29:51 +0100
+Subject: [PATCH] Update docs/docs/creating-and-modifying-pages.md
+
+Add path to pagePath to prevent it from being undefined.
+
+Co-Authored-By: Vladimir Razuvaev <vladimir.razuvaev@gmail.com>
+---
+ docs/docs/creating-and-modifying-pages.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/docs/creating-and-modifying-pages.md b/docs/docs/creating-and-modifying-pages.md
+index c47af917..962254cb 100644
+--- a/docs/docs/creating-and-modifying-pages.md
++++ b/docs/docs/creating-and-modifying-pages.md
+@@ -92,7 +92,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
+       // In your blog post template's graphql query, you can use path
+       // as a GraphQL variable to query for data from the markdown file.
+       context: {
+-        pagePath,
++        pagePath: path,
+       },
+     })
+   })
+-- 
+2.47.3
+

@@ -1,0 +1,26 @@
+From 4d4a2f3c53439517018edea0595b46a2b8d2e15c Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Thu, 2 Jan 2020 13:48:09 +0100
+Subject: [PATCH] Change path to pagePath
+
+In the **Note**, it was said that path shouldn't be a property in the context object.
+---
+ docs/docs/creating-and-modifying-pages.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/docs/creating-and-modifying-pages.md b/docs/docs/creating-and-modifying-pages.md
+index 8484f704..c47af917 100644
+--- a/docs/docs/creating-and-modifying-pages.md
++++ b/docs/docs/creating-and-modifying-pages.md
+@@ -92,7 +92,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
+       // In your blog post template's graphql query, you can use path
+       // as a GraphQL variable to query for data from the markdown file.
+       context: {
+-        path,
++        pagePath,
+       },
+     })
+   })
+-- 
+2.47.3
+
