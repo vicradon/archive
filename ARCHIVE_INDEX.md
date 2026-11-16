@@ -220,3 +220,4 @@
 | StrongSORT-YOLO | fork of Emmytheo/StrongSORT-YOLO (no own commits) | https://github.com/vicradon/StrongSORT-YOLO | Real-time multi-camera multi-object tracker using (YOLOv5, YOLOv7) and StrongSORT with OSNet |  | 2022-10-20 |
 | summer-recruiting | repo | https://github.com/vicradon/summer-recruiting | This repo contains a list of companies recruiting in the summer |  | 2022-10-15 |
 | tic-tac-toe-1 | fork of vinuch/tic-tac-toe (1 patches) | https://github.com/vicradon/tic-tac-toe-1 | a tic tac toe game with javascript |  | 2022-10-05 |
+| color-guessing-game-redo | repo | https://github.com/vicradon/color-guessing-game-redo | A redo of the color guessing game. Without any tutorial | https://vicradon.github.io/color-guessing-game-redo/ | 2022-09-18 |
