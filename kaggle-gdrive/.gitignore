@@ -1,0 +1,21 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Built binaries
+dist/
+kaggle-gdrive-linux-amd64
+kaggle-gdrive-linux-arm64
+kaggle-gdrive-darwin-amd64
+kaggle-gdrive-darwin-arm64
+kaggle-gdrive-windows-amd64.exe
+kaggle-gdrive
+
+# Go
+*.test
+*.out
+vendor/
+
+generate_token/client_secret.json
+generate_token/node_modules
