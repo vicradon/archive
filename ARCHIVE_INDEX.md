@@ -73,3 +73,4 @@
 | fellowship.ai-flowers102-task | repo | https://github.com/vicradon/fellowship.ai-flowers102-task | The flowers102 task for the fellowship.ai fellowship |  | 2024-12-04 |
 | opencv-demos | repo | https://github.com/vicradon/opencv-demos | demos on opencv and stuff |  | 2024-11-23 |
 | finrec | repo | https://github.com/vicradon/finrec | An expense tracker built with React, Redux, Auth0, MongoDB and ChakraUI | https://finrec.now.sh | 2024-11-19 |
+| libraryapi | repo | https://github.com/vicradon/libraryapi | A simple library API built with Gin |  | 2024-10-29 |
