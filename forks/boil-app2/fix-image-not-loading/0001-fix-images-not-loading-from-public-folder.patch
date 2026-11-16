@@ -1,0 +1,670 @@
+From fc3df4df913f56b0f2049615a547418e7cd3cbcf Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Wed, 25 Nov 2020 11:57:41 +0100
+Subject: [PATCH] fix: images not loading from public folder
+
+---
+ package-lock.json               |  88 ++++++++
+ src/components/MenuComponent.js | 104 +++++----
+ src/shared/dishes.js            | 372 ++++++++++++++++----------------
+ 3 files changed, 326 insertions(+), 238 deletions(-)
+
+diff --git a/package-lock.json b/package-lock.json
+index ac14c5c..2e1cf48 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -3092,6 +3092,11 @@
+       "resolved": "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz",
+       "integrity": "sha1-aN/1++YMUes3cl6p4+0xDcwed24="
+     },
++    "bootstrap": {
++      "version": "4.0.0",
++      "resolved": "https://registry.npmjs.org/bootstrap/-/bootstrap-4.0.0.tgz",
++      "integrity": "sha512-gulJE5dGFo6Q61V/whS6VM4WIyrlydXfCgkE+Gxe5hjrJ8rXLLZlALq7zq2RPhOc45PSwQpJkrTnc2KgD6cvmA=="
++    },
+     "brace-expansion": {
+       "version": "1.1.11",
+       "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.11.tgz",
+@@ -3536,6 +3541,11 @@
+         }
+       }
+     },
++    "classnames": {
++      "version": "2.2.6",
++      "resolved": "https://registry.npmjs.org/classnames/-/classnames-2.2.6.tgz",
++      "integrity": "sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q=="
++    },
+     "clean-css": {
+       "version": "4.2.3",
+       "resolved": "https://registry.npmjs.org/clean-css/-/clean-css-4.2.3.tgz",
+@@ -4571,6 +4581,14 @@
+         "utila": "~0.4"
+       }
+     },
++    "dom-helpers": {
++      "version": "3.4.0",
++      "resolved": "https://registry.npmjs.org/dom-helpers/-/dom-helpers-3.4.0.tgz",
++      "integrity": "sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==",
++      "requires": {
++        "@babel/runtime": "^7.1.2"
++      }
++    },
+     "dom-serializer": {
+       "version": "0.2.2",
+       "resolved": "https://registry.npmjs.org/dom-serializer/-/dom-serializer-0.2.2.tgz",
+@@ -8117,6 +8135,16 @@
+       "resolved": "https://registry.npmjs.org/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz",
+       "integrity": "sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0="
+     },
++    "lodash.isfunction": {
++      "version": "3.0.9",
++      "resolved": "https://registry.npmjs.org/lodash.isfunction/-/lodash.isfunction-3.0.9.tgz",
++      "integrity": "sha512-AirXNj15uRIMMPihnkInB4i3NHeb4iBtNg9WRWuK2o31S+ePwwNmDPaTL3o7dTJ+VXNZim7rFs4rxN4YU1oUJw=="
++    },
++    "lodash.isobject": {
++      "version": "3.0.2",
++      "resolved": "https://registry.npmjs.org/lodash.isobject/-/lodash.isobject-3.0.2.tgz",
++      "integrity": "sha1-PI+41bW/S/kK4G4U8qUwpO2TXh0="
++    },
+     "lodash.memoize": {
+       "version": "4.1.2",
+       "resolved": "https://registry.npmjs.org/lodash.memoize/-/lodash.memoize-4.1.2.tgz",
+@@ -8144,6 +8172,11 @@
+         "lodash._reinterpolate": "^3.0.0"
+       }
+     },
++    "lodash.tonumber": {
++      "version": "4.0.3",
++      "resolved": "https://registry.npmjs.org/lodash.tonumber/-/lodash.tonumber-4.0.3.tgz",
++      "integrity": "sha1-C5azGzVnJ5Prf1pj7nkfG56QJdk="
++    },
+     "lodash.uniq": {
+       "version": "4.5.0",
+       "resolved": "https://registry.npmjs.org/lodash.uniq/-/lodash.uniq-4.5.0.tgz",
+@@ -9424,6 +9457,11 @@
+         "ts-pnp": "^1.1.6"
+       }
+     },
++    "popper.js": {
++      "version": "1.16.1",
++      "resolved": "https://registry.npmjs.org/popper.js/-/popper.js-1.16.1.tgz",
++      "integrity": "sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ=="
++    },
+     "portfinder": {
+       "version": "1.0.28",
+       "resolved": "https://registry.npmjs.org/portfinder/-/portfinder-1.0.28.tgz",
+@@ -10865,6 +10903,20 @@
+       "resolved": "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz",
+       "integrity": "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
+     },
++    "react-lifecycles-compat": {
++      "version": "3.0.4",
++      "resolved": "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz",
++      "integrity": "sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA=="
++    },
++    "react-popper": {
++      "version": "0.9.2",
++      "resolved": "https://registry.npmjs.org/react-popper/-/react-popper-0.9.2.tgz",
++      "integrity": "sha1-J6GY5CHkXlMmFzTcooxuV90sFgQ=",
++      "requires": {
++        "popper.js": "^1.14.1",
++        "prop-types": "^15.6.1"
++      }
++    },
+     "react-scripts": {
+       "version": "3.4.3",
+       "resolved": "https://registry.npmjs.org/react-scripts/-/react-scripts-3.4.3.tgz",
+@@ -10925,6 +10977,42 @@
+         "workbox-webpack-plugin": "4.3.1"
+       }
+     },
++    "react-transition-group": {
++      "version": "2.9.0",
++      "resolved": "https://registry.npmjs.org/react-transition-group/-/react-transition-group-2.9.0.tgz",
++      "integrity": "sha512-+HzNTCHpeQyl4MJ/bdE0u6XRMe9+XG/+aL4mCxVN4DnPBQ0/5bfHWPDuOZUzYdMj94daZaZdCCc1Dzt9R/xSSg==",
++      "requires": {
++        "dom-helpers": "^3.4.0",
++        "loose-envify": "^1.4.0",
++        "prop-types": "^15.6.2",
++        "react-lifecycles-compat": "^3.0.4"
++      }
++    },
++    "reactstrap": {
++      "version": "5.0.0",
++      "resolved": "https://registry.npmjs.org/reactstrap/-/reactstrap-5.0.0.tgz",
++      "integrity": "sha512-y0eju/LAK7gbEaTFfq2iW92MF7/5Qh0tc1LgYr2mg92IX8NodGc03a+I+cp7bJ0VXHAiLy0bFL9UP89oSm4cBg==",
++      "requires": {
++        "classnames": "^2.2.3",
++        "lodash.isfunction": "^3.0.9",
++        "lodash.isobject": "^3.0.2",
++        "lodash.tonumber": "^4.0.3",
++        "prop-types": "^15.5.8",
++        "react-popper": "^0.8.3",
++        "react-transition-group": "^2.2.1"
++      },
++      "dependencies": {
++        "react-popper": {
++          "version": "0.8.3",
++          "resolved": "https://registry.npmjs.org/react-popper/-/react-popper-0.8.3.tgz",
++          "integrity": "sha1-D3MzMTfJ+wr27EB00tBYWgoEYeE=",
++          "requires": {
++            "popper.js": "^1.12.9",
++            "prop-types": "^15.6.0"
++          }
++        }
++      }
++    },
+     "read-pkg": {
+       "version": "3.0.0",
+       "resolved": "https://registry.npmjs.org/read-pkg/-/read-pkg-3.0.0.tgz",
+diff --git a/src/components/MenuComponent.js b/src/components/MenuComponent.js
+index 1528137..737952d 100644
+--- a/src/components/MenuComponent.js
++++ b/src/components/MenuComponent.js
+@@ -1,72 +1,64 @@
+-import React, { Component } from 'react';
+-import { Media } from 'reactstrap';
+-import { Card, CardImg, CardImgOverlay, CardText, CardBody,
+-  CardTitle } from 'reactstrap';
++import React, { Component } from "react";
++import { Media } from "reactstrap";
++import {
++  Card,
++  CardImg,
++  CardImgOverlay,
++  CardText,
++  CardBody,
++  CardTitle,
++} from "reactstrap";
+ 
+ class Menu extends Component {
+-
+   constructor(props) {
+-      super(props);
++    super(props);
+ 
+-      this.state = {
+-          selectedDish: null
+-      }
++    this.state = {
++      selectedDish: null,
++    };
+   }
+ 
+   onDishSelect(dish) {
+-      this.setState({ selectedDish: dish});
++    this.setState({ selectedDish: dish });
+   }
+ 
+   renderDish(dish) {
+-      if (dish != null)
+-          return(
+-              <Card onClick = {() => this.onDishSelect(dish)}>
+-                  <CardImg top src={dish.image} alt={dish.name} />
+-                  <CardBody>
+-                    <CardTitle>{dish.name}</CardTitle>
+-                    <CardText>{dish.description}</CardText>
+-                  </CardBody>
+-              </Card>
+-          );
+-      else
+-          return(
+-              <div></div>
+-          );
++    if (dish != null)
++      return (
++        <Card onClick={() => this.onDishSelect(dish)}>
++          <CardImg top src={dish.image} alt={dish.name} />
++          <CardBody>
++            <CardTitle>{dish.name}</CardTitle>
++            <CardText>{dish.description}</CardText>
++          </CardBody>
++        </Card>
++      );
++    else return <div></div>;
+   }
+ 
++  render() {
++    const menu = this.props.dishes.map((dish) => {
++      console.log(dish.image)
++      return (
++        <div key={dish.id} className="col-12 cil-md-5 m-1">
++          <Card>
++            <CardImg width="100%" src={`${process.env.PUBLIC_URL}/${dish.image}`} alt={dish.name} />
+ 
+-    render() {
+-        const menu = this.props.dishes.map((dish) => {
+-            return (
+-              <div key={dish.id} className="col-12 cil-md-5 m-1">
+-                <Card>
+-                
+-                  
+-                    <CardImg width = "100%" src={dish.image} alt={dish.name} />
+-                  
+-                  <CardImgOverlay>
+-                    <CardTitle>{dish.name}</CardTitle>
+-                    
+-                 
+-                  </CardImgOverlay>
+-                
+-                </Card> 
+-              </div>
+-            );
+-        });
++            <CardImgOverlay>
++              <CardTitle>{dish.name}</CardTitle>
++            </CardImgOverlay>
++          </Card>
++        </div>
++      );
++    });
+ 
+-        return (
+-          <div className="container">
+-            <div className="row">
+-             
+-                  {menu}
+-            </div>
+-            <div className="row">
+-              {this.renderDish(this.state.selectedDish)}
+-            </div>
+-          </div>
+-        );
+-    }
++    return (
++      <div className="container">
++        <div className="row">{menu}</div>
++        <div className="row">{this.renderDish(this.state.selectedDish)}</div>
++      </div>
++    );
++  }
+ }
+ 
+-export default Menu;
+\ No newline at end of file
++export default Menu;
+diff --git a/src/shared/dishes.js b/src/shared/dishes.js
+index 4e204c7..6393e1e 100644
+--- a/src/shared/dishes.js
++++ b/src/shared/dishes.js
+@@ -1,186 +1,194 @@
+-export const DISHES =
+-    [
+-        {
++export const DISHES = [
++  {
++    id: 0,
++    name: "Uthappizza",
++    image: 'assets/images/uthappizza.png',
++    category: "mains",
++    label: "Hot",
++    price: "4.99",
++    description:
++      "A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.",
++    comments: [
++      {
+         id: 0,
+-        name:'Uthappizza',
+-        image: 'assets/images/uthappizza.png',
+-        category: 'mains',
+-        label:'Hot',
+-        price:'4.99',
+-        description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.',
+-        comments: [
+-            {
+-            id: 0,
+-            rating: 5,
+-            comment: "Imagine all the eatables, living in conFusion!",
+-            author: "John Lemon",
+-            date: "2012-10-16T17:57:28.556094Z"
+-            },
+-            {
+-            id: 1,
+-            rating: 4,
+-            comment: "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
+-            author: "Paul McVites",
+-            date: "2014-09-05T17:57:28.556094Z"
+-            },
+-            {
+-            id: 2,
+-            rating: 3,
+-            comment: "Eat it, just eat it!",
+-            author: "Michael Jaikishan",
+-            date: "2015-02-13T17:57:28.556094Z"
+-            },
+-            {
+-            id: 3,
+-            rating: 4,
+-            comment: "Ultimate, Reaching for the stars!",
+-            author: "Ringo Starry",
+-            date: "2013-12-02T17:57:28.556094Z"
+-            },
+-            {
+-            id: 4,
+-            rating: 2,
+-            comment: "It's your birthday, we're gonna party!",
+-            author: "25 Cent",
+-            date: "2011-12-02T17:57:28.556094Z"
+-            }
+-        ]                        },
+-        {
++        rating: 5,
++        comment: "Imagine all the eatables, living in conFusion!",
++        author: "John Lemon",
++        date: "2012-10-16T17:57:28.556094Z",
++      },
++      {
+         id: 1,
+-        name:'Zucchipakoda',
+-        image: 'assets/images/zucchipakoda.png',
+-        category: 'appetizer',
+-        label:'',
+-        price:'1.99',
+-        description:'Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce',
+-        comments: [
+-            {
+-            id: 0,
+-            rating: 5,
+-            comment: "Imagine all the eatables, living in conFusion!",
+-            author: "John Lemon",
+-            date: "2012-10-16T17:57:28.556094Z"
+-            },
+-            {
+-            id: 1,
+-            rating: 4,
+-            comment: "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
+-            author: "Paul McVites",
+-            date: "2014-09-05T17:57:28.556094Z"
+-            },
+-            {
+-            id: 2,
+-            rating: 3,
+-            comment: "Eat it, just eat it!",
+-            author: "Michael Jaikishan",
+-            date: "2015-02-13T17:57:28.556094Z"
+-            },
+-            {
+-            id: 3,
+-            rating: 4,
+-            comment: "Ultimate, Reaching for the stars!",
+-            author: "Ringo Starry",
+-            date: "2013-12-02T17:57:28.556094Z"
+-            },
+-            {
+-            id: 4,
+-            rating: 2,
+-            comment: "It's your birthday, we're gonna party!",
+-            author: "25 Cent",
+-            date: "2011-12-02T17:57:28.556094Z"
+-            }
+-        ]
+-        },
+-        {
++        rating: 4,
++        comment:
++          "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
++        author: "Paul McVites",
++        date: "2014-09-05T17:57:28.556094Z",
++      },
++      {
+         id: 2,
+-        name:'Vadonut',
+-        image: 'assets/images/vadonut.png',
+-        category: 'appetizer',
+-        label:'New',
+-        price:'1.99',
+-        description:'A quintessential ConFusion experience, is it a vada or is it a donut?',
+-        comments: [
+-            {
+-            id: 0,
+-            rating: 5,
+-            comment: "Imagine all the eatables, living in conFusion!",
+-            author: "John Lemon",
+-            date: "2012-10-16T17:57:28.556094Z"
+-            },
+-            {
+-            id: 1,
+-            rating: 4,
+-            comment: "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
+-            author: "Paul McVites",
+-            date: "2014-09-05T17:57:28.556094Z"
+-            },
+-            {
+-            id: 2,
+-            rating: 3,
+-            comment: "Eat it, just eat it!",
+-            author: "Michael Jaikishan",
+-            date: "2015-02-13T17:57:28.556094Z"
+-            },
+-            {
+-            id: 3,
+-            rating: 4,
+-            comment: "Ultimate, Reaching for the stars!",
+-            author: "Ringo Starry",
+-            date: "2013-12-02T17:57:28.556094Z"
+-            },
+-            {
+-            id: 4,
+-            rating: 2,
+-            comment: "It's your birthday, we're gonna party!",
+-            author: "25 Cent",
+-            date: "2011-12-02T17:57:28.556094Z"
+-            }
+-        ]
+-        },
+-        {
++        rating: 3,
++        comment: "Eat it, just eat it!",
++        author: "Michael Jaikishan",
++        date: "2015-02-13T17:57:28.556094Z",
++      },
++      {
+         id: 3,
+-        name:'ElaiCheese Cake',
+-        image: 'assets/images/elaicheesecake.png',
+-        category: 'dessert',
+-        label:'',
+-        price:'2.99',
+-        description:'A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms',
+-        comments: [
+-            {
+-            id: 0,
+-            rating: 5,
+-            comment: "Imagine all the eatables, living in conFusion!",
+-            author: "John Lemon",
+-            date: "2012-10-16T17:57:28.556094Z"
+-            },
+-            {
+-            id: 1,
+-            rating: 4,
+-            comment: "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
+-            author: "Paul McVites",
+-            date: "2014-09-05T17:57:28.556094Z"
+-            },
+-            {
+-            id: 2,
+-            rating: 3,
+-            comment: "Eat it, just eat it!",
+-            author: "Michael Jaikishan",
+-            date: "2015-02-13T17:57:28.556094Z"
+-            },
+-            {
+-            id: 3,
+-            rating: 4,
+-            comment: "Ultimate, Reaching for the stars!",
+-            author: "Ringo Starry",
+-            date: "2013-12-02T17:57:28.556094Z"
+-            },
+-            {
+-            id: 4,
+-            rating: 2,
+-            comment: "It's your birthday, we're gonna party!",
+-            author: "25 Cent",
+-            date: "2011-12-02T17:57:28.556094Z"
+-            }
+-        ]
+-        }
+-    ];
+\ No newline at end of file
++        rating: 4,
++        comment: "Ultimate, Reaching for the stars!",
++        author: "Ringo Starry",
++        date: "2013-12-02T17:57:28.556094Z",
++      },
++      {
++        id: 4,
++        rating: 2,
++        comment: "It's your birthday, we're gonna party!",
++        author: "25 Cent",
++        date: "2011-12-02T17:57:28.556094Z",
++      },
++    ],
++  },
++  {
++    id: 1,
++    name: "Zucchipakoda",
++    image: "assets/images/zucchipakoda.png",
++    category: "appetizer",
++    label: "",
++    price: "1.99",
++    description:
++      "Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce",
++    comments: [
++      {
++        id: 0,
++        rating: 5,
++        comment: "Imagine all the eatables, living in conFusion!",
++        author: "John Lemon",
++        date: "2012-10-16T17:57:28.556094Z",
++      },
++      {
++        id: 1,
++        rating: 4,
++        comment:
++          "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
++        author: "Paul McVites",
++        date: "2014-09-05T17:57:28.556094Z",
++      },
++      {
++        id: 2,
++        rating: 3,
++        comment: "Eat it, just eat it!",
++        author: "Michael Jaikishan",
++        date: "2015-02-13T17:57:28.556094Z",
++      },
++      {
++        id: 3,
++        rating: 4,
++        comment: "Ultimate, Reaching for the stars!",
++        author: "Ringo Starry",
++        date: "2013-12-02T17:57:28.556094Z",
++      },
++      {
++        id: 4,
++        rating: 2,
++        comment: "It's your birthday, we're gonna party!",
++        author: "25 Cent",
++        date: "2011-12-02T17:57:28.556094Z",
++      },
++    ],
++  },
++  {
++    id: 2,
++    name: "Vadonut",
++    image: "assets/images/vadonut.png",
++    category: "appetizer",
++    label: "New",
++    price: "1.99",
++    description:
++      "A quintessential ConFusion experience, is it a vada or is it a donut?",
++    comments: [
++      {
++        id: 0,
++        rating: 5,
++        comment: "Imagine all the eatables, living in conFusion!",
++        author: "John Lemon",
++        date: "2012-10-16T17:57:28.556094Z",
++      },
++      {
++        id: 1,
++        rating: 4,
++        comment:
++          "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
++        author: "Paul McVites",
++        date: "2014-09-05T17:57:28.556094Z",
++      },
++      {
++        id: 2,
++        rating: 3,
++        comment: "Eat it, just eat it!",
++        author: "Michael Jaikishan",
++        date: "2015-02-13T17:57:28.556094Z",
++      },
++      {
++        id: 3,
++        rating: 4,
++        comment: "Ultimate, Reaching for the stars!",
++        author: "Ringo Starry",
++        date: "2013-12-02T17:57:28.556094Z",
++      },
++      {
++        id: 4,
++        rating: 2,
++        comment: "It's your birthday, we're gonna party!",
++        author: "25 Cent",
++        date: "2011-12-02T17:57:28.556094Z",
++      },
++    ],
++  },
++  {
++    id: 3,
++    name: "ElaiCheese Cake",
++    image: "assets/images/elaicheesecake.png",
++    category: "dessert",
++    label: "",
++    price: "2.99",
++    description:
++      "A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms",
++    comments: [
++      {
++        id: 0,
++        rating: 5,
++        comment: "Imagine all the eatables, living in conFusion!",
++        author: "John Lemon",
++        date: "2012-10-16T17:57:28.556094Z",
++      },
++      {
++        id: 1,
++        rating: 4,
++        comment:
++          "Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
++        author: "Paul McVites",
++        date: "2014-09-05T17:57:28.556094Z",
++      },
++      {
++        id: 2,
++        rating: 3,
++        comment: "Eat it, just eat it!",
++        author: "Michael Jaikishan",
++        date: "2015-02-13T17:57:28.556094Z",
++      },
++      {
++        id: 3,
++        rating: 4,
++        comment: "Ultimate, Reaching for the stars!",
++        author: "Ringo Starry",
++        date: "2013-12-02T17:57:28.556094Z",
++      },
++      {
++        id: 4,
++        rating: 2,
++        comment: "It's your birthday, we're gonna party!",
++        author: "25 Cent",
++        date: "2011-12-02T17:57:28.556094Z",
++      },
++    ],
++  },
++];
+-- 
+2.47.3
+
