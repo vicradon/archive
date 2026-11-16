@@ -1,0 +1,57 @@
+name: App Deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Virtual Machine
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip repository content
+        run: git ls-files -z | xargs -0 zip archive.zip
+
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOYMENT_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: "archive.zip"
+          target: ${{secrets.DEPLOYMENT_DIRECTORY}}
+
+      - name: SSH into server and update application code and update dependencies
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOYMENT_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{secrets.DEPLOYMENT_DIRECTORY}}
+            unzip -o archive.zip
+            python3 -m venv .venv 
+            source .venv/bin/activate
+            pip install -r requirements.txt
+
+      - name: Restart app
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOYMENT_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{secrets.DEPLOYMENT_DIRECTORY}}
+            source .venv/bin/activate  
+            export TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+            pm2 restart main.py
