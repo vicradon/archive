@@ -325,3 +325,4 @@
 | hashnode-cli | repo | https://github.com/vicradon/hashnode-cli | Command line utilities for interacting with Hashnode. |  | 2020-12-29 |
 | hello-github-actions | repo | https://github.com/vicradon/hello-github-actions |  | https://lab.github.com/githubtraining/github-actions:-hello-world | 2020-12-27 |
 | engineering-blog-samples | fork of LoginRadius/engineering-blog-samples (no own commits) | https://github.com/vicradon/engineering-blog-samples | Code samples of LoginRadius Engineering Blog | https://www.loginradius.com/engineering/blog | 2020-12-13 |
+| python-zulip-api | fork of zulip/python-zulip-api (no own commits) | https://github.com/vicradon/python-zulip-api |  | https://zulipchat.com/api | 2020-12-09 |
