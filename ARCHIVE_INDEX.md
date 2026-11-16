@@ -300,3 +300,4 @@
 | micro-express-app | repo | https://github.com/vicradon/micro-express-app |  |  | 2021-05-21 |
 | shape-area-api | repo | https://github.com/vicradon/shape-area-api | An API for 2D shape computation |  | 2021-05-03 |
 | greedy_hunter | repo | https://github.com/vicradon/greedy_hunter | A game where the main character has to eat all the food with a limited number of moves | https://greedy-hunter-osi.netlify.app/ | 2021-04-06 |
+| google-maps-react | fork of fullstackreact/google-maps-react (no own commits) | https://github.com/vicradon/google-maps-react | Companion code to the "How to Write a Google Maps React Component" Tutorial | https://www.fullstackreact.com/articles/how-to-write-a-google-maps-react-component/ | 2021-03-29 |
