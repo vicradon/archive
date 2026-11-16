@@ -56,3 +56,4 @@
 | A2A | fork of a2aproject/A2A (1 patches) | https://github.com/vicradon/A2A | An open protocol enabling communication and interoperability between opaque agentic applications. | https://google-a2a.github.io/A2A/ | 2025-06-02 |
 | SelfAdaptiveAgent | fork of cedlinx/SelfAdaptiveAgent- (4 patches) | https://github.com/vicradon/SelfAdaptiveAgent | Self Adaptive Identification Verification Agentic AI built with C#, Azure OpenAI, Azure Functions |  | 2025-05-30 |
 | AIAdaptiveVerification | fork of alaswadiyy/AIAdaptiveVerification (no own commits) | https://github.com/vicradon/AIAdaptiveVerification | backend repo |  | 2025-05-30 |
+| chess-agent-a2a | repo | https://github.com/vicradon/chess-agent-a2a |  |  | 2025-05-23 |
