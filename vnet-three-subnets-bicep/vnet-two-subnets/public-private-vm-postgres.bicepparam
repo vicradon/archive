@@ -1,0 +1,11 @@
+using 'public-private-vm-postgres.bicep'
+
+param location = 'denmarkeast'
+param namePrefix = 'demo'
+param adminUsername = 'azureuser'
+param adminPublicKey = 'ssh-ed25519 ...'
+param vmSize = 'Standard_B1s'
+param pgAdminUsername = 'pgadmin'
+param pgAdminPassword = 'theyseemerollingtheyhating'
+param pgSkuName = 'Standard_B1ms'
+param pgVersion = '16'
