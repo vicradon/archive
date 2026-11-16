@@ -227,3 +227,4 @@
 | mire-backend | repo | https://github.com/vicradon/mire-backend | The backend of the Mire FX to ENaira app |  | 2022-08-11 |
 | catkin_ws | repo | https://github.com/vicradon/catkin_ws | ROS workspace for all my ROS projects |  | 2022-08-02 |
 | dsa-group | repo | https://github.com/vicradon/dsa-group | A repo with public solutions to Leetcode problems using Neetcode curriculum |  | 2022-07-31 |
+| gRPC-demo | repo | https://github.com/vicradon/gRPC-demo | A demo application in JavaScript for communicating with gRPC |  | 2022-07-18 |
