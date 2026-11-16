@@ -123,3 +123,4 @@
 | express-todo | repo | https://github.com/vicradon/express-todo | A simple todo app built with express.js |  | 2024-03-08 |
 | tourafrica | repo | https://github.com/vicradon/tourafrica | A custom GPT app for african tourism |  | 2024-02-13 |
 | cyberclasscontent | repo | https://github.com/vicradon/cyberclasscontent | AI-900 and AI-102 Content for Cyberclass |  | 2024-02-09 |
+| Graph_FS | fork of Valentine-Mario/Graph_FS (no own commits) | https://github.com/vicradon/Graph_FS | A GraphQL client for interfacing with the filesystem |  | 2024-02-06 |
