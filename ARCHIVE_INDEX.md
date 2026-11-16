@@ -134,3 +134,4 @@
 | futo-academia | repo | https://github.com/vicradon/futo-academia |  |  | 2023-12-20 |
 | object-tracking-yolov8-deep-sort | fork of computervisioneng/object-tracking-yolov8-deep-sort (no own commits) | https://github.com/vicradon/object-tracking-yolov8-deep-sort |  |  | 2023-12-19 |
 | Azure-Storage-Project | fork of Evangel2020/Azure-Storage-Project (no own commits) | https://github.com/vicradon/Azure-Storage-Project |  |  | 2023-12-15 |
+| yolov8 | repo | https://github.com/vicradon/yolov8 |  |  | 2023-12-11 |
