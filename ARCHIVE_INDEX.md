@@ -212,3 +212,4 @@
 | aye-learn | repo | https://github.com/vicradon/aye-learn | An API of an online tutoring app |  | 2022-12-12 |
 | godabeg | repo | https://github.com/vicradon/godabeg |  | godabeg.vercel.app | 2022-12-11 |
 | sharegpt-app | fork of domeccleston/sharegpt-app (1 patches) | https://github.com/vicradon/sharegpt-app |  | chatgpt-share.vercel.app | 2022-12-10 |
+| image-kernels-heroku | fork of Bwhiz/image-kernels-heroku (1 patches) | https://github.com/vicradon/image-kernels-heroku | This is an app I built with streamlit, and the Open Source Computer Vision Library (OpenCV) in Python to display the effects of image kernels on uploaded images. |  | 2022-11-28 |
