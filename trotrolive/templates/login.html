@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+   <meta charset="UTF-8">
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjx.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Trotro Live</title>
+</head>
+<body>
+   <header>
+      <br>
+     <div class="toptitle">
+        <ul>
+      <li>  <img class="banner2" src="{{ url_for('static', filename='images/logomod.png') }}"></li>
+   
+      <li><h4 class ="maintext" style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 30px; padding-top: 27px">TROTRO LIVE</h4></li>
+   
+</ul>
+</div>
+<h5><marquee>The future is great with science and data </marquee></h5>
+      
+   <div class="menubar">
+      <ul>
+         <li ><a href="/">Home</a></li>
+         <li><a href="#">About Us</a>
+         <div class="submenu">
+            <ul>
+               <li><a href="/company">Company Info</a></li>
+               <li><a href="/team">Meet The Team</a></li>
+               <li><a href="#">Contact Info</a></li>
+            </ul>
+         </div>
+      </li>
+      <li><a href="#">Trotro Dairies
+      </a>
+      <div class="submenu">
+         <ul>
+            <li><a href="/member">Member Page</a></li>
+            <li><a href="#">General Travel</a></li>
+            <li><a href="#">Health Concerns</a></li>
+            <li><a href="#">Safety Measures</a></li>
+            <li><a href="#">FAQs</a></li>
+         </ul>
+      </div>
+   </li>
+   </ul>
+</div>
+
+<br>
+
+
+<div class="mainbanner"> 
+  <img src="{{ url_for('static', filename='images/logo.jpg') }}" class="banner">
+  </div>
+  </header>
+
+  <div class="formsss">
+    {% with messages = get_flashed_messages() %}
+         {% if messages %}
+            <ul>
+               {% for message in messages %}
+               <li>{{ message }}</li>
+               {% endfor %}
+            </ul>
+         {% endif %}
+    {% endwith %}
+    <br>
+    
+    <form action="login" method="POST">
+      <div>
+        <label> Enter Email or Phone Number</label>
+        <input type="text" name="email" id="email">
+      </div>
+     
+      <br>
+      <div>
+        <label>Enter Password</label>
+        <input type="password" name="password" id="password">
+      </div>
+      <br>
+      <div>
+      <input type="submit" value="Log In">
+      </div>
+      <br>
+    </form>
+    <a href="/signup">Don't Have an account? Register Here</a>
+  <br>
+  <!--
+  <strong>OR</strong>
+  <div> 
+    <a href="/loginG">Sign in with Google</a>
+  </div>
+  -->
+</div>
+
+<br><br><br>
+  <footer>
+    
+    <p>Copyright &copy; 2020 Trotro Live Ltd . <a href="/company">Company Information</a></p>
+    <p2><a href="/privacy">Privacy Terms</a></p2>
+  </footer>
+</body>
+</html>

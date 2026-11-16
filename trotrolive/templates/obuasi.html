@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+   <meta charset="UTF-8">
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjx.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Trotro Live</title>
+</head>
+<body>
+   <header>
+      <br>
+     <div class="toptitle">
+        <ul>
+      <li>  <img class="banner2" src="{{ url_for('static', filename='images/logomod.png') }}"></li>
+   
+      <li><h4 class ="maintext" style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 30px; padding-top: 27px">TROTRO LIVE</h4></li>
+   
+</ul>
+</div>
+<h5><marquee>The future is great with science and data </marquee></h5>
+      
+   <div class="menubar">
+      <ul>
+         <li class="active"><a href="/">Home</a></li>
+         <li><a href="#">About Us</a>
+         <div class="submenu">
+            <ul>
+               <li><a href="/company">Company Info</a></li>
+               <li><a href="/team">Meet The Team</a></li>
+               <li><a href="#">Contact Info</a></li>
+            </ul>
+         </div>
+      </li>
+      <li><a href="#">Trotro Dairies
+      </a>
+      <div class="submenu">
+         <ul>
+            <li><a href="/member">Member Page</a></li>
+            <li><a href="#">General Travel</a></li>
+            <li><a href="#">Health Concerns</a></li>
+            <li><a href="#">Safety Measures</a></li>
+            <li><a href="#">FAQs</a></li>
+         </ul>
+      </div>
+   </li>
+   </ul>
+</div>
+</header>
+<div></div>
+<div class="showcase">
+<br>
+   <h5 style="text-align: center;">Wondering the cost of transport from anywhere in the country?</h5>
+   <div class="mainbanner"> 
+      <img src="{{ url_for('static', filename='images/wondering.jpeg') }}" class="banner" style="width: 100%; height: 100%;">
+  </div>
+</div>
+<br>
+
+
+
+
+<div class="join">
+    Join Us today!!
+    <a href="signup" class="signup-btn"><span>Sign Up</span></a>
+
+<br>
+
+    Already a member?
+<a href="login" class="login-btn"><span>Log In</span></a>
+<br>
+</div>
+
+<div class="mainbanner"> 
+    <img src="{{ url_for('static', filename='images/logo.jpg') }}" class="banner">
+</div>
+
+
+
+<div class="form22">
+   <h5>Find the cost of your next journey now!!</h5>
+   <br>
+   <h3 style="color: red;">{{same}}</h3>
+
+   <div>  
+      {% for singlefar in singlefare %} 
+      <h3>Fare from {{ src }} to {{ dest }} is: </h3>         
+      <b><h2 style="color: green;">GH₵ {{ singlefar.fare }}0 p {{ singlefar.transit }}</h2></b>
+      {% endfor %}
+   </div>
+   <br>
+   </div>
+
+   <div class="center"></div>
+   <div class="form22">
+    <div><a href="/">WRONG PROVIDENCE?</a></div>
+    <br>
+    <form action="/searchobuasi" method="POST">
+    
+    <label for='src'>From : </label>
+    <select id='src' name="src">
+      <option value="Abusco">Abusco</option>
+      <option value="Adamso">Adamso</option>
+      <option value="Adansi Domeabra">Adansi Domeabra</option>
+      <option value="Agona Swedru">Agona Swedru</option>
+      <option value="Akaporiso">Akaporiso</option>
+      <option value="Akapriso">Akapriso</option>
+      <option value="Akwansrem">Akwansrem</option>
+      <option value="Amankyem">Amankyem</option>
+      <option value="Amoako">Amoako</option>
+      <option value="Amonyase">Amonyase</option>
+      <option value="Amponyase">Amponyase</option>
+      <option value="Anwaso">Anwaso</option>
+      <option value="Anyimedukuro">Anyimedukuro</option>
+      <option value="Anyinam">Anyinam</option>
+      <option value="Asokwa Junction">Asokwa Junction</option>
+      <option value="Asonkore">Asonkore</option>
+      <option value="Asoufenaso">Asoufenaso</option>
+      <option value="Assin Fosu">Assin Fosu</option>
+      <option value="Ayaase">Ayaase</option>
+      <option value="Befenase">Befenase</option>
+      <option value="Boefe">Boefe</option>
+      <option value="Bogoso">Bogoso</option>
+      <option value="BossMan">BossMan</option>
+      <option value="Brahabebome">Brahabebome</option>
+      <option value="Bruno">Bruno</option>
+      <option value="Cape Coast">Cape Coast</option>
+      <option value="Central Market(GPRTU)">Central Market(GPRTU)</option>
+      <option value="Danquah">Danquah</option>
+      <option value="Dwafo">Dwafo</option>
+      <option value="Fosu">Fosu</option>
+      <option value="Fumso">Fumso</option>
+      <option value="Gromesa">Gromesa</option>
+      <option value="Guasu">Guasu</option>
+      <option value="Horsey Park">Horsey Park</option>
+      <option value="Hwrom Asi">Hwrom Asi</option>
+      <option value="Kofikrom">Kofikrom</option>
+      <option value="Kwabenakwa">Kwabenakwa</option>
+      <option value="Kwabrafoso">Kwabrafoso</option>
+      <option value="Kyekyewere">Kyekyewere</option>
+      <option value="Mankessim">Mankessim</option>
+      <option value="Nana Ponko">Nana Ponko</option>
+      <option value="New Edubiase">New Edubiase</option>
+      <option value="Nyamebekyere">Nyamebekyere</option>
+      <option value="Nyameso">Nyameso</option>
+      <option value="Nyankomasu">Nyankomasu</option>
+      <option value="Pomposo">Pomposo</option>
+      <option value="Praso">Praso</option>
+      <option value="Precious Estate">Precious Estate</option>
+      <option value="Sam Jonah">Sam Jonah</option>
+      <option value="Sikaman">Sikaman</option>
+      <option value="Tutuka">Tutuka</option>
+      <option value="Wawasi">Wawasi</option>
+      <option value="Yawaso">Yawaso</option>
+      </select>
+    <label for='dest'>To :</label>
+    <select id='dest' name="dest">
+      <option value="Abusco">Abusco</option>
+      <option value="Adamso">Adamso</option>
+      <option value="Adansi Domeabra">Adansi Domeabra</option>
+      <option value="Agona Swedru">Agona Swedru</option>
+      <option value="Akaporiso">Akaporiso</option>
+      <option value="Akapriso">Akapriso</option>
+      <option value="Akwansrem">Akwansrem</option>
+      <option value="Amankyem">Amankyem</option>
+      <option value="Amoako">Amoako</option>
+      <option value="Amonyase">Amonyase</option>
+      <option value="Amponyase">Amponyase</option>
+      <option value="Anwaso">Anwaso</option>
+      <option value="Anyimedukuro">Anyimedukuro</option>
+      <option value="Anyinam">Anyinam</option>
+      <option value="Asokwa Junction">Asokwa Junction</option>
+      <option value="Asonkore">Asonkore</option>
+      <option value="Asoufenaso">Asoufenaso</option>
+      <option value="Assin Fosu">Assin Fosu</option>
+      <option value="Ayaase">Ayaase</option>
+      <option value="Befenase">Befenase</option>
+      <option value="Boefe">Boefe</option>
+      <option value="Bogoso">Bogoso</option>
+      <option value="BossMan">BossMan</option>
+      <option value="Brahabebome">Brahabebome</option>
+      <option value="Bruno">Bruno</option>
+      <option value="Cape Coast">Cape Coast</option>
+      <option value="Central Market(GPRTU)">Central Market(GPRTU)</option>
+      <option value="Danquah">Danquah</option>
+      <option value="Dwafo">Dwafo</option>
+      <option value="Fosu">Fosu</option>
+      <option value="Fumso">Fumso</option>
+      <option value="Gromesa">Gromesa</option>
+      <option value="Guasu">Guasu</option>
+      <option value="Horsey Park">Horsey Park</option>
+      <option value="Hwrom Asi">Hwrom Asi</option>
+      <option value="Kofikrom">Kofikrom</option>
+      <option value="Kwabenakwa">Kwabenakwa</option>
+      <option value="Kwabrafoso">Kwabrafoso</option>
+      <option value="Kyekyewere">Kyekyewere</option>
+      <option value="Mankessim">Mankessim</option>
+      <option value="Nana Ponko">Nana Ponko</option>
+      <option value="New Edubiase">New Edubiase</option>
+      <option value="Nyamebekyere">Nyamebekyere</option>
+      <option value="Nyameso">Nyameso</option>
+      <option value="Nyankomasu">Nyankomasu</option>
+      <option value="Pomposo">Pomposo</option>
+      <option value="Praso">Praso</option>
+      <option value="Precious Estate">Precious Estate</option>
+      <option value="Sam Jonah">Sam Jonah</option>
+      <option value="Sikaman">Sikaman</option>
+      <option value="Tutuka">Tutuka</option>
+      <option value="Wawasi">Wawasi</option>
+      <option value="Yawaso">Yawaso</option>
+      </select>
+    <input type="submit", value="Search">
+    <br>
+    </form>
+    <br>
+
+   <a href="/suggest">Fare not included? Suggest A fare now</a>
+   
+   <br>
+</div>
+<br><br><br>
+<footer> 
+<br>
+<p>Copyright &copy; 2020 Trotro Live Ltd . <a href="company.html">Company Information</a></p>
+<p2><a href="privacy.html">Privacy Terms</a></p2>
+<br>
+</footer>

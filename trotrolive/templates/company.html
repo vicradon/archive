@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+   <meta charset="UTF-8">
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjx.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Trotro Live</title>
+</head>
+<body>
+   <header>
+      <br>
+     <div class="toptitle">
+        <ul>
+      <li>  <img class="banner2" src="{{ url_for('static', filename='images/logomod.png') }}"></li>
+   
+      <li><h4 class ="maintext" style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 30px; padding-top: 27px">TROTRO LIVE</h4></li>
+   
+</ul>
+</div>
+<h5><marquee>The future is great with science and data </marquee></h5>
+      
+   <div class="menubar">
+      <ul>
+         <li ><a href="/">Home</a></li>
+         <li><a href="#">About Us</a>
+         <div class="submenu">
+            <ul>
+               <li><a href="/company">Company Info</a></li>
+               <li><a href="/team">Meet The Team</a></li>
+               <li><a href="#">Contact Info</a></li>
+            </ul>
+         </div>
+      </li>
+      <li><a href="#">Trotro Dairies
+      </a>
+      <div class="submenu">
+         <ul>
+            <li><a href="/member">Member Page</a></li>
+            <li><a href="#">General Travel</a></li>
+            <li><a href="#">Health Concerns</a></li>
+            <li><a href="#">Safety Measures</a></li>
+            <li><a href="#">FAQs</a></li>
+         </ul>
+      </div>
+   </li>
+   </ul>
+</div>
+
+<br>
+
+
+<div class="mainbanner"> 
+  <img src="{{ url_for('static', filename='images/logo.jpg') }}" class="banner">
+  </div>
+  </header>
+<div class="texta">
+   <p>
+      Trotro.Live avoids all the brouhaha between passengers and "trotro mates"(minivan conductors) on what is actual 'government' or national fare when travelling via minivans and taxis. 
+   </p>
+   <br><br>
+   <p> We are the digitalised original public transit assistance in fares; where to find statons and also contribute to our big data in helping to shape the trotro system digitally. </p>
+<br><br><br>
+</div>
+<div class="link" >
+  <h2 >Lost something on a trip? Do not hesitate to file a report <a  href="#">here</a> and our agents will help you find it.</h2>
+</div>
+  <footer> 
+   <p>Copyright &copy; 2020 Trotro Live Ltd . <a href="/company">Company Information</a></p>
+ <p2><a href="#">Privacy Terms</a></p2>
+
+</footer>
+</body>
+</html>
