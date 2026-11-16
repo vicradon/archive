@@ -260,3 +260,4 @@
 | WebGoat | fork of darinpope/WebGoat (1 patches) | https://github.com/vicradon/WebGoat | WebGoat is a deliberately insecure application | https://webgoat.github.io/WebGoat/ | 2022-03-27 |
 | wejapa-node-fs-tasks | repo | https://github.com/vicradon/wejapa-node-fs-tasks | WeJapa Internship Node filesystem tasks |  | 2022-03-27 |
 | igbo_api | fork of nkowaokwu/igbo_api (no own commits) | https://github.com/vicradon/igbo_api | An API exposing Igbo words, definitions, and more | https://igboapi.com | 2022-03-26 |
+| semgrep-jenkins-cicd-project | empty (no commits) | https://github.com/vicradon/semgrep-jenkins-cicd-project |  |  | 2022-03-22 |
