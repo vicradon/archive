@@ -327,3 +327,4 @@
 | engineering-blog-samples | fork of LoginRadius/engineering-blog-samples (no own commits) | https://github.com/vicradon/engineering-blog-samples | Code samples of LoginRadius Engineering Blog | https://www.loginradius.com/engineering/blog | 2020-12-13 |
 | python-zulip-api | fork of zulip/python-zulip-api (no own commits) | https://github.com/vicradon/python-zulip-api |  | https://zulipchat.com/api | 2020-12-09 |
 | zulip | fork of zulip/zulip (no own commits) | https://github.com/vicradon/zulip | Zulip server and webapp - powerful open source team chat | https://zulip.com | 2020-12-09 |
+| cgpa-api | repo | https://github.com/vicradon/cgpa-api |  |  | 2020-11-30 |
