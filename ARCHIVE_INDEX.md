@@ -265,3 +265,4 @@
 | playwright-react-app | repo | https://github.com/vicradon/playwright-react-app |  |  | 2022-03-03 |
 | adonis-quiz-api | repo | https://github.com/vicradon/adonis-quiz-api | An API for a Quiz API built with AdonisJS |  | 2022-02-26 |
 | lua-game | empty (no commits) | https://github.com/vicradon/lua-game |  |  | 2022-02-23 |
+| luarocks | fork of luarocks/luarocks (no own commits) | https://github.com/vicradon/luarocks | LuaRocks is the package manager for the Lua programming language. | http://www.luarocks.org | 2022-02-17 |
