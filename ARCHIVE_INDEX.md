@@ -361,3 +361,4 @@
 | stl | repo | https://github.com/vicradon/stl | Send stuff to your laptop without using bluetooth | https://stl-rosy.now.sh | 2020-05-02 |
 | enget | repo | https://github.com/vicradon/enget | A service that delivers daily nuggets about engineering to engineering students | https://enget.netlify.app | 2020-04-30 |
 | genesys-js-workshops | repo | https://github.com/vicradon/genesys-js-workshops | A repo with workshop code |  | 2020-04-27 |
+| Open-Source-Projects | repo | https://github.com/vicradon/Open-Source-Projects | An site which lists open source projects | https://vicradon.github.io/Open-Source-Projects/ | 2020-04-27 |
