@@ -241,3 +241,4 @@
 | cookiecutter | fork of cookiecutter/cookiecutter (no own commits) | https://github.com/vicradon/cookiecutter | A cross-platform command-line utility that creates projects from cookiecutters (project templates), e.g. Python package projects, C projects. | https://pypi.org/project/cookiecutter/ | 2022-06-07 |
 | k8s-stuff | repo | https://github.com/vicradon/k8s-stuff |  |  | 2022-06-02 |
 | Nest-App | fork of harblaith7/Node-App (4 patches) | https://github.com/vicradon/Nest-App |  |  | 2022-05-31 |
+| react-interview | repo | https://github.com/vicradon/react-interview |  | react-interview-chi.vercel.app | 2022-05-11 |
