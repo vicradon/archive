@@ -1,0 +1,24 @@
+From 3f6890aad9481546539c54e25a41f599761fe1d7 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 11 Aug 2024 09:32:41 +0100
+Subject: [PATCH] chore: update action output file
+
+---
+ .github/workflows/dev-deploy.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index 5befc03..50db6b6 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -44,6 +44,7 @@ jobs:
+         uses: vicradon/create-env-action@v0.0.9
+         with:
+           action_input_file: "app-sample.env"
++          action_output_file: "app.env"
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+           SERVER_PORT: ${{ secrets.SERVER_PORT }}
+-- 
+2.47.3
+

@@ -1,0 +1,39 @@
+From 3ecb5d5f7b6e32dd2e9dad8f61a74e9f81b7fa30 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 19 Jul 2024 00:23:04 +0000
+Subject: [PATCH] bugfix: change github ref to main and dev
+
+---
+ .github/workflows/development.yml | 2 +-
+ .github/workflows/production.yml  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.github/workflows/development.yml b/.github/workflows/development.yml
+index d7bffca..dbd8750 100644
+--- a/.github/workflows/development.yml
++++ b/.github/workflows/development.yml
+@@ -80,7 +80,7 @@ jobs:
+                 git reset --hard HEAD || { echo "Failed to reset local changes"; exit 1; }
+                 git pull origin main || { echo "Failed to pull latest changes"; exit 1; }
+             else
+-                git clone -b ${{ github.ref }} http://github.com/${{ github.repository }} . || { echo "Failed to clone repository"; exit 1; }
++                git clone -b dev http://github.com/${{ github.repository }} . || { echo "Failed to clone repository"; exit 1; }
+             fi
+ 
+             cp app-sample.env app.env
+diff --git a/.github/workflows/production.yml b/.github/workflows/production.yml
+index 349e117..7301f50 100644
+--- a/.github/workflows/production.yml
++++ b/.github/workflows/production.yml
+@@ -80,7 +80,7 @@ jobs:
+                 git reset --hard HEAD || { echo "Failed to reset local changes"; exit 1; }
+                 git pull origin main || { echo "Failed to pull latest changes"; exit 1; }
+             else
+-                git clone -b ${{ github.ref }} http://github.com/${{ github.repository }} . || { echo "Failed to clone repository"; exit 1; }
++                git clone -b main http://github.com/${{ github.repository }} . || { echo "Failed to clone repository"; exit 1; }
+             fi
+ 
+             cp app-sample.env app.env
+-- 
+2.47.3
+

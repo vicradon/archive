@@ -1,0 +1,24 @@
+From 08bb5a4caf26f3212bebc757094b5e67628403f5 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 11 Aug 2024 13:34:51 +0100
+Subject: [PATCH] chore: update bro tenacious
+
+---
+ .github/workflows/dev-deploy.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index f3b545d..f8336c5 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -47,6 +47,7 @@ jobs:
+           action_output_file: "app.env"
+           action_true_string_variables: |
+             MAIL_PASSWORD
++            BRO_TENACIOUS
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+           SERVER_PORT: 4500
+-- 
+2.47.3
+

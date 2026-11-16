@@ -1,0 +1,25 @@
+From 65e2cfdacf9012f98c91ce689058a10ba91e725e Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 11 Aug 2024 10:34:23 +0100
+Subject: [PATCH] chore: test new update
+
+---
+ .github/workflows/dev-deploy.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index be7c5e8..e471244 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -41,7 +41,7 @@ jobs:
+       - name: Checkout code
+         uses: actions/checkout@v4
+       - name: Create app.env file
+-        uses: vicradon/create-env-action@main
++        uses: vicradon/create-env-action@v1.0.0
+         with:
+           action_input_file: "app-sample.env"
+           action_output_file: "app.env"
+-- 
+2.47.3
+

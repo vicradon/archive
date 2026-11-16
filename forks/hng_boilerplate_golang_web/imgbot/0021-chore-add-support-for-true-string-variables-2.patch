@@ -1,0 +1,25 @@
+From 675426bf8ad211929c7d3a4f0dc0a75c26ea1a81 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 11 Aug 2024 13:12:22 +0100
+Subject: [PATCH] chore: add support for true string variables - 2
+
+---
+ .github/workflows/dev-deploy.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index 3d87517..ed26e97 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -62,7 +62,7 @@ jobs:
+           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+           MAIL_SERVER: ${{ secrets.MAIL_SERVER }}
+           MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+-          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
++          MAIL_PASSWORD: "${{ secrets.MAIL_PASSWORD }}"
+           MAIL_PORT: ${{ secrets.MAIL_PORT }}
+           MIGRATE: "true"
+ 
+-- 
+2.47.3
+

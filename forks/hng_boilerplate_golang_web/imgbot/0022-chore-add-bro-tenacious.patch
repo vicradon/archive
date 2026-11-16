@@ -1,0 +1,24 @@
+From 8014d8135883f3ec4faa406733bafd9c9cf09ccc Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 11 Aug 2024 13:34:01 +0100
+Subject: [PATCH] chore: add bro tenacious
+
+---
+ .github/workflows/dev-deploy.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index ed26e97..f3b545d 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -65,6 +65,7 @@ jobs:
+           MAIL_PASSWORD: "${{ secrets.MAIL_PASSWORD }}"
+           MAIL_PORT: ${{ secrets.MAIL_PORT }}
+           MIGRATE: "true"
++          BRO_TENACIOUS: "MF3940"
+ 
+       - name: Copy app.env to server
+         uses: appleboy/scp-action@v0.1.7
+-- 
+2.47.3
+

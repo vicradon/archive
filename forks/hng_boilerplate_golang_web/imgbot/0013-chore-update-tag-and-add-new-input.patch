@@ -1,0 +1,25 @@
+From ffbdef4c8dbd2890bc7cdc333c017fb5ca5cb68d Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 9 Aug 2024 19:26:43 +0100
+Subject: [PATCH] chore: update tag and add new input
+
+---
+ .github/workflows/dev-deploy.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index 4f23ad9..ce60d64 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -41,7 +41,7 @@ jobs:
+       - name: Checkout code
+         uses: actions/checkout@v4
+       - name: Create app.env file
+-        uses: vicradon/create-env-action@v0.0.7
++        uses: vicradon/create-env-action@v0.0.8
+         with:
+           action_input_file: "app-sample.env"
+           APP_NAME: "development"
+-- 
+2.47.3
+

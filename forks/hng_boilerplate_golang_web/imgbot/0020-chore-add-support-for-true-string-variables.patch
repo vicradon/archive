@@ -1,0 +1,30 @@
+From fc422b5d953a2abf08220436a83ce628a6eb7317 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 11 Aug 2024 13:07:14 +0100
+Subject: [PATCH] chore: add support for true string variables
+
+---
+ .github/workflows/dev-deploy.yml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index e471244..3d87517 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -41,10 +41,12 @@ jobs:
+       - name: Checkout code
+         uses: actions/checkout@v4
+       - name: Create app.env file
+-        uses: vicradon/create-env-action@v1.0.0
++        uses: vicradon/create-env-action@main
+         with:
+           action_input_file: "app-sample.env"
+           action_output_file: "app.env"
++          action_true_string_variables: |
++            MAIL_PASSWORD
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+           SERVER_PORT: 4500
+-- 
+2.47.3
+

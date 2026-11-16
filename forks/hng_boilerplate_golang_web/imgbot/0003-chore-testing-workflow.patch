@@ -1,0 +1,25 @@
+From 6b5d55a625ba37c0de9d300253e644e80351a9d4 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 9 Aug 2024 17:26:20 +0100
+Subject: [PATCH] chore: testing workflow
+
+---
+ .github/workflows/dev-deploy.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index d268b2a..6c2fa75 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -39,7 +39,7 @@ jobs:
+       SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+     steps:
+       - name: Create app.env file
+-        uses: .github/actions/create-env-action/
++        uses: ./.github/actions/create-env-action/
+         with:
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+-- 
+2.47.3
+

@@ -1,0 +1,77 @@
+From 3513e731ecd0cd2c8b24672f8415abd4613db1bc Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Mon, 22 Jul 2024 12:35:39 +0100
+Subject: [PATCH] bugfix: update env key across workflows
+
+---
+ .github/workflows/development.yml | 3 ++-
+ .github/workflows/production.yml  | 3 ++-
+ .github/workflows/staging.yml     | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/.github/workflows/development.yml b/.github/workflows/development.yml
+index 54166d9..21224b5 100644
+--- a/.github/workflows/development.yml
++++ b/.github/workflows/development.yml
+@@ -11,6 +11,7 @@ on:
+ jobs:
+   build and test:
+     runs-on: ubuntu-latest
++    env:
+       TEST_USERNAME: postgres
+       TEST_PASSWORD: password
+       TEST_DB_NAME: db_name
+@@ -48,7 +49,7 @@ jobs:
+         run: curl http://localhost:8019
+       - name: Run All Tests
+         run: go test ./... -timeout 99999s
+-  
++
+   deploy:
+     runs-on: ubuntu-latest
+     needs: test
+diff --git a/.github/workflows/production.yml b/.github/workflows/production.yml
+index 7e15a4f..f7e0efc 100644
+--- a/.github/workflows/production.yml
++++ b/.github/workflows/production.yml
+@@ -11,6 +11,7 @@ on:
+ jobs:
+   build and test:
+     runs-on: ubuntu-latest
++    env:
+       TEST_USERNAME: postgres
+       TEST_PASSWORD: password
+       TEST_DB_NAME: db_name
+@@ -48,7 +49,7 @@ jobs:
+         run: curl http://localhost:8019
+       - name: Run All Tests
+         run: go test ./... -timeout 99999s
+-  
++
+   deploy:
+     runs-on: ubuntu-latest
+     needs: test
+diff --git a/.github/workflows/staging.yml b/.github/workflows/staging.yml
+index 9f078bb..f42fa14 100644
+--- a/.github/workflows/staging.yml
++++ b/.github/workflows/staging.yml
+@@ -11,6 +11,7 @@ on:
+ jobs:
+   build and test:
+     runs-on: ubuntu-latest
++    env:
+       TEST_USERNAME: postgres
+       TEST_PASSWORD: password
+       TEST_DB_NAME: db_name
+@@ -48,7 +49,7 @@ jobs:
+         run: curl http://localhost:8019
+       - name: Run All Tests
+         run: go test ./... -timeout 99999s
+-  
++
+   deploy:
+     runs-on: ubuntu-latest
+     needs: test
+-- 
+2.47.3
+

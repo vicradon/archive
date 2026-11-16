@@ -1,0 +1,474 @@
+From dd81d0b0730fe5896bf9278c0ae0ad05306cdf50 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 9 Aug 2024 17:37:56 +0100
+Subject: [PATCH] chore: remove relative action
+
+---
+ .github/actions/README.md                     |   3 -
+ .github/actions/create-env-action/.gitignore  |   1 -
+ .github/actions/create-env-action/action.yml  |  50 ----
+ .github/actions/create-env-action/index.js    |  50 ----
+ .../create-env-action/package-lock.json       | 279 ------------------
+ .../actions/create-env-action/package.json    |  16 -
+ .github/workflows/dev-deploy.yml              |   2 +-
+ 7 files changed, 1 insertion(+), 400 deletions(-)
+ delete mode 100644 .github/actions/README.md
+ delete mode 100644 .github/actions/create-env-action/.gitignore
+ delete mode 100644 .github/actions/create-env-action/action.yml
+ delete mode 100644 .github/actions/create-env-action/index.js
+ delete mode 100644 .github/actions/create-env-action/package-lock.json
+ delete mode 100644 .github/actions/create-env-action/package.json
+
+diff --git a/.github/actions/README.md b/.github/actions/README.md
+deleted file mode 100644
+index eacebeb..0000000
+--- a/.github/actions/README.md
++++ /dev/null
+@@ -1,3 +0,0 @@
+-# Custom Actions 
+-
+-This directory contains custom actions built to support the workflows in this repo and encourage reusability
+\ No newline at end of file
+diff --git a/.github/actions/create-env-action/.gitignore b/.github/actions/create-env-action/.gitignore
+deleted file mode 100644
+index b512c09..0000000
+--- a/.github/actions/create-env-action/.gitignore
++++ /dev/null
+@@ -1 +0,0 @@
+-node_modules
+\ No newline at end of file
+diff --git a/.github/actions/create-env-action/action.yml b/.github/actions/create-env-action/action.yml
+deleted file mode 100644
+index 0e21e9e..0000000
+--- a/.github/actions/create-env-action/action.yml
++++ /dev/null
+@@ -1,50 +0,0 @@
+-name: 'Create .env file'
+-description: 'An action that creates an .env file from the provided environment variables'
+-inputs:
+-  env_file_name: 
+-    description: 'The env file name that is created'
+-    default: 'app.env'
+-  APP_NAME:
+-    description: 'The name of the Golang app'
+-  APP_URL:
+-    description: 'The URL of the app'
+-  SERVER_PORT:
+-    description: 'The server port'
+-  DB_NAME:
+-    description: 'The name of the database'
+-  USERNAME:
+-    description: 'The database username'
+-  REDIS_PORT:
+-    description: 'The port for Redis'
+-  REDIS_HOST:
+-    description: 'The host for Redis'
+-  REDIS_DB:
+-    description: 'The Redis database number'
+-  GOOGLE_CLIENT_ID:
+-    description: 'The Google client ID'
+-  GOOGLE_CLIENT_SECRET:
+-    description: 'The Google client secret'
+-  FACEBOOK_CLIENT_ID:
+-    description: 'The Facebook client ID'
+-  FACEBOOK_CLIENT_SECRET:
+-    description: 'The Facebook client secret'
+-  SESSION_SECRET:
+-    description: 'The session secret key'
+-  MAIL_SERVER:
+-    description: 'The mail server'
+-  MAIL_USERNAME:
+-    description: 'The mail server username'
+-  MAIL_PASSWORD:
+-    description: 'The mail server password'
+-  MAIL_PORT:
+-    description: 'The mail server port'
+-  MIGRATE:
+-    description: 'Flag indicating whether to run migrations'
+-
+-outputs:
+-  env_file:
+-    description: 'The created .env file'
+-
+-runs:
+-  using: 'node20'
+-  main: 'index.js'
+diff --git a/.github/actions/create-env-action/index.js b/.github/actions/create-env-action/index.js
+deleted file mode 100644
+index 3ed4be6..0000000
+--- a/.github/actions/create-env-action/index.js
++++ /dev/null
+@@ -1,50 +0,0 @@
+-const core = require("@actions/core");
+-const github = require("@actions/github");
+-const { writeFile } = require("node:fs/promises");
+-
+-async function run() {
+-  try {
+-    const envFileName = core.getInput("env_file_name") || "app.env";
+-
+-    const secrets = [
+-      "APP_NAME",
+-      "APP_URL",
+-      "SERVER_PORT",
+-      "DB_NAME",
+-      "USERNAME",
+-      "REDIS_PORT",
+-      "REDIS_HOST",
+-      "REDIS_DB",
+-      "GOOGLE_CLIENT_ID",
+-      "GOOGLE_CLIENT_SECRET",
+-      "FACEBOOK_CLIENT_ID",
+-      "FACEBOOK_CLIENT_SECRET",
+-      "SESSION_SECRET",
+-      "MAIL_SERVER",
+-      "MAIL_USERNAME",
+-      "MAIL_PASSWORD",
+-      "MAIL_PORT",
+-      "MIGRATE",
+-    ];
+-
+-    let envString = "";
+-
+-    for (let secret of secrets) {
+-      const value = core.getInput(secret);
+-      envString += `${secret}=${value}\n`;
+-    }
+-
+-    const envFile = await writeFile(envFileName, envString, {
+-      encoding: "utf-8",
+-    });
+-
+-    core.setOutput("env_file", envFile);
+-
+-    const payload = JSON.stringify(github.context.payload, undefined, 2);
+-    console.log(`The event payload: ${payload}`);
+-  } catch (error) {
+-    core.setFailed(error.message);
+-  }
+-}
+-
+-run();
+diff --git a/.github/actions/create-env-action/package-lock.json b/.github/actions/create-env-action/package-lock.json
+deleted file mode 100644
+index 059a9eb..0000000
+--- a/.github/actions/create-env-action/package-lock.json
++++ /dev/null
+@@ -1,279 +0,0 @@
+-{
+-  "name": "create-env-action",
+-  "version": "1.0.0",
+-  "lockfileVersion": 3,
+-  "requires": true,
+-  "packages": {
+-    "": {
+-      "name": "create-env-action",
+-      "version": "1.0.0",
+-      "license": "ISC",
+-      "dependencies": {
+-        "@actions/core": "^1.10.1",
+-        "@actions/github": "^6.0.0"
+-      }
+-    },
+-    "node_modules/@actions/core": {
+-      "version": "1.10.1",
+-      "resolved": "https://registry.npmjs.org/@actions/core/-/core-1.10.1.tgz",
+-      "integrity": "sha512-3lBR9EDAY+iYIpTnTIXmWcNbX3T2kCkAEQGIQx4NVQ0575nk2k3GRZDTPQG+vVtS2izSLmINlxXf0uLtnrTP+g==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@actions/http-client": "^2.0.1",
+-        "uuid": "^8.3.2"
+-      }
+-    },
+-    "node_modules/@actions/github": {
+-      "version": "6.0.0",
+-      "resolved": "https://registry.npmjs.org/@actions/github/-/github-6.0.0.tgz",
+-      "integrity": "sha512-alScpSVnYmjNEXboZjarjukQEzgCRmjMv6Xj47fsdnqGS73bjJNDpiiXmp8jr0UZLdUB6d9jW63IcmddUP+l0g==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@actions/http-client": "^2.2.0",
+-        "@octokit/core": "^5.0.1",
+-        "@octokit/plugin-paginate-rest": "^9.0.0",
+-        "@octokit/plugin-rest-endpoint-methods": "^10.0.0"
+-      }
+-    },
+-    "node_modules/@actions/http-client": {
+-      "version": "2.2.1",
+-      "resolved": "https://registry.npmjs.org/@actions/http-client/-/http-client-2.2.1.tgz",
+-      "integrity": "sha512-KhC/cZsq7f8I4LfZSJKgCvEwfkE8o1538VoBeoGzokVLLnbFDEAdFD3UhoMklxo2un9NJVBdANOresx7vTHlHw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "tunnel": "^0.0.6",
+-        "undici": "^5.25.4"
+-      }
+-    },
+-    "node_modules/@fastify/busboy": {
+-      "version": "2.1.1",
+-      "resolved": "https://registry.npmjs.org/@fastify/busboy/-/busboy-2.1.1.tgz",
+-      "integrity": "sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=14"
+-      }
+-    },
+-    "node_modules/@octokit/auth-token": {
+-      "version": "4.0.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/auth-token/-/auth-token-4.0.0.tgz",
+-      "integrity": "sha512-tY/msAuJo6ARbK6SPIxZrPBms3xPbfwBrulZe0Wtr/DIY9lje2HeV1uoebShn6mx7SjCHif6EjMvoREj+gZ+SA==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">= 18"
+-      }
+-    },
+-    "node_modules/@octokit/core": {
+-      "version": "5.2.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/core/-/core-5.2.0.tgz",
+-      "integrity": "sha512-1LFfa/qnMQvEOAdzlQymH0ulepxbxnCYAKJZfMci/5XJyIHWgEYnDmgnKakbTh7CH2tFQ5O60oYDvns4i9RAIg==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/auth-token": "^4.0.0",
+-        "@octokit/graphql": "^7.1.0",
+-        "@octokit/request": "^8.3.1",
+-        "@octokit/request-error": "^5.1.0",
+-        "@octokit/types": "^13.0.0",
+-        "before-after-hook": "^2.2.0",
+-        "universal-user-agent": "^6.0.0"
+-      },
+-      "engines": {
+-        "node": ">= 18"
+-      }
+-    },
+-    "node_modules/@octokit/endpoint": {
+-      "version": "9.0.5",
+-      "resolved": "https://registry.npmjs.org/@octokit/endpoint/-/endpoint-9.0.5.tgz",
+-      "integrity": "sha512-ekqR4/+PCLkEBF6qgj8WqJfvDq65RH85OAgrtnVp1mSxaXF03u2xW/hUdweGS5654IlC0wkNYC18Z50tSYTAFw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/types": "^13.1.0",
+-        "universal-user-agent": "^6.0.0"
+-      },
+-      "engines": {
+-        "node": ">= 18"
+-      }
+-    },
+-    "node_modules/@octokit/graphql": {
+-      "version": "7.1.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/graphql/-/graphql-7.1.0.tgz",
+-      "integrity": "sha512-r+oZUH7aMFui1ypZnAvZmn0KSqAUgE1/tUXIWaqUCa1758ts/Jio84GZuzsvUkme98kv0WFY8//n0J1Z+vsIsQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/request": "^8.3.0",
+-        "@octokit/types": "^13.0.0",
+-        "universal-user-agent": "^6.0.0"
+-      },
+-      "engines": {
+-        "node": ">= 18"
+-      }
+-    },
+-    "node_modules/@octokit/openapi-types": {
+-      "version": "22.2.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/openapi-types/-/openapi-types-22.2.0.tgz",
+-      "integrity": "sha512-QBhVjcUa9W7Wwhm6DBFu6ZZ+1/t/oYxqc2tp81Pi41YNuJinbFRx8B133qVOrAaBbF7D/m0Et6f9/pZt9Rc+tg==",
+-      "license": "MIT"
+-    },
+-    "node_modules/@octokit/plugin-paginate-rest": {
+-      "version": "9.2.1",
+-      "resolved": "https://registry.npmjs.org/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-9.2.1.tgz",
+-      "integrity": "sha512-wfGhE/TAkXZRLjksFXuDZdmGnJQHvtU/joFQdweXUgzo1XwvBCD4o4+75NtFfjfLK5IwLf9vHTfSiU3sLRYpRw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/types": "^12.6.0"
+-      },
+-      "engines": {
+-        "node": ">= 18"
+-      },
+-      "peerDependencies": {
+-        "@octokit/core": "5"
+-      }
+-    },
+-    "node_modules/@octokit/plugin-paginate-rest/node_modules/@octokit/openapi-types": {
+-      "version": "20.0.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/openapi-types/-/openapi-types-20.0.0.tgz",
+-      "integrity": "sha512-EtqRBEjp1dL/15V7WiX5LJMIxxkdiGJnabzYx5Apx4FkQIFgAfKumXeYAqqJCj1s+BMX4cPFIFC4OLCR6stlnA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/@octokit/plugin-paginate-rest/node_modules/@octokit/types": {
+-      "version": "12.6.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/types/-/types-12.6.0.tgz",
+-      "integrity": "sha512-1rhSOfRa6H9w4YwK0yrf5faDaDTb+yLyBUKOCV4xtCDB5VmIPqd/v9yr9o6SAzOAlRxMiRiCic6JVM1/kunVkw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/openapi-types": "^20.0.0"
+-      }
+-    },
+-    "node_modules/@octokit/plugin-rest-endpoint-methods": {
+-      "version": "10.4.1",
+-      "resolved": "https://registry.npmjs.org/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-10.4.1.tgz",
+-      "integrity": "sha512-xV1b+ceKV9KytQe3zCVqjg+8GTGfDYwaT1ATU5isiUyVtlVAO3HNdzpS4sr4GBx4hxQ46s7ITtZrAsxG22+rVg==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/types": "^12.6.0"
+-      },
+-      "engines": {
+-        "node": ">= 18"
+-      },
+-      "peerDependencies": {
+-        "@octokit/core": "5"
+-      }
+-    },
+-    "node_modules/@octokit/plugin-rest-endpoint-methods/node_modules/@octokit/openapi-types": {
+-      "version": "20.0.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/openapi-types/-/openapi-types-20.0.0.tgz",
+-      "integrity": "sha512-EtqRBEjp1dL/15V7WiX5LJMIxxkdiGJnabzYx5Apx4FkQIFgAfKumXeYAqqJCj1s+BMX4cPFIFC4OLCR6stlnA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/@octokit/plugin-rest-endpoint-methods/node_modules/@octokit/types": {
+-      "version": "12.6.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/types/-/types-12.6.0.tgz",
+-      "integrity": "sha512-1rhSOfRa6H9w4YwK0yrf5faDaDTb+yLyBUKOCV4xtCDB5VmIPqd/v9yr9o6SAzOAlRxMiRiCic6JVM1/kunVkw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/openapi-types": "^20.0.0"
+-      }
+-    },
+-    "node_modules/@octokit/request": {
+-      "version": "8.4.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/request/-/request-8.4.0.tgz",
+-      "integrity": "sha512-9Bb014e+m2TgBeEJGEbdplMVWwPmL1FPtggHQRkV+WVsMggPtEkLKPlcVYm/o8xKLkpJ7B+6N8WfQMtDLX2Dpw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/endpoint": "^9.0.1",
+-        "@octokit/request-error": "^5.1.0",
+-        "@octokit/types": "^13.1.0",
+-        "universal-user-agent": "^6.0.0"
+-      },
+-      "engines": {
+-        "node": ">= 18"
+-      }
+-    },
+-    "node_modules/@octokit/request-error": {
+-      "version": "5.1.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/request-error/-/request-error-5.1.0.tgz",
+-      "integrity": "sha512-GETXfE05J0+7H2STzekpKObFe765O5dlAKUTLNGeH+x47z7JjXHfsHKo5z21D/o/IOZTUEI6nyWyR+bZVP/n5Q==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/types": "^13.1.0",
+-        "deprecation": "^2.0.0",
+-        "once": "^1.4.0"
+-      },
+-      "engines": {
+-        "node": ">= 18"
+-      }
+-    },
+-    "node_modules/@octokit/types": {
+-      "version": "13.5.0",
+-      "resolved": "https://registry.npmjs.org/@octokit/types/-/types-13.5.0.tgz",
+-      "integrity": "sha512-HdqWTf5Z3qwDVlzCrP8UJquMwunpDiMPt5er+QjGzL4hqr/vBVY/MauQgS1xWxCDT1oMx1EULyqxncdCY/NVSQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@octokit/openapi-types": "^22.2.0"
+-      }
+-    },
+-    "node_modules/before-after-hook": {
+-      "version": "2.2.3",
+-      "resolved": "https://registry.npmjs.org/before-after-hook/-/before-after-hook-2.2.3.tgz",
+-      "integrity": "sha512-NzUnlZexiaH/46WDhANlyR2bXRopNg4F/zuSA3OpZnllCUgRaOF2znDioDWrmbNVsuZk6l9pMquQB38cfBZwkQ==",
+-      "license": "Apache-2.0"
+-    },
+-    "node_modules/deprecation": {
+-      "version": "2.3.1",
+-      "resolved": "https://registry.npmjs.org/deprecation/-/deprecation-2.3.1.tgz",
+-      "integrity": "sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==",
+-      "license": "ISC"
+-    },
+-    "node_modules/once": {
+-      "version": "1.4.0",
+-      "resolved": "https://registry.npmjs.org/once/-/once-1.4.0.tgz",
+-      "integrity": "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==",
+-      "license": "ISC",
+-      "dependencies": {
+-        "wrappy": "1"
+-      }
+-    },
+-    "node_modules/tunnel": {
+-      "version": "0.0.6",
+-      "resolved": "https://registry.npmjs.org/tunnel/-/tunnel-0.0.6.tgz",
+-      "integrity": "sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=0.6.11 <=0.7.0 || >=0.7.3"
+-      }
+-    },
+-    "node_modules/undici": {
+-      "version": "5.28.4",
+-      "resolved": "https://registry.npmjs.org/undici/-/undici-5.28.4.tgz",
+-      "integrity": "sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@fastify/busboy": "^2.0.0"
+-      },
+-      "engines": {
+-        "node": ">=14.0"
+-      }
+-    },
+-    "node_modules/universal-user-agent": {
+-      "version": "6.0.1",
+-      "resolved": "https://registry.npmjs.org/universal-user-agent/-/universal-user-agent-6.0.1.tgz",
+-      "integrity": "sha512-yCzhz6FN2wU1NiiQRogkTQszlQSlpWaw8SvVegAc+bDxbzHgh1vX8uIe8OYyMH6DwH+sdTJsgMl36+mSMdRJIQ==",
+-      "license": "ISC"
+-    },
+-    "node_modules/uuid": {
+-      "version": "8.3.2",
+-      "resolved": "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz",
+-      "integrity": "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==",
+-      "license": "MIT",
+-      "bin": {
+-        "uuid": "dist/bin/uuid"
+-      }
+-    },
+-    "node_modules/wrappy": {
+-      "version": "1.0.2",
+-      "resolved": "https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz",
+-      "integrity": "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==",
+-      "license": "ISC"
+-    }
+-  }
+-}
+diff --git a/.github/actions/create-env-action/package.json b/.github/actions/create-env-action/package.json
+deleted file mode 100644
+index 4bed10b..0000000
+--- a/.github/actions/create-env-action/package.json
++++ /dev/null
+@@ -1,16 +0,0 @@
+-{
+-  "name": "create-env-action",
+-  "version": "1.0.0",
+-  "main": "index.js",
+-  "scripts": {
+-    "test": "echo \"Error: no test specified\" && exit 1"
+-  },
+-  "keywords": [],
+-  "author": "",
+-  "license": "ISC",
+-  "description": "",
+-  "dependencies": {
+-    "@actions/core": "^1.10.1",
+-    "@actions/github": "^6.0.0"
+-  }
+-}
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index d55e866..f2340c9 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -41,7 +41,7 @@ jobs:
+       - name: Checkout code
+         uses: actions/checkout@v4
+       - name: Create app.env file
+-        uses: ./.github/actions/create-env-action/
++        uses: vicradon/create-env-action@v0.0.1
+         with:
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+-- 
+2.47.3
+

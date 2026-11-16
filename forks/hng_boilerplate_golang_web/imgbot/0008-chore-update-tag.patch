@@ -1,0 +1,25 @@
+From 3fd91d94a328a5dc8a9dda5887de6e6624039ab9 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 9 Aug 2024 17:52:44 +0100
+Subject: [PATCH] chore: update tag
+
+---
+ .github/workflows/dev-deploy.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index f2340c9..16e79e4 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -41,7 +41,7 @@ jobs:
+       - name: Checkout code
+         uses: actions/checkout@v4
+       - name: Create app.env file
+-        uses: vicradon/create-env-action@v0.0.1
++        uses: vicradon/create-env-action@v0.0.2
+         with:
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+-- 
+2.47.3
+

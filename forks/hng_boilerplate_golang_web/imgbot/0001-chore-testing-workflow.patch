@@ -1,0 +1,754 @@
+From c4dafb7a7c8d3d0a14bd8100f04e657569a21444 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 9 Aug 2024 17:18:01 +0100
+Subject: [PATCH] chore: testing workflow
+
+---
+ .github/actions/create-env-action/index.js  |  75 ++++----
+ .github/workflows/codeql.yml                |  43 -----
+ .github/workflows/dev-deploy.yml            |   6 +-
+ .github/workflows/development.yml           |  68 -------
+ .github/workflows/development_pr_deploy.yml |  40 -----
+ .github/workflows/production.yml            | 185 --------------------
+ .github/workflows/production_pr_deploy.yml  |  40 -----
+ .github/workflows/staging.yml               | 185 --------------------
+ 8 files changed, 41 insertions(+), 601 deletions(-)
+ delete mode 100644 .github/workflows/codeql.yml
+ delete mode 100644 .github/workflows/development.yml
+ delete mode 100644 .github/workflows/development_pr_deploy.yml
+ delete mode 100644 .github/workflows/production.yml
+ delete mode 100644 .github/workflows/production_pr_deploy.yml
+ delete mode 100644 .github/workflows/staging.yml
+
+diff --git a/.github/actions/create-env-action/index.js b/.github/actions/create-env-action/index.js
+index 5edbd08..3ed4be6 100644
+--- a/.github/actions/create-env-action/index.js
++++ b/.github/actions/create-env-action/index.js
+@@ -1,45 +1,50 @@
+-const core = require('@actions/core');
+-const github = require('@actions/github');
+-const { writeFile } = require('node:fs/promises');
++const core = require("@actions/core");
++const github = require("@actions/github");
++const { writeFile } = require("node:fs/promises");
+ 
+-try {
+-    const envFileName = core.getInput('env_file_name') || "app.env"
++async function run() {
++  try {
++    const envFileName = core.getInput("env_file_name") || "app.env";
+ 
+     const secrets = [
+-        "APP_NAME",
+-        "APP_URL",
+-        "SERVER_PORT",
+-        "DB_NAME",
+-        "USERNAME",
+-        "REDIS_PORT",
+-        "REDIS_HOST",
+-        "REDIS_DB",
+-        "GOOGLE_CLIENT_ID",
+-        "GOOGLE_CLIENT_SECRET",
+-        "FACEBOOK_CLIENT_ID",
+-        "FACEBOOK_CLIENT_SECRET",
+-        "SESSION_SECRET",
+-        "MAIL_SERVER",
+-        "MAIL_USERNAME",
+-        "MAIL_PASSWORD",
+-        "MAIL_PORT",
+-        "MIGRATE"
+-      ];
+-      
+-
+-    let envString = ""
+-
+-    for (let secret of secrets){
+-        const value = core.getInput(secret)
+-        envString += `${secret}=${value}\n`
++      "APP_NAME",
++      "APP_URL",
++      "SERVER_PORT",
++      "DB_NAME",
++      "USERNAME",
++      "REDIS_PORT",
++      "REDIS_HOST",
++      "REDIS_DB",
++      "GOOGLE_CLIENT_ID",
++      "GOOGLE_CLIENT_SECRET",
++      "FACEBOOK_CLIENT_ID",
++      "FACEBOOK_CLIENT_SECRET",
++      "SESSION_SECRET",
++      "MAIL_SERVER",
++      "MAIL_USERNAME",
++      "MAIL_PASSWORD",
++      "MAIL_PORT",
++      "MIGRATE",
++    ];
++
++    let envString = "";
++
++    for (let secret of secrets) {
++      const value = core.getInput(secret);
++      envString += `${secret}=${value}\n`;
+     }
+ 
+-    const envFile = await writeFile(envFileName, envString, { encoding: 'utf-8' })
++    const envFile = await writeFile(envFileName, envString, {
++      encoding: "utf-8",
++    });
+ 
+     core.setOutput("env_file", envFile);
+-    
+-    const payload = JSON.stringify(github.context.payload, undefined, 2)
++
++    const payload = JSON.stringify(github.context.payload, undefined, 2);
+     console.log(`The event payload: ${payload}`);
+-} catch (error) {
++  } catch (error) {
+     core.setFailed(error.message);
++  }
+ }
++
++run();
+diff --git a/.github/workflows/codeql.yml b/.github/workflows/codeql.yml
+deleted file mode 100644
+index 6d4144e..0000000
+--- a/.github/workflows/codeql.yml
++++ /dev/null
+@@ -1,43 +0,0 @@
+-name: "CodeQL"
+-
+-on:
+-  pull_request:
+-    branches: ["dev"]
+-
+-jobs:
+-  analyze:
+-    name: Analyze (${{ matrix.language }})
+-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+-    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+-    permissions:
+-      # required for all workflows
+-      security-events: write
+-
+-      # required to fetch internal or private CodeQL packs
+-      packages: read
+-
+-      # only required for workflows in private repositories
+-      actions: read
+-      contents: read
+-
+-    strategy:
+-      fail-fast: false
+-      matrix:
+-        include:
+-          - language: go
+-            build-mode: autobuild
+-    steps:
+-      - name: Checkout repository
+-        uses: actions/checkout@v4
+-
+-      # Initializes the CodeQL tools for scanning.
+-      - name: Initialize CodeQL
+-        uses: github/codeql-action/init@v3
+-        with:
+-          languages: ${{ matrix.language }}
+-          build-mode: ${{ matrix.build-mode }}
+-
+-      - name: Perform CodeQL Analysis
+-        uses: github/codeql-action/analyze@v3
+-        with:
+-          category: "/language:${{matrix.language}}"
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index be38d64..18766e6 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -9,8 +9,6 @@ on:
+ jobs:
+   build_and_upload_image:
+     runs-on: ubuntu-latest
+-    if: github.event.repository.fork == false
+-    environment: development
+     env:
+       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+       SSH_HOST: ${{ secrets.SSH_HOST }}
+@@ -34,7 +32,6 @@ jobs:
+   update_repo_and_create_env:
+     runs-on: ubuntu-latest
+     needs: build_and_upload_image
+-    if: github.event.repository.fork == false
+     environment: development
+     env:
+       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+@@ -42,7 +39,7 @@ jobs:
+       SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+     steps:
+       - name: Create app.env file
+-        uses: ./.github/actions/create-env-action
++        uses: ../actions/create-env-action
+         with:
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+@@ -75,7 +72,6 @@ jobs:
+   run_docker_container:
+     runs-on: ubuntu-latest
+     needs: [build_and_upload_image, update_repo_and_create_env]
+-    if: github.event.repository.fork == false
+     environment: development
+     env:
+       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+diff --git a/.github/workflows/development.yml b/.github/workflows/development.yml
+deleted file mode 100644
+index 8dc689e..0000000
+--- a/.github/workflows/development.yml
++++ /dev/null
+@@ -1,68 +0,0 @@
+-name: Build, Test, and Deploy for Development
+-
+-on:
+-  pull_request:
+-    branches:
+-      - dev
+-
+-jobs:
+-  build_and_test:
+-    runs-on: ubuntu-latest
+-    environment: development
+-    env:
+-      TEST_USERNAME: postgres
+-      TEST_PASSWORD: password
+-      TEST_DB_NAME: db_name
+-      TEST_DB_HOST: localhost
+-      TEST_DB_PORT: 5432
+-      TEST_DB_CONNECTION: pgsql
+-      TEST_TIMEZONE: Africa/Lagos
+-      TEST_SSLMODE: disable
+-      TEST_MIGRATE: true
+-      REDIS_PORT: 6379
+-      REDIS_HOST: localhost
+-      REDIS_DB: 0
+-
+-    services:
+-      postgres:
+-        image: postgres:latest
+-        env:
+-          POSTGRES_USER: ${{ env.TEST_USERNAME }}
+-          POSTGRES_PASSWORD: ${{ env.TEST_PASSWORD }}
+-          POSTGRES_DB: ${{ env.TEST_DB_NAME }}
+-        ports:
+-          - 5432:5432
+-      redis:
+-        image: redis
+-        options: >-
+-          --health-cmd "redis-cli ping"
+-          --health-interval 10s
+-          --health-timeout 5s
+-          --health-retries 5
+-        ports:
+-          - 6379:6379
+-
+-    steps:
+-      - name: Checkout Code
+-        uses: actions/checkout@v4
+-      - name: Set Golang
+-        uses: actions/setup-go@v4
+-        with:
+-          go-version: "1.22.1"
+-      - name: Create app config file
+-        run: cp app-sample.env app.env
+-      - name: Build the application
+-        run: go build -o development_app
+-      - name: Run the application
+-        run: nohup ./development_app > /dev/null 2>&1 &
+-      - name: Wait for application to start
+-        run: |
+-          for i in {1..30}; do
+-            curl -s http://localhost:8019 && break
+-            sleep 1
+-          done
+-      - name: Run All Tests
+-        run: go test ./... -timeout 300s
+-
+-
+- 
+diff --git a/.github/workflows/development_pr_deploy.yml b/.github/workflows/development_pr_deploy.yml
+deleted file mode 100644
+index 71aaaeb..0000000
+--- a/.github/workflows/development_pr_deploy.yml
++++ /dev/null
+@@ -1,40 +0,0 @@
+-name: PR Deploy for Development
+-on:
+-  pull_request:
+-    branches: [dev]
+-    types: [opened, synchronize, reopened, closed]
+-  workflow_dispatch:
+-
+-jobs:
+-  deploy-pr:
+-    environment: 
+-      name: development
+-      # url: ${{ steps.deploy.outputs.preview-url }}
+-    runs-on: ubuntu-latest
+-    env:
+-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-      SSH_HOST: ${{ secrets.SSH_HOST }}
+-      SSH_PORT: ${{ secrets.SSH_PORT }}
+-      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+-
+-    steps:
+-      - name: Checkout to branch
+-        uses: actions/checkout@v4
+-      - id: deploy
+-        name: Pull Request Deploy
+-        uses: hngprojects/pr-deploy@dev
+-        with:
+-          server_host: ${{ env.SSH_HOST }}
+-          server_username: ${{ env.SSH_USERNAME }}
+-          server_password: ${{ env.SSH_PASSWORD }}
+-          server_port: ${{ env.SSH_PORT }}
+-          comment: true
+-          context: '.'
+-          dockerfile: 'Dockerfile'
+-          exposed_port: '8019'
+-          # host_volume_path: '/var/'
+-          # container_volume_path: '/var/'
+-          github_token: ${{ secrets.GITHUB_TOKEN }}
+-      - name: Print Preview Url
+-        run: |
+-          echo "Preview Url: ${{ steps.deploy.outputs.preview-url }}"
+\ No newline at end of file
+diff --git a/.github/workflows/production.yml b/.github/workflows/production.yml
+deleted file mode 100644
+index 04d09f9..0000000
+--- a/.github/workflows/production.yml
++++ /dev/null
+@@ -1,185 +0,0 @@
+-name: Build, Test, and Deploy for Production
+-
+-on:
+-  push:
+-    branches:
+-      - main
+-  pull_request:
+-    branches:
+-      - main
+-
+-jobs:
+-  build_docker_image:
+-    runs-on: ubuntu-latest
+-    if: github.event_name == 'push'
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v4
+-      - name: Build Docker image
+-        run: docker build -t golang_prod .
+-      - name: Save and compress Docker image
+-        run: docker save golang_prod | gzip > golang_prod.tar.gz
+-      - name: Upload Docker image
+-        uses: actions/upload-artifact@v4
+-        with:
+-          name: golang_prod
+-          path: golang_prod.tar.gz
+-
+-  upload_docker_image:
+-    runs-on: ubuntu-latest
+-    needs: build_docker_image
+-    if: github.event.repository.fork == false && github.event_name == 'push'
+-    environment:
+-      name: "production"
+-      url: ${{ vars.URL }}
+-    steps:
+-      - name: Download Docker image
+-        uses: actions/download-artifact@v4
+-        with:
+-          name: golang_prod
+-          path: .
+-
+-      - name: Copy image to server
+-        uses: appleboy/scp-action@v0.1.7
+-        with:
+-          host: ${{ secrets.SSH_HOST }}
+-          username: ${{ secrets.SSH_USERNAME }}
+-          password: ${{ secrets.SSH_PASSWORD }}
+-          source: golang_prod.tar.gz
+-          target: "/tmp"
+-
+-  build_and_test:
+-    runs-on: ubuntu-latest
+-    environment: production
+-    env:
+-      TEST_USERNAME: postgres
+-      TEST_PASSWORD: password
+-      TEST_DB_NAME: db_name
+-      TEST_DB_HOST: localhost
+-      TEST_DB_PORT: 5432
+-      TEST_DB_CONNECTION: pgsql
+-      TEST_TIMEZONE: Africa/Lagos
+-      TEST_SSLMODE: disable
+-      TEST_MIGRATE: true
+-      REDIS_PORT: 6379
+-      REDIS_HOST: localhost
+-      REDIS_DB: 0
+-
+-    services:
+-      postgres:
+-        image: postgres:latest
+-        env:
+-          POSTGRES_USER: ${{ env.TEST_USERNAME }}
+-          POSTGRES_PASSWORD: ${{ env.TEST_PASSWORD }}
+-          POSTGRES_DB: ${{ env.TEST_DB_NAME }}
+-        ports:
+-          - 5432:5432
+-      redis:
+-        image: redis
+-        options: >-
+-          --health-cmd "redis-cli ping"
+-          --health-interval 10s
+-          --health-timeout 5s
+-          --health-retries 5
+-        ports:
+-          - 6379:6379
+-
+-    steps:
+-      - name: Checkout Code
+-        uses: actions/checkout@v4
+-      - name: Set Golang
+-        uses: actions/setup-go@v4
+-        with:
+-          go-version: "1.22.1"
+-      - name: Create app config file
+-        run: cp app-sample.env app.env
+-      - name: Build the application
+-        run: go build -o production_app
+-      - name: Run the application
+-        run: nohup ./production_app > /dev/null 2>&1 &
+-      - name: Wait for application to start
+-        run: |
+-          for i in {1..30}; do
+-            curl -s http://localhost:8019 && break
+-            sleep 1
+-          done
+-      - name: Run All Tests
+-        run: go test ./... -timeout 300s
+-
+-  deploy:
+-    runs-on: ubuntu-latest
+-    needs: build_and_test
+-    if: github.event_name == 'push'
+-    environment: production
+-    env:
+-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-      SSH_HOST: ${{ secrets.SSH_HOST }}
+-      SSH_PORT: ${{ secrets.SSH_PORT }}
+-      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+-
+-    steps:
+-      - name: SSH into server and deploy
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ env.SSH_HOST }}
+-          username: ${{ env.SSH_USERNAME }}
+-          password: ${{ env.SSH_PASSWORD }}
+-          port: ${{ env.SSH_PORT }}
+-          script: |
+-            export APPROOT=~/deployments/production
+-            mkdir -p $APPROOT
+-            cd $APPROOT
+-
+-            if [ -d "$APPROOT/.git" ]; then
+-              # Navigate to the repository directory and pull changes
+-              cd $APPROOT || { echo "Failed to navigate to web root directory"; exit 1; }
+-              git reset --hard HEAD || { echo "Failed to reset local changes"; exit 1; }
+-              git pull origin main || { echo "Failed to pull latest changes"; exit 1; }
+-            else
+-              git clone -b main https://github.com/${{ github.repository}} . || { echo "Failed to clone repository"; exit 1; }
+-            fi
+-
+-            bash ./scripts/deploy_app.sh production https://github.com/${{ github.repository}} \
+-              SERVER_PORT=${{ secrets.SERVER_PORT }} \
+-              DB_NAME=${{ secrets.DB_NAME }} \
+-              USERNAME=${{ secrets.USERNAME }} \
+-              APP_NAME="production" \
+-              APP_URL="https://api-golang.boilerplate.hng.tech" \
+-              REDIS_PORT=${{ secrets.REDIS_PORT }} \
+-              REDIS_HOST=${{ secrets.REDIS_HOST }} \
+-              REDIS_DB="0" \
+-              GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+-              GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+-              FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }} \
+-              FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }} \
+-              SESSION_SECRET=${{ secrets.SESSION_SECRET }} \
+-              MAIL_SERVER=${{ secrets.MAIL_SERVER }} \
+-              MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
+-              MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
+-              MAIL_PORT=${{ secrets.MAIL_PORT }} \
+-              MIGRATE=true
+-
+-
+-  run_docker_container:
+-    runs-on: ubuntu-latest
+-    needs: upload_docker_image
+-    if: github.event.repository.fork == false && github.event_name == 'push'
+-    environment: production
+-    env:
+-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-      SSH_HOST: ${{ secrets.SSH_HOST }}
+-      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+-
+-    steps:
+-      - name: Deploy on server
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ env.HOST }}
+-          username: ${{ env.USERNAME }}
+-          password: ${{ env.PASSWORD }}
+-          script: |
+-            gunzip -c /tmp/golang_prod.tar.gz | docker load
+-            rm -f /tmp/golang_prod.tar.gz
+-            cd ~/deployments/production
+-            bash ./scripts/map_envs.sh app.env POSTGRES_USER=DB_USER POSTGRES_DB=DB_NAME POSTGRES_PASSWORD=PASSWORD
+-            docker compose -f docker-compose-production.yml up -d
+\ No newline at end of file
+diff --git a/.github/workflows/production_pr_deploy.yml b/.github/workflows/production_pr_deploy.yml
+deleted file mode 100644
+index 72015e1..0000000
+--- a/.github/workflows/production_pr_deploy.yml
++++ /dev/null
+@@ -1,40 +0,0 @@
+-name: PR Deploy for Production
+-on:
+-  pull_request:
+-    branches: [main]
+-    types: [opened, synchronize, reopened, closed]
+-  workflow_dispatch:
+-
+-jobs:
+-  deploy-pr:
+-    environment: 
+-      name: production
+-    #   url: ${{ steps.deploy.outputs.preview-url }}
+-    runs-on: ubuntu-latest
+-    env:
+-        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-        SSH_HOST: ${{ secrets.SSH_HOST }}
+-        SSH_PORT: ${{ secrets.SSH_PORT }}
+-        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+-
+-    steps:
+-      - name: Checkout to branch
+-        uses: actions/checkout@v4
+-      - id: deploy
+-        name: Pull Request Deploy
+-        uses: hngprojects/pr-deploy@main
+-        with:
+-          server_host: ${{ env.SSH_HOST }}
+-          server_username: ${{ env.SSH_USERNAME }}
+-          server_password: ${{ env.SSH_PASSWORD }}
+-          server_port: ${{ env.SSH_PORT }}
+-          comment: true
+-          context: '.'
+-          dockerfile: 'Dockerfile'
+-          exposed_port: '8019'
+-          # host_volume_path: '/var/'
+-          # container_volume_path: '/var/'
+-          github_token: ${{ secrets.GITHUB_TOKEN }}
+-      - name: Print Preview Url
+-        run: |
+-          echo "Preview Url: ${{ steps.deploy.outputs.preview-url }}"
+\ No newline at end of file
+diff --git a/.github/workflows/staging.yml b/.github/workflows/staging.yml
+deleted file mode 100644
+index 809d87c..0000000
+--- a/.github/workflows/staging.yml
++++ /dev/null
+@@ -1,185 +0,0 @@
+-name: Build, Test, and Deploy for Staging
+-
+-on:
+-  push:
+-    branches:
+-      - staging
+-  pull_request:
+-    branches:
+-      - staging
+-
+-jobs:
+-  build_docker_image:
+-    runs-on: ubuntu-latest
+-    if: github.event_name == 'push'
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v4
+-      - name: Build Docker image
+-        run: docker build -t golang_staging .
+-      - name: Save and compress Docker image
+-        run: docker save golang_staging | gzip > golang_staging.tar.gz
+-      - name: Upload Docker image
+-        uses: actions/upload-artifact@v4
+-        with:
+-          name: golang_staging
+-          path: golang_staging.tar.gz
+-
+-  upload_docker_image:
+-    runs-on: ubuntu-latest
+-    needs: build_docker_image
+-    if: github.event.repository.fork == false && github.event_name == 'push'
+-    environment:
+-      name: "staging"
+-      url: ${{ vars.URL }}
+-    steps:
+-      - name: Download Docker image
+-        uses: actions/download-artifact@v4
+-        with:
+-          name: golang_staging
+-          path: .
+-
+-      - name: Copy image to server
+-        uses: appleboy/scp-action@v0.1.7
+-        with:
+-          host: ${{ secrets.SSH_HOST }}
+-          username: ${{ secrets.SSH_USERNAME }}
+-          password: ${{ secrets.SSH_PASSWORD }}
+-          source: golang_staging.tar.gz
+-          target: "/tmp"
+-
+-  build_and_test:
+-    runs-on: ubuntu-latest
+-    environment: staging
+-    env:
+-      TEST_USERNAME: postgres
+-      TEST_PASSWORD: password
+-      TEST_DB_NAME: db_name
+-      TEST_DB_HOST: localhost
+-      TEST_DB_PORT: 5432
+-      TEST_DB_CONNECTION: pgsql
+-      TEST_TIMEZONE: Africa/Lagos
+-      TEST_SSLMODE: disable
+-      TEST_MIGRATE: true
+-      REDIS_PORT: 6379
+-      REDIS_HOST: localhost
+-      REDIS_DB: 0
+-
+-    services:
+-      postgres:
+-        image: postgres:latest
+-        env:
+-          POSTGRES_USER: ${{ env.TEST_USERNAME }}
+-          POSTGRES_PASSWORD: ${{ env.TEST_PASSWORD }}
+-          POSTGRES_DB: ${{ env.TEST_DB_NAME }}
+-        ports:
+-          - 5432:5432
+-      redis:
+-        image: redis
+-        options: >-
+-          --health-cmd "redis-cli ping"
+-          --health-interval 10s
+-          --health-timeout 5s
+-          --health-retries 5
+-        ports:
+-          - 6379:6379
+-
+-    steps:
+-      - name: Checkout Code
+-        uses: actions/checkout@v4
+-      - name: Set Golang
+-        uses: actions/setup-go@v4
+-        with:
+-          go-version: "1.22.1"
+-      - name: Create app config file
+-        run: cp app-sample.env app.env
+-      - name: Build the application
+-        run: go build -o staging_app
+-      - name: Run the application
+-        run: nohup ./staging_app > /dev/null 2>&1 &
+-      - name: Wait for application to start
+-        run: |
+-          for i in {1..30}; do
+-            curl -s http://localhost:8019 && break
+-            sleep 1
+-          done
+-      - name: Run All Tests
+-        run: go test ./... -timeout 300s
+-
+-  deploy:
+-    runs-on: ubuntu-latest
+-    needs: build_and_test
+-    if: github.event_name == 'push'
+-    environment: staging
+-    env:
+-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-      SSH_HOST: ${{ secrets.SSH_HOST }}
+-      SSH_PORT: ${{ secrets.SSH_PORT }}
+-      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+-
+-    steps:
+-      - name: SSH into server and deploy
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ env.SSH_HOST }}
+-          username: ${{ env.SSH_USERNAME }}
+-          password: ${{ env.SSH_PASSWORD }}
+-          port: ${{ env.SSH_PORT }}
+-          script: |
+-            export APPROOT=~/deployments/staging
+-            mkdir -p $APPROOT
+-            cd $APPROOT
+-
+-            if [ -d "$APPROOT/.git" ]; then
+-              # Navigate to the repository directory and pull changes
+-              cd $APPROOT || { echo "Failed to navigate to web root directory"; exit 1; }
+-              git reset --hard HEAD || { echo "Failed to reset local changes"; exit 1; }
+-              git pull origin staging || { echo "Failed to pull latest changes"; exit 1; }
+-            else
+-              git clone -b staging https://github.com/${{ github.repository}} . || { echo "Failed to clone repository"; exit 1; }
+-            fi
+-
+-            bash ./scripts/deploy_app.sh staging https://github.com/${{ github.repository}} \
+-              SERVER_PORT=${{ secrets.SERVER_PORT }} \
+-              DB_NAME=${{ secrets.DB_NAME }} \
+-              USERNAME=${{ secrets.USERNAME }} \
+-              APP_NAME="staging" \
+-              APP_URL="https://staging.api-golang.boilerplate.hng.tech" \
+-              REDIS_PORT=${{ secrets.REDIS_PORT }} \
+-              REDIS_HOST=${{ secrets.REDIS_HOST }} \
+-              REDIS_DB="0" \
+-              GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+-              GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+-              FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }} \
+-              FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }} \
+-              SESSION_SECRET=${{ secrets.SESSION_SECRET }} \
+-              MAIL_SERVER=${{ secrets.MAIL_SERVER }} \
+-              MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
+-              MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
+-              MAIL_PORT=${{ secrets.MAIL_PORT }} \
+-              MIGRATE=true
+-
+-
+-  run_docker_container:
+-    runs-on: ubuntu-latest
+-    needs: upload_docker_image
+-    if: github.event.repository.fork == false && github.event_name == 'push'
+-    environment: staging
+-    env:
+-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-      SSH_HOST: ${{ secrets.SSH_HOST }}
+-      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+-
+-    steps:
+-      - name: Deploy on server
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ env.HOST }}
+-          username: ${{ env.USERNAME }}
+-          password: ${{ env.PASSWORD }}
+-          script: |
+-            gunzip -c /tmp/golang_staging.tar.gz | docker load
+-            rm -f /tmp/golang_staging.tar.gz
+-            cd ~/deployments/staging
+-            bash ./scripts/map_envs.sh app.env POSTGRES_USER=DB_USER POSTGRES_DB=DB_NAME POSTGRES_PASSWORD=PASSWORD
+-            docker compose -f docker-compose-staging.yml up -d
+\ No newline at end of file
+-- 
+2.47.3
+

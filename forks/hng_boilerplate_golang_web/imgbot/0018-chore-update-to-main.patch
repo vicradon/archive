@@ -1,0 +1,25 @@
+From 387d50562d4c90d1411003c26684038694820ee6 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 11 Aug 2024 10:04:06 +0100
+Subject: [PATCH] chore: update to main
+
+---
+ .github/workflows/dev-deploy.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index 6218a51..be7c5e8 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -48,7 +48,7 @@ jobs:
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+           SERVER_PORT: 4500
+-          DB_NAME: ${{ secrets.DB_NAME }}
++          DB_NAME: "some-db"
+           USERNAME: ${{ secrets.USERNAME }}
+           REDIS_PORT: ${{ secrets.REDIS_PORT }}
+           REDIS_HOST: ${{ secrets.REDIS_HOST }}
+-- 
+2.47.3
+

@@ -1,0 +1,53 @@
+From 3ca83a10e60f16356bc131fafb8f4da5f3aafefe Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Mon, 22 Jul 2024 13:55:35 +0100
+Subject: [PATCH] chore: add logs creation to workflow
+
+---
+ .github/workflows/development.yml | 2 +-
+ .github/workflows/production.yml  | 2 +-
+ .github/workflows/staging.yml     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/.github/workflows/development.yml b/.github/workflows/development.yml
+index cc68aff..3718b4b 100644
+--- a/.github/workflows/development.yml
++++ b/.github/workflows/development.yml
+@@ -48,7 +48,7 @@ jobs:
+       - name: Test for reachability
+         run: curl http://localhost:8019
+       - name: Create log file
+-        run: mkdir logs && mkdir logs/app.log
++        run: mkdir -p logs && touch logs/app.log
+       - name: Run All Tests
+         run: go test ./... -timeout 99999s
+ 
+diff --git a/.github/workflows/production.yml b/.github/workflows/production.yml
+index b795d5b..f530967 100644
+--- a/.github/workflows/production.yml
++++ b/.github/workflows/production.yml
+@@ -48,7 +48,7 @@ jobs:
+       - name: Test for reachability
+         run: curl http://localhost:8019
+       - name: Create log file
+-        run: mkdir logs && mkdir logs/app.log
++        run: mkdir -p logs && touch logs/app.log
+       - name: Run All Tests
+         run: go test ./... -timeout 99999s
+ 
+diff --git a/.github/workflows/staging.yml b/.github/workflows/staging.yml
+index ab8c856..dcf5120 100644
+--- a/.github/workflows/staging.yml
++++ b/.github/workflows/staging.yml
+@@ -48,7 +48,7 @@ jobs:
+       - name: Test for reachability
+         run: curl http://localhost:8019
+       - name: Create log file
+-        run: mkdir logs && mkdir logs/app.log
++        run: mkdir -p logs && touch logs/app.log
+       - name: Run All Tests
+         run: go test ./... -timeout 99999s
+ 
+-- 
+2.47.3
+

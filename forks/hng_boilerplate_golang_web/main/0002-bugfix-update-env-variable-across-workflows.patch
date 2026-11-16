@@ -1,0 +1,44 @@
+From 8310d960576e245e9ca497e7df39e724a1f11440 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Mon, 22 Jul 2024 12:26:02 +0100
+Subject: [PATCH] bugfix: update env variable across workflows
+
+---
+ .github/workflows/development.yml | 2 +-
+ .github/workflows/production.yml  | 2 +-
+ .github/workflows/staging.yml     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/.github/workflows/development.yml b/.github/workflows/development.yml
+index 10756b6..54166d9 100644
+--- a/.github/workflows/development.yml
++++ b/.github/workflows/development.yml
+@@ -86,4 +86,4 @@ jobs:
+               git clone -b dev https://github.com/${{ github.repository}} . || { echo "Failed to clone repository"; exit 1; }
+             fi
+ 
+-            bash ./scripts/deploy_app.sh development https://github.com/${{ github.repository}} SERVER_PORT=${{ env.SERVER_PORT }} DB_NAME=${{ env.DB_NAME }} USERNAME=${{ env.USERNAME }} APP_NAME=${{ env.APP_NAME }} APP_URL=${{ env.APP_URL }} MIGTRATE=true
++            bash ./scripts/deploy_app.sh development https://github.com/${{ github.repository}} SERVER_PORT=${{ env.SERVER_PORT }} DB_NAME=${{ env.DB_NAME }} USERNAME=${{ env.USERNAME }} APP_NAME=${{ env.APP_NAME }} APP_URL=${{ env.APP_URL }} MIGRATE=true
+diff --git a/.github/workflows/production.yml b/.github/workflows/production.yml
+index ff2d2b7..7e15a4f 100644
+--- a/.github/workflows/production.yml
++++ b/.github/workflows/production.yml
+@@ -86,4 +86,4 @@ jobs:
+               git clone -b main https://github.com/${{ github.repository}} . || { echo "Failed to clone repository"; exit 1; }
+             fi
+ 
+-            bash ./scripts/deploy_app.sh production https://github.com/${{ github.repository}} SERVER_PORT=${{ env.SERVER_PORT }} DB_NAME=${{ env.DB_NAME }} USERNAME=${{ env.USERNAME }} APP_NAME=${{ env.APP_NAME }} APP_URL=${{ env.APP_URL }} MIGTRATE=true
++            bash ./scripts/deploy_app.sh production https://github.com/${{ github.repository}} SERVER_PORT=${{ env.SERVER_PORT }} DB_NAME=${{ env.DB_NAME }} USERNAME=${{ env.USERNAME }} APP_NAME=${{ env.APP_NAME }} APP_URL=${{ env.APP_URL }} MIGRATE=true
+diff --git a/.github/workflows/staging.yml b/.github/workflows/staging.yml
+index 4f2d5a8..9f078bb 100644
+--- a/.github/workflows/staging.yml
++++ b/.github/workflows/staging.yml
+@@ -86,4 +86,4 @@ jobs:
+               git clone -b staging https://github.com/${{ github.repository}} . || { echo "Failed to clone repository"; exit 1; }
+             fi
+ 
+-            bash ./scripts/deploy_app.sh staging https://github.com/${{ github.repository}} SERVER_PORT=${{ env.SERVER_PORT }} DB_NAME=${{ env.DB_NAME }} USERNAME=${{ env.USERNAME }} APP_NAME=${{ env.APP_NAME }} APP_URL=${{ env.APP_URL }} MIGTRATE=true
++            bash ./scripts/deploy_app.sh staging https://github.com/${{ github.repository}} SERVER_PORT=${{ env.SERVER_PORT }} DB_NAME=${{ env.DB_NAME }} USERNAME=${{ env.USERNAME }} APP_NAME=${{ env.APP_NAME }} APP_URL=${{ env.APP_URL }} MIGRATE=true
+-- 
+2.47.3
+

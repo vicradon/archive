@@ -1,0 +1,26 @@
+From 88bcd1b0220ab7deb9dba288cc24365583cb75fe Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 9 Aug 2024 17:30:10 +0100
+Subject: [PATCH] chore: testing workflow
+
+---
+ .github/workflows/dev-deploy.yml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index 544fbf4..d55e866 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -73,7 +73,8 @@ jobs:
+ 
+   run_docker_container:
+     runs-on: ubuntu-latest
+-    needs: [build_and_upload_image, update_repo_and_create_env]
++    needs: [update_repo_and_create_env]
++    # needs: [build_and_upload_image, update_repo_and_create_env]
+     environment: development
+     env:
+       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-- 
+2.47.3
+

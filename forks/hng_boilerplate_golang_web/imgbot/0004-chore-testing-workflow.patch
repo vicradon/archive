@@ -1,0 +1,25 @@
+From 86a75a360ff85a5550b15ea5bf6a84e8a22a7388 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 9 Aug 2024 17:29:05 +0100
+Subject: [PATCH] chore: testing workflow
+
+---
+ .github/workflows/dev-deploy.yml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index 6c2fa75..65c7d9c 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -38,6 +38,8 @@ jobs:
+       SSH_HOST: ${{ secrets.SSH_HOST }}
+       SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+     steps:
++      - name: Checkout code
++        uses: actions/checkout@v4
+       - name: Create app.env file
+         uses: ./.github/actions/create-env-action/
+         with:
+-- 
+2.47.3
+

@@ -1,0 +1,75 @@
+From 1e48497edc38f7a09c09b5a738ac67a0d3193842 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 11 Aug 2024 09:39:34 +0100
+Subject: [PATCH] chore: update to main
+
+---
+ .github/workflows/dev-deploy.yml | 48 ++++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/.github/workflows/dev-deploy.yml b/.github/workflows/dev-deploy.yml
+index 706825e..6218a51 100644
+--- a/.github/workflows/dev-deploy.yml
++++ b/.github/workflows/dev-deploy.yml
+@@ -47,7 +47,7 @@ jobs:
+           action_output_file: "app.env"
+           APP_NAME: "development"
+           APP_URL: "https://deployment.api-golang.boilerplate.hng.tech"
+-          SERVER_PORT: ${{ secrets.SERVER_PORT }}
++          SERVER_PORT: 4500
+           DB_NAME: ${{ secrets.DB_NAME }}
+           USERNAME: ${{ secrets.USERNAME }}
+           REDIS_PORT: ${{ secrets.REDIS_PORT }}
+@@ -73,26 +73,26 @@ jobs:
+           source: app.env
+           target: "~/deployments/development"
+ 
+-  run_docker_container:
+-    runs-on: ubuntu-latest
+-    needs: [update_repo_and_create_env]
+-    # needs: [build_and_upload_image, update_repo_and_create_env]
+-    environment: development
+-    env:
+-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-      SSH_HOST: ${{ secrets.SSH_HOST }}
+-      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+-    steps:
+-      - name: Restart containers
+-        uses: appleboy/ssh-action@v1.0.3
+-        with:
+-          host: ${{ env.HOST }}
+-          username: ${{ env.USERNAME }}
+-          password: ${{ env.PASSWORD }}
+-          script: |
+-            cd ~/deployments/development
+-            git reset --hard
+-            git pull origin dev
+-            gunzip -c /tmp/golang_dev.tar.gz | docker load
+-            rm -f /tmp/golang_dev.tar.gz
+-            docker compose -f docker-compose.yml up -d
++  # run_docker_container:
++  #   runs-on: ubuntu-latest
++  #   needs: [update_repo_and_create_env]
++  #   # needs: [build_and_upload_image, update_repo_and_create_env]
++  #   environment: development
++  #   env:
++  #     SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
++  #     SSH_HOST: ${{ secrets.SSH_HOST }}
++  #     SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
++  #   steps:
++  #     - name: Restart containers
++  #       uses: appleboy/ssh-action@v1.0.3
++  #       with:
++  #         host: ${{ env.HOST }}
++  #         username: ${{ env.USERNAME }}
++  #         password: ${{ env.PASSWORD }}
++  #         script: |
++  #           cd ~/deployments/development
++  #           git reset --hard
++  #           git pull origin dev
++  #           gunzip -c /tmp/golang_dev.tar.gz | docker load
++  #           rm -f /tmp/golang_dev.tar.gz
++  #           docker compose -f docker-compose.yml up -d
+-- 
+2.47.3
+

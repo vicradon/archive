@@ -1,0 +1,53 @@
+From a41d1b59041a506bf18fc36d86cc07c354c3fe05 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Mon, 22 Jul 2024 12:40:36 +0100
+Subject: [PATCH] bugfix: update needs requirement
+
+---
+ .github/workflows/development.yml | 2 +-
+ .github/workflows/production.yml  | 2 +-
+ .github/workflows/staging.yml     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/.github/workflows/development.yml b/.github/workflows/development.yml
+index 9b7bbb1..2782388 100644
+--- a/.github/workflows/development.yml
++++ b/.github/workflows/development.yml
+@@ -52,7 +52,7 @@ jobs:
+ 
+   deploy:
+     runs-on: ubuntu-latest
+-    needs: test
++    needs: build_and_test
+     if: github.event_name == 'push'
+     env:
+       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+diff --git a/.github/workflows/production.yml b/.github/workflows/production.yml
+index 6b1b0e4..3f56c84 100644
+--- a/.github/workflows/production.yml
++++ b/.github/workflows/production.yml
+@@ -52,7 +52,7 @@ jobs:
+ 
+   deploy:
+     runs-on: ubuntu-latest
+-    needs: test
++    needs: build_and_test
+     if: github.event_name == 'push'
+     env:
+       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+diff --git a/.github/workflows/staging.yml b/.github/workflows/staging.yml
+index 98f2d1f..4e8fb18 100644
+--- a/.github/workflows/staging.yml
++++ b/.github/workflows/staging.yml
+@@ -52,7 +52,7 @@ jobs:
+ 
+   deploy:
+     runs-on: ubuntu-latest
+-    needs: test
++    needs: build_and_test
+     if: github.event_name == 'push'
+     env:
+       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+-- 
+2.47.3
+
