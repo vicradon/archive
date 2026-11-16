@@ -263,3 +263,4 @@
 | semgrep-jenkins-cicd-project | empty (no commits) | https://github.com/vicradon/semgrep-jenkins-cicd-project |  |  | 2022-03-22 |
 | season-of-docs | fork of google/season-of-docs (no own commits) | https://github.com/vicradon/season-of-docs | Supporting materials for Google's Season of Docs 2021 | https://developers.google.com/season-of-docs | 2022-03-09 |
 | playwright-react-app | repo | https://github.com/vicradon/playwright-react-app |  |  | 2022-03-03 |
+| adonis-quiz-api | repo | https://github.com/vicradon/adonis-quiz-api | An API for a Quiz API built with AdonisJS |  | 2022-02-26 |
