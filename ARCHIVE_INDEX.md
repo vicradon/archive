@@ -250,3 +250,4 @@
 | vulnerable-flask-app | repo | https://github.com/vicradon/vulnerable-flask-app | A flask web application with code injection and XSS attacks |  | 2022-04-18 |
 | technical-writing-portfolio | repo | https://github.com/vicradon/technical-writing-portfolio | A redirect to a notion page containing my technical writing portfolio | technical-writing-portfolio.vercel.app | 2022-04-11 |
 | handlebars-app | repo | https://github.com/vicradon/handlebars-app |  |  | 2022-04-10 |
+| live-todo | repo | https://github.com/vicradon/live-todo |  |  | 2022-04-08 |
