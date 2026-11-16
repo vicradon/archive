@@ -374,3 +374,4 @@
 | advanced-todo-app | repo | https://github.com/vicradon/advanced-todo-app | An advanced todo app with storage etc |  | 2020-03-10 |
 | gatsby | fork of gatsbyjs/gatsby (2 patches) | https://github.com/vicradon/gatsby | Build blazing fast, modern apps and websites with React | https://www.gatsbyjs.org | 2020-02-25 |
 | palindrome-checker | repo | https://github.com/vicradon/palindrome-checker | A palindrome checker which checks both words and sentences | https://vicradon.github.io/palindrome-checker/ | 2020-02-02 |
+| python-codes | repo | https://github.com/vicradon/python-codes | A repo containing all my python codes |  | 2020-02-01 |
