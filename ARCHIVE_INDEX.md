@@ -229,3 +229,4 @@
 | dsa-group | repo | https://github.com/vicradon/dsa-group | A repo with public solutions to Leetcode problems using Neetcode curriculum |  | 2022-07-31 |
 | gRPC-demo | repo | https://github.com/vicradon/gRPC-demo | A demo application in JavaScript for communicating with gRPC |  | 2022-07-18 |
 | linkedin-jobs-api-starter | repo | https://github.com/vicradon/linkedin-jobs-api-starter | A starter Node.js app for posting jobs to LinkedIn using the jobs API |  | 2022-07-18 |
+| crypto-forecast-with-bytewax | repo | https://github.com/vicradon/crypto-forecast-with-bytewax |  |  | 2022-07-11 |
