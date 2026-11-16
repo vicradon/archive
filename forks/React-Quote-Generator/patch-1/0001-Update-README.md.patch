@@ -1,0 +1,35 @@
+From 81564247c8cd8c885e46a0098a26c2530d9f8096 Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Tue, 22 Oct 2019 22:23:01 +0100
+Subject: [PATCH] Update README.md
+
+---
+ README.md | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/README.md b/README.md
+index e7f160c..d641736 100644
+--- a/README.md
++++ b/README.md
+@@ -1,10 +1,13 @@
+ # React-Quote-Generator
+ 
+-This is a react app that makes displays random quotes.
+-The link to this project  can be found here https://csb-eg456.netlify.com/
+-
++This is a react app that displays random quotes from an API.
++A live demo of the project can be found here https://csb-eg456.netlify.com/
+ 
++The following were used to develop the app:
++1. React
++2. Materialize CSS
++3. XHTTP
+ 
+ <!--stackedit_data:
+ eyJoaXN0b3J5IjpbMTY4Mzg2NTQzOV19
+--->
+\ No newline at end of file
++-->
+-- 
+2.47.3
+
