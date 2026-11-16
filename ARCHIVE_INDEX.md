@@ -243,3 +243,4 @@
 | Nest-App | fork of harblaith7/Node-App (4 patches) | https://github.com/vicradon/Nest-App |  |  | 2022-05-31 |
 | react-interview | repo | https://github.com/vicradon/react-interview |  | react-interview-chi.vercel.app | 2022-05-11 |
 | gdsc-imsu-nodejs-session | repo | https://github.com/vicradon/gdsc-imsu-nodejs-session |  |  | 2022-05-09 |
+| kafka-stream-processing-app | repo | https://github.com/vicradon/kafka-stream-processing-app |  |  | 2022-05-08 |
