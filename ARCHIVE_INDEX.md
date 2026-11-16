@@ -414,3 +414,4 @@
 | todo-backend-express | fork of dtao/todo-backend-express (no own commits) | https://github.com/vicradon/todo-backend-express | Node.js/Express implementation of the Todo-Backend API spec |  | 2019-01-23 |
 | markdown-to-medium-tool | fork of fanderzon/markdown-to-medium-tool (no own commits) | https://github.com/vicradon/markdown-to-medium-tool | A tool to convert markdown format to medium compatible html |  | 2017-02-05 |
 | loveui.love | fork of meric/loveui.love (no own commits) | https://github.com/vicradon/loveui.love | A GUI library for the lua game framework `love2d` |  | 2011-09-05 |
+| flutter_test | repo | https://github.com/vicradon/flutter_test | Prescient automation flutter test (Postman key redacted) |  | 2020-05-24 |
