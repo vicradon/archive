@@ -216,3 +216,4 @@
 | raspberrypi-demos | repo | https://github.com/vicradon/raspberrypi-demos | A repo containing circuit setup demos utilizing Raspberry PI GPIOs. |  | 2022-11-13 |
 | contoso-patient-registration | repo | https://github.com/vicradon/contoso-patient-registration | This repo contains the web and API for a form recognizer powered web app | contoso-patient-registration.vercel.app | 2022-11-13 |
 | stakefunds | repo | https://github.com/vicradon/stakefunds |  |  | 2022-11-12 |
+| Contoso-New-Patient-App | fork of Azure-Samples/azure-doc-intelligence-dynamic-models-patient (4 patches) | https://github.com/vicradon/Contoso-New-Patient-App |  |  | 2022-11-03 |
