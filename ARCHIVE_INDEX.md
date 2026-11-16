@@ -306,3 +306,4 @@
 | inventor-learning | empty (no commits) | https://github.com/vicradon/inventor-learning | Autodesk Inventor Practice Files |  | 2021-03-20 |
 | php-blog | repo | https://github.com/vicradon/php-blog | A multi-user blog like Medium built with PHP and MySQL.  |  | 2021-03-18 |
 | oppia | fork of oppia/oppia (no own commits) | https://github.com/vicradon/oppia | A free, online learning platform to make quality education accessible for all. | https://www.oppia.org | 2021-03-07 |
+| trotrolive | repo | https://github.com/vicradon/trotrolive |  |  | 2021-03-06 |
