@@ -248,3 +248,4 @@
 | airflow | fork of apache/airflow (no own commits) | https://github.com/vicradon/airflow | Apache Airflow - A platform to programmatically author, schedule, and monitor workflows | https://airflow.apache.org/ | 2022-05-01 |
 | katacoda-scenarios | repo | https://github.com/vicradon/katacoda-scenarios | Katacoda Scenarios | https://www.katacoda.com/vicradon | 2022-04-30 |
 | vulnerable-flask-app | repo | https://github.com/vicradon/vulnerable-flask-app | A flask web application with code injection and XSS attacks |  | 2022-04-18 |
+| technical-writing-portfolio | repo | https://github.com/vicradon/technical-writing-portfolio | A redirect to a notion page containing my technical writing portfolio | technical-writing-portfolio.vercel.app | 2022-04-11 |
