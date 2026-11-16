@@ -276,3 +276,4 @@
 | reviewing-a-pull-request | repo | https://github.com/vicradon/reviewing-a-pull-request |  | https://lab.github.com/githubtraining/reviewing-pull-requests | 2022-01-12 |
 | awesome-mecheng | fork of m2n037/awesome-mecheng (no own commits) | https://github.com/vicradon/awesome-mecheng | Awesome Mechanical Engineering Resources |  | 2021-11-17 |
 | foxit-text-to-speech-demo | repo | https://github.com/vicradon/foxit-text-to-speech-demo | This is a demo web application that integrates a Foxit PDF viewer that has text-to-speech functionality using the Read-Aloud browser API and Google Cloud text-to-speech service. |  | 2021-11-05 |
+| engineering-education | fork of section-engineering-education/engineering-education (no own commits) | https://github.com/vicradon/engineering-education | A community-generated pool of educational content which is useful for engineers of every level.  |  | 2021-11-03 |
