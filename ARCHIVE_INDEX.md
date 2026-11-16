@@ -48,3 +48,4 @@
 | RustAfricaEmbedded | fork of rust-edu/RustAfricaEmbedded (3 patches) | https://github.com/vicradon/RustAfricaEmbedded | Rust Africa Embedded course |  | 2025-09-10 |
 | exploring-the-math-of-thresholds | fork of tiemma/exploring-the-math-of-thresholds (1 patches) | https://github.com/vicradon/exploring-the-math-of-thresholds | Simulation work on how to define thresholds | https://blog.bakman.build/blogs/exploring-the-math-of-thresholds.html | 2025-09-03 |
 | about_students | fork of fbn2025/about_students (3 patches) | https://github.com/vicradon/about_students | A code repository designed to show the best GitHub has to offer. |  | 2025-08-27 |
+| brilliant-dot-org-style-lessons | repo | https://github.com/vicradon/brilliant-dot-org-style-lessons | A collections of web applications, aimed to mimic brilliant.org teaching style for new content.  |  | 2025-08-25 |
