@@ -94,3 +94,4 @@
 | pocketbase | fork of pocketbase/pocketbase (no own commits) | https://github.com/vicradon/pocketbase | Open Source realtime backend in 1 file | https://pocketbase.io | 2024-07-31 |
 | azure4everyone-samples | fork of MarczakIO/azure4everyone-samples (2 patches) | https://github.com/vicradon/azure4everyone-samples |  |  | 2024-07-27 |
 | devopsfetch | repo | https://github.com/vicradon/devopsfetch |  |  | 2024-07-24 |
+| golang_internet_clipboard | repo | https://github.com/vicradon/golang_internet_clipboard | This is a sample repo that has a golang application that requires access to a PostgreSQL database and a messaging queue |  | 2024-07-24 |
