@@ -221,3 +221,4 @@
 | summer-recruiting | repo | https://github.com/vicradon/summer-recruiting | This repo contains a list of companies recruiting in the summer |  | 2022-10-15 |
 | tic-tac-toe-1 | fork of vinuch/tic-tac-toe (1 patches) | https://github.com/vicradon/tic-tac-toe-1 | a tic tac toe game with javascript |  | 2022-10-05 |
 | color-guessing-game-redo | repo | https://github.com/vicradon/color-guessing-game-redo | A redo of the color guessing game. Without any tutorial | https://vicradon.github.io/color-guessing-game-redo/ | 2022-09-18 |
+| hygraph-knowledgebase | repo | https://github.com/vicradon/hygraph-knowledgebase | This is a repo containing a Next.js application that connects to Hygraph to display knowledgebase articles and FAQs. | hygraph-knowledgebase.vercel.app | 2022-09-02 |
