@@ -91,3 +91,4 @@
 | dora-exporter | fork of mprokopov/dora-exporter (no own commits) | https://github.com/vicradon/dora-exporter | Prometheus DORA exporter for GitHub (issues and deployments) metrics |  | 2024-08-13 |
 | create-env-action | repo | https://github.com/vicradon/create-env-action | A github action that creates an .env file |  | 2024-08-11 |
 | pr-deploy | fork of hngprojects/pr-deploy (no own commits) | https://github.com/vicradon/pr-deploy | A github action that deploys preview PRs from Dockerfiles |  | 2024-08-10 |
+| pocketbase | fork of pocketbase/pocketbase (no own commits) | https://github.com/vicradon/pocketbase | Open Source realtime backend in 1 file | https://pocketbase.io | 2024-07-31 |
