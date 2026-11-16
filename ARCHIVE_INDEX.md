@@ -127,3 +127,4 @@
 | firstbank-training-class-capstone | repo | https://github.com/vicradon/firstbank-training-class-capstone | Generative AI Capstone for FirstBank training |  | 2024-02-05 |
 | text-to-audio | repo | https://github.com/vicradon/text-to-audio | A Python app that allows you to convert text to audio |  | 2024-02-01 |
 | iac | repo | https://github.com/vicradon/iac | A repo containing Infrastructure as Code (Iac) scripts for different platforms |  | 2024-01-14 |
+| polls-api | repo | https://github.com/vicradon/polls-api | An API for a generic polls app |  | 2024-01-13 |
