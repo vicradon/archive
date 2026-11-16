@@ -261,3 +261,4 @@
 | wejapa-node-fs-tasks | repo | https://github.com/vicradon/wejapa-node-fs-tasks | WeJapa Internship Node filesystem tasks |  | 2022-03-27 |
 | igbo_api | fork of nkowaokwu/igbo_api (no own commits) | https://github.com/vicradon/igbo_api | An API exposing Igbo words, definitions, and more | https://igboapi.com | 2022-03-26 |
 | semgrep-jenkins-cicd-project | empty (no commits) | https://github.com/vicradon/semgrep-jenkins-cicd-project |  |  | 2022-03-22 |
+| season-of-docs | fork of google/season-of-docs (no own commits) | https://github.com/vicradon/season-of-docs | Supporting materials for Google's Season of Docs 2021 | https://developers.google.com/season-of-docs | 2022-03-09 |
