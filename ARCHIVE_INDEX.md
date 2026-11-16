@@ -199,3 +199,4 @@
 | build_for_sdgs | repo | https://github.com/vicradon/build_for_sdgs | A repo containing the assessments of the builg for sdgs challenge |  | 2023-01-06 |
 | tracetest | fork of kubeshop/tracetest (no own commits) | https://github.com/vicradon/tracetest | Tracetest - Generate end-to-end tests automatically from your traces. For QA, Dev, & Ops. | https://docs.tracetest.io/ | 2023-01-05 |
 | next-netlify | repo | https://github.com/vicradon/next-netlify | A next-netlify-cms demo | https://next-netlify.now.sh | 2023-01-05 |
+| jaffle_shop | fork of dbt-labs/jaffle-shop-classic (no own commits) | https://github.com/vicradon/jaffle_shop | A self-contained dbt project for testing purposes |  | 2023-01-04 |
