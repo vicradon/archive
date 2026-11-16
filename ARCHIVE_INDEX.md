@@ -115,3 +115,4 @@
 | Stirling-PDF | fork of Stirling-Tools/Stirling-PDF (no own commits) | https://github.com/vicradon/Stirling-PDF | #1 Locally hosted web application that allows you to perform various operations on PDF files |  | 2024-05-06 |
 | Contoso-New-Patient-Assets | fork of newpatiente2e/Contoso-New-Patient-Assets (no own commits) | https://github.com/vicradon/Contoso-New-Patient-Assets |  |  | 2024-04-22 |
 | engineering-blog | repo | https://github.com/vicradon/engineering-blog | A blog about Engineering  | engineering-blog-amber.vercel.app | 2024-04-22 |
+| pytorch-transformer-distributed | fork of hkproj/pytorch-transformer-distributed (no own commits) | https://github.com/vicradon/pytorch-transformer-distributed | Distributed training (multi-node) of a Transformer model | https://www.youtube.com/watch?v=toUSzwR0EV8 | 2024-04-10 |
