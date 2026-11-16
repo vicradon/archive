@@ -130,3 +130,4 @@
 | polls-api | repo | https://github.com/vicradon/polls-api | An API for a generic polls app |  | 2024-01-13 |
 | network-tools | repo | https://github.com/vicradon/network-tools | A repo containing Python and Javascript network scripts and tools |  | 2024-01-12 |
 | cisco-packet-tracer-labs | repo | https://github.com/vicradon/cisco-packet-tracer-labs | Labs and demos for Cisco Packet Tracer |  | 2024-01-08 |
+| anon-msg-app | repo | https://github.com/vicradon/anon-msg-app | An app that allows folks to share anonymous messages to friends and have full-control of their data | https://anon-msg-app.vercel.app | 2023-12-21 |
