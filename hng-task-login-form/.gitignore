@@ -1,0 +1,10 @@
+node_modules/
+/npm-debug.log
+.DS_Store
+.cache
+yarn-error.log
+yarn.lock
+dist
+# js/firebase-stuff.js
+
+bugs.md

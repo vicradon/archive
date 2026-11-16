@@ -1,0 +1,91 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Stuff | Local Forage</title>
+  <link type="text/css" rel="stylesheet" href="./css/style.css">
+  <link type="text/css" rel="stylesheet" href="./css/utils.css">
+  <link type="text/css" rel="stylesheet" href="./css/keyframes.css">
+
+  <style>
+    .post-form {
+      width: 400px;
+      display: grid;
+      row-gap: 1rem;
+    }
+
+    .add-post {
+      display: flex;
+      margin: 1rem 0;
+      justify-content: center;
+    }
+
+    .enter-content {
+      min-height: 7rem;
+    }
+
+    .request-post {
+      display: grid;
+      row-gap: 1rem;
+    }
+
+    .container {
+      display: grid;
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a class="enter-post" href='/'>Enter Post</a>
+    <p id="current-user-display-name"></p>
+    <p id="logout">logout</p>
+  </nav>
+  <main class="index-main">
+    <div class="container">
+
+      <div class="add-post">
+
+        <div class="post-form">
+          <h2 class="enter-post">Enter Post</h2>
+
+          <input value="Lorem Ipsum" class="enter-title" type="text" placeholder="enter title">
+          <textarea class="enter-content" name="" id=""
+            placeholder="enter content">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odio, magni?</textarea>
+          <button class="submit-post">Submit</button>
+          <button class="update-post">Update</button>
+        </div>
+      </div>
+
+      <div class="posts">
+        <div class="no-post-yet">
+          <h3>No Post Yet</h3>
+        </div>
+        <div class="normal-post-flow">
+          
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div id="snackbar"></div>
+
+  <div id="loader">
+    <p style="text-align: center;">Please, wait a moment <br>while we fetch your posts</p>
+    <div class="sk-folding-cube">
+      <div class="sk-cube1 sk-cube"></div>
+      <div class="sk-cube2 sk-cube"></div>
+      <div class="sk-cube4 sk-cube"></div>
+      <div class="sk-cube3 sk-cube"></div>
+    </div>
+  </div>
+
+
+  <script type="text/javascript" src="./js/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>HNG Challenge 1 | Better Crumbs</title>
+  <link type="text/css" rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+  <section id="login" class="login">
+    <h1>Login to Better Crumbs</h1>
+    <form id="login-form" class="form" method="post" action="">
+      <p><input type="text" name="username" id="login-email" value="" placeholder="Username or Email"></p>
+      <p><input id="login-password" type="password" name="password" value="" placeholder="Password"></p>
+      <p class="remember_me">
+        <label>
+          <input type="checkbox" name="remember_me" id="remember_me">
+          Remember me!
+        </label>
+      </p>
+    </form>
+    <p class="submit"><button id="login-button">Login</button></p>
+    <a class="continue-to-app" href="./app/index.html"><button>Continue</button></a>
+  </section>
+  
+  <section id="signup" class="login">
+    <h1>Sign Up to Better Crumbs</h1>
+    <form id="signup-form" class="form" method="post" action="">
+      <p><input type="text" id="signup-username" name="username" value="" placeholder="Choose a username"></p>
+      <p><input type="email" name="email" id="signup-email" value="" placeholder="Your Email"></p>
+      <p><input type="password" id="signup-password" name="password" value="" placeholder="Choose a Password"></p>
+      <p><input type="password" id="signup-re-password" name="password" value="" placeholder="Retype Password"></p>
+    </form>
+    <p class="submit"><button id="signup-button">Sign Up</button></p>
+    <a class="continue-to-app" href="./app/index.html"><button>Continue</button></a>
+  </section>
+
+  <section id="reset-password-page" class="login">
+    <h1>Reset Password</h1>
+    <p>We would send you a mail with the reset link</p>
+    <form id="reset-password-form" class="form" method="post" action="">
+      <p><input type="email" name="email" id="reset-email" value="" placeholder="Your Email"></p>
+    </form>
+    <p class="submit"><button id="reset-password-button">Send Mail</button></p>
+  </section>
+
+  <div class="login-help">
+    <p id="forgot-password">Forgot your password? <a href="#">Click here to reset it</a>.</p>
+    <p id="click-to-signup">Not a member yet? <a href="#">Click here to sign up</a>.</p>
+    <p id="click-to-login">Already a member? <a href="#">Click here to login</a>.</p>
+  </div>
+
+
+  <div id="success">Sign&nbsp;Up&nbsp;Successful</div>
+
+  <script type="text/javascript" src="./js/auth.js"></script>
+</body>
+
+</html>
