@@ -384,3 +384,4 @@
 | redux-site | repo | https://github.com/vicradon/redux-site | A remake of Redux Starter Kit Site | https://vicradon.github.io/redux-site/ | 2020-01-17 |
 | reduxify | repo | https://github.com/vicradon/reduxify | A PWA from learning Redux | https://reduxified.netlify.com/ | 2020-01-17 |
 | test-repo | fork of MIQSadmin/test-repo (no own commits) | https://github.com/vicradon/test-repo | Just a repository for testing things |  | 2020-01-09 |
+| hng-task-login-form | repo | https://github.com/vicradon/hng-task-login-form | The first task of the 2019  HNG internship. | https://vicradon.github.io/hng-task-login-form/ | 2020-01-01 |
