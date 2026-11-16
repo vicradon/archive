@@ -57,3 +57,4 @@
 | SelfAdaptiveAgent | fork of cedlinx/SelfAdaptiveAgent- (4 patches) | https://github.com/vicradon/SelfAdaptiveAgent | Self Adaptive Identification Verification Agentic AI built with C#, Azure OpenAI, Azure Functions |  | 2025-05-30 |
 | AIAdaptiveVerification | fork of alaswadiyy/AIAdaptiveVerification (no own commits) | https://github.com/vicradon/AIAdaptiveVerification | backend repo |  | 2025-05-30 |
 | chess-agent-a2a | repo | https://github.com/vicradon/chess-agent-a2a |  |  | 2025-05-23 |
+| terminalchat | repo | https://github.com/vicradon/terminalchat | A simple Rust program that facilitates system-wide chat between users |  | 2025-05-14 |
