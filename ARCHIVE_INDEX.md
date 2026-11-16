@@ -270,3 +270,4 @@
 | elixir-app | empty (no commits) | https://github.com/vicradon/elixir-app |  |  | 2022-01-31 |
 | elixir-demo | empty (no commits) | https://github.com/vicradon/elixir-demo |  |  | 2022-01-31 |
 | cube-echarts-backend | repo | https://github.com/vicradon/cube-echarts-backend | The backend for an article with Cube and Echarts |  | 2022-01-31 |
+| first-near-nft | empty (no commits) | https://github.com/vicradon/first-near-nft | NFT on the NEAR protocol |  | 2022-01-29 |
