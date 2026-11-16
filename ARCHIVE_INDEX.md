@@ -339,3 +339,4 @@
 | todofy | repo | https://github.com/vicradon/todofy | A PWA ToDo app as part of the LIPE tasks | https://todofy.netlify.app/ | 2020-09-09 |
 | node-basics | repo | https://github.com/vicradon/node-basics | A bunch of node basics |  | 2020-09-03 |
 | netty-finder | fork of BolajiAyodeji/netty-finder (no own commits) | https://github.com/vicradon/netty-finder | This script checks a Nigerian telephone number and detects which network it belongs to | https://netty-finder.netlify.com | 2020-08-28 |
+| linear-vs-binary-search | repo | https://github.com/vicradon/linear-vs-binary-search | A script that compares linear and binary search algorithms |  | 2020-08-17 |
