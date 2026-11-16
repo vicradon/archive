@@ -126,3 +126,4 @@
 | Graph_FS | fork of Valentine-Mario/Graph_FS (no own commits) | https://github.com/vicradon/Graph_FS | A GraphQL client for interfacing with the filesystem |  | 2024-02-06 |
 | firstbank-training-class-capstone | repo | https://github.com/vicradon/firstbank-training-class-capstone | Generative AI Capstone for FirstBank training |  | 2024-02-05 |
 | text-to-audio | repo | https://github.com/vicradon/text-to-audio | A Python app that allows you to convert text to audio |  | 2024-02-01 |
+| iac | repo | https://github.com/vicradon/iac | A repo containing Infrastructure as Code (Iac) scripts for different platforms |  | 2024-01-14 |
