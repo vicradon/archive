@@ -224,3 +224,4 @@
 | hygraph-knowledgebase | repo | https://github.com/vicradon/hygraph-knowledgebase | This is a repo containing a Next.js application that connects to Hygraph to display knowledgebase articles and FAQs. | hygraph-knowledgebase.vercel.app | 2022-09-02 |
 | resumake.io | fork of saadq/resumake.io (2 patches) | https://github.com/vicradon/resumake.io | 📝 A website for automatically generating elegant LaTeX resumes. | https://resumake.io | 2022-08-20 |
 | mire-frontend | repo | https://github.com/vicradon/mire-frontend |  | mire-five.vercel.app | 2022-08-14 |
+| mire-backend | repo | https://github.com/vicradon/mire-backend | The backend of the Mire FX to ENaira app |  | 2022-08-11 |
