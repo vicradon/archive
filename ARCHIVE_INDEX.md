@@ -179,3 +179,4 @@
 | greedy-hunter-typescript | repo | https://github.com/vicradon/greedy-hunter-typescript | The typescript version of the greedy hunter game built with Next.js | greedy-hunter-typescript.vercel.app | 2023-02-28 |
 | linker-game | repo | https://github.com/vicradon/linker-game | A game where you have to link fishes to earn points |  | 2023-02-24 |
 | sendchamp-pricing | repo | https://github.com/vicradon/sendchamp-pricing | The pricing page of the Sendchamp website | https://sendchamp-pricing.vercel.app | 2023-02-22 |
+| platformer-game | repo | https://github.com/vicradon/platformer-game | A defold platformer game |  | 2023-02-19 |
