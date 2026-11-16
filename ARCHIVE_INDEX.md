@@ -352,3 +352,4 @@
 | Team_Titans_BackEnd_Js | repo | https://github.com/vicradon/Team_Titans_BackEnd_Js |  |  | 2020-06-10 |
 | HNGi7_Titans_Task2 | fork of team-titians/HNGi7_Titans_Task2 (no own commits) | https://github.com/vicradon/HNGi7_Titans_Task2 |  |  | 2020-06-03 |
 | osinachi | repo | https://github.com/vicradon/osinachi | HNGi7 Task 1 |  | 2020-06-01 |
+| coursefidence | repo | https://github.com/vicradon/coursefidence | The coursefidence app which helps you log your confidence level in your courses |  | 2020-06-01 |
