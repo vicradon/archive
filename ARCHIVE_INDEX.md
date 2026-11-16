@@ -135,3 +135,4 @@
 | object-tracking-yolov8-deep-sort | fork of computervisioneng/object-tracking-yolov8-deep-sort (no own commits) | https://github.com/vicradon/object-tracking-yolov8-deep-sort |  |  | 2023-12-19 |
 | Azure-Storage-Project | fork of Evangel2020/Azure-Storage-Project (no own commits) | https://github.com/vicradon/Azure-Storage-Project |  |  | 2023-12-15 |
 | yolov8 | repo | https://github.com/vicradon/yolov8 |  |  | 2023-12-11 |
+| notebooks | fork of roboflow/notebooks (no own commits) | https://github.com/vicradon/notebooks | Examples and tutorials on using SOTA computer vision models and techniques. Learn everything from old-school ResNet, through YOLO and object-detection transformers like DETR, to the latest models like Grounding DINO and SAM. | https://roboflow.com/models | 2023-11-27 |
