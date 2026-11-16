@@ -68,3 +68,4 @@
 | crewAI | fork of crewAIInc/crewAI (1 patches) | https://github.com/vicradon/crewAI | Framework for orchestrating role-playing, autonomous AI agents. By fostering collaborative intelligence, CrewAI empowers agents to work together seamlessly, tackling complex tasks. | https://crewai.com | 2025-01-31 |
 | fileserver | repo | https://github.com/vicradon/fileserver | A simple fileserver that runs in a local network |  | 2025-01-19 |
 | cerbos-flask-authorization | repo | https://github.com/vicradon/cerbos-flask-authorization | A demo Flask blog API that integrates authorization with Cerbos  |  | 2025-01-05 |
+| golang-wasm-demo | repo | https://github.com/vicradon/golang-wasm-demo | A demo application for adding numbers using a wasm binary | https://vicradon.github.io/golang-wasm-demo/ | 2024-12-17 |
