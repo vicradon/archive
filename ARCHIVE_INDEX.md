@@ -106,3 +106,4 @@
 | servicebusdemos | repo | https://github.com/vicradon/servicebusdemos |  |  | 2024-06-30 |
 | imageprocessor | repo | https://github.com/vicradon/imageprocessor |  |  | 2024-06-29 |
 | user-info-site | repo | https://github.com/vicradon/user-info-site | A simple static website |  | 2024-06-28 |
+| flask_blog | repo | https://github.com/vicradon/flask_blog | A simple blog built with flask for demo purposes |  | 2024-06-22 |
