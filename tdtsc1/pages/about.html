@@ -1,0 +1,113 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  <title>Vicradon Portfolio Website | About</title>
+  <style>
+    .vicradon {
+      padding-left: 3vw !important;
+    }
+
+    body {
+      background-color: #ddd;
+    }
+
+    @media (max-width: 400px) {
+      .separate-connections a {
+        margin: 0.2em 0 0.2em 15vw !important;
+      }
+
+      #footer {
+        position: absolute;
+        width: 100%;
+        padding: 20px;
+        top: 120vh;
+      }
+    }
+
+    .separate-connections a {
+      margin-bottom: 0.8em !important;
+    }
+
+    #footer {
+      position: absolute;
+      width: 100%;
+      padding: 20px;
+      top: 90%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-wrapper blue darken-2">
+      <a href="#!" class="brand-logo vicradon">Vicradon</a>
+      <a href="#" data-target="side-menu" class="sidenav-trigger">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down ">
+        <li><a href="../index.html">HOME</a></li>
+        <li><a href="#!">ABOUT</a></li>
+        <li><a href="./hire.html">HIRE</a></li>
+        <li><a href="./add.html">ADD</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="side-menu">
+    <li><a href="/">HOME</a></li>
+    <li><a href="#!">ABOUT</a></li>
+    <li><a href="./hire.html">HIRE</a></li>
+    <li><a href="./add.html">ADD</a></li>
+  </ul>
+
+
+  <section class="container section">
+    <div class="row">
+      <div id="card_id" class="col s12 card">
+        <div class="card-content">
+          <p class="card-title flow-text">About Me</p>
+          <p class="flow-text">
+            I am a proffesional goal oriented person who loves coding and writing.
+          </p>
+        </div>
+        <div id="card_action" class="card-action separate-connections">
+          <h4>Connect</h4>
+          <a style="margin: 0 1.5vw" href="https://www.linkedin.com/in/victor-chukwujama-294087179"
+            class="btn btn-small btn-floating blue darken-2"><i class="fab fa-linkedIn"></i>
+          </a>
+          <a style="margin: 0 1.5vw" href="https://mobile.twitter.com/ChukwujamaV"
+            class="btn blue darken-2 btn btn-small btn-floating"><i class="fab fa-twitter"></i>
+          </a>
+          <a style="margin: 0 1.5vw" href="vicraph7@gmail.com" class="btn blue darken-2 btn btn-small btn-floating"><i
+              class="fa fa-envelope"></i>
+          </a>
+          <a style="margin: 0 1.5vw" href="dev.to/vicradon" class="btn blue darken-2 btn btn-small btn-floating"><i
+              class="fab fa-dev"></i></a>
+          <a style="margin: 0 1.5vw" href="medium.com/vicradon" class="btn blue darken-2 btn btn-small btn-floating"><i
+              class="fab fa-medium"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer id='footer' class="blue center flow-text page-footer darken-4">
+    &copy; 2019 Vicradon
+  </footer>
+
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav();
+    });
+  </script>
+</body>
+
+</html>
