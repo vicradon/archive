@@ -408,3 +408,4 @@
 | Daily-UI-005 | repo | https://github.com/vicradon/Daily-UI-005 | Daily UI 005 | https://vicradon.github.io/Daily-UI-005/ | 2019-08-15 |
 | Daily-UI-004 | repo | https://github.com/vicradon/Daily-UI-004 | Daily UI 004 | https://vicradon.github.io/Daily-UI-004/ | 2019-08-15 |
 | Daily-UI-003 | repo | https://github.com/vicradon/Daily-UI-003 | Daily UI 003 | https://vicradon.github.io/Daily-UI-003/ | 2019-08-13 |
+| Daily-UI-002 | repo | https://github.com/vicradon/Daily-UI-002 | Daily UI 002 | https://vicradon.github.io/Daily-UI-002/ | 2019-08-12 |
