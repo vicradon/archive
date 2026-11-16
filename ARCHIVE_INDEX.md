@@ -147,3 +147,4 @@
 | HNG_Video_Api | fork of chimaobi-okite/HNG_Video_Api (3 patches) | https://github.com/vicradon/HNG_Video_Api |  |  | 2023-10-02 |
 | HelpMeOut | empty (no commits) | https://github.com/vicradon/HelpMeOut | HelpMeOut Chrome Extension |  | 2023-10-01 |
 | livevideo-ws-api | empty (no commits) | https://github.com/vicradon/livevideo-ws-api | An API for streaming live video to |  | 2023-09-30 |
+| pay-me-a-river-remastered | repo | https://github.com/vicradon/pay-me-a-river-remastered |  |  | 2023-09-30 |
