@@ -1,0 +1,41 @@
+From 024de4398fbd5f57f3337d3ed8d0bf1f280a710a Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Thu, 31 Dec 2020 14:35:08 +0100
+Subject: [PATCH] chore: set up express discorder
+
+---
+ code/express-discorder/.env.example => .env.example           | 0
+ code/express-discorder/.gitignore => .gitignore               | 0
+ code/express-discorder/package-lock.json => package-lock.json | 0
+ code/express-discorder/package.json => package.json           | 0
+ code/express-discorder/server.js => server.js                 | 0
+ 5 files changed, 0 insertions(+), 0 deletions(-)
+ rename code/express-discorder/.env.example => .env.example (100%)
+ rename code/express-discorder/.gitignore => .gitignore (100%)
+ rename code/express-discorder/package-lock.json => package-lock.json (100%)
+ rename code/express-discorder/package.json => package.json (100%)
+ rename code/express-discorder/server.js => server.js (100%)
+
+diff --git a/code/express-discorder/.env.example b/.env.example
+similarity index 100%
+rename from code/express-discorder/.env.example
+rename to .env.example
+diff --git a/code/express-discorder/.gitignore b/.gitignore
+similarity index 100%
+rename from code/express-discorder/.gitignore
+rename to .gitignore
+diff --git a/code/express-discorder/package-lock.json b/package-lock.json
+similarity index 100%
+rename from code/express-discorder/package-lock.json
+rename to package-lock.json
+diff --git a/code/express-discorder/package.json b/package.json
+similarity index 100%
+rename from code/express-discorder/package.json
+rename to package.json
+diff --git a/code/express-discorder/server.js b/server.js
+similarity index 100%
+rename from code/express-discorder/server.js
+rename to server.js
+-- 
+2.47.3
+
