@@ -349,3 +349,4 @@
 | sentry-my-customer-backend | fork of ekpono/sentry-my-customer-backend (no own commits) | https://github.com/vicradon/sentry-my-customer-backend |  |  | 2020-06-25 |
 | algorithmic-challenges | repo | https://github.com/vicradon/algorithmic-challenges | A repo containing algorithmic solutions to algorithmic problems |  | 2020-06-24 |
 | auth-microapi | fork of microapidev/auth-microapi (1 patches) | https://github.com/vicradon/auth-microapi |  |  | 2020-06-17 |
+| Team_Titans_BackEnd_Js | repo | https://github.com/vicradon/Team_Titans_BackEnd_Js |  |  | 2020-06-10 |
