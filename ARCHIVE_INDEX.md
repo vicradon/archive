@@ -225,3 +225,4 @@
 | resumake.io | fork of saadq/resumake.io (2 patches) | https://github.com/vicradon/resumake.io | 📝 A website for automatically generating elegant LaTeX resumes. | https://resumake.io | 2022-08-20 |
 | mire-frontend | repo | https://github.com/vicradon/mire-frontend |  | mire-five.vercel.app | 2022-08-14 |
 | mire-backend | repo | https://github.com/vicradon/mire-backend | The backend of the Mire FX to ENaira app |  | 2022-08-11 |
+| catkin_ws | repo | https://github.com/vicradon/catkin_ws | ROS workspace for all my ROS projects |  | 2022-08-02 |
