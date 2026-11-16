@@ -244,3 +244,4 @@
 | react-interview | repo | https://github.com/vicradon/react-interview |  | react-interview-chi.vercel.app | 2022-05-11 |
 | gdsc-imsu-nodejs-session | repo | https://github.com/vicradon/gdsc-imsu-nodejs-session |  |  | 2022-05-09 |
 | kafka-stream-processing-app | repo | https://github.com/vicradon/kafka-stream-processing-app |  |  | 2022-05-08 |
+| SATechnicalOnboarding | fork of microsoft/SATechnicalOnboarding (4 patches) | https://github.com/vicradon/SATechnicalOnboarding | This is a repo for the Microsoft Learn Student Ambassador Technical Onboarding Process.  |  | 2022-05-02 |

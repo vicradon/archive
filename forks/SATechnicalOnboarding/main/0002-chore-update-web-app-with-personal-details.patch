@@ -1,0 +1,229 @@
+From ecd9703df7d343a8d3ed5590b8391bea4f3cedf9 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Wed, 12 Jan 2022 09:55:00 +0100
+Subject: [PATCH] chore: update web app with personal details
+
+---
+ src/index.html | 203 +++++++++++++++++++++++++++----------------------
+ 1 file changed, 112 insertions(+), 91 deletions(-)
+
+diff --git a/src/index.html b/src/index.html
+index dec4531..5a7eb6d 100644
+--- a/src/index.html
++++ b/src/index.html
+@@ -1,99 +1,120 @@
+ <!DOCTYPE html>
+ <html lang="en">
+-<head>
+-    <meta charset="UTF-8">
+-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++  <head>
++    <meta charset="UTF-8" />
++    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>Resume</title>
+ 
+-    <link rel="stylesheet" href="style.css">
+-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+-</head>
+-<body>
++    <link rel="stylesheet" href="style.css" />
++    <link
++      rel="stylesheet"
++      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
++    />
++  </head>
++  <body>
+     <main>
+-        <article class="box">
+-            <h1>Your Name</h1>
+-            <div><a href="mailto:your.email@example.com">your-email@example.com</a></div>
+-            
+-            <section class="box">
+-                <h2>
+-                    <i class="fa fa-bullhorn" aria-hidden="true"></i>
+-                    Social media
+-                </h2>
+-                <ul>
+-                    <li><a href="https://github.com/<handle>">@github_handle</a></li>
+-                    <li><a href="https://linkedin.com/in/<handle>">@linkedin_handle</a></li>
+-                    <li><a href="https://twitter.com/<handle>">@twitter_handle</a></li>
+-                </ul>    
+-            </section>
+-            
+-            <section class="box">
+-                <div class="education">
+-                    <h2>
+-                        <i class="fa fa-certificate" aria-hidden="true"></i>
+-                        School name
+-                    </h2>
+-                    <h3>Major</h3>
+-                    <ul>
+-                        <li>GPA: 4.0</li>
+-                        <li>Years</li>
+-                    </ul>
+-                </div>
+-            </section>
++      <article class="box">
++        <h1>Your Name</h1>
++        <div>
++          <a href="mailto:your.email@example.com"
++            >chukwujama.osinachi@studentambassadors.com</a
++          >
++        </div>
+ 
+-            <section class="box">
+-                <h2>
+-                    <i class="fa fa-check" aria-hidden="true"></i>
+-                    Skills
+-                </h2>
+-                <ul>
+-                    <li>CSS</li>
+-                    <li>HTML</li>
+-                    <li>JavaScript</li>
+-                    <li>Git</li>
+-                    <li>Visual Studio Code</li>
+-                </ul>
+-            </section>
+-        </article>
+-        <article class="box">
+-            <section class="box">
+-                <h2>
+-                    <i class="fa fa-briefcase" aria-hidden="true"></i>
+-                    Experience
+-                </h2>
+-                <h3>Microsoft Learn Student Ambassador</h3>
+-                <ul>
+-                    <li>Some skill</li>
+-                    <li>Another skill</li>
+-                </ul>
+-            </section>
+-            <section class="box">
+-                <h2>
+-                    <i class="fa fa-building" aria-hidden="true"></i>
+-                    Internships
+-                </h2>
++        <section class="box">
++          <h2>
++            <i class="fa fa-bullhorn" aria-hidden="true"></i>
++            Social media
++          </h2>
++          <ul>
++            <li>
++              <i class="fa fa-github" aria-hidden="true"></i>
+ 
+-                <h3>Company name</h3>
+-                <ul>
+-                    <li>Accomplishment</li>
+-                    <li>Another accomplishment</li>
+-                </ul>
+-            </section>
+-            <section class="box">
+-                <h2>
+-                    <i class="fa fa-cubes" aria-hidden="true"></i>
+-                    Projects
+-                </h2>
+-                
+-                <h3>Great hackathon</h3>
+-                <div>This was a great hack!</div>
+-                <ul>
+-                    <li>Cool technology used</li>
+-                    <li>Prize won</li>
+-                </ul>
+-            </section>
+-        </article>
+-    
++              <a href="https://github.com/vicradon">Github</a>
++            </li>
++            <li>
++              <i class="fa fa-linkedin" aria-hidden="true"></i>
++
++              <a href="https://linkedin.com/in/chukwujama-osinachi">LinkedIn</a>
++            </li>
++            <li>
++              <i class="fa fa-twitter" aria-hidden="true"></i>
++
++              <a href="https://twitter.com/vicradon">Twitter</a>
++            </li>
++          </ul>
++        </section>
++
++        <section class="box">
++          <div class="education">
++            <h2>
++              <i class="fa fa-certificate" aria-hidden="true"></i>
++              Federal University of Technology Owerri
++            </h2>
++            <h3>Mechanical Engineering</h3>
++            <ul>
++              <li>GPA: 4.5</li>
++              <li>Years: 5</li>
++            </ul>
++          </div>
++        </section>
++
++        <section class="box">
++          <h2>
++            <i class="fa fa-check" aria-hidden="true"></i>
++            Skills
++          </h2>
++          <ul>
++            <li>Web Development</li>
++            <li>Technical Writing</li>
++            <li>Product Design</li>
++          </ul>
++        </section>
++      </article>
++      <article class="box">
++        <section class="box">
++          <h2>
++            <i class="fa fa-briefcase" aria-hidden="true"></i>
++            Experience
++          </h2>
++          <h3>Microsoft Learn Student Ambassador</h3>
++          <ul>
++            <li>Public Speaking</li>
++            <li>Program Management</li>
++          </ul>
++        </section>
++        <section class="box">
++          <h2>
++            <i class="fa fa-building" aria-hidden="true"></i>
++            Internships
++          </h2>
++
++          <h3>Patricia Technologies Ltd</h3>
++          <ul>
++            <li>
++              Worked on internal tools for payment processing, relieving the
++              stress of manual payment log checking.
++            </li>
++            <li>
++              Handled development and deployment tasks of the payment processing
++              tool.
++            </li>
++          </ul>
++        </section>
++        <section class="box">
++          <h2>
++            <i class="fa fa-cubes" aria-hidden="true"></i>
++            Projects
++          </h2>
++
++          <h3>Swag GP</h3>
++          <div>A CGPA Calculator for College Students!</div>
++          <ul>
++            <li>Used React.js on the frontend</li>
++          </ul>
++        </section>
++      </article>
+     </main>
+-</body>
+-</html>
+\ No newline at end of file
++  </body>
++</html>
+-- 
+2.47.3
+

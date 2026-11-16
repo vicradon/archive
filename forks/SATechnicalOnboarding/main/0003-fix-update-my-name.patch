@@ -1,0 +1,25 @@
+From 8b7cff72f50af032e6bc8430b18c69bdcc8dfd3d Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Wed, 12 Jan 2022 09:58:46 +0100
+Subject: [PATCH] fix: update my name
+
+---
+ src/index.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/index.html b/src/index.html
+index 5a7eb6d..1c80571 100644
+--- a/src/index.html
++++ b/src/index.html
+@@ -15,7 +15,7 @@
+   <body>
+     <main>
+       <article class="box">
+-        <h1>Your Name</h1>
++        <h1>Osinachi Chukwujama</h1>
+         <div>
+           <a href="mailto:your.email@example.com"
+             >chukwujama.osinachi@studentambassadors.com</a
+-- 
+2.47.3
+
