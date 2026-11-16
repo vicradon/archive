@@ -1,0 +1,179 @@
+body {
+  background-color: #ddd;
+}
+
+nav {
+  display: flex;
+  background-color: rgb(102, 102, 102);
+  color: #fff;
+  justify-content: space-between;
+}
+
+.nav-items {
+  display: flex;
+}
+
+
+.settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.settings button {
+  height: 70%;
+  width: 30%;
+  font-size: 0.7em;
+}
+
+nav * {
+  padding: 0 2vw;
+}
+
+.nav-menu {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.719);
+  position: absolute;
+  width: 100%;
+  height:auto;
+  overflow: auto;
+  z-index:50;
+  right:0;
+  top: 0;
+  text-align: center;
+}
+.nav-menu-info, #settings {
+  font-size: 2em; 
+}
+.nav-menu-settings {
+  font-size: 1em; 
+  display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
+  align-items: space-between;
+}
+
+.nav-menu-settings button {
+  margin: 2vh 25vw;
+}
+
+
+.close {
+  position: absolute;
+  left: 80%;
+  font-size: 2em;
+  top: -5%;
+  color: red;
+  cursor: pointer;
+}
+.notclose {
+  padding-top: 5vh;
+}
+
+.nav-menu-trigger {
+  display: none;
+  cursor: pointer;
+}
+
+.toptext *{
+  margin: 0;
+  padding: 0;
+  padding-top: 2vh;
+  text-align: center;
+}
+
+/* form {
+  display: flex;
+  flex-flow: column nowrap;
+} */
+.add-content {
+  display: flex;
+  justify-content: center;
+  margin: 10vh 0;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+#typed-title,
+#textbox {
+  width: 30vw;
+  padding: 1.5vh 1vw;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-wrap: break-word;
+}
+
+.main-content {
+  display: flex;
+  flex-flow: column wrap;
+
+}
+
+.typed-stuff-heading {
+  margin: 0;
+}
+.typed-stuff-content {
+  margin-top: 2vh;
+}
+.truncate {
+  width: 220px;
+  height: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.typed-stuff {
+  border: 1px solid #ccc;
+  margin-bottom: 2vh;
+  background-color: #fff;
+  padding: 2vh 2vw;
+  width: 80vw;
+}
+
+#textbox {
+  display: none;
+  margin-top: 2vh;
+  height: 15vh;
+}
+
+.save-to-firestore {
+  margin-right: 10%;
+  margin-top: 3vh;
+  display: none;
+  align-self: flex-end;
+}
+.add {
+  margin-top: 5vh;
+}
+
+@media(max-width: 700px) {
+
+  .toptext *{
+    font-size: 1.3em;
+  }
+
+  #typed-title,
+  #textbox {
+    width: 80vw;
+    margin-left: 2vw;
+  }
+
+  nav {
+    height: 9vh;
+    background-color: #ddd;
+  }
+
+  .nav-items,
+  .settings {
+    display: none;
+  }
+
+  .nav-menu-trigger {
+    display: block;
+   padding: 0;
+   height: 4vh;
+   padding-bottom: 4vh;
+  }
+}
