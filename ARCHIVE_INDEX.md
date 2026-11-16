@@ -405,3 +405,4 @@
 | firestore-tutorial | repo | https://github.com/vicradon/firestore-tutorial | Firestore Tutorial from Net Ninja | https://vicradon.github.io/firestore-tutorial/ | 2019-08-20 |
 | music-app-flex-ui | repo | https://github.com/vicradon/music-app-flex-ui | Music App UI | https://vicradon.github.io/music-app-flex-ui/ | 2019-08-20 |
 | responsive-flexbox-site | repo | https://github.com/vicradon/responsive-flexbox-site | A responsive flexbox site | https://vicradon.github.io/responsive-flexbox-site/ | 2019-08-16 |
+| Daily-UI-005 | repo | https://github.com/vicradon/Daily-UI-005 | Daily UI 005 | https://vicradon.github.io/Daily-UI-005/ | 2019-08-15 |
