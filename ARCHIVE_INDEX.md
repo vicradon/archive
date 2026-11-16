@@ -167,3 +167,4 @@
 | signout | repo | https://github.com/vicradon/signout | Do your signout in style by inviting your family from all over | https://signout.vercel.app | 2023-08-01 |
 | merge-ats-demo | repo | https://github.com/vicradon/merge-ats-demo | A demo Python application for adding candidates to the merge ATS |  | 2023-07-31 |
 | petstoree | empty (no commits) | https://github.com/vicradon/petstoree | The Petstore API demo offered by SwaggerHub on NextJS |  | 2023-07-25 |
+| runam | repo | https://github.com/vicradon/runam | Runam website | https://runam.vercel.app | 2023-07-23 |
