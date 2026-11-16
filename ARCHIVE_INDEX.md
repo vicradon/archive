@@ -363,3 +363,4 @@
 | genesys-js-workshops | repo | https://github.com/vicradon/genesys-js-workshops | A repo with workshop code |  | 2020-04-27 |
 | Open-Source-Projects | repo | https://github.com/vicradon/Open-Source-Projects | An site which lists open source projects | https://vicradon.github.io/Open-Source-Projects/ | 2020-04-27 |
 | regex-validation | repo | https://github.com/vicradon/regex-validation | Validate a simple form using regular expressions |  | 2020-04-27 |
+| post-stuff | repo | https://github.com/vicradon/post-stuff | A React app demoing CRUD functionality | https://post-stuff.netlify.com | 2020-04-26 |
