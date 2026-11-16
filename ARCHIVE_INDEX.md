@@ -65,3 +65,4 @@
 | pong-neuroevolution | repo | https://github.com/vicradon/pong-neuroevolution | Pong with neuroevolution (and normal mode) | https://pong-neuroevolution.vercel.app | 2025-03-09 |
 | swag-gp | repo | https://github.com/vicradon/swag-gp | A GPA calculator for college students | https://swag-gp.netlify.com/ | 2025-03-04 |
 | dora-exporter-py | repo | https://github.com/vicradon/dora-exporter-py | A DORA exporter implemented in python |  | 2025-02-08 |
+| crewAI | fork of crewAIInc/crewAI (1 patches) | https://github.com/vicradon/crewAI | Framework for orchestrating role-playing, autonomous AI agents. By fostering collaborative intelligence, CrewAI empowers agents to work together seamlessly, tackling complex tasks. | https://crewai.com | 2025-01-31 |

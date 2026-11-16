@@ -1,0 +1,25 @@
+From 47e96fabd608dd49dae533a6612d0af0c6b1d50a Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sat, 25 Jan 2025 19:38:17 +0000
+Subject: [PATCH] chore: modify ollama default env url from API_URL to BASE_URL
+
+---
+ src/crewai/cli/constants.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/crewai/cli/constants.py b/src/crewai/cli/constants.py
+index b97b4f2..6b48314 100644
+--- a/src/crewai/cli/constants.py
++++ b/src/crewai/cli/constants.py
+@@ -46,7 +46,7 @@ ENV_VARS = {
+     "ollama": [
+         {
+             "default": True,
+-            "API_BASE": "http://localhost:11434",
++            "BASE_URL": "http://localhost:11434",
+         }
+     ],
+     "bedrock": [
+-- 
+2.47.3
+
