@@ -258,3 +258,4 @@
 | love2d-pong-mqtt-game | repo | https://github.com/vicradon/love2d-pong-mqtt-game | A multiplayer pong game that utilizes MQTT and Love2d |  | 2022-03-29 |
 | jenkins-stuff | empty (no commits) | https://github.com/vicradon/jenkins-stuff |  |  | 2022-03-27 |
 | WebGoat | fork of darinpope/WebGoat (1 patches) | https://github.com/vicradon/WebGoat | WebGoat is a deliberately insecure application | https://webgoat.github.io/WebGoat/ | 2022-03-27 |
+| wejapa-node-fs-tasks | repo | https://github.com/vicradon/wejapa-node-fs-tasks | WeJapa Internship Node filesystem tasks |  | 2022-03-27 |
