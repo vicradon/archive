@@ -284,3 +284,4 @@
 | stake | repo | https://github.com/vicradon/stake | Stake money, get productive |  | 2021-09-18 |
 | stake-backend | repo | https://github.com/vicradon/stake-backend | Backend of stake app |  | 2021-09-18 |
 | postgres-airbyte-snowflake-tut | repo | https://github.com/vicradon/postgres-airbyte-snowflake-tut | A repo containing tutorial files for migrating data from postgres to snowflake |  | 2021-09-15 |
+| typescript-react-todo-app | empty (no commits) | https://github.com/vicradon/typescript-react-todo-app | Created with StackBlitz ⚡️ | https://stackblitz.com/edit/react-ts-xjgufy | 2021-09-10 |
