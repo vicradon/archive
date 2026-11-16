@@ -237,3 +237,4 @@
 | twitter-bots | repo | https://github.com/vicradon/twitter-bots | This repo contains all my webhook-triggered Twitter bots |  | 2022-06-28 |
 | real-time-data-augmentation-with-bytewax | repo | https://github.com/vicradon/real-time-data-augmentation-with-bytewax | This repo contains a Bytewax dataflow that uses Kafka as input and writes modified data to another Kafka topic. |  | 2022-06-26 |
 | message-queues-event | repo | https://github.com/vicradon/message-queues-event |  |  | 2022-06-23 |
+| proctify-frontend | repo | https://github.com/vicradon/proctify-frontend |  | proctify-frontend.vercel.app | 2022-06-15 |
