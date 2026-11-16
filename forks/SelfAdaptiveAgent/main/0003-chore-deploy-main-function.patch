@@ -1,0 +1,30 @@
+From fdff1c8dce4c9a7b3bfb9c74e7f7fde13ddad4a9 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Fri, 30 May 2025 11:28:58 +0000
+Subject: [PATCH] chore: deploy main function
+
+---
+ .github/workflows/deploy-main.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.github/workflows/deploy-main.yml b/.github/workflows/deploy-main.yml
+index 48913f3..28671b4 100644
+--- a/.github/workflows/deploy-main.yml
++++ b/.github/workflows/deploy-main.yml
+@@ -26,11 +26,11 @@ jobs:
+         with:
+           dotnet-version: ${{ env.DOTNET_VERSION }}
+ 
+-      - name: 'Build .NET Project'
++      - name: Publish .NET Project
+         shell: bash
+         run: |
+           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+-          dotnet build --configuration Release --output ./output
++          dotnet publish --configuration Release --output ./output
+           popd
+ 
+       - name: Login to Azure
+-- 
+2.47.3
+
