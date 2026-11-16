@@ -1,0 +1,1 @@
+const alpine = require("alpinejs");
