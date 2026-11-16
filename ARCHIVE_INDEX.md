@@ -308,3 +308,4 @@
 | oppia | fork of oppia/oppia (no own commits) | https://github.com/vicradon/oppia | A free, online learning platform to make quality education accessible for all. | https://www.oppia.org | 2021-03-07 |
 | trotrolive | repo | https://github.com/vicradon/trotrolive |  |  | 2021-03-06 |
 | uploady | repo | https://github.com/vicradon/uploady | An image uploader website with Azure integration | https://uploady.azurewebsites.net | 2021-03-04 |
+| proposal-pattern-matching | fork of tc39/proposal-pattern-matching (1 patches) | https://github.com/vicradon/proposal-pattern-matching | Pattern matching syntax for ECMAScript |  | 2021-03-04 |
