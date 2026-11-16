@@ -294,3 +294,4 @@
 | data-structures-all-langs | fork of oyekanmiayo/dsa-all-langs (no own commits) | https://github.com/vicradon/data-structures-all-langs | A repository that contains explanations and (custom) implementations of the most popular data structure in various languages. |  | 2021-07-29 |
 | micropilot-entry-challenge | fork of golclinics/micropilot-entry-challenge (no own commits) | https://github.com/vicradon/micropilot-entry-challenge |  |  | 2021-07-27 |
 | skulment-demo | repo | https://github.com/vicradon/skulment-demo | A school management app built with FaunaDB and Auth0 | https://skulment-demo.vercel.app | 2021-07-26 |
+| windmill-dashboard-react | fork of estevanmaito/windmill-dashboard-react (no own commits) | https://github.com/vicradon/windmill-dashboard-react | ❄ A multi theme, completely accessible, ready for production dashboard. | https://windmillui.com/dashboard-react | 2021-07-23 |
