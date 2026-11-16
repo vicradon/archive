@@ -67,3 +67,4 @@
 | dora-exporter-py | repo | https://github.com/vicradon/dora-exporter-py | A DORA exporter implemented in python |  | 2025-02-08 |
 | crewAI | fork of crewAIInc/crewAI (1 patches) | https://github.com/vicradon/crewAI | Framework for orchestrating role-playing, autonomous AI agents. By fostering collaborative intelligence, CrewAI empowers agents to work together seamlessly, tackling complex tasks. | https://crewai.com | 2025-01-31 |
 | fileserver | repo | https://github.com/vicradon/fileserver | A simple fileserver that runs in a local network |  | 2025-01-19 |
+| cerbos-flask-authorization | repo | https://github.com/vicradon/cerbos-flask-authorization | A demo Flask blog API that integrates authorization with Cerbos  |  | 2025-01-05 |
