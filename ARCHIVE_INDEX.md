@@ -351,3 +351,4 @@
 | auth-microapi | fork of microapidev/auth-microapi (1 patches) | https://github.com/vicradon/auth-microapi |  |  | 2020-06-17 |
 | Team_Titans_BackEnd_Js | repo | https://github.com/vicradon/Team_Titans_BackEnd_Js |  |  | 2020-06-10 |
 | HNGi7_Titans_Task2 | fork of team-titians/HNGi7_Titans_Task2 (no own commits) | https://github.com/vicradon/HNGi7_Titans_Task2 |  |  | 2020-06-03 |
+| osinachi | repo | https://github.com/vicradon/osinachi | HNGi7 Task 1 |  | 2020-06-01 |
