@@ -163,3 +163,4 @@
 | merge-user-deprovisioning-demo | repo | https://github.com/vicradon/merge-user-deprovisioning-demo | A demo application for Merge User Deprovisioning tutorial |  | 2023-08-29 |
 | coin-flip | repo | https://github.com/vicradon/coin-flip | An app that mimics a coin flip in real life by letting two people settles arguments using a digital coin flip | https://coin-flip-rho.vercel.app/ | 2023-08-23 |
 | coinflip-functions | repo | https://github.com/vicradon/coinflip-functions | Functions for coinflip  |  | 2023-08-22 |
+| chrome-dino-betting | fork of KarthikNedunchezhiyan/google-chrome-dino (no own commits) | https://github.com/vicradon/chrome-dino-betting | A Chrome Dino clone that allows several players to place bets on the dinosaur | https://karthiknedunchezhiyan.me/google-chrome-dino/ | 2023-08-04 |
