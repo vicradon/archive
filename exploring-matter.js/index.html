@@ -1,0 +1,51 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Composites</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h2>Hello there, welcome to <a style="text-decoration: none" href="http://brm.io/matter-js/">matter.js</a> </h2>
+  <main>
+    <div id="view-canvas"></div>
+
+    <div id="menu">
+      <h3>Control Panel</h3>
+      <p id="cp-info">Set the values of gravity. Between -1 and 1. Try 0.3 for x</p>
+      <form action="">
+        <label class="form-label" for="">
+          <p>Set X-axis gravity</p>
+          <div class="input-fields">
+            <input min="-1" maxlength="2"  max="1" type="number" name="" id="x-gravity">
+            <button  id="set-x-gravity">Set X Gravity</button>
+          </div>
+
+        </label>
+        <label class="form-label" for="">
+          <p>Set Y-axis gravity</p>
+          <div class="input-fields">
+            <input min="-1" max="1" maxlength="2" type="number" name="" id="y-gravity">
+            <button id="set-y-gravity">Set Y Gravity</button>
+          </div>
+        </label>
+        <label class="form-label" for="">
+          <button id="addCar">Add Car</button>
+        </label>
+        <label class="form-label" for="">
+          <button id="reload">Reset</button>
+        </label>
+
+      </form>
+    </div>
+  </main>
+  
+
+  <script src="matter.min.js"></script>
+  <script src="composites.js"></script>
+</body>
+
+</html>
