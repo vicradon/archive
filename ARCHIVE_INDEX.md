@@ -98,3 +98,4 @@
 | obahnet-website | fork of Obah007/website (no own commits) | https://github.com/vicradon/obahnet-website |  | https://obahnetsolutions.vercel.app | 2024-07-24 |
 | bypass-mdm | fork of assafdori/bypass-mdm (no own commits) | https://github.com/vicradon/bypass-mdm | Bypass MDM Setup for MacOS, up to Sequoia (24A335). |  | 2024-07-22 |
 | youtubesplitterapp | repo | https://github.com/vicradon/youtubesplitterapp | An app that splits YouTube videos |  | 2024-07-17 |
+| flask_background_processing | repo | https://github.com/vicradon/flask_background_processing | A repo containing a simple flask application using Celery and RabbitMQ |  | 2024-07-14 |
