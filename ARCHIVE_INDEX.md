@@ -159,3 +159,4 @@
 | stage1-node | repo | https://github.com/vicradon/stage1-node |  |  | 2023-09-09 |
 | hngx-task1 | repo | https://github.com/vicradon/hngx-task1 |  |  | 2023-09-08 |
 | transformers-js-demo | empty (no commits) | https://github.com/vicradon/transformers-js-demo | Using the HuggingFace Transformers in Next.js serverless functions |  | 2023-09-01 |
+| llama-api | repo | https://github.com/vicradon/llama-api | An API for the llama model |  | 2023-08-31 |
