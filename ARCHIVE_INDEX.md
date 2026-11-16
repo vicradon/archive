@@ -69,3 +69,4 @@
 | fileserver | repo | https://github.com/vicradon/fileserver | A simple fileserver that runs in a local network |  | 2025-01-19 |
 | cerbos-flask-authorization | repo | https://github.com/vicradon/cerbos-flask-authorization | A demo Flask blog API that integrates authorization with Cerbos  |  | 2025-01-05 |
 | golang-wasm-demo | repo | https://github.com/vicradon/golang-wasm-demo | A demo application for adding numbers using a wasm binary | https://vicradon.github.io/golang-wasm-demo/ | 2024-12-17 |
+| renergy-hub-frontend | fork of InternPulse/renergy-hub-frontend (no own commits) | https://github.com/vicradon/renergy-hub-frontend |  | https://renergy-hub-frontendxyz.vercel.app/ | 2024-12-15 |
