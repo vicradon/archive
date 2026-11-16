@@ -1,0 +1,28 @@
+From 574cc7128f837c1722b92115e1dd66069c584adb Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Mon, 8 Jul 2024 09:09:17 +0100
+Subject: [PATCH] Add correct pg server
+
+---
+ backend/.env | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/backend/.env b/backend/.env
+index c3af241..e6995c5 100644
+--- a/backend/.env
++++ b/backend/.env
+@@ -25,9 +25,9 @@ SMTP_SSL=False
+ SMTP_PORT=587
+ 
+ # Postgres
+-POSTGRES_SERVER=localhost
++POSTGRES_SERVER=postgresdb
+ POSTGRES_PORT=5432
+ POSTGRES_DB=app
+ POSTGRES_USER=app
+-POSTGRES_PASSWORD=changethis123
++POSTGRES_PASSWORD=humanslovedbs
+ 
+-- 
+2.47.3
+

@@ -1,0 +1,118 @@
+From a60277526dcf9c3b1996c3dca6cacf9246ff3156 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Sun, 7 Jul 2024 15:08:57 +0000
+Subject: [PATCH] chore: use init script as container
+
+---
+ compose.yaml              | 33 ++++++++++++++++----------
+ init_nginxproxymanager.sh | 50 ---------------------------------------
+ 2 files changed, 20 insertions(+), 63 deletions(-)
+ delete mode 100644 init_nginxproxymanager.sh
+
+diff --git a/compose.yaml b/compose.yaml
+index 789b21f..7673629 100644
+--- a/compose.yaml
++++ b/compose.yaml
+@@ -46,23 +46,30 @@ services:
+       - backend
+     restart: always
+ 
+-  nginxproxymananger:
+-    image: 'jc21/nginx-proxy-manager:latest'
++  init-nginxproxymanager:
++    image: alpine:latest
++    restart: unless-stopped # Run once unless manually stopped
++    command:
++      [
++        "sh",
++        "-c",
++        "apk add --no-cache bash && mkdir -p /opt/nginxproxymanager && touch /opt/nginxproxymanager/db.sqlite"
++      ]
++
++  nginxproxymanager:
++    image: "jc21/nginx-proxy-manager:latest"
+     restart: always
++    depends_on:
++      - init-nginxproxymanager
+     ports:
+-      - '80:80' # Public HTTP Port
+-      - '443:443' # Public HTTPS Port
+-      - '8090:81' # Admin Web Port
+-
++      - "80:80" # Public HTTP Port
++      - "443:443" # Public HTTPS Port
++      - "8090:81" # Admin Web Port
+     environment:
+-      DB_SQLITE_FILE: "/opt/nginxproxymananger/db.sqlite" # Path to SQLite file
+-
++      DB_SQLITE_FILE: "/opt/nginxproxymanager/db.sqlite"
+     volumes:
+-      - /opt/nginxproxymananger:/opt/nginxproxymananger # Mount directory containing db.sqlite
+-      - /opt/nginxproxymananger/letsencrypt:/etc/letsencrypt # Mount letsencrypt directory for SSL certificates
+-      - ./init_nginxproxymanager.sh:/init_nginxproxymanager.sh # Mount the initialization script
+-
+-    entrypoint: [ "/bin/sh", "-c", "/init_nginxproxymanager.sh /init" ]
++      - /opt/nginxproxymanager:/opt/nginxproxymanager
++      - /opt/nginxproxymanager/letsencrypt:/etc/letsencrypt
+ 
+ volumes:
+   postgres_data:
+diff --git a/init_nginxproxymanager.sh b/init_nginxproxymanager.sh
+deleted file mode 100644
+index 207220d..0000000
+--- a/init_nginxproxymanager.sh
++++ /dev/null
+@@ -1,50 +0,0 @@
+-#!/bin/sh
+-
+-# Function to install SQLite3 if not already installed
+-install_sqlite3() {
+-  if ! command -v sqlite3 &> /dev/null; then
+-    echo "SQLite3 not found. Installing..."
+-    apt-get update && apt-get install -y sqlite3
+-  fi
+-}
+-
+-# Function to create directories if they don't exist
+-create_directories() {
+-  directories=("/opt/nginxproxymanager" "/opt/nginxproxymanager/letsencrypt")
+-  for dir in "${directories[@]}"; do
+-    if [ ! -d "$dir" ]; then
+-      echo "Directory $dir does not exist. Creating..."
+-      mkdir -p "$dir"
+-    else
+-      echo "Directory $dir already exists."
+-    fi
+-  done
+-}
+-
+-# Function to initialize SQLite database if it doesn't exist
+-initialize_database() {
+-  db_file="/opt/nginxproxymanager/db.sqlite"
+-  if [ ! -f "$db_file" ]; then
+-    echo "SQLite database $db_file does not exist. Initializing..."
+-    sqlite3 "$db_file" ".databases"
+-  else
+-    echo "SQLite database $db_file already exists."
+-  fi
+-}
+-
+-# Function to set appropriate permissions
+-set_permissions() {
+-  chmod -R 600 /opt/nginxproxymanager
+-}
+-
+-# Main function
+-main() {
+-  install_sqlite3
+-  create_directories
+-  initialize_database
+-  set_permissions
+-  exec "$@"
+-}
+-
+-# Execute main function
+-main "$@"
+-- 
+2.47.3
+

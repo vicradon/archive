@@ -1,0 +1,26 @@
+From e918ad14c28d8f9ac6f30405eebbbc43e7072103 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 7 Jul 2024 16:13:39 +0100
+Subject: [PATCH] update nginx proxy manager script to include directory and
+ file check
+
+---
+ compose.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/compose.yaml b/compose.yaml
+index 7673629..9f997e2 100644
+--- a/compose.yaml
++++ b/compose.yaml
+@@ -53,7 +53,7 @@ services:
+       [
+         "sh",
+         "-c",
+-        "apk add --no-cache bash && mkdir -p /opt/nginxproxymanager && touch /opt/nginxproxymanager/db.sqlite"
++        "apk add --no-cache bash && if [ ! -d '/opt/nginxproxymanager' ]; then mkdir -p /opt/nginxproxymanager; fi && if [ ! -f '/opt/nginxproxymanager/db.sqlite' ]; then touch /opt/nginxproxymanager/db.sqlite; fi"
+       ]
+ 
+   nginxproxymanager:
+-- 
+2.47.3
+

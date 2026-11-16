@@ -1,0 +1,207 @@
+From 4f873cf166e4bcda6c299e45f8fed12624834762 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Sun, 7 Jul 2024 14:32:16 +0000
+Subject: [PATCH] chore: setup repo with docker files and init script
+
+---
+ backend/Dockerfile        | 23 +++++++++++++
+ compose.yaml              | 68 +++++++++++++++++++++++++++++++++++++++
+ frontend/.dockerignore    |  1 +
+ frontend/Dockerfile       | 13 ++++++++
+ init_nginxproxymanager.sh | 50 ++++++++++++++++++++++++++++
+ 5 files changed, 155 insertions(+)
+ create mode 100644 backend/Dockerfile
+ create mode 100644 compose.yaml
+ create mode 100644 frontend/.dockerignore
+ create mode 100644 frontend/Dockerfile
+ create mode 100644 init_nginxproxymanager.sh
+
+diff --git a/backend/Dockerfile b/backend/Dockerfile
+new file mode 100644
+index 0000000..92771ea
+--- /dev/null
++++ b/backend/Dockerfile
+@@ -0,0 +1,23 @@
++FROM python:3.10-slim
++
++ENV PYTHONDONTWRITEBYTECODE 1
++ENV PYTHONUNBUFFERED 1
++ENV PYTHONPATH "${PYTHONPATH}:/app"
++
++RUN apt-get update && apt-get install -y \
++    libpq-dev
++
++WORKDIR /app
++
++RUN pip install poetry
++COPY pyproject.toml poetry.lock /app/
++RUN poetry config virtualenvs.create true \
++    && poetry install --no-dev --no-interaction --no-ansi
++
++COPY . /app/
++
++RUN chmod +x /app/prestart.sh
++
++EXPOSE 8000
++
++ENTRYPOINT ["poetry", "run", "bash", "-c", "/app/prestart.sh && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+diff --git a/compose.yaml b/compose.yaml
+new file mode 100644
+index 0000000..789b21f
+--- /dev/null
++++ b/compose.yaml
+@@ -0,0 +1,68 @@
++services:
++  postgresdb:
++    image: postgres:latest
++    environment:
++      POSTGRES_DB: app
++      POSTGRES_USER: app
++      POSTGRES_PASSWORD: humanslovedbs
++    ports:
++      - "5432:5432"
++    volumes:
++      - postgres_data:/var/lib/postgresql/data
++    restart: always
++
++  adminer:
++    image: adminer:latest
++    container_name: adminer
++    restart: always
++    ports:
++      - "8080:8080"
++    environment:
++      ADMINER_DEFAULT_SERVER: postgresdb
++      ADMINER_DEFAULT_DRIVER: pgsql
++
++  backend:
++    environment:
++      POSTGRES_SERVER: postgresdb
++      POSTGRES_PASSWORD: humanslovedbs
++    build:
++      context: ./backend
++      dockerfile: Dockerfile
++    ports:
++      - "8000:8000"
++    depends_on:
++      - postgresdb
++    restart: always
++
++  frontend:
++    environment:
++      VITE_API_URL: "https://devopstask2.osinachi.me"
++    build:
++      context: ./frontend
++      dockerfile: Dockerfile
++    ports:
++      - "5173:5173"
++    depends_on:
++      - backend
++    restart: always
++
++  nginxproxymananger:
++    image: 'jc21/nginx-proxy-manager:latest'
++    restart: always
++    ports:
++      - '80:80' # Public HTTP Port
++      - '443:443' # Public HTTPS Port
++      - '8090:81' # Admin Web Port
++
++    environment:
++      DB_SQLITE_FILE: "/opt/nginxproxymananger/db.sqlite" # Path to SQLite file
++
++    volumes:
++      - /opt/nginxproxymananger:/opt/nginxproxymananger # Mount directory containing db.sqlite
++      - /opt/nginxproxymananger/letsencrypt:/etc/letsencrypt # Mount letsencrypt directory for SSL certificates
++      - ./init_nginxproxymanager.sh:/init_nginxproxymanager.sh # Mount the initialization script
++
++    entrypoint: [ "/bin/sh", "-c", "/init_nginxproxymanager.sh /init" ]
++
++volumes:
++  postgres_data:
+diff --git a/frontend/.dockerignore b/frontend/.dockerignore
+new file mode 100644
+index 0000000..b512c09
+--- /dev/null
++++ b/frontend/.dockerignore
+@@ -0,0 +1 @@
++node_modules
+\ No newline at end of file
+diff --git a/frontend/Dockerfile b/frontend/Dockerfile
+new file mode 100644
+index 0000000..aef874e
+--- /dev/null
++++ b/frontend/Dockerfile
+@@ -0,0 +1,13 @@
++FROM node:20
++
++WORKDIR /var/www/app
++
++COPY package.json package-lock.json ./
++
++RUN npm install
++
++COPY . .
++
++EXPOSE 5173
++
++CMD [ "npx", "vite", "--host" ]
+diff --git a/init_nginxproxymanager.sh b/init_nginxproxymanager.sh
+new file mode 100644
+index 0000000..207220d
+--- /dev/null
++++ b/init_nginxproxymanager.sh
+@@ -0,0 +1,50 @@
++#!/bin/sh
++
++# Function to install SQLite3 if not already installed
++install_sqlite3() {
++  if ! command -v sqlite3 &> /dev/null; then
++    echo "SQLite3 not found. Installing..."
++    apt-get update && apt-get install -y sqlite3
++  fi
++}
++
++# Function to create directories if they don't exist
++create_directories() {
++  directories=("/opt/nginxproxymanager" "/opt/nginxproxymanager/letsencrypt")
++  for dir in "${directories[@]}"; do
++    if [ ! -d "$dir" ]; then
++      echo "Directory $dir does not exist. Creating..."
++      mkdir -p "$dir"
++    else
++      echo "Directory $dir already exists."
++    fi
++  done
++}
++
++# Function to initialize SQLite database if it doesn't exist
++initialize_database() {
++  db_file="/opt/nginxproxymanager/db.sqlite"
++  if [ ! -f "$db_file" ]; then
++    echo "SQLite database $db_file does not exist. Initializing..."
++    sqlite3 "$db_file" ".databases"
++  else
++    echo "SQLite database $db_file already exists."
++  fi
++}
++
++# Function to set appropriate permissions
++set_permissions() {
++  chmod -R 600 /opt/nginxproxymanager
++}
++
++# Main function
++main() {
++  install_sqlite3
++  create_directories
++  initialize_database
++  set_permissions
++  exec "$@"
++}
++
++# Execute main function
++main "$@"
+-- 
+2.47.3
+

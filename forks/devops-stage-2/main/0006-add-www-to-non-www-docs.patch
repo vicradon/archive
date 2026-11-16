@@ -1,0 +1,32 @@
+From 9584c175fd2ecc7d73d66c8cda93122e9927d7a8 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sun, 7 Jul 2024 19:00:51 +0100
+Subject: [PATCH] add www to non-www docs
+
+---
+ README.md | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/README.md b/README.md
+index bf165a0..da08bcf 100644
+--- a/README.md
++++ b/README.md
+@@ -174,3 +174,15 @@ frontend:
+ After proxying all the components, your nginx proxy manager proxy dashboard will look like this:
+ 
+ ![Nginx proxy manager dashboard](https://github.com/vicradon/devops-stage-2/assets/40396070/7ebfba1b-8e1c-4ba7-a69d-98886391b8d7)
++
++## Proxying www to non-www
++
++Some users enter www before entering your site name so you can handle redirects using the proxy manager. Simply create new subdomains that point to the IP address (A record) and then configure redirect in the advanced tab of the new proxy host. So you configure a new proxy host as normal and use www.yourdomain.ext as the domain. You can also configure SSL for this. And for the advanced tab, it will have the following snippet:
++
++```conf
++return 301 $forward_scheme://yourdomain.ext$request_uri;
++```
++
++In the end, you should have up to 6 proxy hosts
++![proxy hosts](https://github.com/vicradon/devops-stage-2/assets/40396070/f4a48912-3987-4a63-9ddd-840fef326bd6)
++
+-- 
+2.47.3
+
