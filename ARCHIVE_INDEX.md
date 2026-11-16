@@ -63,3 +63,4 @@
 | bookrecommenderapp | repo | https://github.com/vicradon/bookrecommenderapp | A simple dockerized demo application built with flask |  | 2025-03-19 |
 | Search-o1 | fork of RUC-NLPIR/Search-o1 (1 patches) | https://github.com/vicradon/Search-o1 | Search-o1: Agentic Search-Enhanced Large Reasoning Models |  | 2025-03-16 |
 | pong-neuroevolution | repo | https://github.com/vicradon/pong-neuroevolution | Pong with neuroevolution (and normal mode) | https://pong-neuroevolution.vercel.app | 2025-03-09 |
+| swag-gp | repo | https://github.com/vicradon/swag-gp | A GPA calculator for college students | https://swag-gp.netlify.com/ | 2025-03-04 |
