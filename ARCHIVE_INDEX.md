@@ -139,3 +139,4 @@
 | opensearch-py-ml | fork of opensearch-project/opensearch-py-ml (no own commits) | https://github.com/vicradon/opensearch-py-ml |  |  | 2023-11-15 |
 | covidbot | repo | https://github.com/vicradon/covidbot | Created with CodeSandbox https://codesandbox.io/s/github/vicradon/covidbot | https://covidbot-iota.vercel.app | 2023-11-10 |
 | agenta | fork of Agenta-AI/agenta (2 patches) | https://github.com/vicradon/agenta |  The LLMOps platform to build robust LLM apps. Easily experiment and evaluate different prompts, models, and workflows. | http://www.agenta.ai | 2023-11-01 |
+| stable-diffusion-webui | fork of AUTOMATIC1111/stable-diffusion-webui (no own commits) | https://github.com/vicradon/stable-diffusion-webui | Stable Diffusion web UI |  | 2023-10-25 |
