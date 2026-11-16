@@ -10,3 +10,4 @@
 | ml-workspace | repo | https://github.com/vicradon/ml-workspace | ML algorithms and the likes |  | 2026-05-25 |
 | shapegen | repo | https://github.com/vicradon/shapegen | shapegen is a tool for generating synthetic dataset of shapes |  | 2026-05-16 |
 | TensorTonic-Solutions | repo | https://github.com/vicradon/TensorTonic-Solutions | My solutions to TensorTonic problems |  | 2026-05-13 |
+| semantic-kernel-demos | repo | https://github.com/vicradon/semantic-kernel-demos | Demos for the semantic kernel |  | 2026-05-04 |
