@@ -347,3 +347,4 @@
 | shopping-cart-app | repo | https://github.com/vicradon/shopping-cart-app | A flutter app using the BLoC pattern for state management |  | 2020-06-26 |
 | keystone | fork of keystonejs/keystone (1 patches) | https://github.com/vicradon/keystone | A scalable platform and CMS to build Node.js applications | https://www.keystonejs.com/ | 2020-06-26 |
 | sentry-my-customer-backend | fork of ekpono/sentry-my-customer-backend (no own commits) | https://github.com/vicradon/sentry-my-customer-backend |  |  | 2020-06-25 |
+| algorithmic-challenges | repo | https://github.com/vicradon/algorithmic-challenges | A repo containing algorithmic solutions to algorithmic problems |  | 2020-06-24 |
