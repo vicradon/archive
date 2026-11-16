@@ -6,3 +6,4 @@
 | solid-kata-typescript | fork of jahs-es/solid-kata (7 patches) | https://github.com/vicradon/solid-kata-typescript | Some exercises about solid principles and their solutions |  | 2026-06-20 |
 | srp-order-demo | repo | https://github.com/vicradon/srp-order-demo | a repo with violation of the single responsibility principle |  | 2026-06-20 |
 | plain-typescript-project | repo | https://github.com/vicradon/plain-typescript-project | A plain typescript project for node.js |  | 2026-06-19 |
+| poulment-app | empty (no commits) | https://github.com/vicradon/poulment-app | A poultry management API |  | 2026-06-09 |
