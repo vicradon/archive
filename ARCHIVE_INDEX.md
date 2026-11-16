@@ -303,3 +303,4 @@
 | google-maps-react | fork of fullstackreact/google-maps-react (no own commits) | https://github.com/vicradon/google-maps-react | Companion code to the "How to Write a Google Maps React Component" Tutorial | https://www.fullstackreact.com/articles/how-to-write-a-google-maps-react-component/ | 2021-03-29 |
 | NOMAZON | repo | https://github.com/vicradon/NOMAZON |  |  | 2021-03-26 |
 | interbond | fork of okorie2/interbond (no own commits) | https://github.com/vicradon/interbond |  | interbond.vercel.app | 2021-03-20 |
+| inventor-learning | empty (no commits) | https://github.com/vicradon/inventor-learning | Autodesk Inventor Practice Files |  | 2021-03-20 |
