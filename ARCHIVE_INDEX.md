@@ -53,3 +53,4 @@
 | seo-audit-agent | repo | https://github.com/vicradon/seo-audit-agent |  |  | 2025-08-03 |
 | flare-ai-kit | fork of flare-foundation/flare-ai-kit (no own commits) | https://github.com/vicradon/flare-ai-kit | SDK for building verifiable AI Agents on Flare using Confidential Space |  | 2025-07-27 |
 | yoloweb | repo | https://github.com/vicradon/yoloweb |  | https://yoloweb-eight.vercel.app | 2025-07-13 |
+| A2A | fork of a2aproject/A2A (1 patches) | https://github.com/vicradon/A2A | An open protocol enabling communication and interoperability between opaque agentic applications. | https://google-a2a.github.io/A2A/ | 2025-06-02 |
