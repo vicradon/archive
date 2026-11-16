@@ -359,3 +359,4 @@
 | ft_quiz | repo | https://github.com/vicradon/ft_quiz | A quiz app made with Flutter |  | 2020-05-12 |
 | snbank | repo | https://github.com/vicradon/snbank | A CLI app for a bank called SN-Bank |  | 2020-05-07 |
 | stl | repo | https://github.com/vicradon/stl | Send stuff to your laptop without using bluetooth | https://stl-rosy.now.sh | 2020-05-02 |
+| enget | repo | https://github.com/vicradon/enget | A service that delivers daily nuggets about engineering to engineering students | https://enget.netlify.app | 2020-04-30 |
