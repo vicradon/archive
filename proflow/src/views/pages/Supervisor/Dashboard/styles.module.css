@@ -1,0 +1,12 @@
+.avatar {
+  border-radius: 30%;
+  width: 50px;
+}
+.table :global(td) {
+  color: gray;
+}
+
+.search_container {
+  background-color: #042241;
+  padding: 1rem 2rem;
+}
