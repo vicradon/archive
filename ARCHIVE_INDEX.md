@@ -181,3 +181,4 @@
 | sendchamp-pricing | repo | https://github.com/vicradon/sendchamp-pricing | The pricing page of the Sendchamp website | https://sendchamp-pricing.vercel.app | 2023-02-22 |
 | platformer-game | repo | https://github.com/vicradon/platformer-game | A defold platformer game |  | 2023-02-19 |
 | djangoer | fork of lordsarcastic/djangoer (no own commits) | https://github.com/vicradon/djangoer | A production-ready template for Django applications |  | 2023-01-31 |
+| yoruba-to-english-translator | empty (no commits) | https://github.com/vicradon/yoruba-to-english-translator | Project information about a Yoruba to English translator |  | 2023-01-30 |
