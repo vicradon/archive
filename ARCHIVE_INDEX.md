@@ -175,3 +175,4 @@
 | notionxfutodevdemo | empty (no commits) | https://github.com/vicradon/notionxfutodevdemo |  |  | 2023-04-29 |
 | shopping-cart-microservice | repo | https://github.com/vicradon/shopping-cart-microservice | A shopping cart microservice written in Go |  | 2023-03-15 |
 | mariadb-gui | repo | https://github.com/vicradon/mariadb-gui | A MariaDB GUI built using Airplane views |  | 2023-03-10 |
+| tax-forms-recognition | repo | https://github.com/vicradon/tax-forms-recognition | A repo containing workshop content for tax forms recognition |  | 2023-03-02 |
