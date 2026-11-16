@@ -334,3 +334,4 @@
 | stl-1 | repo | https://github.com/vicradon/stl-1 |  | stl-1.vercel.app | 2020-11-12 |
 | swag-gp-functions | repo | https://github.com/vicradon/swag-gp-functions | Azure Serverless Functions for Swag-Gp |  | 2020-10-21 |
 | vuetify | fork of vuetifyjs/vuetify (1 patches) | https://github.com/vicradon/vuetify | 🐉 Material Component Framework for Vue | https://vuetifyjs.com | 2020-10-12 |
+| larticles_api | fork of bradtraversy/larticles_api (no own commits) | https://github.com/vicradon/larticles_api | Laravel 5.5 API using resources |  | 2020-10-06 |
