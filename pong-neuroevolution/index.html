@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pong Neuroevolution</title>
+
+    <meta
+      name="description"
+      content="Pong with Neuroevolution. You know, like the flappy one."
+    />
+    <meta property="og:title" content="Ultimate Pong Game" />
+    <meta
+      property="og:description"
+      content="Pong with Neuroevolution. You know, like the flappy one."
+    />
+    <meta property="og:image" content="favicons/android-chrome-512x512.png" />
+    <meta property="og:url" content="https://pong-neuroevolution.vercel.app" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="favicons/site.webmanifest" />
+    <link rel="shortcut icon" href="favicons/favicon.ico" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+        overscroll-behavior: contain;
+      }
+
+      .game-container {
+        display: grid;
+        justify-content: center;
+        max-width: 100%;
+      }
+
+      .game-header {
+        color: #333;
+        text-align: center;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .game-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .score-display {
+        display: flex;
+        column-gap: 1rem;
+        font-size: large;
+        justify-content: center;
+      }
+
+      .rounds-display {
+        justify-self: end;
+      }
+
+      .start-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        z-index: 10;
+      }
+
+      .game-canvas {
+        border: 1px solid #333;
+        border-radius: 5px;
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Mobile Controls */
+      .mobile-controls {
+        display: none;
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        width: 100%;
+        justify-content: space-around;
+        z-index: 5;
+      }
+
+      .control-button {
+        width: 80px;
+        height: 80px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 2px solid #333;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .game-header {
+          font-size: 1.5rem;
+        }
+
+        .game-controls {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(3, auto);
+          row-gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .score-display {
+          order: 1;
+          justify-self: center;
+        }
+
+        .rounds-display {
+          order: 3;
+          justify-self: center;
+        }
+
+        select,
+        label {
+          font-size: 0.9rem;
+        }
+
+        .mobile-controls {
+          display: flex;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="game-container">
+      <h1 class="game-header">Pong</h1>
+
+      <div class="game-controls">
+        <div>
+          <label for="gameModeSelector">Game Mode</label>
+          <select name="gameModeSelector" id="gameModeSelector">
+            <option value="LOGICAL_AI">Logical AI</option>
+            <option value="ACTUAL_AI">Actual AI</option>
+          </select>
+        </div>
+        <div class="score-display">
+          <p id="player1Score">0</p>
+          <p>:</p>
+          <p id="player2Score">0</p>
+        </div>
+
+        <div class="rounds-display">
+          Rounds: <span id="roundsCount">0</span>
+        </div>
+      </div>
+
+      <button id="startButton" class="start-button">Press Play to Start</button>
+      <canvas
+        class="game-canvas"
+        id="canvas"
+        width="1200"
+        height="700"
+      ></canvas>
+
+      <div class="mobile-controls">
+        <div class="control-button" id="upButton">▲</div>
+        <div class="control-button" id="downButton">▼</div>
+      </div>
+    </div>
+
+    <script>
+      // Constants
+      const CANVAS_WIDTH = 1200;
+      const CANVAS_HEIGHT = 700;
+      const PADDLE_WIDTH = 20;
+      const PADDLE_HEIGHT = 100;
+      const PADDLE_SPEED = 5;
+      const BALL_RADIUS = 10;
+      const BALL_INITIAL_SPEED_X = 8;
+      const BALL_MIN_SPEED_Y = 1;
+      const BALL_MAX_SPEED_Y = 2;
+
+      // DOM Elements
+      const dom = {
+        canvas: document.getElementById("canvas"),
+        player1Score: document.getElementById("player1Score"),
+        player2Score: document.getElementById("player2Score"),
+        gameModeSelector: document.getElementById("gameModeSelector"),
+        startButton: document.getElementById("startButton"),
+        roundsCount: document.getElementById("roundsCount"),
+        upButton: document.getElementById("upButton"),
+        downButton: document.getElementById("downButton"),
+      };
+
+      // Game state
+      const state = {
+        gameMode: "LOGICAL_AI",
+        gameRunning: false,
+        rounds: 1,
+        keys: {
+          w: false,
+          s: false,
+          ArrowUp: false,
+          ArrowDown: false,
+        },
+        isMobile: false,
+        touchY: null,
+        canvasScale: 1,
+      };
+
+      // Check if device is mobile
+      function checkMobile() {
+        return window.matchMedia("(max-width: 768px)").matches;
+      }
+
+      // Initial object positions
+      const initialState = {
+        ball: {
+          x: CANVAS_WIDTH / 2,
+          y: CANVAS_HEIGHT / 2,
+          radius: BALL_RADIUS,
+          dx: getRandomMultiplier() * BALL_INITIAL_SPEED_X,
+          dy: getRandomNumber(BALL_MIN_SPEED_Y, BALL_MAX_SPEED_Y),
+        },
+        leftPaddle: {
+          x: 20,
+          y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+        },
+        rightPaddle: {
+          x: CANVAS_WIDTH - 40,
+          y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+        },
+      };
+
+      // Game objects
+      let ball = { ...initialState.ball };
+      let leftPaddle = { ...initialState.leftPaddle };
+      let rightPaddle = { ...initialState.rightPaddle };
+
+      // Canvas context
+      const ctx = dom.canvas.getContext("2d");
+
+      // Set canvas size based on screen size
+      function resizeCanvas() {
+        state.isMobile = checkMobile();
+
+        if (state.isMobile) {
+          // Get available width (accounting for padding)
+          const containerWidth =
+            document.querySelector(".game-container").clientWidth - 20;
+          state.canvasScale = containerWidth / CANVAS_WIDTH;
+
+          // Set canvas display size (CSS)
+          dom.canvas.style.width = containerWidth + "px";
+          dom.canvas.style.height = CANVAS_HEIGHT * state.canvasScale + "px";
+
+          // Keep canvas rendering size the same (important for game logic)
+          dom.canvas.width = CANVAS_WIDTH;
+          dom.canvas.height = CANVAS_HEIGHT;
+        } else {
+          // Reset to default for desktop
+          state.canvasScale = 1;
+          dom.canvas.style.width = CANVAS_WIDTH + "px";
+          dom.canvas.style.height = CANVAS_HEIGHT + "px";
+          dom.canvas.width = CANVAS_WIDTH;
+          dom.canvas.height = CANVAS_HEIGHT;
+        }
+      }
+
+      // Utility functions
+      function getRandomMultiplier() {
+        return Math.random() > 0.5 ? -1 : 1;
+      }
+
+      function getRandomNumber(min, max) {
+        return getRandomMultiplier() * (Math.random() * (max - min) + min);
+      }
+
+      // Get touch position relative to canvas
+      function getTouchPos(canvas, touchEvent) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        return {
+          x: (touchEvent.clientX - rect.left) * scaleX,
+          y: (touchEvent.clientY - rect.top) * scaleY,
+        };
+      }
+
+      // Game logic functions
+      function checkCollision(paddle) {
+        if (
+          ball.x - ball.radius <= paddle.x + PADDLE_WIDTH &&
+          ball.x + ball.radius >= paddle.x &&
+          ball.y >= paddle.y &&
+          ball.y <= paddle.y + PADDLE_HEIGHT
+        ) {
+          // Increase speed slightly
+          const speedIncreaseFactor = 1.05;
+          ball.dx =
+            Math.sign(ball.dx) *
+            Math.min(
+              Math.abs(ball.dx) * speedIncreaseFactor,
+              BALL_INITIAL_SPEED_X * 2
+            );
+          ball.dy =
+            Math.sign(ball.dy) *
+            Math.min(
+              Math.abs(ball.dy) * speedIncreaseFactor,
+              BALL_MAX_SPEED_Y * 2
+            );
+
+          return true;
+        }
+        return false;
+      }
+
+      function newRound() {
+        leftPaddle = { ...initialState.leftPaddle };
+        rightPaddle = { ...initialState.rightPaddle };
+
+        if (state.rounds % 5 === 0 && state.rounds !== 0) {
+          dom.startButton.style.display = "block";
+          dom.gameModeSelector.disabled = false;
+          dom.startButton.textContent = "Click to continue";
+          ball = {
+            ...initialState.ball,
+            dx: 0,
+            dy: 0,
+          };
+        } else {
+          ball = {
+            ...initialState.ball,
+            dx: getRandomMultiplier() * BALL_INITIAL_SPEED_X,
+            dy: getRandomNumber(BALL_MIN_SPEED_Y, BALL_MAX_SPEED_Y),
+          };
+          state.rounds += 1;
+          dom.roundsCount.textContent = state.rounds;
+        }
+      }
+
+      // Rendering
+      function draw() {
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        // Set line width dynamically based on canvas scaling
+        ctx.lineWidth = 2 / state.canvasScale; // Adjust to remain visible
+
+        // Draw center line
+        ctx.setLineDash([10 / state.canvasScale, 5 / state.canvasScale]); // Scale dashes
+        ctx.beginPath();
+        ctx.moveTo(CANVAS_WIDTH / 2, 0);
+        ctx.lineTo(CANVAS_WIDTH / 2, CANVAS_HEIGHT);
+        ctx.strokeStyle = "#999";
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw paddles
+        ctx.fillStyle = "gray";
+        ctx.fillRect(leftPaddle.x, leftPaddle.y, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+        ctx.fillStyle = "darkgray";
+        ctx.fillRect(rightPaddle.x, rightPaddle.y, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+        // Draw ball
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "tomato";
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      // Game mode
+      function runGameLogic() {
+        state.gameRunning = true;
+
+        // Update ball position
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+
+        // Handle collisions
+        if (checkCollision(leftPaddle) || checkCollision(rightPaddle)) {
+          ball.dx *= -1;
+        }
+
+        // Handle scoring
+        if (
+          ball.x > CANVAS_WIDTH - (PADDLE_WIDTH + 20) &&
+          !checkCollision(rightPaddle)
+        ) {
+          dom.player1Score.textContent =
+            Number(dom.player1Score.textContent) + 1;
+          newRound();
+        }
+
+        if (ball.x < PADDLE_WIDTH + 20 && !checkCollision(leftPaddle)) {
+          dom.player2Score.textContent =
+            Number(dom.player2Score.textContent) + 1;
+          newRound();
+        }
+
+        // Handle wall bounces
+        if (ball.y > CANVAS_HEIGHT - 5 || ball.y < 5) {
+          ball.dy *= -1;
+        }
+
+        // Handle player paddle movement from keyboard
+        if ((state.keys.ArrowUp || state.keys.w) && leftPaddle.y > 0) {
+          leftPaddle.y -= PADDLE_SPEED;
+        }
+
+        if (
+          (state.keys.ArrowDown || state.keys.s) &&
+          leftPaddle.y < CANVAS_HEIGHT - PADDLE_HEIGHT
+        ) {
+          leftPaddle.y += PADDLE_SPEED;
+        }
+
+        // Handle direct touch control if state.touchY is set
+        if (state.touchY !== null) {
+          // Center the paddle at the touch position
+          const targetY = state.touchY - PADDLE_HEIGHT / 2;
+          // Smooth movement
+          const moveStep = 10;
+
+          if (
+            targetY > leftPaddle.y &&
+            leftPaddle.y < CANVAS_HEIGHT - PADDLE_HEIGHT
+          ) {
+            leftPaddle.y += Math.min(moveStep, targetY - leftPaddle.y);
+          } else if (targetY < leftPaddle.y && leftPaddle.y > 0) {
+            leftPaddle.y -= Math.min(moveStep, leftPaddle.y - targetY);
+          }
+        }
+
+        // Handle AI paddle movement
+        if (state.gameMode === "LOGICAL_AI" && ball.dx > 0) {
+          if (
+            ball.y > rightPaddle.y + PADDLE_HEIGHT / 2 &&
+            rightPaddle.y < CANVAS_HEIGHT - PADDLE_HEIGHT
+          ) {
+            rightPaddle.y += PADDLE_SPEED;
+          }
+
+          if (ball.y < rightPaddle.y + PADDLE_HEIGHT / 2 && rightPaddle.y > 0) {
+            rightPaddle.y -= PADDLE_SPEED;
+          }
+        } else if (state.gameMode === "ACTUAL_AI") {
+          // Future implementation for neural network AI
+        }
+
+        // Render the game
+        draw();
+
+        // Continue game loop if ball is moving
+        if (ball.dx !== 0 || ball.dy !== 0) {
+          requestAnimationFrame(update);
+        } else {
+          state.gameRunning = false;
+        }
+      }
+
+      // Main game loop
+      function update() {
+        runGameLogic();
+      }
+
+      // Event listeners
+      dom.gameModeSelector.onchange = function () {
+        state.gameMode = this.value;
+
+        if (state.gameMode === "ACTUAL_AI") {
+          alert("Actual AI mode not implemented yet!");
+          state.gameMode = "LOGICAL_AI";
+          this.value = "LOGICAL_AI";
+        }
+      };
+
+      dom.startButton.onclick = function () {
+        this.style.display = "none";
+        dom.roundsCount.textContent = state.rounds;
+
+        // Restart ball if paused
+        if (ball.dx === 0 && ball.dy === 0) {
+          ball = {
+            ...initialState.ball,
+            dx: getRandomMultiplier() * BALL_INITIAL_SPEED_X,
+            dy: getRandomNumber(BALL_MIN_SPEED_Y, BALL_MAX_SPEED_Y),
+          };
+
+          // Increment rounds if continuing after a 5-round pause
+          if (state.rounds % 5 === 0) {
+            state.rounds += 1;
+            dom.roundsCount.textContent = state.rounds;
+          }
+        }
+
+        if (!state.gameRunning) {
+          state.gameRunning = true;
+          update();
+        }
+
+        dom.gameModeSelector.disabled = "disabled";
+      };
+
+      // Keyboard controls
+      document.addEventListener("keydown", (e) => {
+        if (e.key in state.keys) state.keys[e.key] = true;
+      });
+
+      document.addEventListener("keyup", (e) => {
+        if (e.key in state.keys) state.keys[e.key] = false;
+      });
+
+      // Touch controls for buttons
+      dom.upButton.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        state.keys.ArrowUp = true;
+      });
+
+      dom.upButton.addEventListener("touchend", () => {
+        state.keys.ArrowUp = false;
+      });
+
+      dom.downButton.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        state.keys.ArrowDown = true;
+      });
+
+      dom.downButton.addEventListener("touchend", () => {
+        state.keys.ArrowDown = false;
+      });
+
+      // Direct touch control on canvas
+      dom.canvas.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const touchPos = getTouchPos(dom.canvas, touch);
+        state.touchY = touchPos.y;
+      });
+
+      dom.canvas.addEventListener("touchmove", (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const touchPos = getTouchPos(dom.canvas, touch);
+        state.touchY = touchPos.y;
+      });
+
+      dom.canvas.addEventListener("touchend", () => {
+        state.touchY = null;
+      });
+
+      // Mouse controls for desktop testing of touch functionality
+      dom.canvas.addEventListener("mousedown", (e) => {
+        const mousePos = getTouchPos(dom.canvas, e);
+        state.touchY = mousePos.y;
+      });
+
+      dom.canvas.addEventListener("mousemove", (e) => {
+        if (state.touchY !== null) {
+          const mousePos = getTouchPos(dom.canvas, e);
+          state.touchY = mousePos.y;
+        }
+      });
+
+      dom.canvas.addEventListener("mouseup", () => {
+        state.touchY = null;
+      });
+
+      // Handle window resize
+      window.addEventListener("resize", resizeCanvas);
+
+      // Initialize canvas size
+      resizeCanvas();
+
+      // Initial rendering
+      draw();
+    </script>
+  </body>
+</html>
