@@ -1,0 +1,28 @@
+From 7193b4ed669f0f054a73a29e217463672c203b2d Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Tue, 31 Mar 2026 12:55:51 +0000
+Subject: [PATCH] fix: download issues
+
+---
+ packages/server/lib/actions/getApp.action.ts | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/packages/server/lib/actions/getApp.action.ts b/packages/server/lib/actions/getApp.action.ts
+index 0fd65e2..2069594 100644
+--- a/packages/server/lib/actions/getApp.action.ts
++++ b/packages/server/lib/actions/getApp.action.ts
+@@ -27,7 +27,10 @@ export class GetApp extends Action {
+     const appSchema = isProduction ? this.app.schema : fileReader.readAppSchema();
+ 
+     const schema = {
+-      main: appSchema.main,
++      main: {
++        ...appSchema.main,
++        basePath: appSchema.main.basePath || this.app.basePath,
++      },
+       sidebar: appSchema.sidebar,
+       pages,
+       dataSources: this.app.getDataSources().map(ds => ({
+-- 
+2.47.3
+
