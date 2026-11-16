@@ -323,3 +323,4 @@
 | rss-to-readme | fork of JasonEtco/rss-to-readme (no own commits) | https://github.com/vicradon/rss-to-readme | 📡📝 A GitHub Action that updates a section of a README from an RSS feed. |  | 2021-01-01 |
 | webhooks-course | fork of TwilioDevEd/webhooks-course (2 patches) | https://github.com/vicradon/webhooks-course |  |  | 2020-12-31 |
 | hashnode-cli | repo | https://github.com/vicradon/hashnode-cli | Command line utilities for interacting with Hashnode. |  | 2020-12-29 |
+| hello-github-actions | repo | https://github.com/vicradon/hello-github-actions |  | https://lab.github.com/githubtraining/github-actions:-hello-world | 2020-12-27 |
