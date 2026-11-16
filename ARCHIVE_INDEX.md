@@ -346,3 +346,4 @@
 | todo-app | repo | https://github.com/vicradon/todo-app | A general purpose todo app for all demos | https://vicradon.github.io/todo-app/ | 2020-07-14 |
 | shopping-cart-app | repo | https://github.com/vicradon/shopping-cart-app | A flutter app using the BLoC pattern for state management |  | 2020-06-26 |
 | keystone | fork of keystonejs/keystone (1 patches) | https://github.com/vicradon/keystone | A scalable platform and CMS to build Node.js applications | https://www.keystonejs.com/ | 2020-06-26 |
+| sentry-my-customer-backend | fork of ekpono/sentry-my-customer-backend (no own commits) | https://github.com/vicradon/sentry-my-customer-backend |  |  | 2020-06-25 |
