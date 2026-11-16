@@ -162,3 +162,4 @@
 | llama-api | repo | https://github.com/vicradon/llama-api | An API for the llama model |  | 2023-08-31 |
 | merge-user-deprovisioning-demo | repo | https://github.com/vicradon/merge-user-deprovisioning-demo | A demo application for Merge User Deprovisioning tutorial |  | 2023-08-29 |
 | coin-flip | repo | https://github.com/vicradon/coin-flip | An app that mimics a coin flip in real life by letting two people settles arguments using a digital coin flip | https://coin-flip-rho.vercel.app/ | 2023-08-23 |
+| coinflip-functions | repo | https://github.com/vicradon/coinflip-functions | Functions for coinflip  |  | 2023-08-22 |
