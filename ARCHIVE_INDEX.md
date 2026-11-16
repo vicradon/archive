@@ -74,3 +74,4 @@
 | opencv-demos | repo | https://github.com/vicradon/opencv-demos | demos on opencv and stuff |  | 2024-11-23 |
 | finrec | repo | https://github.com/vicradon/finrec | An expense tracker built with React, Redux, Auth0, MongoDB and ChakraUI | https://finrec.now.sh | 2024-11-19 |
 | libraryapi | repo | https://github.com/vicradon/libraryapi | A simple library API built with Gin |  | 2024-10-29 |
+| product-api-go | repo | https://github.com/vicradon/product-api-go | A products API written in Go with no frameworks for performing CRUD on products |  | 2024-10-23 |
