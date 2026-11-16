@@ -22,3 +22,4 @@
 | kaggle-gdrive | repo | https://github.com/vicradon/kaggle-gdrive |  |  | 2026-03-23 |
 | first-contributions | fork of firstcontributions/first-contributions (1 patches) | https://github.com/vicradon/first-contributions | 🚀✨ Help beginners to contribute to open source projects | https://firstcontributions.github.io | 2026-03-12 |
 | dummy2 | empty (no commits) | https://github.com/vicradon/dummy2 |  |  | 2026-03-11 |
+| dummyrepo | repo | https://github.com/vicradon/dummyrepo | some description |  | 2026-03-11 |
