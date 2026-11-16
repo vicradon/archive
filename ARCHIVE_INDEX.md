@@ -251,3 +251,4 @@
 | technical-writing-portfolio | repo | https://github.com/vicradon/technical-writing-portfolio | A redirect to a notion page containing my technical writing portfolio | technical-writing-portfolio.vercel.app | 2022-04-11 |
 | handlebars-app | repo | https://github.com/vicradon/handlebars-app |  |  | 2022-04-10 |
 | live-todo | repo | https://github.com/vicradon/live-todo |  |  | 2022-04-08 |
+| kstreams-demo | repo | https://github.com/vicradon/kstreams-demo | A Kafka Streams application that integrates with both Kafka and Redpanda |  | 2022-04-05 |
