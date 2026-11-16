@@ -112,3 +112,4 @@
 | product-recommendation-argo-workflows | repo | https://github.com/vicradon/product-recommendation-argo-workflows |  |  | 2024-06-13 |
 | blob-storage-sales-records | repo | https://github.com/vicradon/blob-storage-sales-records |  |  | 2024-06-10 |
 | directus-guest-authoring | fork of directus-labs/guest-authoring (9 patches) | https://github.com/vicradon/directus-guest-authoring | A repo for our guest authors to work on content |  | 2024-06-03 |
+| Stirling-PDF | fork of Stirling-Tools/Stirling-PDF (no own commits) | https://github.com/vicradon/Stirling-PDF | #1 Locally hosted web application that allows you to perform various operations on PDF files |  | 2024-05-06 |
