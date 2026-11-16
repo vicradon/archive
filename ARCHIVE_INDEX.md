@@ -26,3 +26,4 @@
 | midi | repo | https://github.com/vicradon/midi |  | https://midi-five-iota.vercel.app | 2026-03-09 |
 | splitbook | repo | https://github.com/vicradon/splitbook | splits a book into single file with page range |  | 2026-03-07 |
 | azure-pulumi-workshop | repo | https://github.com/vicradon/azure-pulumi-workshop | A workshop on deploying resources on Azure Cloud using Pulumi |  | 2026-01-29 |
+| ps3control | repo | https://github.com/vicradon/ps3control | A repo with instructions for ps3 control |  | 2026-01-23 |
