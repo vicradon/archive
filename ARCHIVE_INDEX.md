@@ -86,3 +86,4 @@
 | hng_boilerplate_golang_web | fork of hngprojects/hng_boilerplate_golang_web (34 patches) | https://github.com/vicradon/hng_boilerplate_golang_web |  |  | 2024-09-03 |
 | terraform-projects | repo | https://github.com/vicradon/terraform-projects | A set of terraform projects that showcase different use-cases of terraform |  | 2024-09-03 |
 | telex_aggregator | repo | https://github.com/vicradon/telex_aggregator | Telex aggregator |  | 2024-08-24 |
+| flashcards | repo | https://github.com/vicradon/flashcards | A flashcards app with text comparison feature using machine learning | https://flashcards-ten-nu.vercel.app | 2024-08-22 |
