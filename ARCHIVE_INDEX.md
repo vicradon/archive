@@ -381,3 +381,4 @@
 | gpa-calculator | repo | https://github.com/vicradon/gpa-calculator | A gpa pwa for university students which integrates with drive | https://vicradon.github.io/gpa-calculator/ | 2020-01-17 |
 | project-x | repo | https://github.com/vicradon/project-x | The website built at the project-x challenge organised by ctrl-x hub | https://vicradon.github.io/project-x/ | 2020-01-17 |
 | daily-ui-006 | repo | https://github.com/vicradon/daily-ui-006 | The sixth daily ui challenge | https://vicradon.github.io/daily-ui-006/ | 2020-01-17 |
+| redux-site | repo | https://github.com/vicradon/redux-site | A remake of Redux Starter Kit Site | https://vicradon.github.io/redux-site/ | 2020-01-17 |
