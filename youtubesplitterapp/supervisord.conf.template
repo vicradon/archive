@@ -1,0 +1,8 @@
+[program:PROCESS_NAME]
+command=APP_PATH/.venv/bin/python APP_PATH/app.py
+process_name=%(program_name)s
+directory=APP_PATH/
+autostart=True
+autorestart=True
+stderr_logfile=APP_PATH/logs/app.err.log
+stdout_logfile=APP_PATH/logs/app.out.log
