@@ -1,0 +1,25 @@
+From 566c8b00a0aee03feb3fc233b4d129fe90344a5f Mon Sep 17 00:00:00 2001
+From: Chukwujama Osinachi Victor <vicraph7@gmail.com>
+Date: Tue, 12 May 2020 17:33:55 +0100
+Subject: [PATCH] Update README.md
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index 1cbfb1c..5583a0c 100644
+--- a/README.md
++++ b/README.md
+@@ -54,7 +54,7 @@ You can deploy the project to heroku
+ 
+ * **Ifedili** - *Initial work* - [saucecode](https://github.com/saucecodee)
+ * **Edeh Vincent** - *Initial work* - [vince](https://github.com/vinuch)
+-* **Chukwujama Osinachi** - *Initial work* - [vicradon](https://github.com/vicradon)
++* **Chukwujama Osinachi** - *Initial work* - [vicradon](https://github.com/osivict)
+ * **Nwankwo Joshua** - *Initial work* - [DarkCode](https://github.com/joshuanwankwo)
+ 
+ See also the list of [contributors](https://github.com/saucecodee/virj-chat/contributors) who participated in this project.
+-- 
+2.47.3
+
