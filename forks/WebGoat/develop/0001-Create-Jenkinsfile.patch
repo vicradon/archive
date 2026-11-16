@@ -1,0 +1,29 @@
+From 578f57f068957f32be5134baf5788a222276c822 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Sat, 26 Mar 2022 06:51:15 +0100
+Subject: [PATCH] Create Jenkinsfile
+
+---
+ Jenkinsfile | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 Jenkinsfile
+
+diff --git a/Jenkinsfile b/Jenkinsfile
+new file mode 100644
+index 0000000..b0dd40c
+--- /dev/null
++++ b/Jenkinsfile
+@@ -0,0 +1,10 @@
++pipeline {
++  agent any
++  stages {
++    stage('scan') {
++      steps {
++        sh "docker run -v ${WORKSPACE}:/src --workdir /src returntocorp/semgrep-agent:v1 semgrep-agent --config p/ci --config p/security-audit --config p/secrets"
++      }
++    }
++  }
++}
+-- 
+2.47.3
+
