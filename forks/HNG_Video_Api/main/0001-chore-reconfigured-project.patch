@@ -1,0 +1,195 @@
+From 3bf53ad64d17f972e37d97f01bd2ec23bb3be490 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <osinachi.chukwujama@gmail.com>
+Date: Mon, 2 Oct 2023 11:33:04 +0100
+Subject: [PATCH] chore: reconfigured project
+
+---
+ .env.example                   |   3 +++
+ Dockerfile                     |  13 +++++++++++++
+ README.md                      |   3 +++
+ app/__init__,py => __init__.py |   0
+ app/__init__.py                |   0
+ app/config.py                  |   5 -----
+ app/database.py                |   2 +-
+ app/main.py => main.py         |  11 +++++++++--
+ requirements.txt               | Bin 1436 -> 1341 bytes
+ script.py                      |   0
+ video_app.db                   | Bin 0 -> 28672 bytes
+ 11 files changed, 29 insertions(+), 8 deletions(-)
+ create mode 100644 .env.example
+ create mode 100644 Dockerfile
+ rename app/__init__,py => __init__.py (100%)
+ create mode 100644 app/__init__.py
+ rename app/main.py => main.py (94%)
+ create mode 100644 script.py
+ create mode 100644 video_app.db
+
+diff --git a/.env.example b/.env.example
+new file mode 100644
+index 0000000..28058b0
+--- /dev/null
++++ b/.env.example
+@@ -0,0 +1,3 @@
++api_key=
++api_secret=
++cloud_name=
+\ No newline at end of file
+diff --git a/Dockerfile b/Dockerfile
+new file mode 100644
+index 0000000..b635b7e
+--- /dev/null
++++ b/Dockerfile
+@@ -0,0 +1,13 @@
++FROM python:3.9
++
++WORKDIR /code
++
++COPY ./requirements.txt /code/requirements.txt
++
++RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
++
++COPY . /code
++
++EXPOSE 80
++
++CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+\ No newline at end of file
+diff --git a/README.md b/README.md
+index e69de29..c751476 100644
+--- a/README.md
++++ b/README.md
+@@ -0,0 +1,3 @@
++# Video Uploader API
++
++This API receives a video file in chunks, transcribes it, and makes it publicly accessible.
+diff --git a/app/__init__,py b/__init__.py
+similarity index 100%
+rename from app/__init__,py
+rename to __init__.py
+diff --git a/app/__init__.py b/app/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/app/config.py b/app/config.py
+index ea5561a..b04746f 100644
+--- a/app/config.py
++++ b/app/config.py
+@@ -3,11 +3,6 @@ from pydantic_settings import BaseSettings
+ 
+ 
+ class Settings(BaseSettings):
+-    database_hostname: str
+-    database_port: str
+-    database_password: str
+-    database_name: str
+-    database_username: str
+     cloud_name:str
+     api_key:str
+     api_secret:str
+diff --git a/app/database.py b/app/database.py
+index 822e64b..9eaf030 100644
+--- a/app/database.py
++++ b/app/database.py
+@@ -3,7 +3,7 @@ from sqlalchemy.orm import declarative_base
+ from sqlalchemy.orm import sessionmaker
+ from .config import settings
+ 
+-SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}'
++SQLALCHEMY_DATABASE_URL = "sqlite:///./video_app.db"
+ 
+ 
+ engine = create_engine(SQLALCHEMY_DATABASE_URL)
+diff --git a/app/main.py b/main.py
+similarity index 94%
+rename from app/main.py
+rename to main.py
+index 1c407fd..ed918de 100644
+--- a/app/main.py
++++ b/main.py
+@@ -1,3 +1,5 @@
++import uvicorn
++import os
+ from typing import List
+ from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile, status
+ from fastapi.middleware.cors import CORSMiddleware
+@@ -8,8 +10,8 @@ from fastapi import FastAPI
+ from sqlalchemy import desc
+ from sqlalchemy.orm import Session
+ 
+-from . import models, schemas
+-from .database import engine, get_db
++from app import models, schemas
++from app.database import engine, get_db
+ from app.config import settings
+ 
+ 
+@@ -118,3 +120,8 @@ def get_latest_video(email: str, db: Session = Depends(get_db),):
+     video = db.query(models.Video).filter(models.Video.user_id == user.id).order_by(
+         desc(models.Video.created_at)).first()
+     return video
++
++
++if __name__ == '__main__':
++    port = int(os.environ.get("PORT", 8000))
++    uvicorn.run("main:app", port=port, log_level="info", reload=True)
+\ No newline at end of file
+diff --git a/requirements.txt b/requirements.txt
+index 147d6885fe443cbffaa55b3ee250cf74bdf11f3b..8db6b85533a0eb62492fc7dc5aa0890aed94356c 100644
+GIT binary patch
+literal 1341
+zcmZ`(%aYnK5WMSO?6PDqaPVQTsokoi_LQTL1!$2atu*GbU!NWWVRJ}vpyu5gcaIJs
+zk|sM;bWOJOeN!*%M(A*LvG3b@RZC%PCbx5auNuW3rGz=?Tr5=~=23h1WiuzYs5IW0
+zW8bf9S+8KkX>dX3Yv0Sd<<4f*N6X1-Rd>QfAG01c&t1SCLP=LT#DHONC}BtKe09Q%
+zK~uyORX6yhSO~$3v58y^`y8jlBQQklbRnGpx2a`=Ib!F$^^sAvwM1L7&(;QS>DEn&
+zgOqdj0{9L@$;1qZC|}<l6r-Pa)7>2x4l90-8v@X`=<3E4GkLeIMoSuS;qPj0;iwEc
+z>@85Divmg|ez@?V)eH%icK{<-c$pO5pGMd-f`vr+o6g56z3UxZT-=Hg04t>AJ1~hl
+zB#vp+beLBSD_A<md<0ZHTZC!c&TC#WB3NnuCTaoX;p7IVD>H4qF8JehNG!9#7wx)d
+zc;Fl?{FwrJH0b@PM?yGdGT#$6n}6bY3gkxn-;5CMp*0h+-h3Os+tH&80R)%pXX~uP
+z@Qh+jNco1WM1QjRks!e>UiDw#B{83$;S~~|<-r(#kD>7bAK+dXPIUQRgp!zS(5^Zk
+zTuH17)=aaJYZ3EDVP3a@z7nZiO-y?bK*3&%bOl4m8Mc}C54*Z?aej|{dhLa>en^%%
+z(L7_&CAqMlnT9Wj01K)bBH3_aazH>2=Qw$Ccstm~vg*Xo>+hGhS0*m+C)>RRe`ejU
+zfim0A$rhShw>-2sguxWnMG0=V<EsIN!hHYr`r^&Oj^G)KR!IR}X2|YFZRj60*E<iT
+z66B5)j}|Lp-n9a9Hy|_DN<p8)*!MUQ9UIxv?L_cXaJcZ?3M;Xp;1~eiVwT->Tln&3
+zWDjY!j836PC#I9bZs%#ZYD%0nnFF5+)B`PdKHF`<-LU*%=z*8{<q{4J1jXq804g+-
+AS^xk5
+
+literal 1436
+zcmZXUK~LjQ41|4NX@5!)Nr7b#9JsC)3B+knsHABdC~4HR(EfSYZ){$YwyK^Q#rC}M
+zc$}}#iPij8wy_DPw5g5w-&@0TYd8GP?aVGY=l0WnkW~|{s8DRo`(K>QV+A#9sw<mu
+z6wj&3yR4jNVHCC`Uf8SWTzkE6Qfy^gcvRdp0dMbF8Cl~2j{*iu&YGMzPGWjN-jyRw
+zsc-3H52FQ{wddr-l@m-#udP5D**hrWHRXTf$kBm1kJIqBC6;P;^iXnxIu`yMHsaoN
+zjDxlMnt`g?3DM9-s2SMOFc4K=@~h!dk~_RVG8R;1U9XvU5_4IQzX4mi2qo!}ne;u(
+zQFl_WpYPR4&aOkq2dYaQO-1P9ec?)1+}yfu(m)=N3V|-Yr9$xk<5PVBA@4By=pFCZ
+zxIzj(@;v+QBVmmFHud)cdYY(s{N{vz8X|jFp@B=>qIzXqd%YZ?8P~9u3zN#dD~>Zp
+z@Ys<puN`kk;uZ>@R<_h?GIH~Lpoyj*{T$ak9n3KB!z=QUvXh@j^r6j_W8S?FX&G)k
+z&3!}Hr88+<=kQl#r=7V6{h!_1o&9yZ@I~71mM+2<x+i1LlCxSEXzR82@nukkCKI|m
+z+5?EU++VPZ+Pc_kbteWnXkr{2vi|nJI!ivz{W}wA@qG$KpUBZ{q=ER!72!P1v-ke?
+zz%%-u4P&}dyZ;Pl-58!!f9g`qwkRyO$bIo83EutoexT~c`;!XV;C{dK9ZXt$5P2rH
+QBKMVN?M~d8rWd~W4-ie#4*&oF
+
+diff --git a/script.py b/script.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/video_app.db b/video_app.db
+new file mode 100644
+index 0000000000000000000000000000000000000000..5c31a42d610b5300b369ab4cb439f6338c5212eb
+GIT binary patch
+literal 28672
+zcmeI&O>Wab6u@!2O&v8-C_5{=kq}ZW0h=BG+;&m|sY4wH5g}wbu|Xpeit>TlC2#{a
+zoQ+d(1Q?H#kW|e9u>O|pjAx!-W`56`QPR8YsCg#dUri^;TpU~XE!(!931L~5qtB{7
+zS4VzdS>5PQd!xOp=~z#m{;KOyr~bk^`gzp5_ox25{zKnzAb<b@2q1s}0tg_000RH5
+zK+AF5hYkCk`jlqZ>N@_S((Gy$tF&lTPebWPQnZ6J`9^Gxi*6u_7|~Rz_x8YXj~n*Q
+ztvn_oUQEYDsIw#8I&3rRy3_ksuT<Se!~VXQC&O`8<SMQQ%Z!nK(vj;4)ecpv=N!p%
+z8H%7AiJ;%<JQB6Tbx!fx4^N-_+oPWs!?7Ca#os+TPHu+D=wm!rlT5TaT|dfGj;2{M
+z&(c_LM9(x;)V`2gU%8lN(>&#JI{727!uEw94#Z12FnD=is~gJpd64%tmydWNlr0&`
+z;8gZR-ZwMRH80$ET+g*<D{M0sXOl#YO|!B@=?Cr0{zmaO;&SL^O7om|vgf!DTzjyc
+zQ>7+o|90JqOnO!S(&(4qgI#r9*Z%t0l*z=H%idOzOqXcxtdW_|sseX$)x3Oft~dQ0
+z2q1s}0tg_000IagfB*srAW&j~TD~^+|0S+4OG5ww1Q0*~0R#|0009ILK)|xt|MM0g
+zfB*srAb<b@2q1s}0tg^begXdfU;Y}iLIe;%009ILKmY**5I_I{1o-`*cK`td5I_I{
+o1Q0*~0R#|00D<xgu>UWAjaeZA2q1s}0tg_000IagfB*u20TZ?1^8f$<
+
+literal 0
+HcmV?d00001
+
+-- 
+2.47.3
+

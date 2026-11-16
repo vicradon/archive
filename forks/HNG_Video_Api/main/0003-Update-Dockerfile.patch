@@ -1,0 +1,23 @@
+From ade1ae750741c18cbefe54517da02ba969dc9817 Mon Sep 17 00:00:00 2001
+From: Osinachi Chukwujama <Osinachi.Chukwujama@gmail.com>
+Date: Mon, 2 Oct 2023 12:32:50 +0100
+Subject: [PATCH] Update Dockerfile
+
+---
+ Dockerfile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Dockerfile b/Dockerfile
+index b635b7e..752fb0a 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -10,4 +10,4 @@ COPY . /code
+ 
+ EXPOSE 80
+ 
+-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+\ No newline at end of file
++CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+-- 
+2.47.3
+
