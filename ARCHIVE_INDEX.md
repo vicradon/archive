@@ -239,3 +239,4 @@
 | message-queues-event | repo | https://github.com/vicradon/message-queues-event |  |  | 2022-06-23 |
 | proctify-frontend | repo | https://github.com/vicradon/proctify-frontend |  | proctify-frontend.vercel.app | 2022-06-15 |
 | cookiecutter | fork of cookiecutter/cookiecutter (no own commits) | https://github.com/vicradon/cookiecutter | A cross-platform command-line utility that creates projects from cookiecutters (project templates), e.g. Python package projects, C projects. | https://pypi.org/project/cookiecutter/ | 2022-06-07 |
+| k8s-stuff | repo | https://github.com/vicradon/k8s-stuff |  |  | 2022-06-02 |
