@@ -231,3 +231,4 @@
 | linkedin-jobs-api-starter | repo | https://github.com/vicradon/linkedin-jobs-api-starter | A starter Node.js app for posting jobs to LinkedIn using the jobs API |  | 2022-07-18 |
 | crypto-forecast-with-bytewax | repo | https://github.com/vicradon/crypto-forecast-with-bytewax |  |  | 2022-07-11 |
 | azure_spatial_anchors_ros | fork of simon-heinen/azure_spatial_anchors_ros (no own commits) | https://github.com/vicradon/azure_spatial_anchors_ros | ROS wrapper for the Azure Spatial Anchors Linux SDK, allowing robots (and other devices with vision-based sensors) to co-localize with other robots, AR-enabled phones, and Hololens devices. | https://azure.microsoft.com/en-us/services/spatial-anchors/ | 2022-07-05 |
+| ecom-storefront | repo | https://github.com/vicradon/ecom-storefront | A storefront for an imaginary e-commerce application |  | 2022-07-05 |
