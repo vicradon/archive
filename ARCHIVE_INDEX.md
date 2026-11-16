@@ -319,3 +319,4 @@
 | tic-tac-toe | repo | https://github.com/vicradon/tic-tac-toe | Multiplayer tic-tac-toe built with AdonisJS Websockets | https://tic-tac-toe-trm58.ondigitalocean.app/ | 2021-01-13 |
 | repo-cleaner | fork of sammychinedu2ky/repo-cleaner (no own commits) | https://github.com/vicradon/repo-cleaner | This is a project I built out of the need to delete multiple repositories faster. | https://repo-cleaner.netlify.app | 2021-01-09 |
 | testing-do | repo | https://github.com/vicradon/testing-do |  |  | 2021-01-09 |
+| tic-tac-toe-js | fork of robhitt/tic-tac-toe-js (1 patches) | https://github.com/vicradon/tic-tac-toe-js | Tic Tac Toe using JS | https://robhitt.github.io/tic-tac-toe-js/ | 2021-01-03 |
