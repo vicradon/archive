@@ -209,3 +209,4 @@
 | 30daysofnode | repo | https://github.com/vicradon/30daysofnode | 30 days of node projects |  | 2022-12-22 |
 | hackernews-node | repo | https://github.com/vicradon/hackernews-node | A hackernews clone api built with graphql |  | 2022-12-22 |
 | robotcar | repo | https://github.com/vicradon/robotcar | Robot Operating System (ROS) source code for a mobile robot that can carry out navigation and path planning |  | 2022-12-15 |
+| aye-learn | repo | https://github.com/vicradon/aye-learn | An API of an online tutoring app |  | 2022-12-12 |
