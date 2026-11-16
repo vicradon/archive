@@ -177,3 +177,4 @@
 | mariadb-gui | repo | https://github.com/vicradon/mariadb-gui | A MariaDB GUI built using Airplane views |  | 2023-03-10 |
 | tax-forms-recognition | repo | https://github.com/vicradon/tax-forms-recognition | A repo containing workshop content for tax forms recognition |  | 2023-03-02 |
 | greedy-hunter-typescript | repo | https://github.com/vicradon/greedy-hunter-typescript | The typescript version of the greedy hunter game built with Next.js | greedy-hunter-typescript.vercel.app | 2023-02-28 |
+| linker-game | repo | https://github.com/vicradon/linker-game | A game where you have to link fishes to earn points |  | 2023-02-24 |
