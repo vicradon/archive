@@ -39,3 +39,4 @@
 | excalidraws | repo | https://github.com/vicradon/excalidraws | a bunch of excalidraw files |  | 2025-10-29 |
 | retail-store-sample-app | fork of PurityEbere/retail-store-sample-app (no own commits) | https://github.com/vicradon/retail-store-sample-app | 💼 Sample application for demonstrating container platforms and related technology |  | 2025-10-23 |
 | pulumi-start | repo | https://github.com/vicradon/pulumi-start | A small repo containing pulumi s3 and kubernetes examples |  | 2025-10-23 |
+| pika_job_system | repo | https://github.com/vicradon/pika_job_system | A job processing system using postgresql and rabbitmq |  | 2025-10-01 |
