@@ -338,3 +338,4 @@
 | FlappyLearning | fork of xviniette/FlappyLearning (no own commits) | https://github.com/vicradon/FlappyLearning | Program learning to play Flappy Bird by machine learning (Neuroevolution) | http://xviniette.github.io/FlappyLearning/ | 2020-10-01 |
 | todofy | repo | https://github.com/vicradon/todofy | A PWA ToDo app as part of the LIPE tasks | https://todofy.netlify.app/ | 2020-09-09 |
 | node-basics | repo | https://github.com/vicradon/node-basics | A bunch of node basics |  | 2020-09-03 |
+| netty-finder | fork of BolajiAyodeji/netty-finder (no own commits) | https://github.com/vicradon/netty-finder | This script checks a Nigerian telephone number and detects which network it belongs to | https://netty-finder.netlify.com | 2020-08-28 |
