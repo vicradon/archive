@@ -238,3 +238,4 @@
 | real-time-data-augmentation-with-bytewax | repo | https://github.com/vicradon/real-time-data-augmentation-with-bytewax | This repo contains a Bytewax dataflow that uses Kafka as input and writes modified data to another Kafka topic. |  | 2022-06-26 |
 | message-queues-event | repo | https://github.com/vicradon/message-queues-event |  |  | 2022-06-23 |
 | proctify-frontend | repo | https://github.com/vicradon/proctify-frontend |  | proctify-frontend.vercel.app | 2022-06-15 |
+| cookiecutter | fork of cookiecutter/cookiecutter (no own commits) | https://github.com/vicradon/cookiecutter | A cross-platform command-line utility that creates projects from cookiecutters (project templates), e.g. Python package projects, C projects. | https://pypi.org/project/cookiecutter/ | 2022-06-07 |
