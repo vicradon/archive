@@ -43,3 +43,4 @@
 | 100DaysOfAlgo | repo | https://github.com/vicradon/100DaysOfAlgo |  |  | 2025-09-20 |
 | colab_notebooks | repo | https://github.com/vicradon/colab_notebooks | modified notebooks I found on the internet |  | 2025-09-19 |
 | trivial | repo | https://github.com/vicradon/trivial |  |  | 2025-09-19 |
+| multitenant-app | repo | https://github.com/vicradon/multitenant-app | A simple application catering to different databases |  | 2025-09-16 |
