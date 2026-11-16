@@ -377,3 +377,4 @@
 | python-codes | repo | https://github.com/vicradon/python-codes | A repo containing all my python codes |  | 2020-02-01 |
 | blazor-demo | repo | https://github.com/vicradon/blazor-demo | A demo of a web app built with blazor |  | 2020-01-22 |
 | sololearn-profile | repo | https://github.com/vicradon/sololearn-profile | A profile clone of Sololearn | https://vicradon.github.io/sololearn-profile/ | 2020-01-17 |
+| quick-quiz | fork of UcheSylvester/quick-quiz (no own commits) | https://github.com/vicradon/quick-quiz | A quiz app where users answer questiions and scores depending on the correctness of their answers! Technology: HTML, CSS, JavaScript, LocalStorage, Netlify | https://quiz-time.netlify.com/ | 2020-01-17 |
