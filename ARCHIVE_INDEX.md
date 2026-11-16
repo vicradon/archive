@@ -101,3 +101,4 @@
 | flask_background_processing | repo | https://github.com/vicradon/flask_background_processing | A repo containing a simple flask application using Celery and RabbitMQ |  | 2024-07-14 |
 | devops-stage-2 | fork of hngprojects/devops-stage-2 (9 patches) | https://github.com/vicradon/devops-stage-2 |  |  | 2024-07-08 |
 | expressvercel | repo | https://github.com/vicradon/expressvercel | This is an express app on vercel | https://expressvercel-beryl.vercel.app | 2024-07-02 |
+| automating-user-management-linux | repo | https://github.com/vicradon/automating-user-management-linux | This repo contains a bash script that is used to automate user and group creation. It also assigns permissions and handles exceptions. |  | 2024-07-02 |
