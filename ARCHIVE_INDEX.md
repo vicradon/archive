@@ -38,3 +38,4 @@
 | all-of-it | fork of Infatoshi/all-of-it (no own commits) | https://github.com/vicradon/all-of-it |  |  | 2025-11-04 |
 | excalidraws | repo | https://github.com/vicradon/excalidraws | a bunch of excalidraw files |  | 2025-10-29 |
 | retail-store-sample-app | fork of PurityEbere/retail-store-sample-app (no own commits) | https://github.com/vicradon/retail-store-sample-app | 💼 Sample application for demonstrating container platforms and related technology |  | 2025-10-23 |
+| pulumi-start | repo | https://github.com/vicradon/pulumi-start | A small repo containing pulumi s3 and kubernetes examples |  | 2025-10-23 |
