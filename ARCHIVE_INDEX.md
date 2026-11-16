@@ -103,3 +103,4 @@
 | expressvercel | repo | https://github.com/vicradon/expressvercel | This is an express app on vercel | https://expressvercel-beryl.vercel.app | 2024-07-02 |
 | automating-user-management-linux | repo | https://github.com/vicradon/automating-user-management-linux | This repo contains a bash script that is used to automate user and group creation. It also assigns permissions and handles exceptions. |  | 2024-07-02 |
 | users-and-groups-linux | repo | https://github.com/vicradon/users-and-groups-linux | This repo contains a bash script that demos users, groups, and permissions |  | 2024-07-01 |
+| servicebusdemos | repo | https://github.com/vicradon/servicebusdemos |  |  | 2024-06-30 |
