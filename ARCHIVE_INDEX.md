@@ -296,3 +296,4 @@
 | skulment-demo | repo | https://github.com/vicradon/skulment-demo | A school management app built with FaunaDB and Auth0 | https://skulment-demo.vercel.app | 2021-07-26 |
 | windmill-dashboard-react | fork of estevanmaito/windmill-dashboard-react (no own commits) | https://github.com/vicradon/windmill-dashboard-react | ❄ A multi theme, completely accessible, ready for production dashboard. | https://windmillui.com/dashboard-react | 2021-07-23 |
 | fesklas-web | fork of nwazuo/fesklas-web (2 patches) | https://github.com/vicradon/fesklas-web | Fesklas Web |  | 2021-07-21 |
+| azure-blob-storage-workshop | repo | https://github.com/vicradon/azure-blob-storage-workshop |  |  | 2021-05-22 |
