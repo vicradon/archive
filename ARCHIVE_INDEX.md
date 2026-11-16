@@ -247,3 +247,4 @@
 | SATechnicalOnboarding | fork of microsoft/SATechnicalOnboarding (4 patches) | https://github.com/vicradon/SATechnicalOnboarding | This is a repo for the Microsoft Learn Student Ambassador Technical Onboarding Process.  |  | 2022-05-02 |
 | airflow | fork of apache/airflow (no own commits) | https://github.com/vicradon/airflow | Apache Airflow - A platform to programmatically author, schedule, and monitor workflows | https://airflow.apache.org/ | 2022-05-01 |
 | katacoda-scenarios | repo | https://github.com/vicradon/katacoda-scenarios | Katacoda Scenarios | https://www.katacoda.com/vicradon | 2022-04-30 |
+| vulnerable-flask-app | repo | https://github.com/vicradon/vulnerable-flask-app | A flask web application with code injection and XSS attacks |  | 2022-04-18 |
