@@ -1,0 +1,22 @@
+{
+  "name": "edgetohtml",
+  "version": "1.0.0",
+  "description": "A script that renames .edge files to .html",
+  "main": "index.js",
+  "bin": "./index.js",
+  "scripts": {
+    "forward": "node index forward",
+    "reverse": "node index reverse",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "glob",
+    "adonisjs",
+    "edge"
+  ],
+  "author": "Osinachi Chukwujama (osinachi.chukwujama@gmail.com)",
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^7.1.6"
+  }
+}
