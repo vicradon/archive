@@ -1,0 +1,50 @@
+package models
+
+import (
+	"sync"
+	"time"
+)
+
+type ConversionJob struct {
+	ID          string `gorm:"primaryKey"`
+	URL         string
+	Format      string
+	Status      string
+	StartTime   time.Time
+	EndTime     *time.Time
+	Filename    *string
+	Error       *string
+	Progress    float64
+	DownloadURL string
+	VideoTitle  string     `gorm:"column:video_title"`
+	Mu          sync.Mutex `gorm:"-"`
+}
+
+type RapidAPIResponse struct {
+	Size         int64  `json:"size"`
+	Bitrate      int64  `json:"bitrate"`
+	Type         string `json:"type"`
+	Quality      int    `json:"quality"`
+	Mime         string `json:"mime"`
+	Comment      string `json:"comment"`
+	File         string `json:"file"`
+	ReservedFile string `json:"reserved_file"`
+	Title        string `json:"title"`
+}
+
+type DownloadRequest struct {
+	URL     string `json:"url"`
+	Format  string `json:"format"`
+	Convert bool   `json:"convert"`
+}
+
+type DirectDownload struct {
+	ID           string    `gorm:"primaryKey"`
+	URL          string
+	Filename     string
+	DownloadTime time.Time `gorm:"column:download_time"`
+	Status       string
+	Error        *string
+	CreatedAt    time.Time `gorm:"column:created_at"`
+	UpdatedAt    time.Time `gorm:"column:updated_at"`
+}
