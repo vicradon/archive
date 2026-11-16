@@ -255,3 +255,4 @@
 | SATechnicalOnboarding-1 | fork of Drounz/SATechnicalOnboarding (1 patches) | https://github.com/vicradon/SATechnicalOnboarding-1 |  |  | 2022-04-02 |
 | excalidraw | fork of excalidraw/excalidraw (no own commits) | https://github.com/vicradon/excalidraw | Virtual whiteboard for sketching hand-drawn like diagrams | https://excalidraw.com | 2022-04-01 |
 | grid-layout-practice | repo | https://github.com/vicradon/grid-layout-practice | A simple HTML page that shows how layouts can be built with CSS grid |  | 2022-03-30 |
+| love2d-pong-mqtt-game | repo | https://github.com/vicradon/love2d-pong-mqtt-game | A multiplayer pong game that utilizes MQTT and Love2d |  | 2022-03-29 |
