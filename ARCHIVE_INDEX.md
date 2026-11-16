@@ -29,3 +29,4 @@
 | ps3control | repo | https://github.com/vicradon/ps3control | A repo with instructions for ps3 control |  | 2026-01-23 |
 | youtube-downloader | repo | https://github.com/vicradon/youtube-downloader | A YouTube downloader app with associated conversion functionality |  | 2026-01-13 |
 | vectorsimilarity | repo | https://github.com/vicradon/vectorsimilarity | Vector similarity  |  | 2026-01-11 |
+| excalidraw-renderer | fork of Infatoshi/excalidraw.py (no own commits) | https://github.com/vicradon/excalidraw-renderer | Render Excalidraw files to PNG with proper text rendering |  | 2026-01-04 |
