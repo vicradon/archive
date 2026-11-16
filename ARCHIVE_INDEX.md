@@ -121,3 +121,4 @@
 | webhooksite | repo | https://github.com/vicradon/webhooksite | A webhook.site-like web application that allows you to receive webhook messages |  | 2024-03-19 |
 | fastapi-todo | repo | https://github.com/vicradon/fastapi-todo | A todo API built using FastAPI |  | 2024-03-09 |
 | express-todo | repo | https://github.com/vicradon/express-todo | A simple todo app built with express.js |  | 2024-03-08 |
+| tourafrica | repo | https://github.com/vicradon/tourafrica | A custom GPT app for african tourism |  | 2024-02-13 |
