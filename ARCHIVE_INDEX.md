@@ -203,3 +203,4 @@
 | crudify | repo | https://github.com/vicradon/crudify |  |  | 2023-01-04 |
 | hygraph-crunch | repo | https://github.com/vicradon/hygraph-crunch | A blog application that fetches data from Yelp GraphQL API | hygraph-crunch.vercel.app | 2023-01-04 |
 | marv-chatbot | repo | https://github.com/vicradon/marv-chatbot | An OpenAI completion bot that can act as different personalities | marv-chatbot.vercel.app | 2023-01-01 |
+| sharegpt | fork of domeccleston/sharegpt (no own commits) | https://github.com/vicradon/sharegpt | Easily share permanent links to ChatGPT conversations with your friends |  | 2022-12-31 |
