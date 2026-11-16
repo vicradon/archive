@@ -109,3 +109,4 @@
 | flask_blog | repo | https://github.com/vicradon/flask_blog | A simple blog built with flask for demo purposes |  | 2024-06-22 |
 | portfolio-website | repo | https://github.com/vicradon/portfolio-website | Osinachi Chukwujama Portfolio Website | https://osinachi.me | 2024-06-18 |
 | petstore | repo | https://github.com/vicradon/petstore | A modified version of the Petstore API offered by SwaggerHub | https://petstore-e7b0.onrender.com | 2024-06-14 |
+| product-recommendation-argo-workflows | repo | https://github.com/vicradon/product-recommendation-argo-workflows |  |  | 2024-06-13 |
